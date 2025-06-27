@@ -1,0 +1,37 @@
+{
+  "name": "@zhongmiao/puzzle",
+  "author": "ark65<liuwufangzhou@gmail.com>,<liuwufangzhou@qq.vip.com>",
+  "version": "18.0.0",
+  "license": "MIT",
+  "peerDependencies": {
+    "@angular/common": "^18.2.0",
+    "@angular/core": "^18.2.0",
+    "@angular/cdk": "^18.2.14",
+    "rxjs": "~7.8.0"
+  },
+  "exports": {
+    ".": {
+      "sass": "./styles/index.scss"
+    },
+    "./styles/variables": {
+      "sass": "./styles/variables.scss"
+    },
+    "./styles/index": {
+      "sass": "./styles/index.scss"
+    },
+    "./styles/*": {
+      "sass": "./styles/*"
+    }
+  },
+  "scripts": {
+    "build": "../../node_modules/.bin/tsc -p tsconfig.schematics.json",
+    "copy:schemas": "cp --parents schematics/*/schema.json ../../dist/gantt/",
+    "copy:files": "cp --parents -p schematics/*/files/** ../../dist/gantt/",
+    "copy:collection": "cp schematics/collection.json ../../dist/gantt/schematics/collection.json",
+    "postbuild": "npm run copy:schemas && npm run copy:files && npm run copy:collection"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "sideEffects": false
+}
