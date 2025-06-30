@@ -12,36 +12,30 @@
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
-            "tsConfig": "packages/gantt/tsconfig.lib.json",
-            "project": "projects/puzzle/ng-package.json",
-            "assets": [
-              {
-                "glob": "**/*",
-                "input": "./node_modules/@tethys/icons",
-                "output": "/assets/icons/"
-              }
-            ],
-            "styles": [
-              "./node_modules/ngx-tethys/styles/index.scss"
-            ]
+            "tsConfig": "projects/puzzle/tsconfig.lib.json",
+            "project": "projects/puzzle/ng-package.json"
           },
           "configurations": {
             "production": {
               "tsConfig": "projects/puzzle/tsconfig.lib.prod.json"
-            },
-            "development": {
-              "tsConfig": "projects/puzzle/tsconfig.lib.json"
             }
-          },
-          "defaultConfiguration": "production"
+          }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
+            "main": "projects/puzzle/src/test.ts",
             "tsConfig": "projects/puzzle/tsconfig.spec.json",
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
+            "codeCoverage": true,
+            "karmaConfig": "projects/puzzle/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/puzzle/**/*.ts",
+              "projects/puzzle/**/*.html"
             ]
           }
         }

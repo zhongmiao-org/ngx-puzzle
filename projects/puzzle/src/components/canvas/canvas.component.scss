@@ -1,0 +1,148 @@
+.canvas-wrapper {
+	width: 100%;
+	position: relative;
+	padding: 20px 0 0 22px;
+	height: calc(100vh - 80px);
+	overflow: hidden;
+	background: #ffffff;
+	border: 1px solid #e4e4e4;
+
+	.canvas-container {
+		position: relative;
+		overflow: auto;
+		width: 100%;
+		height: 100%;
+
+		.canvas-content-wrapper {
+			position: relative;
+
+      &.is-edit {
+        background-image: url("../../../../public/image/background-images/line.png");
+        //background-position-y: 1px;
+      }
+		}
+	}
+
+	.ruler-horizontal-wrapper,
+	.ruler-vertical-wrapper {
+		position: absolute;
+		overflow: hidden;
+		z-index: 2;
+		background: #f5f5f5;
+	}
+
+	.ruler-horizontal-wrapper {
+		top: 0;
+		left: 22px;
+		height: 20px;
+		width: calc(100% - 20px);
+		//border-bottom: 1px solid #ddd;
+	}
+
+	.ruler-vertical-wrapper {
+		top: 20px;
+		left: 0;
+		width: 22px;
+		height: calc(100% - 20px);
+		//border-right: 1px solid #ddd;
+	}
+
+	.tick {
+		position: absolute;
+		font-size: 10px;
+		color: #666;
+		user-select: none;
+	}
+
+	.ruler-horizontal {
+		.tick {
+			transform: translateX(-50%);
+			border-left: 1px solid #999;
+			height: 4px;
+			top: 0;
+      span {
+        position: absolute;
+        top: 2px;
+        transform: translateX(-50%);
+      }
+      &:first-child {
+        span {
+          left: 3px;
+        }
+      }
+      &:last-child {
+        span {
+          transform: translateX(-100%);
+        }
+      }
+		}
+		.horizontal-cursor {
+			width: 100px;
+			height: 20px;
+      font-weight: bold;
+      color: #fff;
+			.left {
+				position: absolute;
+        top: 4px;
+				left: 2px;
+			}
+			.right {
+				position: absolute;
+        top: 4px;
+				right: 2px;
+			}
+		}
+	}
+
+	.ruler-vertical {
+		.tick {
+			transform: translateY(-50%);
+			border-top: 1px solid #999;
+			width: 4px;
+			left: 0;
+      span {
+        position: absolute;
+        left: 2px;
+        transform: translateY(-50%) rotate(-90deg);
+      }
+      &:first-child {
+        span {
+          top: 3px;
+          left: 8px;
+        }
+      }
+      &:last-child {
+        span {
+          transform: translateY(-100%)  rotate(-90deg);
+        }
+      }
+		}
+    .vertical-cursor {
+      width: 22px;
+      height: 100px;
+      font-weight: bold;
+      color: #fff;
+      .top {
+        position: absolute;
+        top: 2px;
+        left: 8px;
+        transform: translateX(-50%) rotate(-90deg);
+      }
+      .bottom {
+        position: absolute;
+        bottom: 2px;
+        left: 8px;
+        transform: translateX(-50%) rotate(-90deg);
+      }
+    }
+	}
+
+	.cursor {
+		position: absolute;
+		top: 0;
+		left: 0;
+		background-color: rgba(28, 101, 248, 0.5);
+		font-size: 10px;
+		color: #1e293b;
+	}
+}

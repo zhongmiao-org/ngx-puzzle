@@ -1,0 +1,61 @@
+<div class="canvas-wrapper">
+	<div class="ruler-horizontal-wrapper">
+		<div
+			#rulerHorizontal
+			class="ruler-horizontal">
+			@for (tick of hTicks; track tick.label) {
+				<div
+					class="tick"
+					[style.left.px]="tick.position">
+					<span>
+            {{ tick.label }}
+          </span>
+				</div>
+			}
+      @if (showGuideSignal()) {
+        <div
+          [style.left.px]="positionSignal().left"
+          [style.width.px]="positionSignal().width"
+          class="cursor horizontal-cursor">
+          <span class="left">{{ positionSignal().left }}</span>
+          <span class="right">{{ positionSignal().left + positionSignal().width }}</span>
+        </div>
+      }
+		</div>
+	</div>
+	<div class="ruler-vertical-wrapper">
+		<div
+			#rulerVertical
+			class="ruler-vertical">
+			@for (tick of vTicks; track tick.label) {
+				<div
+					class="tick"
+					[style.top.px]="tick.position">
+					<span>
+            {{ tick.label }}
+          </span>
+				</div>
+			}
+      @if (showGuideSignal()) {
+        <div
+          [style.top.px]="positionSignal().top"
+          [style.height.px]="positionSignal().height"
+          class="cursor vertical-cursor">
+          <span class="top">{{ positionSignal().top }}</span>
+          <span class="bottom">{{ positionSignal().top + positionSignal().height }}</span>
+        </div>
+      }
+		</div>
+	</div>
+	<div #canvasContainer id="canvas-container" class="canvas-container">
+		<div
+      (mousedown)="canvasHandleSelect($event)"
+      class="canvas-content-wrapper"
+			[style.width.px]="config.size.width"
+			[style.height.px]="config.size.height"
+      [ngStyle]="config.props['styles'] | stylesFormat"
+    >
+      <ng-template #canvasContent></ng-template>
+    </div>
+	</div>
+</div>

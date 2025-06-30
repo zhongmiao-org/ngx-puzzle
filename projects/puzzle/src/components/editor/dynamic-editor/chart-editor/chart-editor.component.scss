@@ -1,0 +1,19 @@
+@import "../styles";
+
+.table-content {
+  height: 400px;
+}
+
+.color-item-label {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+::ng-deep .p-multiselect {
+  width: 100%;
+  height: 30px;
+}
+::ng-deep .p-multiselect-label {
+  padding: 2px;
+}

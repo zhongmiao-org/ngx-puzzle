@@ -1,0 +1,85 @@
+<p-accordion [multiple]="false">
+	@for (group of textFields; track group.label) {
+		<p-accordion-panel [value]="group.label">
+			<p-accordion-header>{{ group.label }}</p-accordion-header>
+			<p-accordion-content>
+				@if (group?.children && group.children!.length > 0) {
+					<div class="flex flex-wrap gap-4">
+						@for (field of group.children; track field.key) {
+							<div class="flex-auto input-item">
+								<label class="block mb-1 text-sm">
+									{{ field.label }}
+									@if (field?.description) {
+										<i
+											[pTooltip]="field?.description"
+											[tooltipPosition]="'top'"
+											class="field-label-icon pi pi-question-circle"></i>
+									}
+								</label>
+								@switch (field.schemaType) {
+									@case ('select') {
+										<p-select
+											[options]="field.options"
+											optionLabel="label"
+											optionValue="val"
+											appendTo="body"
+											[(ngModel)]="formData[field.key]"
+											(onChange)="onFormFieldChange(field.key, $event.value)"
+											[inputId]="field.key" />
+									}
+									@case ('text') {
+										<input
+											pInputText
+											[attr.id]="field.key"
+											type="text"
+											pSize="small"
+											[(ngModel)]="formData[field.key]"
+											(ngModelChange)="onFormFieldChange(field.key, $event)" />
+									}
+									@case ('number') {
+										<p-inputNumber
+											[(ngModel)]="formData[field.key]"
+											(ngModelChange)="onFormFieldChange(field.key, $event)"
+											[inputId]="field.key"
+											[showButtons]="true"
+											[min]="field?.min || 0"
+											[max]="field?.max || 100"
+											[step]="field?.step || 1"
+											mode="decimal"
+											size="small"
+											[inputStyle]="{ width: '100%' }"></p-inputNumber>
+									}
+									@case ('color') {
+										<p-color-picker
+											appendTo="body"
+											[(ngModel)]="formData[field.key]"
+											(ngModelChange)="onFormFieldChange(field.key, $event)"
+											[inputId]="field.key"
+											[style]="{ 'margin-bottom': '8px' }" />
+										<input
+											class="color-input"
+											pInputText
+											type="text"
+											pSize="small"
+											[(ngModel)]="formData[field.key]"
+											(ngModelChange)="onFormFieldChange(field.key, $event)" />
+									}
+									@case ('textarea') {
+										<textarea
+                      class="textarea-editor"
+											rows="5"
+											cols="30"
+											pTextarea
+                      pSize="small"
+											[(ngModel)]="formData[field.key]"
+											(ngModelChange)="onFormFieldChange(field.key, $event)"></textarea>
+									}
+								}
+							</div>
+						}
+					</div>
+				}
+			</p-accordion-content>
+		</p-accordion-panel>
+	}
+</p-accordion>

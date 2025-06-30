@@ -1,0 +1,15 @@
+<app-drag-wrapper
+	[isEdit]="isEdit"
+	[size]="config.size"
+	[position]="config.position"
+	[componentId]="config.id"
+	[styles]="config.props.styles">
+  <ag-charts
+    [style.width.%]="100"
+    [style.height.%]="100"
+    [style.display]="'block'"
+    [options]="options">
+  </ag-charts>
+</app-drag-wrapper>
+
+

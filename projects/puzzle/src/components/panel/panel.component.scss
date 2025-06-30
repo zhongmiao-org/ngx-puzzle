@@ -1,0 +1,15 @@
+
+.panel-list {
+  display: flex;
+  flex-wrap: wrap;
+  li {
+    width: 25%;
+  }
+  p {
+    text-align: center;
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

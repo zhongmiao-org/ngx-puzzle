@@ -1,0 +1,169 @@
+<div class="editor-component">
+	<p-tabs>
+		<p-tablist>
+			@for (tab of tabs; track tab.value) {
+				<p-tab
+					[value]="tab.value"
+					class="flex items-center !gap-2">
+					<i
+						class="pi"
+						[class]="tab.icon"></i>
+					<span class="font-bold whitespace-nowrap">{{ tab.title }}</span>
+				</p-tab>
+			}
+		</p-tablist>
+
+		<p-tabpanels>
+			@for (tab of tabs; track tab.value) {
+				@switch (tab.value) {
+					@case ('appearance') {
+						<p-tabpanel [value]="tab.value">
+							<p class="m-0 font-bold">基础属性</p>
+							<div class="card">
+								<div class="flex gap-4 mb-6 flex-wrap">
+									@for (field of fields; track field.key) {
+										<div
+											class="flex-auto input-item"
+											[ngClass]="{ 'mb-4': true }">
+											<label
+												class="block mb-2"
+												[for]="field.key">
+												{{ field.label }}
+											</label>
+											<p-inputnumber
+												[(ngModel)]="formData[field.key]"
+												(ngModelChange)="basicDataChange($event, field.key)"
+												[min]="0"
+												[max]="9999"
+												[showButtons]="true"
+												size="small"
+												mode="decimal"
+												[inputId]="field.key">
+											</p-inputnumber>
+										</div>
+									}
+								</div>
+							</div>
+							<p class="m-0 font-bold">其他外观</p>
+							<div class="card">
+								<div class="flex gap-4 mb-6 flex-wrap">
+									@for (field of styleFields; track field.key) {
+										<ng-container [ngSwitch]="field.schemaType">
+											<ng-container *ngSwitchCase="'number'">
+												<div
+													class="flex-auto input-item"
+													[ngClass]="{ 'mb-4': true }">
+													<label
+														class="block mb-2"
+														[for]="field.key">
+														{{ field.label }}
+													</label>
+													<p-inputnumber
+														[(ngModel)]="formData.styles[field.key]"
+														(ngModelChange)="styleDataChange($event, field.key)"
+														[min]="field?.min || 0"
+														[max]="field?.max || 9999"
+														[step]="field?.step || 1"
+                            [suffix]="field?.suffix"
+														[showButtons]="true"
+														size="small"
+														mode="decimal"
+														[inputId]="field.key">
+													</p-inputnumber>
+												</div>
+											</ng-container>
+											<ng-container *ngSwitchCase="'color'">
+												<div
+													class="flex-auto input-item"
+													[ngClass]="{ 'mb-4': true }">
+													<label
+														class="block mb-2"
+														[for]="field.key">
+														{{ field.label }}
+													</label>
+													<p-color-picker
+														[(ngModel)]="formData.styles[field.key]"
+														(ngModelChange)="styleDataChange($event, field.key)"
+														[inputId]="field.key" />
+													<input
+														class="color-input"
+														pInputText
+														type="text"
+														pSize="small"
+														(ngModelChange)="styleDataChange($event, field.key)"
+														[(ngModel)]="formData.styles[field.key]" />
+												</div>
+											</ng-container>
+											<ng-container *ngSwitchCase="'select-image'">
+												<div
+													class="flex-auto input-item"
+													[ngClass]="{ 'mb-4': true }">
+													<label
+														class="block mb-2"
+														[for]="field.key">
+														{{ field.label }}
+													</label>
+													<p-select
+														[options]="field.options"
+														[(ngModel)]="formData.styles[field.key]"
+														optionLabel="name"
+														filterBy="name"
+														[checkmark]="true"
+														[showClear]="true"
+														(ngModelChange)="styleDataChange($event, field.key)"
+														class="w-full md:w-56">
+														<ng-template
+															#selectedItem
+															let-selectedOption>
+															<div
+																class="selected-image-item"
+																[style.background-image]="selectedOption.val"></div>
+														</ng-template>
+														<ng-template
+															let-option
+															#item>
+															<div
+																class="option-item-image"
+																[style.background-image]="option.val"></div>
+														</ng-template>
+													</p-select>
+												</div>
+											</ng-container>
+											<ng-container *ngSwitchDefault> 默认，其他 {{ field.schemaType }} </ng-container>
+										</ng-container>
+									}
+								</div>
+							</div>
+						</p-tabpanel>
+					}
+					@case ('advanced') {
+						<p-tabpanel [value]="tab.value">
+							@if (config.type === 'chart' && config.props['chart']) {
+<!--                [options]="{ opts: config.props['chart'], type: config.subType }"-->
+								<app-chart-editor
+                  [options]="config.props['chart']"
+                  [subType]="config.subType"
+									(onChange)="updateOptions($event, 'chart')"></app-chart-editor>
+							} @else if (config.type === 'table') {
+								<app-table-editor
+									[options]="config.props['table']"
+									[subType]="config.subType"
+									(onChange)="updateOptions($event, 'table')"></app-table-editor>
+							}
+						</p-tabpanel>
+					}
+					@case ('styles') {
+						<p-tabpanel [value]="tab.value">
+							@if (config.type === 'text') {
+								<app-text-editor
+									[options]="config.props['text']"
+									[subType]="config.subType"
+									(onChange)="updateOptions($event, 'text')"></app-text-editor>
+							}
+						</p-tabpanel>
+					}
+				}
+			}
+		</p-tabpanels>
+	</p-tabs>
+</div>
