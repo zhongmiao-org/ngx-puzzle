@@ -1,16 +1,50 @@
-<button [thyButton]="'primary'" (click)="showSlideWithTemplate()">Open with template</button>
+<div class="ngx-puzzle-wrapper">
+  <div class="drawer left-drawer" [class.collapsed]="leftCollapsed">
+    @if (!leftCollapsed) {
+      <thy-slide-layout>
+        <thy-slide-header></thy-slide-header>
+        <thy-slide-body>
+          slide body <br />
+          slide body
+        </thy-slide-body>
+        <thy-slide-footer> slide footer </thy-slide-footer>
+      </thy-slide-layout>
+    }
+    <button
+      class="toggle-btn left"
+      [thyButtonIcon]="leftCollapsed ? 'angle-right-bold' : 'angle-left-bold'"
+      thyShape="circle-solid"
+      thySize="xs"
+      (click)="toggleLeft()"
+    ></button>
 
-<div class="ngx-puzzle-wrapper"></div>
+    <!--    <p-panel-->
+    <!--      header="组件"-->
+    <!--      [style.height.%]="100"-->
+    <!--      class="editor-panel"-->
+    <!--      *ngIf="!leftCollapsed">-->
+    <!--    </p-panel>-->
+    <!--    <p-button-->
+    <!--      class="toggle-btn left"-->
+    <!--      severity="secondary"-->
+    <!--      [icon]="!leftCollapsed ? 'pi pi-angle-left' : 'pi pi-angle-right'"-->
+    <!--      (click)="toggleLeft()"></p-button>-->
+  </div>
+</div>
 
-<ng-template #leftCollapsed>
-  <thy-slide-layout>
-    <thy-slide-header thyTitle="slide title"></thy-slide-header>
-    <thy-slide-body>
-      slide body <br />
-      slide body
-    </thy-slide-body>
-    <thy-slide-footer>
-      slide footer
-    </thy-slide-footer>
-  </thy-slide-layout>
+<ng-template #leftCollapsedHeader>
+  <h3 class="thy-slide-header-title">
+    组件
+  </h3>
 </ng-template>
+
+<!--<ng-template #leftCollapsed>-->
+<!--  <thy-slide-layout>-->
+<!--    <thy-slide-header thyTitle="slide title"></thy-slide-header>-->
+<!--    <thy-slide-body>-->
+<!--      slide body <br />-->
+<!--      slide body-->
+<!--    </thy-slide-body>-->
+<!--    <thy-slide-footer> slide footer </thy-slide-footer>-->
+<!--  </thy-slide-layout>-->
+<!--</ng-template>-->

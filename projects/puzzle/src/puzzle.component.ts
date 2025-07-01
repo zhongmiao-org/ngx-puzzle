@@ -2,13 +2,14 @@ import { AfterViewInit, Component, HostBinding, inject, TemplateRef, ViewChild }
 import { generateUUID } from 'ngx-puzzle/utils';
 import { ComponentRegistryService } from 'ngx-puzzle/core/services/component-registry.service';
 import { SessionIndexedDbService } from 'ngx-puzzle/core/services/session-indexed-db.service';
-import { ThySlideLayout, ThySlideModule, ThySlideService } from 'ngx-tethys/slide';
-import { ThyButton } from 'ngx-tethys/button';
+import { ThySlideModule, ThySlideService } from 'ngx-tethys/slide';
+import { ThyIconModule } from 'ngx-tethys/icon';
+import { ThyButtonModule } from 'ngx-tethys/button';
 
 @Component({
     selector: 'ngx-puzzle',
     standalone: true,
-    imports: [ThySlideModule, ThyButton],
+    imports: [ThySlideModule, ThyButtonModule, ThyIconModule],
     templateUrl: './puzzle.component.html',
     styleUrl: './puzzle.component.scss'
 })
@@ -21,6 +22,8 @@ export class NgxPuzzleComponent implements AfterViewInit {
     protected readonly MIN_HEIGHT = 100;
 
     private thySlideNewService = inject(ThySlideService);
+    private registry = inject(ComponentRegistryService);
+    private sessionService = inject(SessionIndexedDbService);
 
     public width = this.MIN_WIDTH;
     public height = this.MIN_HEIGHT;
@@ -29,20 +32,15 @@ export class NgxPuzzleComponent implements AfterViewInit {
     leftCollapsed = false;
     rightCollapsed = false;
 
-    constructor(
-        private registry: ComponentRegistryService,
-        private sessionService: SessionIndexedDbService
-    ) {}
+    constructor() {
+        this.registerIcons();
+    }
 
     ngAfterViewInit() {
-        // this.thySlideNewService.open()
-        this.thySlideNewService.open(this.templateRef, {
-            id: 'side',
-            mode: 'side',
-            from: 'left',
-            hasBackdrop: false,
-            drawerContainer: 'ngx-puzzle'
-        });
+    }
+
+    private registerIcons() {
+
     }
 
     toggleLeft() {

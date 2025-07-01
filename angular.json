@@ -13,7 +13,14 @@
           "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
             "tsConfig": "projects/puzzle/tsconfig.lib.json",
-            "project": "projects/puzzle/ng-package.json"
+            "project": "projects/puzzle/ng-package.json",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@tethys/icons",
+                "output": "/assets/icons/"
+              }
+            ]
           },
           "configurations": {
             "production": {
@@ -33,10 +40,7 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": [
-              "projects/puzzle/**/*.ts",
-              "projects/puzzle/**/*.html"
-            ]
+            "lintFilePatterns": ["projects/puzzle/**/*.ts", "projects/puzzle/**/*.html"]
           }
         }
       }
@@ -60,25 +64,24 @@
               "browser": ""
             },
             "index": "example/src/index.html",
-            "polyfills": [
-              "example/src/polyfills.ts"
-            ],
+            "polyfills": ["example/src/polyfills.ts"],
             "tsConfig": "example/tsconfig.app.json",
             "assets": [
               "example/src/favicon.ico",
-              "example/src/assets"
+              "example/src/assets",
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@tethys/icons",
+                "output": "/assets/icons/"
+              }
             ],
-            "styles": [
-              "example/src/styles.scss"
-            ],
+            "styles": ["example/src/styles.scss"],
             "scripts": [],
             "extractLicenses": false,
             "sourceMap": true,
             "optimization": false,
             "namedChunks": true,
-            "allowedCommonJsDependencies": [
-              "docsearch.js"
-            ],
+            "allowedCommonJsDependencies": ["docsearch.js"],
             "browser": "example/src/main.ts"
           },
           "configurations": {
