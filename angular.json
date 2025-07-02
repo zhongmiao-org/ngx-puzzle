@@ -13,14 +13,7 @@
           "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
             "tsConfig": "projects/puzzle/tsconfig.lib.json",
-            "project": "projects/puzzle/ng-package.json",
-            "assets": [
-              {
-                "glob": "**/*",
-                "input": "./node_modules/@tethys/icons",
-                "output": "/assets/icons/"
-              }
-            ]
+            "project": "projects/puzzle/ng-package.json"
           },
           "configurations": {
             "production": {
@@ -72,6 +65,11 @@
               {
                 "glob": "**/*",
                 "input": "./node_modules/@tethys/icons",
+                "output": "/assets/icons/"
+              },
+              {
+                "glob": "**/*",
+                "input": "./projects/puzzle/src/assets/icons",
                 "output": "/assets/icons/"
               }
             ],

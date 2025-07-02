@@ -1,0 +1,41 @@
+<div>
+	<h5>图表</h5>
+	<ul class="panel-list">
+		@for (chart of chartList; track chart.val) {
+			<li cdkDropList>
+<!--				<app-custom-icon-->
+<!--					cdkDrag-->
+<!--					(cdkDragEnded)="onDragEnded($event, 'chart', chart.val)"-->
+<!--					[name]="chart.val"-->
+<!--					size="46"></app-custom-icon>-->
+<!--				<p [pTooltip]="chart.label">{{ chart.label }}</p>-->
+			</li>
+		}
+	</ul>
+  <h5>数据</h5>
+  <ul class="panel-list">
+    @for (table of tableList; track table.val) {
+      <li cdkDropList>
+<!--        <app-custom-icon-->
+<!--          cdkDrag-->
+<!--          (cdkDragEnded)="onDragEnded($event, 'table', table.val)"-->
+<!--          [name]="table.val"-->
+<!--          size="46"></app-custom-icon>-->
+<!--        <p [pTooltip]="table.label">{{ table.label }}</p>-->
+      </li>
+    }
+  </ul>
+  <h5>文本</h5>
+  <ul class="panel-list">
+    @for (text of textList; track text.val) {
+      <li cdkDropList>
+<!--        <app-custom-icon-->
+<!--          cdkDrag-->
+<!--          (cdkDragEnded)="onDragEnded($event, 'text', text.val)"-->
+<!--          [name]="text.val"-->
+<!--          size="46"></app-custom-icon>-->
+<!--        <p [pTooltip]="text.label">{{ text.label }}</p>-->
+      </li>
+    }
+  </ul>
+</div>

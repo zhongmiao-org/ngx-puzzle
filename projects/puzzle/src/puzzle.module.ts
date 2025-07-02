@@ -16,7 +16,14 @@ export class NgxPuzzleModule {
         const iconRegistry = inject(ThyIconRegistry);
         const sanitizer = inject(DomSanitizer);
         const iconSvgUrl = `assets/icons/defs/svg/sprite.defs.svg`;
+        const chartIconSvgs = ['bar'];
 
         iconRegistry.addSvgIconSet(sanitizer.bypassSecurityTrustResourceUrl(iconSvgUrl));
+
+        for (const path of chartIconSvgs) {
+            iconRegistry.addSvgIconInNamespace(
+                'chart', `${path}`,
+                sanitizer.bypassSecurityTrustResourceUrl(`assets/icons/${path}.svg`));
+        }
     }
 }

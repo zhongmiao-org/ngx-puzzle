@@ -5,18 +5,17 @@ import { SessionIndexedDbService } from 'ngx-puzzle/core/services/session-indexe
 import { ThySlideModule, ThySlideService } from 'ngx-tethys/slide';
 import { ThyIconModule } from 'ngx-tethys/icon';
 import { ThyButtonModule } from 'ngx-tethys/button';
+import { NgxPuzzlePanelComponent } from 'ngx-puzzle/components/panel/ngx-puzzle-panel.component';
 
 @Component({
     selector: 'ngx-puzzle',
     standalone: true,
-    imports: [ThySlideModule, ThyButtonModule, ThyIconModule],
+    imports: [ThySlideModule, ThyButtonModule, ThyIconModule, NgxPuzzlePanelComponent],
     templateUrl: './puzzle.component.html',
     styleUrl: './puzzle.component.scss'
 })
 export class NgxPuzzleComponent implements AfterViewInit {
     @HostBinding() className = 'ngx-puzzle-component';
-
-    @ViewChild('leftCollapsed', { static: true }) templateRef!: TemplateRef<any>;
 
     protected readonly MIN_WIDTH = 100;
     protected readonly MIN_HEIGHT = 100;
@@ -36,12 +35,9 @@ export class NgxPuzzleComponent implements AfterViewInit {
         this.registerIcons();
     }
 
-    ngAfterViewInit() {
-    }
+    ngAfterViewInit() {}
 
-    private registerIcons() {
-
-    }
+    private registerIcons() {}
 
     toggleLeft() {
         this.leftCollapsed = !this.leftCollapsed;
@@ -51,31 +47,6 @@ export class NgxPuzzleComponent implements AfterViewInit {
         this.rightCollapsed = !this.rightCollapsed;
     }
 
-    ngOnInit(): void {
-        // this.initDataList();
-    }
-
-    showSlideWithTemplate() {
-        this.thySlideNewService.open(this.templateRef, {
-            id: 'side',
-            mode: 'side',
-            from: 'left',
-            hasBackdrop: false,
-            drawerContainer: 'ngx-puzzle'
-        });
-    }
-
-    /** 初始化 mini 图表列表 */
-    // private initDataList() {
-    //     for (let i = 0; i < 10; i++) {
-    //         if (chartsOptionMockData[i]) {
-    //             this.miniChartList.push({
-    //                 id: i,
-    //                 options: chartsOptionMockData[i],
-    //             });
-    //         }
-    //     }
-    // }
 
     save(): void {
         console.log(`saved ---->`);

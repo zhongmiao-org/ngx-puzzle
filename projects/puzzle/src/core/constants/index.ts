@@ -9,3 +9,5 @@ export * from './table-editor-fields-map';
 export * from './editor-fields-map';
 export * from './select-options.const';
 export * from './text-mock.data';
+export * from './table-list';
+export * from './text-list';

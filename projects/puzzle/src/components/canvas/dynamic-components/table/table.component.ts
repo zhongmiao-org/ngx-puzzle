@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { BaseComponent } from '..//base/base.component';
+import { BaseComponent } from '../base/base.component';
 import { CdkDrag, CdkDragMove } from '@angular/cdk/drag-drop';
 import { CanvasMediatorService } from 'ngx-puzzle/core/mediator/canvas-mediator.service';
 import { ComponentConfig, ComponentTableProps } from 'ngx-puzzle/core/interfaces';

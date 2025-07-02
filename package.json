@@ -11,7 +11,7 @@
   "scripts": {
     "ng": "ng",
     "build:docs": "docgeni build",
-    "start": "docgeni serve --port 4601",
+    "start": "ng serve",
     "build": "npm run build:lib && npm run build:styles",
     "build:lib": "ng build puzzle --configuration production",
     "build:styles": "cpx \"./projects/puzzle/src/**/*.scss\" dist/puzzle",
