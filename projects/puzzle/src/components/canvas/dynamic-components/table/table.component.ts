@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { BaseComponent } from '../base/base.component';
 import { CdkDrag, CdkDragMove } from '@angular/cdk/drag-drop';
-import { CanvasMediatorService } from 'ngx-puzzle/core/mediator/canvas-mediator.service';
+import { PuzzleCanvasMediatorService } from 'ngx-puzzle/core/mediator/puzzle-canvas-mediator.service';
 import { ComponentConfig, ComponentTableProps } from 'ngx-puzzle/core/interfaces';
 import { ChartTypesEnum, Is } from 'ngx-puzzle/core/enums';
 import { TableTypesEnum } from 'ngx-puzzle/core/enums/table-types.enum';
@@ -47,7 +47,7 @@ export class TableComponent extends BaseComponent<ComponentTableProps, TableType
 	}
 
 	constructor(
-		mediator: CanvasMediatorService<ComponentTableProps, TableTypesEnum>,
+		mediator: PuzzleCanvasMediatorService<ComponentTableProps, TableTypesEnum>,
 		private tableService: TableService,
 	) {
 		super(mediator);

@@ -4,7 +4,7 @@ import { StylesFormatPipe } from 'ngx-puzzle/pipes/styles-format.pipe';
 import { CdkDrag } from '@angular/cdk/drag-drop';
 import { ComponentBaseProps, ComponentConfig, Position, Size } from 'ngx-puzzle/core/interfaces';
 import { SafeAny } from 'ngx-tethys/types';
-import { CanvasMediatorService } from 'ngx-puzzle/core/mediator/canvas-mediator.service';
+import { PuzzleCanvasMediatorService } from 'ngx-puzzle/core/mediator/puzzle-canvas-mediator.service';
 
 
 @Component({
@@ -52,7 +52,7 @@ export class DragWrapperComponent<TConfigProps extends ComponentBaseProps = Comp
 		return !!this?.dragRef;
 	}
 
-	constructor(private mediator: CanvasMediatorService<TConfigProps, TSubType>) {}
+	constructor(private mediator: PuzzleCanvasMediatorService<TConfigProps, TSubType>) {}
 
 	ngAfterViewInit(): void {
 		this.setupObservables();

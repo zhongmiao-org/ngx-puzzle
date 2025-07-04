@@ -3,60 +3,59 @@ $left-width: 242px;
 $box-height: 50px;
 $offset-panel: 127px;
 :host {
-    .ngx-puzzle-wrapper {
-        display: flex;
-        width: 100%;
-        height: calc(100vh - $header-height);
-        .drawer {
-            width: 350px;
-            transition: width 0.3s ease;
-            background-color: #f4f4f4;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            height: 100%;
+  .ngx-puzzle-wrapper {
+    display: flex;
+    width: 100%;
+    height: calc(100vh - $header-height);
+    .drawer {
+      width: 350px;
+      transition: width 0.3s ease;
+      background-color: #f4f4f4;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      height: 100%;
 
-            .slide-wrapper {
-                width: 350px;
-                height: 100%;
-                overflow: hidden;
-            }
+      .slide-wrapper {
+        width: 350px;
+        height: 100%;
+        overflow: hidden;
+      }
 
-            &.collapsed {
-                width: 30px;
-                .p-panel {
-                    display: none;
-                }
-            }
-
-            .toggle-btn {
-                position: absolute;
-                top: 10px;
-                //width: 30px;
-                //height: 30px;
-                z-index: 10;
-                background: transparent;
-
-            }
-
-            &.left-drawer .toggle-btn {
-                right: 6px;
-                transform: translateX(50%);
-            }
-
-            &.right-drawer .toggle-btn {
-                left: 0;
-                transform: translateX(-50%);
-            }
+      &.collapsed {
+        width: 30px;
+        .p-panel {
+          display: none;
         }
-        .main-content {
-            flex: 1;
-            transition: margin 0.3s ease;
-            overflow: auto;
-            padding: 0;
-        }
+      }
+
+      .toggle-btn {
+        position: absolute;
+        top: 10px;
+        z-index: 10;
+        background: transparent;
+        cursor: pointer;
+        font-size: 26px;
+      }
+
+      &.left-drawer .toggle-btn {
+        right: 15px;
+        transform: translateX(50%);
+      }
+
+      &.right-drawer .toggle-btn {
+        left: 15px;
+        transform: translateX(-50%);
+      }
     }
-    w-100 {
-        width: 100%;
+    .main-content {
+      flex: 1;
+      transition: margin 0.3s ease;
+      overflow: auto;
+      padding: 0;
     }
+  }
+  w-100 {
+    width: 100%;
+  }
 }

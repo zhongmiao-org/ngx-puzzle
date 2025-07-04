@@ -2,28 +2,41 @@ import { inject, NgModule } from '@angular/core';
 import { NgxPuzzleComponent } from './puzzle.component';
 import { ThyIconRegistry } from 'ngx-tethys/icon';
 import { DomSanitizer } from '@angular/platform-browser';
+import { ChartTypesEnum, TableTypesEnum, TabTypesEnum, TextTypesEnum } from 'ngx-puzzle/core/enums';
 
 @NgModule({
     imports: [NgxPuzzleComponent],
     exports: [NgxPuzzleComponent]
 })
 export class NgxPuzzleModule {
+
+    private readonly iconRegistry = inject(ThyIconRegistry);
+    private readonly sanitizer = inject(DomSanitizer);
     constructor() {
         this.registerIcons();
     }
 
     private registerIcons() {
-        const iconRegistry = inject(ThyIconRegistry);
-        const sanitizer = inject(DomSanitizer);
         const iconSvgUrl = `assets/icons/defs/svg/sprite.defs.svg`;
-        const chartIconSvgs = ['bar'];
+        this.iconRegistry.addSvgIconSet(this.sanitizer.bypassSecurityTrustResourceUrl(iconSvgUrl));
 
-        iconRegistry.addSvgIconSet(sanitizer.bypassSecurityTrustResourceUrl(iconSvgUrl));
+        this.registerIconsForType('chart', ChartTypesEnum, 'charts');
+        this.registerIconsForType('table', TableTypesEnum, 'tables');
+        this.registerIconsForType('text', TextTypesEnum, 'text');
+        this.registerIconsForType('editor', TabTypesEnum, 'editor');
 
-        for (const path of chartIconSvgs) {
-            iconRegistry.addSvgIconInNamespace(
-                'chart', `${path}`,
-                sanitizer.bypassSecurityTrustResourceUrl(`assets/icons/${path}.svg`));
+    }
+    private registerIconsForType(namespace: string, enumType: any, iconPath: string) {
+        for (const key in enumType) {
+            if (enumType.hasOwnProperty(key)) {
+                const enumValue = enumType[key];
+                this.iconRegistry.addSvgIconInNamespace(
+                    namespace,
+                    `${enumValue}`,
+                    this.sanitizer.bypassSecurityTrustResourceUrl(`assets/icons/${iconPath}/${enumValue}.svg`)
+                );
+            }
         }
     }
+
 }

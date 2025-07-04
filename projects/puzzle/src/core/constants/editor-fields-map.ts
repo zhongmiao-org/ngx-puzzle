@@ -137,8 +137,8 @@ export const EDITOR_FIELDS_MAP: {
 	},
 };
 
-export const BASE_TAB: EditorTab = { title: '外观', value: 'appearance', icon: 'pi-sliders-h' };
+export const BASE_TAB: EditorTab = { title: '外观', value: 'appearance', icon: 'editor:appearance-settings' };
 
-export const DATA_TAB: EditorTab = { title: '数据', value: 'advanced', icon: 'pi-paperclip' };
+export const DATA_TAB: EditorTab = { title: '数据', value: 'advanced', icon: 'editor:advanced-settings' };
 
-export const STYLE_TAB: EditorTab = { title: '样式', value: 'styles', icon: 'pi-paperclip' };
+export const STYLE_TAB: EditorTab = { title: '样式', value: 'text', icon: 'editor:text-settings' };

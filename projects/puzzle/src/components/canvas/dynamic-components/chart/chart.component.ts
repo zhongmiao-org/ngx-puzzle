@@ -6,7 +6,7 @@ import { AgCharts } from 'ag-charts-angular';
 import { mainTypes } from 'ngx-puzzle/core/types';
 import { ChartTypesEnum } from 'ngx-puzzle/core/enums';
 import { AgChartOptions } from 'ag-charts-community';
-import { CanvasMediatorService } from 'ngx-puzzle/core/mediator/canvas-mediator.service';
+import { PuzzleCanvasMediatorService } from 'ngx-puzzle/core/mediator/puzzle-canvas-mediator.service';
 import { updateCharts } from 'ngx-puzzle/utils';
 import { CHART_DATA_OPTIONS } from 'ngx-puzzle/core/constants';
 
@@ -32,7 +32,7 @@ export class ChartComponent extends BaseComponent<ComponentChartProps, ChartType
 
 	public options!: AgChartOptions;
 
-	constructor(mediator: CanvasMediatorService<ComponentChartProps, ChartTypesEnum>) {
+	constructor(mediator: PuzzleCanvasMediatorService<ComponentChartProps, ChartTypesEnum>) {
 		super(mediator);
 	}
 

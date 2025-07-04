@@ -1,20 +1,26 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, HostBinding, OnInit, ViewEncapsulation } from '@angular/core';
 import { CHART_SERIES_TYPE_OPTIONS, INIT_SETTINGS_CONFIG, TEXT_TYPE_OPTIONS, TABLE_TYPE_OPTIONS } from '../../core/constants';
 import { CdkDrag, CdkDragEnd, CdkDropList } from '@angular/cdk/drag-drop';
-import { CanvasMediatorService } from 'ngx-puzzle/core/mediator/canvas-mediator.service';
+import { PuzzleCanvasMediatorService } from 'ngx-puzzle/core/mediator/puzzle-canvas-mediator.service';
 import { ComponentConfig } from 'ngx-puzzle/core/interfaces';
 import { mainTypes } from 'ngx-puzzle/core/types';
 import { ChartTypesEnum, TextTypesEnum, TableTypesEnum } from 'ngx-puzzle/core/enums';
 import { generateUUID } from '../../utils';
+import { ThyTooltipDirective } from 'ngx-tethys/tooltip';
+import { ThyIcon } from 'ngx-tethys/icon';
 
 @Component({
     selector: 'ngx-puzzle-panel, puzzle-panel',
     standalone: true,
-    imports: [CdkDropList, CdkDrag],
+    imports: [CdkDropList, CdkDrag, ThyTooltipDirective, ThyIcon],
     templateUrl: './ngx-puzzle-panel.component.html',
-    styleUrl: './ngx-puzzle-panel.component.scss'
+    styleUrl: './ngx-puzzle-panel.component.scss',
+    host: {
+        '[class.ngx-puzzle-panel]': `true`
+    }
 })
 export class NgxPuzzlePanelComponent implements OnInit, AfterViewInit {
+
     private canvasElement!: HTMLElement;
 
     private canvasContainer!: HTMLElement;
@@ -25,7 +31,7 @@ export class NgxPuzzlePanelComponent implements OnInit, AfterViewInit {
 
     public textList = TEXT_TYPE_OPTIONS;
 
-    constructor(private mediator: CanvasMediatorService) {}
+    constructor(private mediator: PuzzleCanvasMediatorService) {}
 
     ngOnInit() {}
 

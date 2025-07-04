@@ -1,7 +1,7 @@
 import { ComponentBaseProps, ComponentConfig, Position, Size } from '../interfaces';
 import { actionTypes } from '../types';
 
-export interface CanvasMediator<TConfigProps extends ComponentBaseProps = ComponentBaseProps, TSubType = string> {
+export interface PuzzleCanvasMediator<TConfigProps extends ComponentBaseProps = ComponentBaseProps, TSubType = string> {
 	addComponent(config: ComponentConfig<TConfigProps, TSubType>): void;
 	updateComponent(config: ComponentConfig<TConfigProps, TSubType>): void;
 	selectComponent(id: string): void;

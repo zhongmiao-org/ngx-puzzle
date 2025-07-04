@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { BaseComponent } from '../base/base.component';
 import { ComponentConfig, ComponentTextProps } from 'ngx-puzzle/core/interfaces';
-import { CanvasMediatorService } from 'ngx-puzzle/core/mediator/canvas-mediator.service';
+import { PuzzleCanvasMediatorService } from 'ngx-puzzle/core/mediator/puzzle-canvas-mediator.service';
 import { CommonModule } from '@angular/common';
 import { TextTypesEnum } from 'ngx-puzzle/core/enums';
 import { mainTypes } from 'ngx-puzzle/core/types';
@@ -28,7 +28,7 @@ export class TextComponent extends BaseComponent<ComponentTextProps, TextTypesEn
 		return this._config;
 	}
 
-	constructor(mediator: CanvasMediatorService<ComponentTextProps, TextTypesEnum>) {
+	constructor(mediator: PuzzleCanvasMediatorService<ComponentTextProps, TextTypesEnum>) {
 		super(mediator);
 	}
 

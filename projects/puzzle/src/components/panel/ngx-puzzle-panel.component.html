@@ -1,40 +1,34 @@
-<div>
-	<h5>图表</h5>
-	<ul class="panel-list">
-		@for (chart of chartList; track chart.val) {
-			<li cdkDropList>
-<!--				<app-custom-icon-->
-<!--					cdkDrag-->
-<!--					(cdkDragEnded)="onDragEnded($event, 'chart', chart.val)"-->
-<!--					[name]="chart.val"-->
-<!--					size="46"></app-custom-icon>-->
-<!--				<p [pTooltip]="chart.label">{{ chart.label }}</p>-->
-			</li>
-		}
-	</ul>
-  <h5>数据</h5>
+<div class="ngx-puzzle-panel-component">
+  <h5 class="font-size-md font-weight-normal">图表</h5>
   <ul class="panel-list">
-    @for (table of tableList; track table.val) {
+    @for (chart of chartList; track chart.val) {
       <li cdkDropList>
-<!--        <app-custom-icon-->
-<!--          cdkDrag-->
-<!--          (cdkDragEnded)="onDragEnded($event, 'table', table.val)"-->
-<!--          [name]="table.val"-->
-<!--          size="46"></app-custom-icon>-->
-<!--        <p [pTooltip]="table.label">{{ table.label }}</p>-->
+        <div class="drop-item" cdkDrag (cdkDragEnded)="onDragEnded($event, 'chart', chart.val)">
+          <thy-icon class="panel-icon" [thyIconName]="'chart:' + chart.val"></thy-icon>
+        </div>
+        <p [thyTooltip]="chart.label">{{ chart.label }}</p>
       </li>
     }
   </ul>
-  <h5>文本</h5>
+  <h5 class="font-size-md font-weight-normal">数据</h5>
+  <ul class="panel-list">
+    @for (table of tableList; track table.val) {
+      <li cdkDropList>
+        <div class="drop-item" cdkDrag (cdkDragEnded)="onDragEnded($event, 'table', table.val)">
+          <thy-icon class="panel-icon" [thyIconName]="'table:' + table.val"></thy-icon>
+        </div>
+        <p [thyTooltip]="table.label">{{ table.label }}</p>
+      </li>
+    }
+  </ul>
+  <h5 class="font-size-md font-weight-normal">文本</h5>
   <ul class="panel-list">
     @for (text of textList; track text.val) {
       <li cdkDropList>
-<!--        <app-custom-icon-->
-<!--          cdkDrag-->
-<!--          (cdkDragEnded)="onDragEnded($event, 'text', text.val)"-->
-<!--          [name]="text.val"-->
-<!--          size="46"></app-custom-icon>-->
-<!--        <p [pTooltip]="text.label">{{ text.label }}</p>-->
+        <div class="drop-item" cdkDrag cdkDrag (cdkDragEnded)="onDragEnded($event, 'text', text.val)">
+          <thy-icon class="panel-icon" [thyIconName]="'text:' + text.val"></thy-icon>
+        </div>
+        <p [thyTooltip]="text.label">{{ text.label }}</p>
       </li>
     }
   </ul>

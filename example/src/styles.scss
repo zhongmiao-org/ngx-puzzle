@@ -8,87 +8,87 @@ $primary: #6698ff;
 @import '@docgeni/template/styles/index.scss';
 @import 'ngx-tethys/styles/index.scss';
 
-.gantt-demo {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  background: #eee;
-  padding: 20px;
-
-  .gantt-demo-header {
-    height: 50px;
-    background: #fff;
-    padding: 0px 20px;
-    margin-bottom: 15px;
-    display: flex;
-    align-items: center;
-
-    .header-section {
-      margin-right: 20px;
-
-      &-title {
-        font-weight: bold;
-      }
-    }
-  }
-
-  .gantt-demo-content {
-    flex: 1;
-    height: 1px;
-  }
-}
-
-.gantt-example-content {
-  margin-left: 300px;
-  .gantt-example-component {
-    display: block;
-    margin: 20px;
-    border: 1px solid #eee;
-    height: calc(100vh - 95px);
-    overflow: auto;
-
-    .thy-layout-header {
-      .layout-header-title {
-        display: none;
-      }
-    }
-    .header-with-baseline {
-      .layout-header-content {
-        display: flex;
-        align-items: center;
-        .baseline-switch {
-          display: flex;
-        }
-      }
-    }
-    ngx-gantt-root {
-      border: 1px solid #eee;
-      .table-footer {
-        display: flex;
-        .gantt-table-column {
-          overflow: hidden;
-          border-right: 1px solid #eee;
-          box-sizing: border-box;
-          padding: 0 15px;
-          line-height: 44px;
-
-          &:last-child {
-            border-right: none;
-          }
-        }
-      }
-      .footer-container {
-        display: flex;
-        position: relative;
-        height: 100%;
-        .footer-item {
-          border-right: 1px solid #eee;
-          line-height: 44px;
-          &:last-child {
-            border-right: none;
-          }
-        }
-      }
-    }
-  }
-}
+//.gantt-demo {
+//  height: 100%;
+//  display: flex;
+//  flex-direction: column;
+//  background: #eee;
+//  padding: 20px;
+//
+//  .gantt-demo-header {
+//    height: 50px;
+//    background: #fff;
+//    padding: 0px 20px;
+//    margin-bottom: 15px;
+//    display: flex;
+//    align-items: center;
+//
+//    .header-section {
+//      margin-right: 20px;
+//
+//      &-title {
+//        font-weight: bold;
+//      }
+//    }
+//  }
+//
+//  .gantt-demo-content {
+//    flex: 1;
+//    height: 1px;
+//  }
+//}
+//
+//.gantt-example-content {
+//  margin-left: 300px;
+//  .gantt-example-component {
+//    display: block;
+//    margin: 20px;
+//    border: 1px solid #eee;
+//    height: calc(100vh - 95px);
+//    overflow: auto;
+//
+//    .thy-layout-header {
+//      .layout-header-title {
+//        display: none;
+//      }
+//    }
+//    .header-with-baseline {
+//      .layout-header-content {
+//        display: flex;
+//        align-items: center;
+//        .baseline-switch {
+//          display: flex;
+//        }
+//      }
+//    }
+//    ngx-gantt-root {
+//      border: 1px solid #eee;
+//      .table-footer {
+//        display: flex;
+//        .gantt-table-column {
+//          overflow: hidden;
+//          border-right: 1px solid #eee;
+//          box-sizing: border-box;
+//          padding: 0 15px;
+//          line-height: 44px;
+//
+//          &:last-child {
+//            border-right: none;
+//          }
+//        }
+//      }
+//      .footer-container {
+//        display: flex;
+//        position: relative;
+//        height: 100%;
+//        .footer-item {
+//          border-right: 1px solid #eee;
+//          line-height: 44px;
+//          &:last-child {
+//            border-right: none;
+//          }
+//        }
+//      }
+//    }
+//  }
+//}

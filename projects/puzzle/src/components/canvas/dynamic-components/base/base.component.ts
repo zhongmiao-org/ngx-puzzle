@@ -1,7 +1,7 @@
 import { ComponentBaseProps, ComponentConfig } from 'ngx-puzzle/core/interfaces';
 import { Component, OnDestroy } from '@angular/core';
 import { mainTypes } from 'ngx-puzzle/core/types';
-import { CanvasMediatorService } from 'ngx-puzzle/core/mediator/canvas-mediator.service';
+import { PuzzleCanvasMediatorService } from 'ngx-puzzle/core/mediator/puzzle-canvas-mediator.service';
 import { SafeAny } from 'ngx-tethys/types';
 
 
@@ -22,7 +22,7 @@ export abstract class BaseComponent<TConfigProps extends ComponentBaseProps = Co
 	}
 
 
-	protected constructor(public mediator: CanvasMediatorService<TConfigProps, TSubType>) {
+	protected constructor(public mediator: PuzzleCanvasMediatorService<TConfigProps, TSubType>) {
 		this.setupObservables();
 	}
 

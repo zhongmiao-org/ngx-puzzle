@@ -1,6 +1,6 @@
 export enum TextTypesEnum {
 	// 标题
-	headTitle = 'headTitle',
+	headTitle = 'head-title',
 	// 文本
 	text = 'text',
 }

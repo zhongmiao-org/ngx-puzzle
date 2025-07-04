@@ -11,13 +11,13 @@
     {
       "files": "*.js",
       "options": {
-        "tabWidth": 4
+        "tabWidth": 2
       }
     },
     {
       "files": "*.ts",
       "options": {
-        "tabWidth": 4
+        "tabWidth": 2
       }
     }
   ]

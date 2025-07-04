@@ -8,7 +8,7 @@ import { mainTypes } from '../types';
 import { INIT_SETTINGS_CONFIG } from '../constants';
 
 @Injectable({ providedIn: 'root' })
-export class ComponentRegistryService<TConfigProps extends ComponentBaseProps = ComponentBaseProps, TSubType = string> {
+export class PuzzleComponentRegistryService<TConfigProps extends ComponentBaseProps = ComponentBaseProps, TSubType = string> {
 	private factories: Partial<{ [key in mainTypes]: AbstractComponentFactory }> = {};
 	private components: Map<string, ComponentConfig<TConfigProps, TSubType>> = new Map<string, ComponentConfig<TConfigProps, TSubType>>();
 

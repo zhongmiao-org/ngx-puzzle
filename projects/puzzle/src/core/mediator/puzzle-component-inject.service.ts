@@ -1,10 +1,11 @@
 import { Injectable, ViewContainerRef, ComponentRef, EnvironmentInjector } from '@angular/core';
 import { ComponentInstance } from '../interfaces';
+import { SafeAny } from 'ngx-puzzle/core/types';
 
 @Injectable({ providedIn: 'root' })
-export class ComponentInjectorService {
+export class PuzzleComponentInjectorService {
 	private containerRef: ViewContainerRef | null = null;
-	private componentRefs = new Map<string, ComponentRef<any>>();
+	private componentRefs = new Map<string, ComponentRef<SafeAny>>();
 
 	constructor(private envInjector: EnvironmentInjector) {}
 

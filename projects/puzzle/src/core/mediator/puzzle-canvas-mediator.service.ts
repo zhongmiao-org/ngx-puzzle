@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
-import { CanvasMediator } from '../mediator/canvas-mediator.interface';
+import { PuzzleCanvasMediator } from './puzzle-canvas-mediator.interface';
 import { ComponentBaseProps, ComponentConfig, HistoryActionStack, Position, Size } from '../interfaces';
-import { ComponentRegistryService } from '../services/component-registry.service';
+import { PuzzleComponentRegistryService } from '../services/puzzle-component-registry.service';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { cloneDeep, isEqual } from 'lodash';
 import { actionTypes } from '../types';
 import { INIT_SETTINGS_CONFIG } from '../constants';
 
 @Injectable({ providedIn: 'root' })
-export class CanvasMediatorService<TConfigProps extends ComponentBaseProps = ComponentBaseProps, TSubType = string>
-	implements CanvasMediator<TConfigProps, TSubType>
+export class PuzzleCanvasMediatorService<TConfigProps extends ComponentBaseProps = ComponentBaseProps, TSubType = string>
+	implements PuzzleCanvasMediator<TConfigProps, TSubType>
 {
 	private actionSnapshot: ComponentConfig<TConfigProps, TSubType> | null = null;
 
@@ -39,7 +39,7 @@ export class CanvasMediatorService<TConfigProps extends ComponentBaseProps = Com
 
 	private _currentSelectId!: string;
 
-	constructor(private registry: ComponentRegistryService<TConfigProps, TSubType>) {}
+	constructor(private registry: PuzzleComponentRegistryService<TConfigProps, TSubType>) {}
 
 	getCurrentSelect(): ComponentConfig<TConfigProps, TSubType> {
 		return this.registry.getById(this._currentSelectId)!;

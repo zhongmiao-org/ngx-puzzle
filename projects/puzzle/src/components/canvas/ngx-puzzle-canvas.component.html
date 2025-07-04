@@ -1,11 +1,11 @@
-<div class="canvas-wrapper">
-	<div class="ruler-horizontal-wrapper">
+<div class="puzzle-canvas-wrapper">
+	<div class="puzzle-ruler-horizontal-wrapper">
 		<div
 			#rulerHorizontal
-			class="ruler-horizontal">
+			class="puzzle-ruler-horizontal">
 			@for (tick of hTicks; track tick.label) {
 				<div
-					class="tick"
+					class="puzzle-tick"
 					[style.left.px]="tick.position">
 					<span>
             {{ tick.label }}
@@ -16,20 +16,20 @@
         <div
           [style.left.px]="positionSignal().left"
           [style.width.px]="positionSignal().width"
-          class="cursor horizontal-cursor">
-          <span class="left">{{ positionSignal().left }}</span>
-          <span class="right">{{ positionSignal().left + positionSignal().width }}</span>
+          class="puzzle-cursor puzzle-horizontal-cursor">
+          <span class="puzzle-left">{{ positionSignal().left }}</span>
+          <span class="puzzle-right">{{ positionSignal().left + positionSignal().width }}</span>
         </div>
       }
 		</div>
 	</div>
-	<div class="ruler-vertical-wrapper">
+	<div class="puzzle-ruler-vertical-wrapper">
 		<div
 			#rulerVertical
-			class="ruler-vertical">
+			class="puzzle-ruler-vertical">
 			@for (tick of vTicks; track tick.label) {
 				<div
-					class="tick"
+					class="puzzle-tick"
 					[style.top.px]="tick.position">
 					<span>
             {{ tick.label }}
@@ -40,17 +40,17 @@
         <div
           [style.top.px]="positionSignal().top"
           [style.height.px]="positionSignal().height"
-          class="cursor vertical-cursor">
-          <span class="top">{{ positionSignal().top }}</span>
-          <span class="bottom">{{ positionSignal().top + positionSignal().height }}</span>
+          class="puzzle-cursor puzzle-vertical-cursor">
+          <span class="puzzle-top">{{ positionSignal().top }}</span>
+          <span class="puzzle-bottom">{{ positionSignal().top + positionSignal().height }}</span>
         </div>
       }
 		</div>
 	</div>
-	<div #canvasContainer id="canvas-container" class="canvas-container">
+	<div #canvasContainer id="canvas-container" class="puzzle-canvas-container">
 		<div
       (mousedown)="canvasHandleSelect($event)"
-      class="canvas-content-wrapper"
+      class="puzzle-canvas-content-wrapper"
 			[style.width.px]="config.size.width"
 			[style.height.px]="config.size.height"
       [ngStyle]="config.props['styles'] | stylesFormat"

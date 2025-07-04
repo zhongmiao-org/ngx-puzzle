@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 @Injectable({
 	providedIn: 'root'
 })
-export class SessionIndexedDbService {
+export class PuzzleSessionIndexedDbService {
 	private dbName = 'biSessionDB';
 	private dbVersion = 1;
 	private db: IDBDatabase | null = null;

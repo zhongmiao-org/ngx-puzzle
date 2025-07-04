@@ -4,3 +4,4 @@ export * from './chart-types.enum';
 export * from './chart-axes-types.enum';
 export * from './table-types.enum';
 export * from './text-types.enum';
+export * from './tab-types.enum';

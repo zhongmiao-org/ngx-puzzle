@@ -27,7 +27,7 @@ module.exports = {
         {
             title: '参数',
             path: 'configuration',
-            lib: 'ngx-gantt',
+            lib: 'ngx-puzzle',
             locales: {
                 'en-us': {
                     title: 'Configuration'
