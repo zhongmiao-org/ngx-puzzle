@@ -1,0 +1,23 @@
+.ngx-puzzle-panel-component {
+  padding-top: 18px;
+  .panel-list {
+    display: flex;
+    flex-wrap: wrap;
+    li {
+      width: 25%;
+      p {
+        text-align: center;
+        font-size: 12px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+    .drop-item {
+      width: 50px;
+      margin: 0 auto;
+    }
+  }
+}
+
+

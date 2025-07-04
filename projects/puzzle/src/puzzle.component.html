@@ -1,1 +1,58 @@
-<p>puzzle works!</p>
+<div class="ngx-puzzle-wrapper">
+  <div class="drawer left-drawer" [class.collapsed]="leftCollapsed()">
+    @if (!leftCollapsed()) {
+      <div class="slide-wrapper">
+        <thy-slide-layout>
+          <thy-slide-header>
+            <ng-template #thyHeader>
+              <h2 class="thy-slide-header-title text-center font-size-md font-weight-bold w-100">
+                组件
+              </h2>
+            </ng-template>
+          </thy-slide-header>
+          <thy-slide-body>
+            <ngx-puzzle-panel></ngx-puzzle-panel>
+          </thy-slide-body>
+          <thy-slide-footer> slide footer
+            <thy-icon thyIconName="chart:bar"></thy-icon> </thy-slide-footer>
+        </thy-slide-layout>
+      </div>
+    }
+    <thy-icon
+      class="toggle-btn"
+      thyIconName="angle-left-bold"
+      [thyIconRotate]="leftCollapsed() ? 180 : 0"
+      (click)="leftCollapsed.set(!this.leftCollapsed())"
+    >
+    </thy-icon>
+  </div>
+  <div class="main-content">
+    <ngx-puzzle-canvas></ngx-puzzle-canvas>
+  </div>
+  <div class="drawer right-drawer" [class.collapsed]="rightCollapsed()">
+    @if (!rightCollapsed()) {
+      <div class="slide-wrapper">
+        <thy-slide-layout>
+          <thy-slide-header>
+            <ng-template #thyHeader>
+              <h2 class="thy-slide-header-title  font-size-md font-weight-bold text-center w-100">
+                编辑
+              </h2>
+            </ng-template>
+          </thy-slide-header>
+          <thy-slide-body>
+            <ngx-puzzle-editor></ngx-puzzle-editor>
+          </thy-slide-body>
+          <thy-slide-footer> slide footer </thy-slide-footer>
+        </thy-slide-layout>
+      </div>
+    }
+
+    <thy-icon
+      class="toggle-btn"
+      thyIconName="angle-right-bold"
+      [thyIconRotate]="rightCollapsed() ? 180 : 0"
+      (click)="rightCollapsed.set(!this.rightCollapsed())"
+    ></thy-icon>
+  </div>
+</div>

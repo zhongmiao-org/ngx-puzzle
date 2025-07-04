@@ -1,0 +1,33 @@
+@import "../styles";
+
+:host {
+  ::ng-deep .p-datatable-table {
+    .p-datatable-thead {
+      font-size: 12px;
+    }
+    .p-datatable-tbody {
+      font-size: 12px;
+    }
+  }
+
+  .editor-td {
+    padding: 2px 1px;
+  }
+  .editor-input {
+    padding: 0 1px;
+    max-width: 60px;
+    height: 17px;
+  }
+
+  .editor-select {
+    width: 60px;
+    height: 18px;
+    &:hover {
+      height: 18px;
+    }
+    ::ng-deep span {
+      height: 18px;
+      line-height: 18px;
+    }
+  }
+}

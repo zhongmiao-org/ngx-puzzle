@@ -1,0 +1,46 @@
+@if (isEdit()) {
+	<div
+		cdkDrag
+		cdkDragBoundary=".canvas-content-wrapper"
+		(mousedown)="componentHandleSelect($event)"
+		(cdkDragMoved)="componentHandleDrag()"
+		(cdkDragEnded)="componentHandleDragEnd()"
+		class="drag-wrapper-component edit"
+		[class]="isSelected ? 'selected' : ''"
+		[cdkDragFreeDragPosition]="position()"
+		[ngStyle]="styles() | stylesFormat"
+		[style.width.px]="size().width"
+		[style.height.px]="size().height">
+		<div class="mask">
+			<i
+				class="close-btn pi pi-times"
+        (mousedown)="mouseDownStopPropagation($event)"
+				(click)="componentHandleRemove($event, componentId())"></i>
+		</div>
+		<div class="drag-wrapper-container">
+			<ng-container *ngTemplateOutlet="viewContent"></ng-container>
+		</div>
+    @for (dir of directions; track dir.direction) {
+      <div
+        class="resize-handle"
+        [ngClass]="[dir.className]"
+        (mousedown)="startResize($event, dir.direction)"></div>
+    }
+	</div>
+} @else {
+	<div
+		class="drag-wrapper-component disabled"
+		[style.left.px]="position().x"
+		[style.top.px]="position().y"
+		[style.width.px]="size().width"
+		[style.height.px]="size().height"
+		[ngStyle]="styles() | stylesFormat">
+		<div class="drag-wrapper-container">
+			<ng-container *ngTemplateOutlet="viewContent"></ng-container>
+		</div>
+	</div>
+}
+
+<ng-template #viewContent>
+	<ng-content></ng-content>
+</ng-template>

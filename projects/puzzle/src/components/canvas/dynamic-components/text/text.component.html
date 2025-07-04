@@ -1,0 +1,9 @@
+<app-drag-wrapper
+  [isEdit]="isEdit"
+  [size]="config.size"
+  [position]="config.position"
+  [componentId]="config.id"
+  [styles]="config.props.styles"
+>
+  <div [ngStyle]="config.props.text.styles | stylesFormat">{{ config.props.text.content }}</div>
+</app-drag-wrapper>

@@ -3,5 +3,17 @@
   "dest": "../../dist/puzzle",
   "lib": {
     "entryFile": "src/public-api.ts"
-  }
+  },
+  "assets": [
+    {
+      "glob": "**/*",
+      "input": "./src/assets",
+      "output": "/assets"
+    },
+    {
+      "glob": "**/*",
+      "input": "./node_modules/@tethys/icons",
+      "output": "/assets/icons/"
+    }
+  ]
 }
