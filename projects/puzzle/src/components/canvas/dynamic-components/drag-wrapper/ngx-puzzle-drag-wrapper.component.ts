@@ -11,10 +11,10 @@ import { PuzzleCanvasMediatorService } from 'ngx-puzzle/core/mediator/puzzle-can
 	selector: 'app-drag-wrapper',
 	standalone: true,
 	imports: [CommonModule, StylesFormatPipe, CdkDrag],
-	templateUrl: './drag-wrapper.component.html',
-	styleUrl: './drag-wrapper.component.scss',
+	templateUrl: './ngx-puzzle-drag-wrapper.component.html',
+	styleUrl: './ngx-puzzle-drag-wrapper.component.scss',
 })
-export class DragWrapperComponent<TConfigProps extends ComponentBaseProps = ComponentBaseProps, TSubType = string>
+export class NgxPuzzleDragWrapperComponent<TConfigProps extends ComponentBaseProps = ComponentBaseProps, TSubType = string>
 	implements AfterViewInit, OnDestroy
 {
 	@ViewChild(CdkDrag, { static: false }) private dragRef!: CdkDrag;

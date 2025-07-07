@@ -13,7 +13,7 @@ import {
   WritableSignal
 } from '@angular/core';
 
-import { NgStyle } from '@angular/common';
+import { JsonPipe, NgStyle } from '@angular/common';
 import { fromEvent, Subject, takeUntil } from 'rxjs';
 import { StylesFormatPipe } from 'ngx-puzzle/pipes/styles-format.pipe';
 import { INIT_SETTINGS_CONFIG } from 'ngx-puzzle/core/constants';
@@ -25,7 +25,7 @@ import { PuzzleCanvasMediatorService } from 'ngx-puzzle/core/mediator/puzzle-can
 @Component({
   selector: 'ngx-puzzle-canvas, puzzle-canvas',
   standalone: true,
-  imports: [NgStyle, StylesFormatPipe],
+  imports: [NgStyle, StylesFormatPipe, JsonPipe],
   templateUrl: './ngx-puzzle-canvas.component.html',
   styleUrl: './ngx-puzzle-canvas.component.scss'
 })

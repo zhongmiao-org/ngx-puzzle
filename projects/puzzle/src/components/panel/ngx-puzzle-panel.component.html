@@ -25,7 +25,7 @@
   <ul class="panel-list">
     @for (text of textList; track text.val) {
       <li cdkDropList>
-        <div class="drop-item" cdkDrag cdkDrag (cdkDragEnded)="onDragEnded($event, 'text', text.val)">
+        <div class="drop-item" cdkDrag (cdkDragEnded)="onDragEnded($event, 'text', text.val)">
           <thy-icon class="panel-icon" [thyIconName]="'text:' + text.val"></thy-icon>
         </div>
         <p [thyTooltip]="text.label">{{ text.label }}</p>

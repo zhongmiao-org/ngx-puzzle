@@ -1,4 +1,6 @@
-.editor-component {
+@import '../styles';
+
+.ngx-puzzle-editor-component {
 
   .p-tabpanels {
     padding-left: 0;
@@ -23,24 +25,26 @@
     }
   }
 
-  .selected-image-item {
-    width: 100px;
-    height: 30px;
-    background-size: 100%;
-    background-repeat: no-repeat;
-    background-position: center bottom;
-  }
-
-  .option-item-image {
-    width: 100%;
-    height: 40px;
-    background-size: 100%;
-    background-repeat: no-repeat;
-    background-position: center bottom;
-  }
 
   .color-input {
     width: 80px;
     margin-left: 8px;
   }
+}
+
+.selected-image-item {
+  width: 100px;
+  height: 28px;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center bottom;
+}
+
+.option-item-image {
+  width: 100%;
+  height: 40px;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  margin: 8px 0;
 }

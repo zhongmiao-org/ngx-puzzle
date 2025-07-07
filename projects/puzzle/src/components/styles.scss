@@ -1,0 +1,8 @@
+@use "ngx-tethys/styles/variables.scss";
+
+.color-picker-box {
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  border: 1px solid variables.$input-border-color;
+}

@@ -10,21 +10,10 @@ export class StylesFormatPipe implements PipeTransform {
 		let newStyles: { [key: string]: SafeAny } = {};
 		for (const styleName in styles) {
 			switch (styleName) {
-				case 'backgroundImage':
-					newStyles[styleName] = styles[styleName] !== null ? (styles[styleName] as { val: string }).val : null;
-					break;
-				case 'backgroundColor':
-					if (!!styles[styleName]) {
-						// hex 转 rgb ，另外还需要 alpha
-						const rgb = hexToRgb(styles[styleName]);
-						newStyles[styleName] =
-							`rgba(${rgb?.r}, ${rgb?.g}, ${rgb?.b}, ${!!styles['backgroundColorAlpha'] ? styles['backgroundColorAlpha'] : 1})`;
-					} else {
-						newStyles[styleName] = 'transparent';
-					}
-					break;
-				case 'backgroundColorAlpha':
-					break;
+				// case 'backgroundImage':
+        //   console.log(`styles[styleName]`,styles, styleName, styles[styleName])
+				// 	newStyles[styleName] = styles[styleName] !== null ? (styles[styleName] as { val: string }).val : null;
+				// 	break;
 				case 'backgroundPositionX':
 				case 'backgroundPositionY':
 				case 'backgroundSize':
