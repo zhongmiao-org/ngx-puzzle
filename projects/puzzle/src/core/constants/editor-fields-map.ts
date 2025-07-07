@@ -25,14 +25,13 @@ export const EDITOR_FIELDS_MAP: {
 		],
 		styles: [
 			{ label: '背景颜色', key: 'backgroundColor', schemaType: 'color' },
-			{ label: '背景颜色透明度', key: 'backgroundColorAlpha', schemaType: 'number', step: 0.1, min: 0.1, max: 1 },
 			{
 				label: '背景图片',
 				key: 'backgroundImage',
 				schemaType: 'select-image',
 				options: [
 					{
-						val: `url("./image/background-images/background.png")`,
+						val: `url('http://gips2.baidu.com/it/u=195724436,3554684702&fm=3028&app=3028&f=JPEG&fmt=auto?w=1280&h=960')`,
 						label: `背景1`,
 					},
 					{

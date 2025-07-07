@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { BaseComponent } from '../base/base.component';
+import { NgxPuzzleCanvasBaseComponent } from '../base/ngx-puzzle-canvas-base.component';
 import { CdkDrag, CdkDragMove } from '@angular/cdk/drag-drop';
 import { PuzzleCanvasMediatorService } from 'ngx-puzzle/core/mediator/puzzle-canvas-mediator.service';
 import { ComponentConfig, ComponentTableProps } from 'ngx-puzzle/core/interfaces';
@@ -11,16 +11,16 @@ import { mainTypes, rowGroupingDisplayType, rowGroupPanelShowTypes, SafeAny } fr
 import { TableService } from 'ngx-puzzle/core/services/table.service';
 import { TABLE_DATA_OPTIONS } from 'ngx-puzzle/core/constants/table-mock.data';
 import { GridApi, GridReadyEvent, SideBarDef } from 'ag-grid-enterprise';
-import { DragWrapperComponent } from '../drag-wrapper/drag-wrapper.component';
+import { NgxPuzzleDragWrapperComponent } from '../drag-wrapper/ngx-puzzle-drag-wrapper.component';
 
 @Component({
 	selector: 'app-table',
 	standalone: true,
-	imports: [AgGridAngular, DragWrapperComponent],
-	templateUrl: './table.component.html',
-	styleUrl: './table.component.scss',
+	imports: [AgGridAngular, NgxPuzzleDragWrapperComponent],
+	templateUrl: './ngx-puzzle-table.component.html',
+	styleUrl: './ngx-puzzle-table.component.scss',
 })
-export class TableComponent extends BaseComponent<ComponentTableProps, TableTypesEnum> {
+export class NgxPuzzleTableComponent extends NgxPuzzleCanvasBaseComponent<ComponentTableProps, TableTypesEnum> {
 	@ViewChild(CdkDrag, { static: false }) private dragRef!: CdkDrag;
 	override dataKey: mainTypes = 'table';
 

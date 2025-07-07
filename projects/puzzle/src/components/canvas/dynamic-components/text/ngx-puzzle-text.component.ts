@@ -1,22 +1,22 @@
 import { Component } from '@angular/core';
-import { BaseComponent } from '../base/base.component';
+import { NgxPuzzleCanvasBaseComponent } from '../base/ngx-puzzle-canvas-base.component';
 import { ComponentConfig, ComponentTextProps } from 'ngx-puzzle/core/interfaces';
 import { PuzzleCanvasMediatorService } from 'ngx-puzzle/core/mediator/puzzle-canvas-mediator.service';
 import { CommonModule } from '@angular/common';
 import { TextTypesEnum } from 'ngx-puzzle/core/enums';
 import { mainTypes } from 'ngx-puzzle/core/types';
-import { DragWrapperComponent } from '../drag-wrapper/drag-wrapper.component';
+import { NgxPuzzleDragWrapperComponent } from '../drag-wrapper/ngx-puzzle-drag-wrapper.component';
 import { TEXT_DATA_OPTIONS } from 'ngx-puzzle/core/constants';
 import { StylesFormatPipe } from 'ngx-puzzle/pipes/styles-format.pipe';
 
 @Component({
 	selector: 'app-text',
 	standalone: true,
-	imports: [CommonModule, DragWrapperComponent, StylesFormatPipe],
-	templateUrl: './text.component.html',
-	styleUrl: './text.component.scss',
+	imports: [CommonModule, NgxPuzzleDragWrapperComponent, StylesFormatPipe],
+	templateUrl: './ngx-puzzle-text.component.html',
+	styleUrl: './ngx-puzzle-text.component.scss',
 })
-export class TextComponent extends BaseComponent<ComponentTextProps, TextTypesEnum> {
+export class NgxPuzzleTextComponent extends NgxPuzzleCanvasBaseComponent<ComponentTextProps, TextTypesEnum> {
 	override dataKey: mainTypes = 'text';
 
 	set config(config: ComponentConfig<ComponentTextProps, TextTypesEnum>) {
