@@ -61,7 +61,10 @@ export class NgxPuzzleDragWrapperComponent<TConfigProps extends ComponentBasePro
 	private setupObservables() {
 		this.mediator.componentMoving$.subscribe(({id, position}) => {
 			if (!this.isMoving && id === this.componentId()) {
+        console.log(`componentMoving$`, position);
 				this.position.set(position);
+        // todo 这里就很神奇，在其他版本就可以正常触发
+        this.updatePosition();
 			}
 		});
 
@@ -69,6 +72,8 @@ export class NgxPuzzleDragWrapperComponent<TConfigProps extends ComponentBasePro
 			if (!this.isMoving && config.id === this.componentId()) {
 				this.size.set(config.size);
 				this.position.set(config.position);
+        // todo 这里就很神奇，在其他版本就可以正常触发
+        this.updatePosition();
 			}
 		});
 
@@ -77,11 +82,11 @@ export class NgxPuzzleDragWrapperComponent<TConfigProps extends ComponentBasePro
 		});
 	}
 
-	// private updatePosition(): void {
-	// 	if (this.hasDragRef) {
-	// 		this.dragRef.setFreeDragPosition(this.position());
-	// 	}
-	// }
+	private updatePosition(): void {
+		if (this.hasDragRef) {
+			this.dragRef.setFreeDragPosition(this.position());
+		}
+	}
 
 	private getDragPosition(drag: CdkDrag): Position {
 		const { x, y } = drag.getFreeDragPosition();

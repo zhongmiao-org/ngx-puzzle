@@ -12,7 +12,7 @@ export const TEXT_CONTENT_FIELDS: EditorTextField = {
 	key: 'textContent',
 	path: 'textContent',
 	schemaType: 'group',
-	children: [
+	fields: [
 		{
 			label: '文本内容',
 			key: 'content',
@@ -28,7 +28,7 @@ export const TEXT_STYLE_FIELDS: EditorTextField = {
 	key: 'basicStyle',
 	path: 'basicStyle',
 	schemaType: 'group',
-	children: [
+	fields: [
 		{
 			label: '字体颜色',
 			key: 'color',

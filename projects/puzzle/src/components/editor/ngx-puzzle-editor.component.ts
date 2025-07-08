@@ -15,34 +15,22 @@ import {
   TableConfig,
   TextConfig
 } from 'ngx-puzzle/core/interfaces';
-import { basicTypes, mainTypes } from 'ngx-puzzle/core/types';
+import { basicTypes, editorTabTypes, mainTypes } from 'ngx-puzzle/core/types';
 import { Subject, takeUntil } from 'rxjs';
 import { BASE_TAB, DATA_TAB, EDITOR_FIELDS_MAP, STYLE_TAB } from 'ngx-puzzle/core/constants';
-import { ThyTab, ThyTabs, ThyTabsModule } from 'ngx-tethys/tabs';
+import { ThyTabsModule } from 'ngx-tethys/tabs';
 import { ThyIcon } from 'ngx-tethys/icon';
 import { cloneDeep } from 'lodash';
 import { AgChartOptions } from 'ag-charts-community';
 import { ThyLayoutModule } from 'ngx-tethys/layout';
 import { ThyGridModule } from 'ngx-tethys/grid';
-import { ThyFormGroup } from 'ngx-tethys/form';
-import { ThyInputDirective, ThyInputModule } from 'ngx-tethys/input';
+import { ThyInputModule } from 'ngx-tethys/input';
 import { ThyInputNumberModule } from 'ngx-tethys/input-number';
 import { ThyColorPickerModule } from 'ngx-tethys/color-picker';
 import { ThySelectModule } from 'ngx-tethys/select';
-
-// PrimeNG
-// import { Tabs, TabsModule } from 'primeng/tabs';
-// import { InputNumber } from 'primeng/inputnumber';
-// import { InputTextModule } from 'primeng/inputtext';
-// import { Subject, takeUntil } from 'rxjs';
-// import { BASE_TAB, DATA_TAB, EDITOR_FIELDS_MAP, STYLE_TAB } from 'ngx-puzzle/core/constants';
-// import { ColorPicker } from 'primeng/colorpicker';
-// import { Select } from 'primeng/select';
-// import { ChartEditorComponent } from 'app/components/editor/dynamic-editor/chart-editor/chart-editor.component';
-// import { AgChartOptions } from 'ag-charts-community';
-// import { cloneDeep } from 'lodash';
-// import { TableEditorComponent } from 'app/components/editor/dynamic-editor/table-editor/table-editor.component';
-// import { TextEditorComponent } from 'app/components/editor/dynamic-editor/text-editor/text-editor.component';
+import {
+  NgxPuzzleChartEditorComponent
+} from 'ngx-puzzle/components/editor/dynamic-editor/chart-editor/ngx-puzzle-chart-editor.component';
 
 @Component({
   selector: 'ngx-puzzle-editor, puzzle-editor',
@@ -57,7 +45,8 @@ import { ThySelectModule } from 'ngx-tethys/select';
     ThyColorPickerModule,
     ThyInputModule,
     NgStyle,
-    ThySelectModule
+    ThySelectModule,
+    NgxPuzzleChartEditorComponent
   ],
   templateUrl: './ngx-puzzle-editor.component.html',
   styleUrl: './ngx-puzzle-editor.component.scss',
@@ -88,6 +77,8 @@ export class NgxPuzzleEditorComponent implements OnInit, AfterViewInit, OnDestro
   };
 
   public tabs: EditorTab[] = [];
+
+  public activeTab: editorTabTypes = 'appearance';
 
   constructor() {}
 
@@ -121,6 +112,7 @@ export class NgxPuzzleEditorComponent implements OnInit, AfterViewInit, OnDestro
         break;
     }
     console.log(this.tabs);
+    this.activeTab = 'appearance';
     // this.tabComponent.value.set(`appearance`);
   }
 
@@ -192,25 +184,26 @@ export class NgxPuzzleEditorComponent implements OnInit, AfterViewInit, OnDestro
     this.formData.height = size.height;
   }
 
-  basicDataChange(val: number | string, field: basicTypes): void {
+  basicDataChange(val: number, field: basicTypes): void {
+    console.log(val);
     const config = cloneDeep(this.config);
     let actionType: 'resize' | 'move' | null = null;
 
     switch (field) {
       case 'width':
-        this.config.size.width = +val;
+        this.config.size.width = val;
         actionType = 'resize';
         break;
       case 'height':
-        this.config.size.height = +val;
+        this.config.size.height = val;
         actionType = 'resize';
         break;
       case 'positionX':
-        this.config.position.x = +val;
+        this.config.position.x = val;
         actionType = 'move';
         break;
       case 'positionY':
-        this.config.position.y = +val;
+        this.config.position.y = val;
         actionType = 'move';
         break;
     }

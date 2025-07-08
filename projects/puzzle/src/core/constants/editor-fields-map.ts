@@ -140,4 +140,4 @@ export const BASE_TAB: EditorTab = { title: '外观', value: 'appearance', icon:
 
 export const DATA_TAB: EditorTab = { title: '数据', value: 'advanced', icon: 'editor:advanced-settings' };
 
-export const STYLE_TAB: EditorTab = { title: '样式', value: 'text', icon: 'editor:text-settings' };
+export const STYLE_TAB: EditorTab = { title: '样式', value: 'styles', icon: 'editor:text-settings' };

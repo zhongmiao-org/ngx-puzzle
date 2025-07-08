@@ -52,7 +52,7 @@ export const TABLE_DEFAULT_COL_DEF: EditorTableField = {
 	key: 'defaultColDef',
 	path: 'defaultColDef',
 	schemaType: 'group',
-	children: [
+	fields: [
 		{
 			label: '栅格占位',
 			key: 'flex',
@@ -94,7 +94,7 @@ export const TABLE_PANEL_DEF: EditorTableField = {
 	key: '',
 	path: '',
 	schemaType: 'group',
-	children: [
+	fields: [
 		{
 			label: '行面板展示',
 			description: '只有当列分组后才会生效',
@@ -133,7 +133,7 @@ export const TABLE_SIDE_BAR_DEF: EditorTableField = {
 	key: '',
 	path: '',
 	schemaType: 'group',
-	children: [
+	fields: [
 		{
 			label: '侧边栏',
 			description: '选择【过滤器侧栏】时，请在【通用列设置】中启用【筛选器】',

@@ -9,13 +9,13 @@ export function convertFormDataToOptions<TOptions, TEditorField extends EditorBa
 
 	const processFields = (fields: any[], formData: Record<string, any>, options: TOptions) => {
 		for (const field of fields) {
-			if (field.schemaType === 'group' && field.children) {
-				processFields(field.children, formData, options);
+			if (field.schemaType === 'group' && field.fields) {
+				processFields(field.fields, formData, options);
 			} else if (field.schemaType === 'array') {
 				const arrayForm = formData[field.key] || [];
 				const arrayValue = arrayForm.map((itemForm: any) => {
 					const item: Record<string, any> = {};
-					for (const itemField of field.itemSchema || []) {
+					for (const itemField of field.fields || []) {
 						// 没有值就不赋值了
 						const value = itemForm[itemField.key];
 						if (
@@ -40,9 +40,14 @@ export function convertFormDataToOptions<TOptions, TEditorField extends EditorBa
 		}
 	};
 
-	for (const group of editorFields) {
-		if (!group?.children) continue;
-		processFields(group.children, form, newOptions);
+	for (const field of editorFields) {
+		if (field.schemaType === 'group' && field.fields) {
+			// Handle group fields with children
+			processFields(field.fields, form, newOptions);
+		} else if (field.schemaType === 'array') {
+			// Handle direct fields (like series and axes) that don't have children
+			processFields([field], form, newOptions);
+		}
 	}
 
 	return newOptions;
@@ -56,13 +61,13 @@ export function convertOptionsToFormData<TOptions, TEditorField extends EditorBa
 
 	const processFields = (fields: any[], formData: Record<string, any>) => {
 		for (const field of fields) {
-			if (field.schemaType === 'group' && field.children) {
-				processFields(field.children, formData);
+			if (field.schemaType === 'group' && field.fields) {
+				processFields(field.fields, formData);
 			} else if (field.schemaType === 'array') {
 				const arrayData = getOptionValue(field.path!, options) || [];
 				formData[field.key] = arrayData.map((item: any) => {
 					const itemForm: Record<string, any> = {};
-					for (const itemField of field.itemSchema || []) {
+					for (const itemField of field.fields || []) {
 						if (itemField.path?.includes('.')) {
 							// 嵌套路径
 							itemForm[itemField.key] = getOptionValue(itemField.path!, item);
@@ -78,9 +83,14 @@ export function convertOptionsToFormData<TOptions, TEditorField extends EditorBa
 		}
 	};
 
-	for (const group of editorFields) {
-		if (!group?.children) continue;
-		processFields(group.children, form);
+	for (const field of editorFields) {
+		if (field.schemaType === 'group' && field.fields) {
+			// Handle group fields with children
+			processFields(field.fields, form);
+		} else if (field.schemaType === 'array') {
+			// Handle direct fields (like series and axes) that don't have children
+			processFields([field], form);
+		}
 	}
 	return form;
 }
@@ -108,7 +118,6 @@ export function updateFormData(
 ): Record<string, any> {
 	// 先复制一份当前表单数据（或 _options）用于更新
 	let updatedFormData = { ...formData };
-
 	if (parentKey !== undefined && index !== undefined) {
 		// 更新数组字段中的某项的某个字段
 		const arrayCopy = [...updatedFormData[parentKey]]; // 克隆数组
