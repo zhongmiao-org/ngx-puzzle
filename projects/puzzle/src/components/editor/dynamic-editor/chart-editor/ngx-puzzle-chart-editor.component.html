@@ -6,7 +6,9 @@
           <thy-card thyDivided="true">
             <thy-card-header [thyTitle]="group.label + ' - ' + (i + 1)">
               <ng-template #headerOperation>
-                <button thyButtonIcon="close"></button>
+                @if(group.key === 'series' && i !== 0  && !!group?.removeActive) {
+                  <button thyButtonIcon="close"></button>
+                }
               </ng-template>
             </thy-card-header>
             <thy-card-content>
@@ -35,10 +37,10 @@
                           (ngModelChange)="onFormFieldChange(field.key, $event, group.key, i)"
                         />
                       }
-                      @case('color') {
+                      @case ('color') {
                         <div
                           class="color-picker-box"
-                          [ngStyle]="{ backgroundColor: formData[group.key][i][field.key]}"
+                          [ngStyle]="{ backgroundColor: formData[group.key][i][field.key] }"
                           thyColorPicker
                           [thyOffset]="10"
                           [(ngModel)]="formData[group.key][i][field.key]"
@@ -51,8 +53,7 @@
                           (ngModelChange)="onFormFieldChange(field.key, $event, group.key, i)"
                         >
                           @for (option of field.options; track option.val) {
-                            <thy-option [thyRawValue]="option" [thyValue]="option.val" [thyLabelText]="option.label">
-                            </thy-option>
+                            <thy-option [thyRawValue]="option" [thyValue]="option.val" [thyLabelText]="option.label"> </thy-option>
                           }
                         </thy-select>
                       }
@@ -64,10 +65,54 @@
           </thy-card>
           <!--            <div [thyCol]="12"></div>-->
         }
-      } @else {
-        @for (field of group.fields; track field.key) {
-          普通系列
+        @if (group.key === 'series' && group?.hasAdd !== false) {
+          <div thyRow>
+            <button thyButton="primary" (click)="addArrayItem(group.key, group.fields!)" thyIcon="plus">添加系列</button>
+          </div>
         }
+      } @else {
+        <div thyRow [thyGutter]="16">
+          @for (field of group.fields; track field.key) {
+            <div [thyCol]="12" class="mb-2">
+              <label class="form-label">
+                {{ field.label }}
+              </label>
+              @switch (field.schemaType) {
+                @case ('number') {
+                  <thy-input-number
+                    [(ngModel)]="formData[field.key]"
+                    [thyMin]="field?.min || 0"
+                    [thyMax]="field?.max || 9999"
+                    [thyStep]="field?.step || 1"
+                    [thySize]="'sm'"
+                    [thySuffix]="field?.suffix || ''"
+                    (ngModelChange)="onFormFieldChange(field.key, $event)"
+                  />
+                }
+                @case ('text') {
+                  <input thyInput [(ngModel)]="formData[field.key]" (ngModelChange)="onFormFieldChange(field.key, $event)" />
+                }
+                @case ('color') {
+                  <div
+                    class="color-picker-box"
+                    [ngStyle]="{ backgroundColor: formData[field.key] }"
+                    thyColorPicker
+                    [thyOffset]="10"
+                    [(ngModel)]="formData[field.key]"
+                    (ngModelChange)="onFormFieldChange(field.key, $event)"
+                  ></div>
+                }
+                @case ('select') {
+                  <thy-select [(ngModel)]="formData[field.key]" (ngModelChange)="onFormFieldChange(field.key, $event)">
+                    @for (option of field.options; track option.val) {
+                      <thy-option [thyRawValue]="option" [thyValue]="option.val" [thyLabelText]="option.label"> </thy-option>
+                    }
+                  </thy-select>
+                }
+              }
+            </div>
+          }
+        </div>
       }
     </thy-collapse-item>
   }

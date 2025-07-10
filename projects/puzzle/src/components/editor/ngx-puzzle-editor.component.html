@@ -1,6 +1,7 @@
 <div class="ngx-puzzle-editor-component">
+  {{activeTab}}
   <thy-tabs [thyActiveTab]="activeTab">
-    @for (tab of tabs; track tab.value) {
+    @for (tab of tabs; let i = $index; track i) {
       <thy-tab [id]="tab.value">
         <ng-template #title>
           <thy-icon [thyIconName]="tab.icon"></thy-icon>

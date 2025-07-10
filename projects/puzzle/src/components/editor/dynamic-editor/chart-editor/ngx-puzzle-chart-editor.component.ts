@@ -70,10 +70,9 @@ import { cloneDeep } from 'lodash';
 import { convertFormDataToOptions, convertOptionsToFormData, updateFormData } from 'ngx-puzzle/utils';
 import { ThyCollapseModule } from 'ngx-tethys/collapse';
 import { ThyCardModule } from 'ngx-tethys/card';
-import { ThyButtonIcon, ThyButtonModule } from 'ngx-tethys/button';
-import { ThyLayout } from 'ngx-tethys/layout';
+import { ThyButtonModule } from 'ngx-tethys/button';
 import { ThyColDirective, ThyRowDirective } from 'ngx-tethys/grid';
-import { JsonPipe, NgStyle } from '@angular/common';
+import { NgStyle } from '@angular/common';
 import { ThyInputNumber } from 'ngx-tethys/input-number';
 import { FormsModule } from '@angular/forms';
 import { ThyInputDirective } from 'ngx-tethys/input';
@@ -92,7 +91,21 @@ ModuleRegistry.registerModules([
 @Component({
   selector: 'ngx-puzzle-chart-editor',
   standalone: true,
-  imports: [AgGridModule, ThyCollapseModule, ThyCardModule, ThyButtonModule, ThyRowDirective, ThyColDirective, JsonPipe, ThyInputNumber, FormsModule, ThyInputDirective, ThyColorPickerDirective, NgStyle, ThyOption, ThySelect],
+  imports: [
+    AgGridModule,
+    ThyCollapseModule,
+    ThyCardModule,
+    ThyButtonModule,
+    ThyRowDirective,
+    ThyColDirective,
+    ThyInputNumber,
+    FormsModule,
+    ThyInputDirective,
+    ThyColorPickerDirective,
+    NgStyle,
+    ThyOption,
+    ThySelect
+  ],
   templateUrl: './ngx-puzzle-chart-editor.component.html',
   styleUrl: './ngx-puzzle-chart-editor.component.scss'
 })
@@ -150,7 +163,7 @@ export class NgxPuzzleChartEditorComponent {
       if (opts) {
         this._options = opts;
         this.formData = convertOptionsToFormData(opts, this.chartFields);
-        console.log(`this.form---->`, this.formData)
+        console.log(`this.form---->`, this.formData);
       }
     });
   }
@@ -398,7 +411,7 @@ export class NgxPuzzleChartEditorComponent {
     this.formData = updateFormData(this.formData, key, value, parentKey, index);
     // 转换为 _options
     this._options = convertFormDataToOptions(this.formData, this._options, this.chartFields);
-    console.log(this._options)
+    console.log(this._options);
     // 触发变更
     this.onChange.emit(this._options);
   }
@@ -553,5 +566,4 @@ export class NgxPuzzleChartEditorComponent {
     // 触发变更
     this.onChange.emit(this._options);
   }
-
 }

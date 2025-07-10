@@ -112,7 +112,8 @@ export class NgxPuzzleEditorComponent implements OnInit, AfterViewInit, OnDestro
         break;
     }
     console.log(this.tabs);
-    this.activeTab = 'appearance';
+    console.log(this.activeTab);
+    this.activeTab = this.tabs[0].value;
     // this.tabComponent.value.set(`appearance`);
   }
 
