@@ -44,6 +44,7 @@ export class NgxPuzzleChartComponent extends NgxPuzzleCanvasBaseComponent<Compon
   }
 
   getDefaultOptions(subType: ChartTypesEnum) {
+    console.log(`getDefaultOptions --->`, CHART_DATA_OPTIONS[subType])
     return CHART_DATA_OPTIONS[subType];
   }
 }
