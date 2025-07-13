@@ -36,7 +36,7 @@ export class NgxPuzzlePanelComponent implements OnInit, AfterViewInit {
     ngOnInit() {}
 
     ngAfterViewInit() {
-        this.canvasElement = document.getElementById('canvas') as HTMLElement;
+        this.canvasElement = document.getElementById('puzzle-canvas') as HTMLElement;
         this.canvasContainer = document.getElementById('canvas-container') as HTMLElement;
     }
 

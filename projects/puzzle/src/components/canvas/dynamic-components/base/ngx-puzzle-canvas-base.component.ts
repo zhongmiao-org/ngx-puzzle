@@ -8,7 +8,7 @@ import { SafeAny } from 'ngx-tethys/types';
 @Component({
 	template: ``,
 })
-export abstract class BaseComponent<TConfigProps extends ComponentBaseProps = ComponentBaseProps, TSubType = string> implements OnDestroy {
+export abstract class NgxPuzzleCanvasBaseComponent<TConfigProps extends ComponentBaseProps = ComponentBaseProps, TSubType = string> implements OnDestroy {
 	protected _config!: ComponentConfig<TConfigProps, TSubType>;
 	protected _isEdit: boolean = true;
 	protected abstract readonly dataKey: mainTypes;

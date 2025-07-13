@@ -1,13 +1,14 @@
 import { basicTypes, fieldComponentTypes, editorTabTypes, SafeAny } from '../types';
 import { ChartAxesTypesEnum } from '../enums';
 
-export interface EditorBaseField<TEditorField extends EditorBaseField = SafeAny> {
+export interface EditorBaseField<TField extends EditorBaseField = SafeAny> {
 	label: string;
 	key: string;
 	schemaType: fieldComponentTypes;
 	path?: string;
 	description?: string;
-	children?: EditorBaseField<TEditorField>[];
+  fields?: TField[];
+  options?: BaseSelectOption[];
 	// number
 	step?: number;
 	min?: number;
@@ -21,36 +22,26 @@ export interface EditorFields extends EditorBaseField {
 }
 
 // 图表组件字段
-export interface EditorChartField extends EditorBaseField {
-	path: string;
-	options?: BaseSelectOption[];
-	itemSchema?: EditorChartArraySchema[]; // 用于数组项字段
-	children?: EditorChartField[]; // 分组字段，用于 UI 分层展示
+export interface EditorChartField extends EditorBaseField<EditorChartArraySchema> {
 	hasAdd?: boolean;
 	removeActive?: boolean;
 }
 
 // 图表组件数组项
 export interface EditorChartArraySchema extends EditorBaseField {
-	schemaType: fieldComponentTypes;
-	options?: BaseSelectOption[]
 	disabled?: boolean;
 	belong?: ChartAxesTypesEnum[];
 }
 
 // 表格组件字段
-export interface EditorTableField<TData = any> extends EditorBaseField {
+export interface EditorTableField<TData = any> extends EditorBaseField<EditorTableField> {
 	headerSetting?: EditorTableHeader[];
 	rowData?: TData[];
-	children?: EditorTableField[];
 	options?: BaseSelectOption[];
 }
 
 // 文本样式
-export interface EditorTextField extends EditorBaseField {
-	key: string;
-	options?: BaseSelectOption[];
-	children?: EditorTextField[];
+export interface EditorTextField extends EditorBaseField<EditorTextField> {
 }
 
 export interface EditorTableHeader {

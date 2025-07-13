@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { AbstractComponentFactory } from '../factories/abstract-component-factory';
-// import { ChartFactoryService } from '../factories/concrete/chart-factory.service';
 import { ComponentBaseProps, ComponentConfig, Position, Size } from '../interfaces';
-// import { TableFactoryService } from '../factories/concrete/table-factory.service';
-// import { TextFactoryService } from '../factories/concrete/text-factory.service';
 import { mainTypes } from '../types';
 import { INIT_SETTINGS_CONFIG } from '../constants';
+import { NgxPuzzleChartFactoryService } from 'ngx-puzzle/core/factories/concrete/ngx-puzzle-chart-factory.service';
+import { NgxPuzzleTableFactoryService } from 'ngx-puzzle/core/factories/concrete/ngx-puzzle-table-factory.service';
+import { NgxPuzzleTextFactoryService } from 'ngx-puzzle/core/factories/concrete/ngx-puzzle-text-factory.service';
 
 @Injectable({ providedIn: 'root' })
 export class PuzzleComponentRegistryService<TConfigProps extends ComponentBaseProps = ComponentBaseProps, TSubType = string> {
@@ -13,14 +13,14 @@ export class PuzzleComponentRegistryService<TConfigProps extends ComponentBasePr
 	private components: Map<string, ComponentConfig<TConfigProps, TSubType>> = new Map<string, ComponentConfig<TConfigProps, TSubType>>();
 
 	constructor(
-        // chartFactory: ChartFactoryService,
-        // tableFactory: TableFactoryService,
-        // textFactory: TextFactoryService
+        chartFactory: NgxPuzzleChartFactoryService,
+        tableFactory: NgxPuzzleTableFactoryService,
+        textFactory: NgxPuzzleTextFactoryService
     ) {
 		this.components.set('canvas', INIT_SETTINGS_CONFIG['canvas'] as ComponentConfig<TConfigProps, TSubType>);
-		// this.factories['chart'] = chartFactory;
-		// this.factories['table'] = tableFactory;
-		// this.factories['text'] = textFactory;
+		this.factories['chart'] = chartFactory;
+		this.factories['table'] = tableFactory;
+    this.factories['text'] = textFactory;
 	}
 
 	getFactory(type: mainTypes): AbstractComponentFactory {

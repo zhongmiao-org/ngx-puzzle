@@ -11,10 +11,10 @@ import { PuzzleCanvasMediatorService } from 'ngx-puzzle/core/mediator/puzzle-can
 	selector: 'app-drag-wrapper',
 	standalone: true,
 	imports: [CommonModule, StylesFormatPipe, CdkDrag],
-	templateUrl: './drag-wrapper.component.html',
-	styleUrl: './drag-wrapper.component.scss',
+	templateUrl: './ngx-puzzle-drag-wrapper.component.html',
+	styleUrl: './ngx-puzzle-drag-wrapper.component.scss',
 })
-export class DragWrapperComponent<TConfigProps extends ComponentBaseProps = ComponentBaseProps, TSubType = string>
+export class NgxPuzzleDragWrapperComponent<TConfigProps extends ComponentBaseProps = ComponentBaseProps, TSubType = string>
 	implements AfterViewInit, OnDestroy
 {
 	@ViewChild(CdkDrag, { static: false }) private dragRef!: CdkDrag;
@@ -61,7 +61,10 @@ export class DragWrapperComponent<TConfigProps extends ComponentBaseProps = Comp
 	private setupObservables() {
 		this.mediator.componentMoving$.subscribe(({id, position}) => {
 			if (!this.isMoving && id === this.componentId()) {
+        console.log(`componentMoving$`, position);
 				this.position.set(position);
+        // todo 这里就很神奇，在其他版本就可以正常触发
+        this.updatePosition();
 			}
 		});
 
@@ -69,6 +72,8 @@ export class DragWrapperComponent<TConfigProps extends ComponentBaseProps = Comp
 			if (!this.isMoving && config.id === this.componentId()) {
 				this.size.set(config.size);
 				this.position.set(config.position);
+        // todo 这里就很神奇，在其他版本就可以正常触发
+        this.updatePosition();
 			}
 		});
 
@@ -77,11 +82,11 @@ export class DragWrapperComponent<TConfigProps extends ComponentBaseProps = Comp
 		});
 	}
 
-	// private updatePosition(): void {
-	// 	if (this.hasDragRef) {
-	// 		this.dragRef.setFreeDragPosition(this.position());
-	// 	}
-	// }
+	private updatePosition(): void {
+		if (this.hasDragRef) {
+			this.dragRef.setFreeDragPosition(this.position());
+		}
+	}
 
 	private getDragPosition(drag: CdkDrag): Position {
 		const { x, y } = drag.getFreeDragPosition();
