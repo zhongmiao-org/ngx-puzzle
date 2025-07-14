@@ -1,4 +1,4 @@
-import { scatterChartOptionMap } from 'ngx-puzzle/core/constants';
+// import { scatterChartOptionMap } from 'ngx-puzzle/core/constants';
 import { LabelFormatterEnum } from 'ngx-puzzle/core/enums';
 
 export function getTranslate3dValues(element: HTMLElement): { x: number; y: number } {
@@ -37,21 +37,21 @@ export function generateUUID(): string {
     });
 }
 
-export function updateCharts(option: any) {
-    const newOption = structuredClone(option);
-    for (const key in newOption) {
-        // 轴设置需要格式化函数
-        if (newOption.hasOwnProperty(key) && key === 'axes') {
-            (newOption['axes'] as any[]).forEach((axes: any, index: number) => {
-                if (axes?.label?.formatter) {
-                    newOption['axes'][index].label.formatter = scatterChartOptionMap[axes.label.formatter as LabelFormatterEnum];
-                }
-            });
-        }
-    }
-
-    return newOption;
-}
+// export function updateCharts(option: any) {
+//     const newOption = structuredClone(option);
+//     for (const key in newOption) {
+//         // 轴设置需要格式化函数
+//         if (newOption.hasOwnProperty(key) && key === 'axes') {
+//             (newOption['axes'] as any[]).forEach((axes: any, index: number) => {
+//                 if (axes?.label?.formatter) {
+//                     newOption['axes'][index].label.formatter = scatterChartOptionMap[axes.label.formatter as LabelFormatterEnum];
+//                 }
+//             });
+//         }
+//     }
+//
+//     return newOption;
+// }
 
 export function validationEnum<T extends Record<string | number, string | number>>(enumObj: T, value: unknown): boolean {
     const enumValues = Object.values(enumObj);

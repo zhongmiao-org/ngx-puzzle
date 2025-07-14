@@ -21,7 +21,7 @@ import { BASE_TAB, DATA_TAB, EDITOR_FIELDS_MAP, STYLE_TAB } from 'ngx-puzzle/cor
 import { ThyTabsModule } from 'ngx-tethys/tabs';
 import { ThyIcon } from 'ngx-tethys/icon';
 import { cloneDeep } from 'lodash';
-import { AgChartOptions } from 'ag-charts-community';
+// import { AgChartOptions } from 'ag-charts-community';
 import { ThyLayoutModule } from 'ngx-tethys/layout';
 import { ThyGridModule } from 'ngx-tethys/grid';
 import { ThyInputModule } from 'ngx-tethys/input';
@@ -31,6 +31,7 @@ import { ThySelectModule } from 'ngx-tethys/select';
 import {
   NgxPuzzleChartEditorComponent
 } from 'ngx-puzzle/components/editor/dynamic-editor/chart-editor/ngx-puzzle-chart-editor.component';
+import { EChartsCoreOption } from 'echarts';
 
 @Component({
   selector: 'ngx-puzzle-editor, puzzle-editor',
@@ -230,7 +231,7 @@ export class NgxPuzzleEditorComponent implements OnInit, AfterViewInit, OnDestro
     this.emitUpdate();
   }
 
-  updateOptions(options: AgChartOptions | TableConfig | TextConfig, type: mainTypes): void {
+  updateOptions(options: EChartsCoreOption | TableConfig | TextConfig, type: mainTypes): void {
     switch (type) {
       case 'chart':
         this.config = {

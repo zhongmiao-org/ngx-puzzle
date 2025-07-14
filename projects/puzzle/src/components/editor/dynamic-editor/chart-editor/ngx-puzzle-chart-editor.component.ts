@@ -1,5 +1,5 @@
 import { Component, effect, HostBinding, input, output } from '@angular/core';
-import { AgChartOptions } from 'ag-charts-community';
+// import { AgChartOptions } from 'ag-charts-community';
 import { EditorChartArraySchema, EditorChartData, EditorChartField } from 'ngx-puzzle/core/interfaces';
 import {
   AREA_SERIES,
@@ -53,19 +53,19 @@ import {
   TREEMAP_SERIES,
   WATERFALL_SERIES
 } from 'ngx-puzzle/core/constants/chart-editor-fields-map';
-import { AgGridAngular, AgGridModule } from 'ag-grid-angular';
-import {
-  ClientSideRowModelApiModule,
-  ClientSideRowModelModule,
-  ColDef,
-  GridOptions,
-  ModuleRegistry,
-  NumberEditorModule,
-  TextEditorModule,
-  ValidationModule
-} from 'ag-grid-community';
+// import { AgGridAngular, AgGridModule } from 'ag-grid-angular';
+// import {
+//   ClientSideRowModelApiModule,
+//   ClientSideRowModelModule,
+//   ColDef,
+//   GridOptions,
+//   ModuleRegistry,
+//   NumberEditorModule,
+//   TextEditorModule,
+//   ValidationModule
+// } from 'ag-grid-community';
 import { ChartTypesEnum, Is } from 'ngx-puzzle/core/enums';
-import { AgScatterSeriesOptions } from 'ag-charts-enterprise';
+// import { AgScatterSeriesOptions } from 'ag-charts-enterprise';
 import { cloneDeep } from 'lodash';
 import { convertFormDataToOptions, convertOptionsToFormData, updateFormData } from 'ngx-puzzle/utils';
 import { ThyCollapseModule } from 'ngx-tethys/collapse';
@@ -79,20 +79,13 @@ import { ThyInputDirective } from 'ngx-tethys/input';
 import { ThyColorPickerDirective } from 'ngx-tethys/color-picker';
 import { ThyOption } from 'ngx-tethys/shared';
 import { ThySelect } from 'ngx-tethys/select';
+import { EChartsCoreOption } from 'echarts';
 
-ModuleRegistry.registerModules([
-  NumberEditorModule,
-  TextEditorModule,
-  ClientSideRowModelApiModule,
-  ClientSideRowModelModule,
-  ValidationModule
-]);
 
 @Component({
   selector: 'ngx-puzzle-chart-editor',
   standalone: true,
   imports: [
-    AgGridModule,
     ThyCollapseModule,
     ThyCardModule,
     ThyButtonModule,
@@ -112,10 +105,10 @@ ModuleRegistry.registerModules([
 export class NgxPuzzleChartEditorComponent {
   @HostBinding('class.editor-component') isEditorComponent = true;
 
-  options = input<AgChartOptions>();
+  options = input<EChartsCoreOption>();
   subType = input<ChartTypesEnum | string>(ChartTypesEnum.bar);
 
-  readonly onChange = output<AgChartOptions>();
+  readonly onChange = output<EChartsCoreOption>();
 
   private rowBufferData!: any[];
   private bufferSeriesData = {
@@ -123,28 +116,28 @@ export class NgxPuzzleChartEditorComponent {
     index: 0
   };
   private treeKey: string = '';
-  private _options!: AgChartOptions;
+  private _options!: EChartsCoreOption;
   public chartType!: ChartTypesEnum;
 
   public chartFields: EditorChartField[] = [];
   public formData: Record<string, any> = {};
   public visible: boolean = false;
-  public defaultColDef: ColDef = {
-    editable: true
-  };
+  // public defaultColDef: ColDef = {
+  //   editable: true
+  // };
   public rowData: any[] = [];
-  public columnDefs: ColDef[] = [];
+  // public columnDefs: ColDef[] = [];
 
-  public gridOptions: GridOptions = {
-    treeData: true,
-    animateRows: true,
-    getDataPath: (data) => this.getDataPath(data),
-    autoGroupColumnDef: undefined
-  };
+  // public gridOptions: GridOptions = {
+  //   treeData: true,
+  //   animateRows: true,
+  //   // getDataPath: (data) => this.getDataPath(data),
+  //   autoGroupColumnDef: undefined
+  // };
 
-  get processedRowData() {
-    return this.processTreeData(this._options.data!);
-  }
+  // get processedRowData() {
+  //   return this.processTreeData(this._options.data!);
+  // }
 
   get isTreeData(): boolean {
     return this.chartType === ChartTypesEnum.sunburst || this.chartType === ChartTypesEnum.treemap;
@@ -152,7 +145,7 @@ export class NgxPuzzleChartEditorComponent {
 
   constructor() {
     effect(() => {
-      const opts = this.options() as AgChartOptions;
+      const opts = this.options() as EChartsCoreOption;
       const type = this.subType() as ChartTypesEnum;
 
       console.log(`effect`, opts, type);
@@ -428,105 +421,105 @@ export class NgxPuzzleChartEditorComponent {
     this.formData[key].push(item);
   }
 
-  openData() {
-    if (this.isTreeData) {
-      this.visible = true;
-      const fieldKey = this.formData['series'][0]['labelKey'];
-      this.treeKey = fieldKey;
-      this.columnDefs = this.generateColumnDefs(this._options.data!, fieldKey);
-    } else {
-      this.columnDefs = this.getCols(this._options.data?.[0]);
-      this.rowData = this._options.data!;
-      this.rowBufferData = cloneDeep(this.rowData);
-      this.visible = true;
-    }
-  }
-
-  openSeriesData(data: EditorChartData[], index: number): void {
-    this.bufferSeriesData.is = Is.yes;
-    this.bufferSeriesData.index = index;
-    this.columnDefs = this.getCols(data[0]);
-    this.rowData = data;
-    this.rowBufferData = cloneDeep(this.rowData);
-    this.visible = true;
-  }
-
-  cancel(): void {
-    if (this.isTreeData) {
-      this.visible = false;
-      return;
-    }
-    if (this.bufferSeriesData.is === Is.yes) {
-      (this._options.series as AgScatterSeriesOptions[])[this.bufferSeriesData.index].data = this.rowBufferData;
-      this.bufferSeriesData.is = Is.no;
-    } else {
-      this._options.data = this.rowBufferData;
-    }
-    this.rowBufferData = [];
-    this.rowData = [];
-    this.visible = false;
-  }
-
-  confirm(): void {
-    if (this.isTreeData) {
-      this.visible = false;
-      return;
-    }
-    if (this.bufferSeriesData.is === Is.yes) {
-      (this._options.series as AgScatterSeriesOptions[])[this.bufferSeriesData.index].data = this.rowData;
-      this.formData['series'][this.bufferSeriesData.index]['data'] = this.rowData;
-      this.bufferSeriesData.is = Is.no;
-    } else {
-      this._options.data = this.rowData;
-    }
-    this.rowBufferData = [];
-    this.rowData = [];
-    this.visible = false;
-    setTimeout(() => {
-      this.onChange.emit(this._options);
-    });
-  }
-
-  getCols(data: EditorChartData): ColDef[] {
-    let cols: ColDef[] = [];
-    for (const key in data) {
-      cols.push({
-        field: key
-      });
-    }
-    return cols;
-  }
-
-  /**
-   * 自动根据数据生成 ag-Grid 的 columnDefs
-   * @param data 任意一组数据（数组）
-   * @param treeField 指定哪个字段作为树形分组字段，默认是 'name'
-   */
-  generateColumnDefs(data: any[], treeField = 'name'): ColDef[] {
-    if (!data || data.length === 0) return [];
-
-    const flat = this.flattenTree(data);
-    const allKeys = new Set<string>();
-    flat.forEach((item) => Object.keys(item).forEach((k) => allKeys.add(k)));
-
-    const columnDefs: ColDef[] = [];
-    allKeys.forEach((key) => {
-      if (key === '__parent' || key === 'children') return;
-
-      const colDef: ColDef = {
-        field: key,
-        headerName: key,
-        flex: 1
-      };
-
-      columnDefs.push(colDef);
-    });
-
-    // 始终把 treeField 放第一列
-    columnDefs.sort((a, b) => (a.field === treeField ? -1 : b.field === treeField ? 1 : 0));
-
-    return columnDefs;
-  }
+  // openData() {
+  //   if (this.isTreeData) {
+  //     this.visible = true;
+  //     const fieldKey = this.formData['series'][0]['labelKey'];
+  //     this.treeKey = fieldKey;
+  //     this.columnDefs = this.generateColumnDefs(this._options.data!, fieldKey);
+  //   } else {
+  //     this.columnDefs = this.getCols(this._options.data?.[0]);
+  //     this.rowData = this._options.data!;
+  //     this.rowBufferData = cloneDeep(this.rowData);
+  //     this.visible = true;
+  //   }
+  // }
+  //
+  // openSeriesData(data: EditorChartData[], index: number): void {
+  //   this.bufferSeriesData.is = Is.yes;
+  //   this.bufferSeriesData.index = index;
+  //   this.columnDefs = this.getCols(data[0]);
+  //   this.rowData = data;
+  //   this.rowBufferData = cloneDeep(this.rowData);
+  //   this.visible = true;
+  // }
+  //
+  // cancel(): void {
+  //   if (this.isTreeData) {
+  //     this.visible = false;
+  //     return;
+  //   }
+  //   if (this.bufferSeriesData.is === Is.yes) {
+  //     (this._options.series as AgScatterSeriesOptions[])[this.bufferSeriesData.index].data = this.rowBufferData;
+  //     this.bufferSeriesData.is = Is.no;
+  //   } else {
+  //     this._options.data = this.rowBufferData;
+  //   }
+  //   this.rowBufferData = [];
+  //   this.rowData = [];
+  //   this.visible = false;
+  // }
+  //
+  // confirm(): void {
+  //   if (this.isTreeData) {
+  //     this.visible = false;
+  //     return;
+  //   }
+  //   if (this.bufferSeriesData.is === Is.yes) {
+  //     (this._options.series as AgScatterSeriesOptions[])[this.bufferSeriesData.index].data = this.rowData;
+  //     this.formData['series'][this.bufferSeriesData.index]['data'] = this.rowData;
+  //     this.bufferSeriesData.is = Is.no;
+  //   } else {
+  //     this._options.data = this.rowData;
+  //   }
+  //   this.rowBufferData = [];
+  //   this.rowData = [];
+  //   this.visible = false;
+  //   setTimeout(() => {
+  //     this.onChange.emit(this._options);
+  //   });
+  // }
+  //
+  // getCols(data: EditorChartData): ColDef[] {
+  //   let cols: ColDef[] = [];
+  //   for (const key in data) {
+  //     cols.push({
+  //       field: key
+  //     });
+  //   }
+  //   return cols;
+  // }
+  //
+  // /**
+  //  * 自动根据数据生成 ag-Grid 的 columnDefs
+  //  * @param data 任意一组数据（数组）
+  //  * @param treeField 指定哪个字段作为树形分组字段，默认是 'name'
+  //  */
+  // generateColumnDefs(data: any[], treeField = 'name'): ColDef[] {
+  //   if (!data || data.length === 0) return [];
+  //
+  //   const flat = this.flattenTree(data);
+  //   const allKeys = new Set<string>();
+  //   flat.forEach((item) => Object.keys(item).forEach((k) => allKeys.add(k)));
+  //
+  //   const columnDefs: ColDef[] = [];
+  //   allKeys.forEach((key) => {
+  //     if (key === '__parent' || key === 'children') return;
+  //
+  //     const colDef: ColDef = {
+  //       field: key,
+  //       headerName: key,
+  //       flex: 1
+  //     };
+  //
+  //     columnDefs.push(colDef);
+  //   });
+  //
+  //   // 始终把 treeField 放第一列
+  //   columnDefs.sort((a, b) => (a.field === treeField ? -1 : b.field === treeField ? 1 : 0));
+  //
+  //   return columnDefs;
+  // }
 
   /**
    * 将嵌套树结构拍平成数组

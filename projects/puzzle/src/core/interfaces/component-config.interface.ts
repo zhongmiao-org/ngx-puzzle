@@ -1,8 +1,9 @@
 import { mainTypes, rowGroupingDisplayType, rowGroupPanelShowTypes, SafeAny } from '../types';
-import { AgChartOptions } from 'ag-charts-community';
-import { ColDef } from 'ag-grid-community';
+// import { AgChartOptions } from 'ag-charts-community';
+// import { ColDef } from 'ag-grid-community';
+// import { SideBarDef } from 'ag-grid-enterprise';
 import { Is } from '../enums';
-import { SideBarDef } from 'ag-grid-enterprise';
+import { EChartsCoreOption } from 'echarts/core';
 
 export interface ChartData {
 	[key: string]: string | number;
@@ -24,7 +25,7 @@ export interface ComponentBaseProps {
 
 // chart 配置
 export interface ComponentChartProps extends ComponentBaseProps {
-	chart: AgChartOptions;
+	chart: EChartsCoreOption;
 }
 
 // table 配置
@@ -39,14 +40,14 @@ export interface ComponentTextProps extends ComponentBaseProps {
 
 export interface TableConfig<TData = SafeAny> {
 	rowDataUrl: string;
-	columnDefs?: ColDef[];
-	defaultColDef: ColDef;
-	autoGroupColumnDef: ColDef;
+	// columnDefs?: ColDef[];
+	// defaultColDef: ColDef;
+	// autoGroupColumnDef: ColDef;
 	rowGroupPanelShow: rowGroupPanelShowTypes;
 	groupDefaultExpanded: Is;
 	showOpenedGroup: Is;
 	groupDisplayType: rowGroupingDisplayType;
-	sideBar: SideBarDef | string | string[] | boolean | null | undefined;
+	// sideBar: SideBarDef | string | string[] | boolean | null | undefined;
 	rowData?: TData[];
 }
 
