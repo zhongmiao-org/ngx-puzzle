@@ -10,11 +10,15 @@ import { PuzzleCanvasMediatorService } from 'ngx-puzzle/core/mediator/puzzle-can
 // import { updateCharts } from 'ngx-puzzle/utils';
 import { CHART_DATA_OPTIONS } from 'ngx-puzzle/core/constants';
 import { EChartsCoreOption } from 'echarts';
+import { NgxEchartsDirective } from 'ngx-echarts';
 
 @Component({
   selector: 'app-chart',
   standalone: true,
-  imports: [NgxPuzzleDragWrapperComponent],
+  imports: [NgxPuzzleDragWrapperComponent, NgxEchartsDirective],
+  providers: [
+    provideEchartsCore({ echarts }),
+  ],
   templateUrl: './ngx-puzzle-chart.component.html',
   styleUrl: './ngx-puzzle-chart.component.scss'
 })

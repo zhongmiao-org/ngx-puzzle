@@ -4,6 +4,7 @@ import { mainTypes, rowGroupingDisplayType, rowGroupPanelShowTypes, SafeAny } fr
 // import { SideBarDef } from 'ag-grid-enterprise';
 import { Is } from '../enums';
 import { EChartsCoreOption } from 'echarts/core';
+import type { EChartsOption } from 'echarts';
 
 export interface ChartData {
 	[key: string]: string | number;
@@ -25,7 +26,7 @@ export interface ComponentBaseProps {
 
 // chart 配置
 export interface ComponentChartProps extends ComponentBaseProps {
-	chart: EChartsCoreOption;
+	options: EChartsOption;
 }
 
 // table 配置
