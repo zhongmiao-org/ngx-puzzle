@@ -1,9 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { AbstractComponentFactory } from '../../factories/abstract-component-factory';
 import { ChartFactoryService } from '../../factories/concrete/chart-factory.service';
-import { TableFactoryService } from '../../factories/concrete/table-factory.service';
-import { TextFactoryService } from '../../factories/concrete/text-factory.service';
-import { ControlFactoryService } from '../../factories/concrete/control-factory.service';
+// import { TextFactoryService } from '../../factories/concrete/text-factory.service';
+// import { ControlFactoryService } from '../../factories/concrete/control-factory.service';
 import { ComponentBaseProps, ComponentConfig, DataRequestConfig, Position, Size } from '../../interfaces';
 
 import { mainTypes } from '../../types';
@@ -12,9 +11,9 @@ import { INIT_SETTINGS_CONFIG } from '../../constants';
 @Injectable({ providedIn: 'root' })
 export class ComponentRegistryService<TConfigProps extends ComponentBaseProps = ComponentBaseProps, TSubType = string> {
 	private chartFactory = inject(ChartFactoryService);
-	private tableFactory = inject(TableFactoryService);
-	private textFactory = inject(TextFactoryService);
-	private controlFactory = inject(ControlFactoryService);
+	// private tableFactory = inject(TableFactoryService);
+	// private textFactory = inject(TextFactoryService);
+	// private controlFactory = inject(ControlFactoryService);
 
 	private factories: Partial<{ [key in mainTypes]: AbstractComponentFactory }> = {};
 	private components: Map<string, ComponentConfig<TConfigProps, TSubType>> = new Map<string, ComponentConfig<TConfigProps, TSubType>>();
@@ -26,9 +25,9 @@ export class ComponentRegistryService<TConfigProps extends ComponentBaseProps = 
 	private initializeDefaultComponents(): void {
 		this.components.set('canvas', structuredClone(INIT_SETTINGS_CONFIG['canvas'] as ComponentConfig<TConfigProps, TSubType>));
 		this.factories['chart'] = this.chartFactory;
-		this.factories['table'] = this.tableFactory;
-		this.factories['text'] = this.textFactory;
-		this.factories['control'] = this.controlFactory;
+		// this.factories['table'] = this.tableFactory;
+		// this.factories['text'] = this.textFactory;
+		// this.factories['control'] = this.controlFactory;
 	}
 
 	getFactory(type: mainTypes): AbstractComponentFactory {

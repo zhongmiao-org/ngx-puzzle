@@ -1,19 +1,19 @@
 <thy-collapse>
-  @for (group of chartFields; track group.label) {
-    <thy-collapse-item [thyTitle]="group.label">
-      @if (group.schemaType === 'array') {
-        @for (dataGroup of formData[group.key]; let i = $index; track i) {
+  @for (section of sections; track section.label) {
+    <thy-collapse-item [thyTitle]="section.label">
+      @if (section.schemaType === 'array') {
+        @for (dataGroup of formData[section.key]; let i = $index; track i) {
           <thy-card thyDivided="true">
-            <thy-card-header [thyTitle]="group.label + ' - ' + (i + 1)">
+            <thy-card-header [thyTitle]="section.label + ' - ' + (i + 1)">
               <ng-template #headerOperation>
-                @if(group.key === 'series' && i !== 0  && !!group?.removeActive) {
+                @if (section.key === 'series' && i !== 0 && !!section?.removeActive) {
                   <button thyButtonIcon="close"></button>
                 }
               </ng-template>
             </thy-card-header>
             <thy-card-content>
               <div thyRow [thyGutter]="16">
-                @for (field of group.fields; track field.key) {
+                @for (field of section.children; track field.key) {
                   <div [thyCol]="12" class="mb-2">
                     <label class="form-label">
                       {{ field.label }}
@@ -21,36 +21,36 @@
                     @switch (field.schemaType) {
                       @case ('number') {
                         <thy-input-number
-                          [(ngModel)]="formData[group.key][i][field.key]"
+                          [(ngModel)]="formData[section.key][i][field.key]"
                           [thyMin]="field?.min || 0"
                           [thyMax]="field?.max || 9999"
                           [thyStep]="field?.step || 1"
                           [thySize]="'sm'"
                           [thySuffix]="field?.suffix || ''"
-                          (ngModelChange)="onFormFieldChange(field.key, $event, group.key, i)"
+                          (ngModelChange)="onFormFieldChange(field.key, $event, section.key, i)"
                         />
                       }
                       @case ('text') {
                         <input
                           thyInput
-                          [(ngModel)]="formData[group.key][i][field.key]"
-                          (ngModelChange)="onFormFieldChange(field.key, $event, group.key, i)"
+                          [(ngModel)]="formData[section.key][i][field.key]"
+                          (ngModelChange)="onFormFieldChange(field.key, $event, section.key, i)"
                         />
                       }
                       @case ('color') {
                         <div
                           class="color-picker-box"
-                          [ngStyle]="{ backgroundColor: formData[group.key][i][field.key] }"
+                          [ngStyle]="{ backgroundColor: formData[section.key][i][field.key] }"
                           thyColorPicker
                           [thyOffset]="10"
-                          [(ngModel)]="formData[group.key][i][field.key]"
-                          (ngModelChange)="onFormFieldChange(field.key, $event, group.key, i)"
+                          [(ngModel)]="formData[section.key][i][field.key]"
+                          (ngModelChange)="onFormFieldChange(field.key, $event, section.key, i)"
                         ></div>
                       }
                       @case ('select') {
                         <thy-select
-                          [(ngModel)]="formData[group.key][i][field.key]"
-                          (ngModelChange)="onFormFieldChange(field.key, $event, group.key, i)"
+                          [(ngModel)]="formData[section.key][i][field.key]"
+                          (ngModelChange)="onFormFieldChange(field.key, $event, section.key, i)"
                         >
                           @for (option of field.options; track option.val) {
                             <thy-option [thyRawValue]="option" [thyValue]="option.val" [thyLabelText]="option.label"> </thy-option>
@@ -65,14 +65,14 @@
           </thy-card>
           <!--            <div [thyCol]="12"></div>-->
         }
-        @if (group.key === 'series' && group?.hasAdd !== false) {
+        @if (section.key === 'series' && section?.hasAdd !== false) {
           <div thyRow>
-            <button thyButton="primary" (click)="addArrayItem(group.key, group.fields!)" thyIcon="plus">添加系列</button>
+            <button thyButton="primary" (click)="addArrayItem(section.key, section.children!)" thyIcon="plus">添加系列</button>
           </div>
         }
       } @else {
         <div thyRow [thyGutter]="16">
-          @for (field of group.fields; track field.key) {
+          @for (field of section.children; track field.key) {
             <div [thyCol]="12" class="mb-2">
               <label class="form-label">
                 {{ field.label }}

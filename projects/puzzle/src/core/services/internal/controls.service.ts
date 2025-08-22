@@ -3,7 +3,7 @@ import { BaseSelectOption, ControlConfig, ControlFilterCondition } from '../../i
 import { BehaviorSubject, Observable, shareReplay, Subject } from 'rxjs';
 import { SafeAny } from '../../types';
 import { map } from 'rxjs/operators';
-import { convertControlsToFilters } from '../../../shared';
+import { convertControlsToFilters } from 'ngx-puzzle/core/utils';
 
 @Injectable({
 	providedIn: 'root',

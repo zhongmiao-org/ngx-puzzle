@@ -1,7 +1,8 @@
 import { Injectable, inject } from '@angular/core';
 import { ComponentConfig } from '../../interfaces';
 import { ComponentRegistryService, SessionIndexedDbService, ComponentInjectorService, CanvasMediatorService } from '../internal';
-import { generateUniqueId } from 'imm-element-ui';
+import { generateUUID } from 'ngx-puzzle/utils';
+// import { generateUniqueId } from 'imm-element-ui';
 // import { parseDate } from '../../../shared';
 
 /**
@@ -77,7 +78,7 @@ export class BiExternalService {
 	 */
 	public async generatePreviewId(ttl?: number): Promise<string> {
 		const allConfigs = this.registry.getAll();
-		const uuid = generateUniqueId();
+		const uuid = generateUUID();
 
 		await this.sessionService.setItem(uuid, allConfigs, ttl);
 

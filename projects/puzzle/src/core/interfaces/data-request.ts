@@ -1,8 +1,8 @@
 import { SafeAny } from '../types';
-import { Search } from 'imm-element-ui';
+// import { Search } from 'imm-element-ui';
 
 export interface DataRequestConfig {
-	paramSearch?: Search[];
+	paramSearch?: SafeAny[];
 	aggregations?: string[];
 	allFields?: SafeAny[];
 	props?: Record<string, SafeAny>;

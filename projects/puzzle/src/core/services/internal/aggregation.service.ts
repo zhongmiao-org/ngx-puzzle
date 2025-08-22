@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { executeAggregation, getGlobalSandbox } from '../../../shared';
+import { executeAggregation, getGlobalSandbox } from 'ngx-puzzle/core/utils';
 
 @Injectable({
 	providedIn: 'root'

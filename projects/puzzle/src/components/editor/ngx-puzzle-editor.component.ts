@@ -7,7 +7,7 @@ import {
   ComponentConfig,
   EditorFields,
   EditorFormData,
-  EditorImageOption,
+  // EditorImageOption,
   EditorStyleField,
   EditorTab,
   Position,
@@ -15,13 +15,13 @@ import {
   TableConfig,
   TextConfig
 } from 'ngx-puzzle/core/interfaces';
-import { basicTypes, editorTabTypes, mainTypes } from 'ngx-puzzle/core/types';
+import { basicTypes, editorTabTypes, mainTypes, SafeAny } from 'ngx-puzzle/core/types';
 import { Subject, takeUntil } from 'rxjs';
 import { BASE_TAB, DATA_TAB, EDITOR_FIELDS_MAP, STYLE_TAB } from 'ngx-puzzle/core/constants';
 import { ThyTabsModule } from 'ngx-tethys/tabs';
 import { ThyIcon } from 'ngx-tethys/icon';
 import { cloneDeep } from 'lodash';
-import { AgChartOptions } from 'ag-charts-community';
+// import { AgChartOptions } from 'ag-charts-community';
 import { ThyLayoutModule } from 'ngx-tethys/layout';
 import { ThyGridModule } from 'ngx-tethys/grid';
 import { ThyInputModule } from 'ngx-tethys/input';
@@ -217,7 +217,7 @@ export class NgxPuzzleEditorComponent implements OnInit, AfterViewInit, OnDestro
     }
   }
 
-  styleDataChange(val: number | string | EditorImageOption, field: string): void {
+  styleDataChange(val: number | string | SafeAny, field: string): void {
     let changeValue = val;
     this.config.props.styles = {
       ...this.config.props.styles,
@@ -230,7 +230,7 @@ export class NgxPuzzleEditorComponent implements OnInit, AfterViewInit, OnDestro
     this.emitUpdate();
   }
 
-  updateOptions(options: AgChartOptions | TableConfig | TextConfig, type: mainTypes): void {
+  updateOptions(options: SafeAny | TableConfig | TextConfig, type: mainTypes): void {
     switch (type) {
       case 'chart':
         this.config = {

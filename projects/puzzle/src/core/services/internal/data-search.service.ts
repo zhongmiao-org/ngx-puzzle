@@ -2,7 +2,8 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, shareReplay } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Search } from 'imm-element-ui';
+import { SafeAny } from 'ngx-puzzle/core';
+// import { Search } from 'imm-element-ui';
 
 @Injectable({
 	providedIn: 'root',
@@ -12,7 +13,7 @@ export class DataSearchService {
 
 	private orgCache = new Map<number, string>();
 
-	webSearchMap(params: Search): Observable<any> {
+	webSearchMap(params: SafeAny): Observable<any> {
 		return this.http.post('searchMap', params).pipe(
 			map((response: any) => {
 				return response;

@@ -14,8 +14,8 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { isEqual } from 'lodash';
 import { actionTypes, controlType } from '../../types';
 import { INIT_SETTINGS_CONFIG } from '../../constants';
-import { DebounceUtil, isTargetInputElement } from '../../../shared';
 import { OperationHistoryEnum } from '../../enums';
+import { DebounceUtil, isTargetInputElement } from 'ngx-puzzle/core/utils';
 
 @Injectable({ providedIn: 'root' })
 export class CanvasMediatorService<TConfigProps extends ComponentBaseProps = ComponentBaseProps, TSubType = string>

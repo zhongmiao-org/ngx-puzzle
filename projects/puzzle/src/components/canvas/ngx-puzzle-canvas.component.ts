@@ -17,10 +17,8 @@ import { JsonPipe, NgStyle } from '@angular/common';
 import { fromEvent, Subject, takeUntil } from 'rxjs';
 import { StylesFormatPipe } from 'ngx-puzzle/pipes/styles-format.pipe';
 import { INIT_SETTINGS_CONFIG } from 'ngx-puzzle/core/constants';
-import { ComponentBaseProps, ComponentConfig, Size, Tick, TooltipPosition } from 'ngx-puzzle/core/interfaces';
-import { PuzzleComponentInjectorService } from 'ngx-puzzle/core/mediator/puzzle-component-inject.service';
-import { PuzzleComponentRegistryService } from 'ngx-puzzle/core/services/puzzle-component-registry.service';
-import { PuzzleCanvasMediatorService } from 'ngx-puzzle/core/mediator/puzzle-canvas-mediator.service';
+import { ComponentBaseProps, ComponentConfig, Position, Size, Tick, TooltipPosition } from 'ngx-puzzle/core/interfaces';
+import { CanvasMediatorService, ComponentInjectorService, ComponentRegistryService } from 'ngx-puzzle/core';
 
 @Component({
   selector: 'ngx-puzzle-canvas, puzzle-canvas',

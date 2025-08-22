@@ -8,7 +8,7 @@ import {
 	TextTypesEnum,
 	mainTypes,
 	TEXT_DATA_OPTIONS,
-} from '../../../../../core';
+} from '../../../../core';
 import { CommonModule } from '@angular/common';
 import { DragWrapperComponent } from '../../drag-wrapper/drag-wrapper.component';
 import { StylesFormatPipe } from '../../../../pipes/styles-format.pipe';

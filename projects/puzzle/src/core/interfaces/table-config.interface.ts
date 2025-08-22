@@ -1,8 +1,8 @@
 // table 配置
 import { fieldComponentTypes, pivotingPanelShowTypes, rowGroupingDisplayType, rowGroupPanelShowTypes, SafeAny } from '../types';
-import { ColDef } from 'ag-grid-community';
+// import { ColDef } from 'ag-grid-community';
 import { Is } from '../enums';
-import { SideBarDef } from 'ag-grid-enterprise';
+// import { SideBarDef } from 'ag-grid-enterprise';
 import { ComponentBaseProps } from './component-config.interface';
 import { BaseSelectOption, EditorBaseField } from './editor.interface';
 
@@ -12,16 +12,16 @@ export interface ComponentTableProps<TData = SafeAny> extends ComponentBaseProps
 
 export interface TableConfig<TData = SafeAny> {
 	rowDataUrl: string;
-	columnDefs?: ColDef[];
-	defaultColDef: ColDef;
-	autoGroupColumnDef: ColDef;
+	columnDefs?: SafeAny[];
+	defaultColDef: SafeAny;
+	autoGroupColumnDef: SafeAny;
 	rowGroupPanelShow: rowGroupPanelShowTypes;
 	groupDefaultExpanded: Is;
 	showOpenedGroup: Is;
 	groupDisplayType: rowGroupingDisplayType;
 	pivotMode: boolean;
 	pivotPanelShow: pivotingPanelShowTypes;
-	sideBar: SideBarDef | string | string[] | boolean | null | undefined;
+	sideBar: SafeAny | string | string[] | boolean | null | undefined;
 	rowData?: TData[];
 	tableStyles: Record<string, SafeAny>;
 }

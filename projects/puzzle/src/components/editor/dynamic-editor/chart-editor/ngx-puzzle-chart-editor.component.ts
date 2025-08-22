@@ -1,47 +1,39 @@
 import { Component, effect, HostBinding, input, output } from '@angular/core';
-import { AgChartOptions } from 'ag-charts-community';
-import { EditorChartArraySchema, EditorChartData, EditorChartField } from 'ngx-puzzle/core/interfaces';
-import { AgGridAngular, AgGridModule } from 'ag-grid-angular';
-import {
-  ClientSideRowModelApiModule,
-  ClientSideRowModelModule,
-  ColDef,
-  GridOptions,
-  ModuleRegistry,
-  NumberEditorModule,
-  TextEditorModule,
-  ValidationModule
-} from 'ag-grid-community';
+// import { AgChartOptions } from 'ag-charts-community';
+import { DataRequestConfig, EditorChartArraySchema, EditorChartField } from 'ngx-puzzle/core/interfaces';
+// import { AgGridAngular, AgGridModule } from 'ag-grid-angular';
+// import {
+//   ClientSideRowModelApiModule,
+//   ClientSideRowModelModule,
+//   ColDef,
+//   GridOptions,
+//   ModuleRegistry,
+//   NumberEditorModule,
+//   TextEditorModule,
+//   ValidationModule
+// } from 'ag-grid-community';
 import { ChartTypesEnum, Is } from 'ngx-puzzle/core/enums';
-import { AgScatterSeriesOptions } from 'ag-charts-enterprise';
-import { cloneDeep } from 'lodash';
-import { convertFormDataToOptions, convertOptionsToFormData, Debounce, updateFormData } from 'ngx-puzzle/utils';
+// import { AgScatterSeriesOptions } from 'ag-charts-enterprise';
+// import { cloneDeep } from 'lodash';
+import { convertFormDataToOptions, convertOptionsToFormData, Debounce, updateFormData } from 'ngx-puzzle/core/utils';
 import { ThyCollapseModule } from 'ngx-tethys/collapse';
 import { ThyCardModule } from 'ngx-tethys/card';
 import { ThyButtonModule } from 'ngx-tethys/button';
 import { ThyColDirective, ThyRowDirective } from 'ngx-tethys/grid';
 import { NgStyle } from '@angular/common';
 import { ThyInputNumber } from 'ngx-tethys/input-number';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormsModule } from '@angular/forms';
 import { ThyInputDirective } from 'ngx-tethys/input';
 import { ThyColorPickerDirective } from 'ngx-tethys/color-picker';
 import { ThyOption } from 'ngx-tethys/shared';
 import { ThySelect } from 'ngx-tethys/select';
 import { EditorBaseComponent } from 'ngx-puzzle/components/editor/dynamic-editor/base/editor-base.component';
-
-ModuleRegistry.registerModules([
-  NumberEditorModule,
-  TextEditorModule,
-  ClientSideRowModelApiModule,
-  ClientSideRowModelModule,
-  ValidationModule
-]);
+import { CHART_FIELDS_MAP, SafeAny } from 'ngx-puzzle/core';
 
 @Component({
   selector: 'ngx-puzzle-chart-editor',
   standalone: true,
   imports: [
-    AgGridModule,
     ThyCollapseModule,
     ThyCardModule,
     ThyButtonModule,
@@ -58,14 +50,14 @@ ModuleRegistry.registerModules([
   templateUrl: './ngx-puzzle-chart-editor.component.html',
   styleUrl: './ngx-puzzle-chart-editor.component.scss'
 })
-export class NgxPuzzleChartEditorComponent extends EditorBaseComponent {
+export class NgxPuzzleChartEditorComponent extends EditorBaseComponent<SafeAny, ChartTypesEnum, EditorChartField> {
   @HostBinding('class.editor-component') isEditorComponent = true;
 
-  private _fieldCache = new Map<string, FormField>();
+  private _fieldCache = new Map<string, SafeAny>();
   private _isInternalUpdate = false;
 
   public chartType!: ChartTypesEnum;
-  public aggregationControls: FieldControl[] = [];
+  public aggregationControls: FormControl[] = [];
 
   protected setFields(type: ChartTypesEnum): void {
     if (this.chartType === type) return;
@@ -73,20 +65,20 @@ export class NgxPuzzleChartEditorComponent extends EditorBaseComponent {
     this.sections = CHART_FIELDS_MAP[type]!;
   }
 
-  protected override updateFormData(config: AgChartOptions): void {
+  protected override updateFormData(config: SafeAny): void {
     this.options.set(config);
     this.formData = convertOptionsToFormData(config, this.sections);
   }
 
-  protected override afterConfigUpdate(opts?: AgChartOptions, requestOptions?: DataRequestConfig): void {
+  protected override afterConfigUpdate(opts?: SafeAny, requestOptions?: DataRequestConfig): void {
     if (!opts) return;
 
     const aggregations = requestOptions?.aggregations || [this.getDefaultAggregationValue()];
 
     if (!this._isInternalUpdate) {
       this.aggregationControls = aggregations.map((stringFn) => {
-        const fieldControl = new FieldControl();
-        fieldControl.setValue(stringFn, { emitEvent: true }, true);
+        const fieldControl = new FormControl();
+        fieldControl.setValue(stringFn, { emitEvent: true });
         return fieldControl;
       });
       this.clearFieldCache();
@@ -131,25 +123,25 @@ export class NgxPuzzleChartEditorComponent extends EditorBaseComponent {
     this.formData[key].push(item);
   }
 
-  createCodeMirrorField(config: any, index = 0): FormField {
-    const componentId = this.componentId() || 'default';
-    const cacheKey = `code_${componentId}_${index}`;
-
-    if (this._fieldCache.has(cacheKey)) {
-      return this._fieldCache.get(cacheKey)!;
-    }
-
-    if (this.aggregationControls?.length === 0) {
-      this.aggregationControls.push(new FieldControl());
-    }
-
-    const field: FormField = {
-      ...config,
-      fieldControl: this.aggregationControls[index]
-    };
-    this._fieldCache.set(cacheKey, field);
-    return field;
-  }
+  // createCodeMirrorField(config: any, index = 0): FormField {
+  //   const componentId = this.componentId() || 'default';
+  //   const cacheKey = `code_${componentId}_${index}`;
+  //
+  //   if (this._fieldCache.has(cacheKey)) {
+  //     return this._fieldCache.get(cacheKey)!;
+  //   }
+  //
+  //   if (this.aggregationControls?.length === 0) {
+  //     this.aggregationControls.push(new FormControl());
+  //   }
+  //
+  //   const field: FormField = {
+  //     ...config,
+  //     fieldControl: this.aggregationControls[index]
+  //   };
+  //   this._fieldCache.set(cacheKey, field);
+  //   return field;
+  // }
 
   @Debounce(500)
   onCoding(stringFn: string, index = 0) {
