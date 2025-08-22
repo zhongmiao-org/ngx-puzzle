@@ -1,0 +1,24 @@
+/* Auto-registered custom fonts for imm-bi library */
+@font-face {
+  font-family: 'DS-Digital';
+  font-style: normal;
+  font-weight: 400;
+  src: url('DS-DIGIB.TTF') format('truetype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'QTypeCond-Medium';
+  font-style: normal;
+  font-weight: 500;
+  src: url('QTypeCond-Medium.pfb.ttf') format('truetype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'TitilliumWeb-Black';
+  font-style: normal;
+  font-weight: 900;
+  src: url('TitilliumWeb-Black.ttf') format('truetype');
+  font-display: swap;
+}

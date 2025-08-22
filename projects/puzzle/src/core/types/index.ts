@@ -3,3 +3,8 @@ export * from './editor.type';
 export * from './active.type';
 export * from './table.type';
 export * from './data.type';
+export * from './geo-map.type';
+export * from './refresh.type';
+export * from './controlType';
+export * from './datetime.types';
+export * from './preview.type';

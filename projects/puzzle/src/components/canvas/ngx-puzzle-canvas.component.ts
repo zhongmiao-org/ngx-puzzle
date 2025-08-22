@@ -35,11 +35,6 @@ export class NgxPuzzleCanvasComponent implements OnInit, AfterViewInit, OnDestro
   @ViewChild('canvasContent', { read: ViewContainerRef, static: true }) canvasContent!: ViewContainerRef;
   @ViewChild('canvasContainer', { static: true }) canvasContainer!: ElementRef<HTMLElement>;
 
-  private readonly injector = inject(PuzzleComponentInjectorService);
-  private readonly registry = inject(PuzzleComponentRegistryService<ComponentBaseProps, string>);
-  private readonly mediator = inject(PuzzleCanvasMediatorService<ComponentBaseProps, string>);
-  private readonly renderer = inject(Renderer2);
-
   private destroy$ = new Subject<void>();
   private _config: ComponentConfig = INIT_SETTINGS_CONFIG['canvas'];
   private selectedId: string = 'canvas';
@@ -47,9 +42,8 @@ export class NgxPuzzleCanvasComponent implements OnInit, AfterViewInit, OnDestro
   set size(size: Size) {
     this._config = {
       ...this._config,
-      size
+      size,
     };
-    console.log(`set size`)
     this.updateRulers();
   }
 
@@ -63,90 +57,78 @@ export class NgxPuzzleCanvasComponent implements OnInit, AfterViewInit, OnDestro
 
   positionSignal: WritableSignal<TooltipPosition> = signal({ x: 0, y: 0, left: 0, top: 0, width: 0, height: 0 });
   showGuideSignal: WritableSignal<boolean> = signal(false);
-  stylesSignal: WritableSignal<Record<string, string | number>> = signal({});
 
   public hTicks: Tick[] = [];
   public vTicks: Tick[] = [];
 
-  @HostListener('window:keydown', ['$event'])
-  handleKeyDown(event: KeyboardEvent) {
-    // if (event.key === 'Delete' || event.key === 'Backspace') {
-    // 	console.log('删除键被按下');
-    // 	if (this.selectedId !== this.config.id) {
-    // 		this.mediator.removeComponent(this.selectedId);
-    // 	}
-    // 	event.preventDefault(); // 如果需要阻止默认行为
-    // }
+  constructor(
+    private injector: ComponentInjectorService,
+    private registry: ComponentRegistryService,
+    private mediator: CanvasMediatorService,
+    private renderer: Renderer2,
+  ) {}
 
-    if ((event.ctrlKey || event.metaKey) && event.key === 'z') {
-      this.undoComponent();
-      event.preventDefault();
-    }
-  }
-
-	constructor(
-		// private injector: ComponentInjectorService,
-		// private registry: ComponentRegistryService,
-		// private mediator: CanvasMediatorService,
-		// private renderer: Renderer2,
-	) {}
-
-  ngOnInit() {
-    this.updateRulers();
-  }
+  ngOnInit() {}
 
   ngAfterViewInit(): void {
     this.injector.setContainerRef(this.canvasContent);
     this.renderAll();
+    this.updateRulers();
     this.setupObservables();
-    this.registry.register(this.config);
   }
 
   private setupObservables(): void {
     fromEvent(this.canvasContainer.nativeElement, 'scroll')
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => this.updateRulerPosition());
+
+    // 全量更新 仅一次
+    this.mediator.componentUpdateConfig$.subscribe((config) => {
+      if (config.id === this.config.id) {
+        this.config = config;
+        this.updateRulers();
+      }
+    });
+
     // 添加元素
     this.mediator.componentAdd$.subscribe((config) => {
       this.createComponent(config);
     });
+
     // 选中
     this.mediator.componentSelect$.pipe(takeUntil(this.destroy$)).subscribe((config) => {
-      console.log(`componentSelect$`);
       if (config.id !== this.config.id) {
         this.showGuideSignal.set(true);
-        this.positionSignal.set(this.covertPosition(config));
+        this.positionSignal.set(this.covertPosition(config.size, config.position));
       } else {
         this.showGuideSignal.set(false);
       }
       this.selectedId = config.id;
     });
+
     // 移动
     this.mediator.componentMoving$.pipe(takeUntil(this.destroy$)).subscribe(({ position }) => {
       this.positionSignal.set({ ...this.positionSignal(), left: position.x, top: position.y });
     });
+
     // 缩放
-    this.mediator.componentResize$.pipe(takeUntil(this.destroy$)).subscribe((config) => {
-      if (config.id === this.config.id) {
-        this.size = config.size;
-      }
-      this.positionSignal.set(this.covertPosition(config));
-    });
-    // 更新
-    this.mediator.componentUpdate$.pipe(takeUntil(this.destroy$)).subscribe((config) => {
-      console.log(`componentUpdate$`, config);
-      if (config.id === this.config.id) {
-        this.config = { ...config };
-        const { size } = this.config;
+    this.mediator.componentResize$.pipe(takeUntil(this.destroy$)).subscribe(({ id, position, size }) => {
+      if (id === this.config.id) {
         this.size = size;
-        if (this.config.props?.['styles']) {
-          this.stylesSignal.set(this.config.props?.['styles']);
-        }
-      } else {
-        // 然后更新游标
-        this.positionSignal.set(this.covertPosition(config));
+      }
+      this.positionSignal.set(this.covertPosition(size, position));
+    });
+
+    // 更新
+    this.mediator.componentUpdateProps$.pipe(takeUntil(this.destroy$)).subscribe((config) => {
+      if (config.id === this.config.id) {
+        this.config.props = {
+          ...this.config.props,
+          ...config.props,
+        };
       }
     });
+
     // 删除
     this.mediator.componentRemove$.pipe(takeUntil(this.destroy$)).subscribe((id) => {
       this.injector.destroyComponent(id);
@@ -158,8 +140,7 @@ export class NgxPuzzleCanvasComponent implements OnInit, AfterViewInit, OnDestro
   }
 
   private updateRulers() {
-    console.log(`updateRulers`, this.config.size);
-    console.log(this.hTicks, this.vTicks);
+    // 更新标尺刻度
     this.hTicks = this.generateTicks(this.config.size.width, 100);
     this.vTicks = this.generateTicks(this.config.size.height, 100);
   }
@@ -175,7 +156,7 @@ export class NgxPuzzleCanvasComponent implements OnInit, AfterViewInit, OnDestro
     for (let pos = 0; pos <= length; pos += interval) {
       ticks.push({
         position: pos,
-        label: pos.toString()
+        label: pos.toString(),
       });
     }
     return ticks;
@@ -197,19 +178,15 @@ export class NgxPuzzleCanvasComponent implements OnInit, AfterViewInit, OnDestro
     this.injector.createComponent(instance);
   }
 
-  private covertPosition(config: ComponentConfig): TooltipPosition {
+  private covertPosition(size: Size, position: Position): TooltipPosition {
     return {
-      width: config.size.width,
-      height: config.size.height,
-      x: config.position.x,
-      y: config.position.y,
-      left: config.position.x,
-      top: config.position.y
+      width: size.width,
+      height: size.height,
+      x: position.x,
+      y: position.y,
+      left: position.x,
+      top: position.y,
     };
-  }
-
-  private undoComponent(): void {
-    this.mediator.undoComponent();
   }
 
   public canvasHandleSelect(event: MouseEvent) {

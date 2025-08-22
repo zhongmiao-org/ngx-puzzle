@@ -1,0 +1,14 @@
+<imm-bi-drag-wrapper
+	[isEdit]="isEdit"
+	[size]="config.size"
+	[position]="config.position"
+	[componentId]="config.id"
+	[mainType]="'chart'"
+	[styles]="config.props.styles">
+  <ag-charts
+		[style.width.%]="100"
+		[style.height.%]="100"
+		[style.display]="'block'"
+		[options]="options">
+	</ag-charts>
+</imm-bi-drag-wrapper>

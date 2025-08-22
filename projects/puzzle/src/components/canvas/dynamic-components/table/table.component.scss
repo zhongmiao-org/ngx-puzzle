@@ -1,0 +1,197 @@
+:host {
+	::ng-deep .ag-root-wrapper {
+		// 整体样式
+		background-color: rgba(var(--ag-grid-bg-color-rgb), var(--ag-grid-bg-color-alpha));
+		color: rgba(var(--ag-grid-text-color-rgb), var(--ag-grid-text-color-alpha));
+		border-color: rgba(var(--ag-grid-border-color-rgb), var(--ag-grid-border-color-alpha));
+
+		// 表头样式
+		.ag-header {
+			background-color: rgba(var(--ag-grid-header-bg-color-rgb), var(--ag-grid-header-bg-color-alpha));
+			color: rgba(var(--ag-grid-header-text-color-rgb), var(--ag-grid-header-text-color-alpha));
+			border-bottom-color: rgba(var(--ag-grid-header-border-color-rgb), var(--ag-grid-header-border-color-alpha));
+
+			&:hover {
+				background-color: rgba(var(--ag-grid-header-hover-color-rgb), var(--ag-grid-header-hover-color-alpha));
+			}
+		}
+
+		// 表头行样式
+		.ag-header-row {
+			border-bottom-color: rgba(var(--ag-grid-header-border-color-rgb), var(--ag-grid-header-border-color-alpha));
+		}
+
+		// 表头单元格样式 - 列之间无分割线
+		.ag-header-cell {
+			border-right-color: rgba(var(--ag-grid-header-border-color-rgb), var(--ag-grid-header-border-color-alpha));
+
+			&:last-child {
+				border-right: none;
+			}
+		}
+
+		// 调整大小手柄样式 - 默认透明
+		.ag-header-cell-resize {
+			color: rgba(var(--ag-grid-resize-handle-color-rgb), var(--ag-grid-resize-handle-color-alpha));
+		}
+
+		// 表格行样式
+		.ag-row {
+			background-color: rgba(var(--ag-grid-row-bg-color-rgb), var(--ag-grid-row-bg-color-alpha));
+			color: rgba(var(--ag-grid-row-text-color-rgb), var(--ag-grid-row-text-color-alpha));
+			border-bottom-color: rgba(var(--ag-grid-row-border-color-rgb), var(--ag-grid-row-border-color-alpha));
+
+			&:hover {
+				background-color: rgba(var(--ag-grid-row-hover-color-rgb), var(--ag-grid-row-hover-color-alpha));
+			}
+
+			&.ag-row-selected {
+				background-color: rgba(var(--ag-grid-row-selected-color-rgb), var(--ag-grid-row-selected-color-alpha));
+			}
+		}
+
+		// 单元格样式 - 列之间无分割线
+		.ag-cell {
+			background-color: rgba(var(--ag-grid-cell-bg-color-rgb), var(--ag-grid-cell-bg-color-alpha));
+			border-right-color: rgba(var(--ag-grid-cell-border-color-rgb), var(--ag-grid-cell-border-color-alpha));
+
+			&:last-child {
+				border-right: none;
+			}
+
+			&.ag-cell-focus {
+				border-color: rgba(var(--ag-grid-cell-focus-color-rgb), var(--ag-grid-cell-focus-color-alpha));
+			}
+		}
+
+		// 按钮样式 - 默认无边框
+		.ag-button {
+			background-color: rgba(var(--ag-grid-button-bg-color-rgb), var(--ag-grid-button-bg-color-alpha));
+			color: rgba(var(--ag-grid-button-text-color-rgb), var(--ag-grid-button-text-color-alpha));
+			border-color: rgba(var(--ag-grid-button-border-color-rgb), var(--ag-grid-button-border-color-alpha));
+
+			&:hover {
+				background-color: rgba(var(--ag-grid-button-hover-color-rgb), var(--ag-grid-button-hover-color-alpha));
+			}
+		}
+
+		// 侧边栏样式
+		.ag-side-bar {
+			background-color: rgba(var(--ag-grid-sidebar-bg-color-rgb), var(--ag-grid-sidebar-bg-color-alpha));
+			color: rgba(var(--ag-grid-sidebar-text-color-rgb), var(--ag-grid-sidebar-text-color-alpha));
+			border-color: rgba(var(--ag-grid-sidebar-border-color-rgb), var(--ag-grid-sidebar-border-color-alpha));
+		}
+
+		.ag-side-buttons {
+			background-color: rgba(var(--ag-grid-sidebar-button-bg-color-rgb), var(--ag-grid-sidebar-button-bg-color-alpha));
+
+			.ag-side-button {
+				color: rgba(var(--ag-grid-sidebar-text-color-rgb), var(--ag-grid-sidebar-text-color-alpha));
+
+				&:hover {
+					background-color: rgba(var(--ag-grid-sidebar-button-hover-color-rgb), var(--ag-grid-sidebar-button-hover-color-alpha));
+				}
+
+				&.ag-selected {
+					background-color: rgba(var(--ag-grid-sidebar-button-selected-color-rgb), var(--ag-grid-sidebar-button-selected-color-alpha));
+				}
+			}
+		}
+
+		// 工具面板样式
+		.ag-tool-panel {
+			background-color: rgba(var(--ag-grid-tool-panel-bg-color-rgb), var(--ag-grid-tool-panel-bg-color-alpha));
+			color: rgba(var(--ag-grid-tool-panel-text-color-rgb), var(--ag-grid-tool-panel-text-color-alpha));
+
+			.ag-tool-panel-header {
+				background-color: rgba(var(--ag-grid-tool-panel-header-bg-color-rgb), var(--ag-grid-tool-panel-header-bg-color-alpha));
+				border-bottom-color: rgba(var(--ag-grid-tool-panel-header-border-color-rgb), var(--ag-grid-tool-panel-header-border-color-alpha));
+			}
+		}
+
+		// 分组面板样式
+		.ag-group-panel {
+			background-color: rgba(var(--ag-grid-group-panel-bg-color-rgb), var(--ag-grid-group-panel-bg-color-alpha));
+			color: rgba(var(--ag-grid-group-panel-text-color-rgb), var(--ag-grid-group-panel-text-color-alpha));
+
+			.ag-group-panel-header {
+				background-color: rgba(var(--ag-grid-group-panel-header-bg-color-rgb), var(--ag-grid-group-panel-header-bg-color-alpha));
+				border-bottom-color: rgba(var(--ag-grid-group-panel-header-border-color-rgb), var(--ag-grid-group-panel-header-border-color-alpha));
+			}
+		}
+
+		// 透视面板样式
+		.ag-pivot-panel {
+			background-color: rgba(var(--ag-grid-pivot-panel-bg-color-rgb), var(--ag-grid-pivot-panel-bg-color-alpha));
+			color: rgba(var(--ag-grid-pivot-panel-text-color-rgb), var(--ag-grid-pivot-panel-text-color-alpha));
+
+			.ag-pivot-panel-header {
+				background-color: rgba(var(--ag-grid-pivot-panel-header-bg-color-rgb), var(--ag-grid-pivot-panel-header-bg-color-alpha));
+				border-bottom-color: rgba(var(--ag-grid-pivot-panel-header-border-color-rgb), var(--ag-grid-pivot-panel-header-border-color-alpha));
+			}
+		}
+
+		// 菜单样式
+		.ag-menu {
+			background-color: rgba(var(--ag-grid-menu-bg-color-rgb), var(--ag-grid-menu-bg-color-alpha));
+			color: rgba(var(--ag-grid-menu-text-color-rgb), var(--ag-grid-menu-text-color-alpha));
+			border-color: rgba(var(--ag-grid-menu-border-color-rgb), var(--ag-grid-menu-border-color-alpha));
+
+			.ag-menu-option {
+				&:hover {
+					background-color: rgba(var(--ag-grid-menu-hover-color-rgb), var(--ag-grid-menu-hover-color-alpha));
+				}
+			}
+		}
+
+		// 筛选器样式
+		.ag-filter {
+			background-color: rgba(var(--ag-grid-filter-bg-color-rgb), var(--ag-grid-filter-bg-color-alpha));
+			color: rgba(var(--ag-grid-filter-text-color-rgb), var(--ag-grid-filter-text-color-alpha));
+			border-color: rgba(var(--ag-grid-filter-border-color-rgb), var(--ag-grid-filter-border-color-alpha));
+
+			.ag-filter-header {
+				background-color: rgba(var(--ag-grid-filter-header-bg-color-rgb), var(--ag-grid-filter-header-bg-color-alpha));
+			}
+		}
+
+		// 输入框样式
+		.ag-input-field {
+			background-color: rgba(var(--ag-grid-input-bg-color-rgb), var(--ag-grid-input-bg-color-alpha));
+			color: rgba(var(--ag-grid-input-text-color-rgb), var(--ag-grid-input-text-color-alpha));
+			border-color: rgba(var(--ag-grid-input-border-color-rgb), var(--ag-grid-input-border-color-alpha));
+
+			&:focus {
+				border-color: rgba(var(--ag-grid-input-focus-color-rgb), var(--ag-grid-input-focus-color-alpha));
+			}
+		}
+
+		// 覆盖层样式
+		.ag-overlay {
+			background-color: rgba(var(--ag-grid-overlay-bg-color-rgb), var(--ag-grid-overlay-bg-color-alpha));
+			color: rgba(var(--ag-grid-overlay-text-color-rgb), var(--ag-grid-overlay-text-color-alpha));
+		}
+
+		// 滚动条样式
+		.ag-body-horizontal-scroll {
+			.ag-horizontal-left-spacer,
+			.ag-horizontal-right-spacer {
+				background-color: rgba(var(--ag-grid-scrollbar-track-color-rgb), var(--ag-grid-scrollbar-track-color-alpha));
+			}
+		}
+
+		.ag-body-vertical-scroll {
+			.ag-scrollbar-vertical {
+				background-color: rgba(var(--ag-grid-scrollbar-track-color-rgb), var(--ag-grid-scrollbar-track-color-alpha));
+
+				.ag-scrollbar-thumb {
+					background-color: rgba(var(--ag-grid-scrollbar-thumb-color-rgb), var(--ag-grid-scrollbar-thumb-color-alpha));
+
+					&:hover {
+						background-color: rgba(var(--ag-grid-scrollbar-thumb-hover-color-rgb), var(--ag-grid-scrollbar-thumb-hover-color-alpha));
+					}
+				}
+			}
+		}
+	}
+}

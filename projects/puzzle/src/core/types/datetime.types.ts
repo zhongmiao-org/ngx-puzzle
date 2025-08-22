@@ -1,0 +1,10 @@
+export type WeekNumbering = 'mon-1-7' | 'sun-0-6';
+export type HourCycle = 12 | 24;
+export type TimezoneMode = 'local' | 'utc' | 'offset';
+export type DateTimeLayout = 'single' | 'separate' | 'date-week-same-time-next';
+export type MonthMode = 'number' | 'en' | 'zh';
+export type MonthEnglishStyle = 'short' | 'long';
+export type WeekdayLang = 'zh' | 'en' | 'number';
+export type ZhWeekdayStyle = '星期' | '周' | 'none';
+export type EnWeekdayStyle = 'long' | 'short' | 'narrow';
+export type DateTimeOrder = 'date-time' | 'time-date';

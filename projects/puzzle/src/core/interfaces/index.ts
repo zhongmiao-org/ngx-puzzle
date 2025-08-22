@@ -2,4 +2,13 @@ export * from './component-config.interface';
 export * from './component-instance.interface';
 export * from './canvas.interface';
 export * from './editor.interface';
-export * from './history-action-stack.interface'
+export * from './history-action-stack.interface';
+export * from './geo-map.interface';
+export * from './canvas-mediator.interface';
+export * from './refresh.interface';
+export * from './data-request';
+export * from './text-config.interface';
+export * from './table-config.interface';
+export * from './chart-config.interface';
+export * from './control-config.interface';
+export * from './datetime-config.interface';

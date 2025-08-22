@@ -1,19 +1,4 @@
 import { ChartTypesEnum, LabelFormatterEnum } from '../enums';
-import {
-	barAndLineData,
-	candlestickAndOhlcData, chordData, coneFunnelData,
-	doubleGroupData,
-	femaleHeightWeight, funnelData,
-	heatmapData,
-	histogramData,
-	maleHeightWeight,
-	rangeAreaData,
-	rangeBarData,
-	sankeyData,
-	sunburstData,
-	treemapData,
-	waterfallData,
-} from './chart-options-mock.data';
 
 export const CHART_DATA_OPTIONS: Partial<{ [key in ChartTypesEnum]: object }> = {
 	[ChartTypesEnum.bar]: {
@@ -73,34 +58,34 @@ export const CHART_DATA_OPTIONS: Partial<{ [key in ChartTypesEnum]: object }> = 
 				// stroke: '#FF4500',
 				// strokeWidth: 1
 			},
-			{
-				type: 'bar',
-				direction: 'vertical',
-				xKey: 'quarter',
-				yKey: 'mac',
-				yName: 'Mac',
-			},
-			{
-				type: 'bar',
-				direction: 'vertical',
-				xKey: 'quarter',
-				yKey: 'ipad',
-				yName: 'iPad',
-			},
-			{
-				type: 'bar',
-				direction: 'vertical',
-				xKey: 'quarter',
-				yKey: 'wearables',
-				yName: 'Wearables',
-			},
-			{
-				type: 'bar',
-				direction: 'vertical',
-				xKey: 'quarter',
-				yKey: 'services',
-				yName: 'Services',
-			},
+			// {
+			// 	type: 'bar',
+			// 	direction: 'vertical',
+			// 	xKey: 'quarter',
+			// 	yKey: 'mac',
+			// 	yName: 'Mac',
+			// },
+			// {
+			// 	type: 'bar',
+			// 	direction: 'vertical',
+			// 	xKey: 'quarter',
+			// 	yKey: 'ipad',
+			// 	yName: 'iPad',
+			// },
+			// {
+			// 	type: 'bar',
+			// 	direction: 'vertical',
+			// 	xKey: 'quarter',
+			// 	yKey: 'wearables',
+			// 	yName: 'Wearables',
+			// },
+			// {
+			// 	type: 'bar',
+			// 	direction: 'vertical',
+			// 	xKey: 'quarter',
+			// 	yKey: 'services',
+			// 	yName: 'Services',
+			// },
 		],
 		legend: {
 			enabled: true,
@@ -111,7 +96,8 @@ export const CHART_DATA_OPTIONS: Partial<{ [key in ChartTypesEnum]: object }> = 
 				},
 			},
 		},
-		data: barAndLineData,
+		// data: barAndLineData,
+		data: [],
 		background: {
 			fill: 'transparent',
 		},
@@ -170,6 +156,7 @@ export const CHART_DATA_OPTIONS: Partial<{ [key in ChartTypesEnum]: object }> = 
 				label: {
 					color: '#666666',
 					fontSize: 12,
+					// format: '%Y-%m-%d %H:%M',
 				},
 				title: {
 					enabled: false,
@@ -193,7 +180,8 @@ export const CHART_DATA_OPTIONS: Partial<{ [key in ChartTypesEnum]: object }> = 
 				},
 			},
 		],
-		data: barAndLineData,
+		// data: barAndLineData,
+		data: [],
 		series: [
 			{
 				type: 'line',
@@ -209,58 +197,58 @@ export const CHART_DATA_OPTIONS: Partial<{ [key in ChartTypesEnum]: object }> = 
 					enabled: true,
 				},
 			},
-			{
-				type: 'line',
-				xKey: 'quarter',
-				yKey: 'mac',
-				yName: 'Mac',
-				strokeWidth: 3,
-				interpolation: {
-					type: 'linear',
-					position: 'start',
-				},
-				marker: {
-					enabled: true,
-				},
-			},
-			{
-				type: 'line',
-				xKey: 'quarter',
-				yKey: 'ipad',
-				yName: 'iPad',
-				strokeWidth: 3,
-				interpolation: {
-					type: 'linear',
-					position: 'start',
-				},
-				marker: {
-					enabled: true,
-				},
-			},
-			{
-				type: 'line',
-				xKey: 'quarter',
-				yKey: 'wearables',
-				yName: 'Wearables',
-				interpolation: {
-					type: 'linear',
-					position: 'start',
-				},
-				strokeWidth: 3,
-				marker: {
-					enabled: true,
-				},
-			},
-			{
-				type: 'line',
-				xKey: 'quarter',
-				yKey: 'services',
-				yName: 'Services',
-				strokeWidth: 3,
-				marker: {
-					enabled: true,
-				},
-			},
+			// {
+			// 	type: 'line',
+			// 	xKey: 'quarter',
+			// 	yKey: 'mac',
+			// 	yName: 'Mac',
+			// 	strokeWidth: 3,
+			// 	interpolation: {
+			// 		type: 'linear',
+			// 		position: 'start',
+			// 	},
+			// 	marker: {
+			// 		enabled: true,
+			// 	},
+			// },
+			// {
+			// 	type: 'line',
+			// 	xKey: 'quarter',
+			// 	yKey: 'ipad',
+			// 	yName: 'iPad',
+			// 	strokeWidth: 3,
+			// 	interpolation: {
+			// 		type: 'linear',
+			// 		position: 'start',
+			// 	},
+			// 	marker: {
+			// 		enabled: true,
+			// 	},
+			// },
+			// {
+			// 	type: 'line',
+			// 	xKey: 'quarter',
+			// 	yKey: 'wearables',
+			// 	yName: 'Wearables',
+			// 	interpolation: {
+			// 		type: 'linear',
+			// 		position: 'start',
+			// 	},
+			// 	strokeWidth: 3,
+			// 	marker: {
+			// 		enabled: true,
+			// 	},
+			// },
+			// {
+			// 	type: 'line',
+			// 	xKey: 'quarter',
+			// 	yKey: 'services',
+			// 	yName: 'Services',
+			// 	strokeWidth: 3,
+			// 	marker: {
+			// 		enabled: true,
+			// 	},
+			// },
 		],
 		background: {
 			fill: 'transparent',
@@ -325,20 +313,7 @@ export const CHART_DATA_OPTIONS: Partial<{ [key in ChartTypesEnum]: object }> = 
 				},
 			},
 		],
-		data: [
-			{ month: 'Jan', subscriptions: 222, services: 250, products: 200 },
-			{ month: 'Feb', subscriptions: 240, services: 255, products: 210 },
-			{ month: 'Mar', subscriptions: 280, services: 245, products: 195 },
-			{ month: 'Apr', subscriptions: 300, services: 260, products: 205 },
-			{ month: 'May', subscriptions: 350, services: 235, products: 215 },
-			{ month: 'Jun', subscriptions: 420, services: 270, products: 200 },
-			{ month: 'Jul', subscriptions: 300, services: 255, products: 225 },
-			{ month: 'Aug', subscriptions: 270, services: 305, products: 210 },
-			{ month: 'Sep', subscriptions: 260, services: 280, products: 250 },
-			{ month: 'Oct', subscriptions: 385, services: 250, products: 205 },
-			{ month: 'Nov', subscriptions: 320, services: 265, products: 215 },
-			{ month: 'Dec', subscriptions: 330, services: 255, products: 220 },
-		],
+		data: [],
 		series: [
 			{
 				type: 'area',
@@ -427,7 +402,7 @@ export const CHART_DATA_OPTIONS: Partial<{ [key in ChartTypesEnum]: object }> = 
 			{
 				type: 'scatter',
 				title: 'Male',
-				data: maleHeightWeight,
+				data: [],
 				xKey: 'height',
 				xName: 'Height',
 				yKey: 'weight',
@@ -444,7 +419,7 @@ export const CHART_DATA_OPTIONS: Partial<{ [key in ChartTypesEnum]: object }> = 
 			{
 				type: 'scatter',
 				title: 'Female',
-				data: femaleHeightWeight,
+				data: [],
 				xKey: 'height',
 				xName: 'Height',
 				yKey: 'weight',
@@ -515,7 +490,7 @@ export const CHART_DATA_OPTIONS: Partial<{ [key in ChartTypesEnum]: object }> = 
 			{
 				type: 'bubble',
 				title: 'Male',
-				data: maleHeightWeight,
+				data: [],
 				xKey: 'height',
 				xName: 'Height',
 				yKey: 'weight',
@@ -534,7 +509,7 @@ export const CHART_DATA_OPTIONS: Partial<{ [key in ChartTypesEnum]: object }> = 
 			{
 				type: 'bubble',
 				title: 'Female',
-				data: femaleHeightWeight,
+				data: [],
 				xKey: 'height',
 				xName: 'Height',
 				yKey: 'weight',
@@ -581,13 +556,7 @@ export const CHART_DATA_OPTIONS: Partial<{ [key in ChartTypesEnum]: object }> = 
 				},
 			},
 		},
-		data: [
-			{ asset: 'Stocks', amount: 60000, yield: 1 },
-			{ asset: 'Bonds', amount: 40000, yield: 1 },
-			{ asset: 'Cash', amount: 7000, yield: 1 },
-			{ asset: 'Real Estate', amount: 5000, yield: 1 },
-			{ asset: 'Commodities', amount: 3000, yield: 1 },
-		],
+		data: [],
 		axes: [],
 		series: [
 			{
@@ -595,6 +564,11 @@ export const CHART_DATA_OPTIONS: Partial<{ [key in ChartTypesEnum]: object }> = 
 				angleKey: 'amount',
 				radiusKey: 'yield',
 				calloutLabelKey: 'asset',
+				calloutLabel: {
+					enabled: true,
+					color: '#333333',
+					fontWeight: 'bold',
+				},
 				sectorLabelKey: 'amount',
 				// legendItemKey: "asset",
 				sectorLabel: {
@@ -637,13 +611,7 @@ export const CHART_DATA_OPTIONS: Partial<{ [key in ChartTypesEnum]: object }> = 
 				},
 			},
 		},
-		data: [
-			{ asset: 'Stocks', previousYear: 70000, currentYear: 40000 },
-			{ asset: 'Bonds', previousYear: 30000, currentYear: 60000 },
-			{ asset: 'Cash', previousYear: 5000, currentYear: 7000 },
-			{ asset: 'Real Estate', previousYear: 8000, currentYear: 5000 },
-			{ asset: 'Commodities', previousYear: 4500, currentYear: 3000 },
-		],
+		data: [],
 		axes: [],
 		series: [
 			{
@@ -746,7 +714,7 @@ export const CHART_DATA_OPTIONS: Partial<{ [key in ChartTypesEnum]: object }> = 
 				},
 			},
 		},
-		data: barAndLineData,
+		data: [],
 		background: {
 			fill: 'transparent',
 		},
@@ -917,14 +885,16 @@ export const CHART_DATA_OPTIONS: Partial<{ [key in ChartTypesEnum]: object }> = 
 			},
 			{
 				type: 'number',
-				position: 'right',
-				crosshair: {
-					label: {
-						format: ',f',
-						color: '#666666',
-						fontSize: 12,
-					},
-				},
+				position: 'left',
+				// crosshair: {
+				// 	enabled: true,
+				// 	label: {
+				// 		enabled: true,
+				// 		format: ',f',
+				// 		color: '#2ed608',
+				// 		fontSize: 12,
+				// 	},
+				// },
 			},
 		],
 		series: [
@@ -963,7 +933,7 @@ export const CHART_DATA_OPTIONS: Partial<{ [key in ChartTypesEnum]: object }> = 
 				},
 			},
 		},
-		data: candlestickAndOhlcData,
+		data: [],
 		background: {
 			fill: 'transparent',
 		},
@@ -998,7 +968,7 @@ export const CHART_DATA_OPTIONS: Partial<{ [key in ChartTypesEnum]: object }> = 
 			},
 			{
 				type: 'number',
-				position: 'right',
+				position: 'left',
 				crosshair: {
 					label: {
 						format: ',f',
@@ -1036,7 +1006,7 @@ export const CHART_DATA_OPTIONS: Partial<{ [key in ChartTypesEnum]: object }> = 
 				},
 			},
 		},
-		data: candlestickAndOhlcData,
+		data: [],
 		background: {
 			fill: 'transparent',
 		},
@@ -1129,7 +1099,7 @@ export const CHART_DATA_OPTIONS: Partial<{ [key in ChartTypesEnum]: object }> = 
 				padding: 5,
 			},
 		},
-		data: heatmapData,
+		data: [],
 		background: {
 			fill: 'transparent',
 		},
@@ -1169,6 +1139,10 @@ export const CHART_DATA_OPTIONS: Partial<{ [key in ChartTypesEnum]: object }> = 
 					color: '#666666',
 				},
 				interval: { step: 2 },
+				gridLine: {
+					enabled: true,
+					width: 1,
+				},
 			},
 			{
 				type: 'number', // Y 轴
@@ -1182,6 +1156,10 @@ export const CHART_DATA_OPTIONS: Partial<{ [key in ChartTypesEnum]: object }> = 
 					text: '奖金总额（人民币）',
 					fontSize: 10,
 					color: '#666666',
+				},
+				gridLine: {
+					enabled: true,
+					width: 1,
 				},
 			},
 		],
@@ -1204,7 +1182,7 @@ export const CHART_DATA_OPTIONS: Partial<{ [key in ChartTypesEnum]: object }> = 
 				},
 			},
 		},
-		data: histogramData,
+		data: [],
 		background: {
 			fill: 'transparent',
 		},
@@ -1272,7 +1250,7 @@ export const CHART_DATA_OPTIONS: Partial<{ [key in ChartTypesEnum]: object }> = 
 				},
 			},
 		},
-		data: doubleGroupData,
+		data: [],
 		background: {
 			fill: 'transparent',
 		},
@@ -1542,32 +1520,7 @@ export const CHART_DATA_OPTIONS: Partial<{ [key in ChartTypesEnum]: object }> = 
 				},
 			},
 		},
-		data: [
-			{
-				quarter: `Q1'23`,
-				software: 3.35,
-				hardware: 3.14,
-				services: 3.91,
-			},
-			{
-				quarter: `Q2'23`,
-				software: 3.28,
-				hardware: 3.13,
-				services: 3.54,
-			},
-			{
-				quarter: `Q3'23`,
-				software: 3.14,
-				hardware: 2.84,
-				services: 3.18,
-			},
-			{
-				quarter: `Q4'23`,
-				software: 2.48,
-				hardware: 2.46,
-				services: 3.21,
-			},
-		],
+		data: [],
 		background: {
 			fill: 'transparent',
 		},
@@ -1630,7 +1583,7 @@ export const CHART_DATA_OPTIONS: Partial<{ [key in ChartTypesEnum]: object }> = 
 				},
 			},
 		},
-		data: doubleGroupData,
+		data: [],
 		background: {
 			fill: 'transparent',
 		},
@@ -1719,7 +1672,7 @@ export const CHART_DATA_OPTIONS: Partial<{ [key in ChartTypesEnum]: object }> = 
 				},
 			},
 		},
-		data: rangeAreaData,
+		data: [],
 		background: {
 			fill: 'transparent',
 		},
@@ -1805,7 +1758,7 @@ export const CHART_DATA_OPTIONS: Partial<{ [key in ChartTypesEnum]: object }> = 
 				},
 			},
 		},
-		data: rangeBarData,
+		data: [],
 		background: {
 			fill: 'transparent',
 		},
@@ -1878,7 +1831,7 @@ export const CHART_DATA_OPTIONS: Partial<{ [key in ChartTypesEnum]: object }> = 
 				},
 			},
 		},
-		data: waterfallData,
+		data: [],
 		background: {
 			fill: 'transparent',
 		},
@@ -1970,7 +1923,7 @@ export const CHART_DATA_OPTIONS: Partial<{ [key in ChartTypesEnum]: object }> = 
 				padding: 5,
 			},
 		},
-		data: sunburstData,
+		data: [],
 		background: {
 			fill: 'transparent',
 		},
@@ -2013,7 +1966,7 @@ export const CHART_DATA_OPTIONS: Partial<{ [key in ChartTypesEnum]: object }> = 
 					fillOpacity: 0.8,
 					stroke: '#ffffff',
 					strokeWidth: '1',
-					strokeOpacity: '1'
+					strokeOpacity: '1',
 				},
 				tile: {
 					label: {
@@ -2043,7 +1996,7 @@ export const CHART_DATA_OPTIONS: Partial<{ [key in ChartTypesEnum]: object }> = 
 				},
 			},
 		},
-		data: treemapData,
+		data: [],
 		background: {
 			fill: 'transparent',
 		},
@@ -2098,7 +2051,7 @@ export const CHART_DATA_OPTIONS: Partial<{ [key in ChartTypesEnum]: object }> = 
 				},
 			},
 		},
-		data: sankeyData,
+		data: [],
 		background: {
 			fill: 'transparent',
 		},
@@ -2125,24 +2078,24 @@ export const CHART_DATA_OPTIONS: Partial<{ [key in ChartTypesEnum]: object }> = 
 		theme: 'ag-default',
 		series: [
 			{
-				type: "chord",
-				fromKey: "from",
-				toKey: "to",
-				sizeKey: "size",
-				sizeName: "Migration (millions)",
+				type: 'chord',
+				fromKey: 'from',
+				toKey: 'to',
+				sizeKey: 'size',
+				sizeName: 'Migration (millions)',
 				label: {
 					enabled: true,
 					fontSize: 12,
 					color: '#666666',
 				},
 				link: {
-					fill: "#34495e",
+					fill: '#34495e',
 					fillOpacity: 0.25,
-					stroke: "#2c3e50",
+					stroke: '#2c3e50',
 					strokeWidth: 1,
 					strokeOpacity: 0.25,
 				},
-			}
+			},
 		],
 		legend: {
 			enabled: false,
@@ -2153,7 +2106,7 @@ export const CHART_DATA_OPTIONS: Partial<{ [key in ChartTypesEnum]: object }> = 
 				},
 			},
 		},
-		data: chordData,
+		data: [],
 		background: {
 			fill: 'transparent',
 		},
@@ -2212,16 +2165,16 @@ export const CHART_DATA_OPTIONS: Partial<{ [key in ChartTypesEnum]: object }> = 
 		],
 		series: [
 			{
-				type: "funnel",
-				stageKey: "group",
-				valueKey: "value",
-				fills: ["#00BFFF", "#FFD700", "#3CB371", "#00CED1"],
+				type: 'funnel',
+				stageKey: 'group',
+				valueKey: 'value',
+				fills: ['#00BFFF', '#FFD700', '#3CB371', '#00CED1'],
 				dropOff: {
 					enabled: true,
 				},
 			},
 		],
-		data: funnelData,
+		data: [],
 		legend: {
 			enabled: false,
 			item: {
@@ -2295,18 +2248,18 @@ export const CHART_DATA_OPTIONS: Partial<{ [key in ChartTypesEnum]: object }> = 
 		// },
 		series: [
 			{
-				type: "cone-funnel",
-				stageKey: "group",
-				valueKey: "value",
-				direction: "vertical",
-				fills: ["#00BFFF", "#FFD700", "#3CB371"],
+				type: 'cone-funnel',
+				stageKey: 'group',
+				valueKey: 'value',
+				direction: 'vertical',
+				fills: ['#00BFFF', '#FFD700', '#3CB371'],
 				label: {
 					enabled: true,
 					color: '#666666',
 					fontSize: 12,
 					fontWeight: 'normal',
-				}
-			}
+				},
+			},
 		],
 		legend: {
 			enabled: true,
@@ -2317,7 +2270,7 @@ export const CHART_DATA_OPTIONS: Partial<{ [key in ChartTypesEnum]: object }> = 
 				},
 			},
 		},
-		data: coneFunnelData,
+		data: [],
 		background: {
 			fill: 'transparent',
 		},
@@ -2344,10 +2297,10 @@ export const CHART_DATA_OPTIONS: Partial<{ [key in ChartTypesEnum]: object }> = 
 		theme: 'ag-default',
 		series: [
 			{
-				type: "pyramid",
-				stageKey: "group",
-				valueKey: "value",
-				direction: "vertical",
+				type: 'pyramid',
+				stageKey: 'group',
+				valueKey: 'value',
+				direction: 'vertical',
 				fills: undefined,
 				label: {
 					enabled: true,
@@ -2361,8 +2314,8 @@ export const CHART_DATA_OPTIONS: Partial<{ [key in ChartTypesEnum]: object }> = 
 					color: '#666666',
 					fontSize: 12,
 					fontWeight: 'normal',
-				}
-			}
+				},
+			},
 		],
 		legend: {
 			enabled: true,
@@ -2373,7 +2326,7 @@ export const CHART_DATA_OPTIONS: Partial<{ [key in ChartTypesEnum]: object }> = 
 				},
 			},
 		},
-		data: funnelData,
+		data: [],
 		background: {
 			fill: 'transparent',
 		},
@@ -2394,6 +2347,35 @@ export const CHART_DATA_OPTIONS: Partial<{ [key in ChartTypesEnum]: object }> = 
 			textAlign: 'center',
 			color: '#666666',
 			enabled: false,
+		},
+	},
+	[ChartTypesEnum.mapMarker]: {
+		theme: 'ag-default',
+		series: [
+			{
+				type: 'map-shape-background',
+				// idKey: 'city',
+				// labelKey: 'name',
+				levelKey: 'province',
+				topology: null,
+			},
+			{
+				type: 'map-marker',
+				latitudeKey: 'lat',
+				longitudeKey: 'lon',
+				sizeKey: 'count',
+				sizeName: 'Count',
+				size: 3,
+				maxSize: 5,
+				idKey: 'gid',
+				idName: 'id',
+				shape: 'pin',
+				// labelKey: "geometry",
+				// labelName: "标记类型"
+			},
+		],
+		background: {
+			fill: 'transparent',
 		},
 	},
 };

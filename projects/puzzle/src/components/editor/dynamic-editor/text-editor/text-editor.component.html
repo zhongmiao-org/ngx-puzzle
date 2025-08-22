@@ -1,5 +1,5 @@
 <p-accordion [multiple]="false">
-	@for (group of textFields; track group.label) {
+	@for (group of sections; track group.label) {
 		<p-accordion-panel [value]="group.label">
 			<p-accordion-header>{{ group.label }}</p-accordion-header>
 			<p-accordion-content>

@@ -1,98 +1,92 @@
-@import "../../styles.scss";
-
 :host {
-  .thy-card-header, .thy-card-content {
+
+  .p-tabpanels {
+    padding-top: 0;
+  }
+  .p-accordionheader {
     padding-left: 0;
     padding-right: 0;
   }
 
-  //.p-tabpanels {
-  //  padding-top: 0;
-  //}
-  //.p-accordionheader {
-  //  padding-left: 0;
-  //  padding-right: 0;
-  //}
-  //
-  //.p-accordioncontent {
-  //  ::ng-deep .p-accordioncontent-content {
-  //    padding-left: 0;
-  //    padding-right: 0;
-  //  }
-  //}
-  //
-  //.p-inputnumber {
-  //  //width: 135px;
-  //  ::ng-deep input {
-  //    width: 100%;
-  //  }
-  //}
-  //
-  //.p-inputtext {
-  //  ::ng-deep input {
-  //    width: 100%;
-  //  }
-  //
-  //}
-  //
-  //.series-item {
-  //  position: relative;
-  //  width: 100%;
-  //  .close-btn {
-  //    position: absolute;
-  //    top: 5px;
-  //    right: 5px;
-  //    cursor: pointer;
-  //  }
-  //}
-  //
-  //.input-item {
-  //  width: 46%;
-  //  max-width: 46%;
-  //  input {
-  //    width: 100%;
-  //  }
-  //
-  //  input.color-input {
-  //    width: 80px;
-  //    margin-left: 8px;
-  //  }
-  //
-  //  ::ng-deep .p-colorpicker {
-  //    border: 1px solid #ccc;
-  //    border-radius: var(--p-colorpicker-preview-border-radius);
-  //  }
-  //  ::ng-deep .p-select {
-  //    width: 100%;
-  //  }
-  //
-  //  ::ng-deep .p-textarea {
-  //    width: 200%;
-  //  }
-  //}
-  //.field-label-icon {
-  //  line-height: 13px;
-  //  font-size: 12px;
-  //  vertical-align: middle;
-  //}
-  //
-  //::ng-deep .p-select {
-  //  &:hover {
-  //    height: 28px;
-  //  }
-  //  span {
-  //    height: 28px;
-  //    line-height: 28px;
-  //  }
-  //}
-  //
-  //::ng-deep .p-select:not(.ng-valid).ng-dirty {
-  //  border-radius: var(--p-border-radius-md);
-  //  span {
-  //    text-indent: 4px;
-  //    height: 30px;
-  //    line-height: 30px;
-  //  }
-  //}
+  .p-accordioncontent {
+    ::ng-deep .p-accordioncontent-content {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+
+  .p-inputnumber {
+    //width: 135px;
+    ::ng-deep input {
+      width: 100%;
+    }
+  }
+
+  .p-inputtext {
+    ::ng-deep input {
+      width: 100%;
+    }
+
+  }
+
+  .series-item {
+    position: relative;
+    width: 100%;
+    .close-btn {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      cursor: pointer;
+    }
+  }
+
+  .input-item {
+    width: 47%;
+    max-width: 47%;
+    input {
+      width: 100%;
+    }
+
+    input.color-input {
+      width: 80px;
+      margin-left: 8px;
+    }
+
+    ::ng-deep .p-colorpicker {
+      border: 1px solid #ccc;
+      border-radius: var(--p-colorpicker-preview-border-radius);
+    }
+    ::ng-deep .p-select {
+      width: 100%;
+    }
+
+    ::ng-deep .p-textarea {
+      width: 200%;
+    }
+  }
+  .field-label-icon {
+    line-height: 13px;
+    font-size: 12px;
+    vertical-align: middle;
+  }
+
+  ::ng-deep .p-select {
+    &:hover {
+      height: 28px;
+    }
+    span {
+      height: 28px;
+      line-height: 28px;
+    }
+  }
+
+  ::ng-deep .p-select:not(.ng-valid).ng-dirty {
+    border-radius: var(--p-border-radius-md);
+    span {
+      text-indent: 4px;
+      height: 30px;
+      line-height: 30px;
+    }
+  }
 
 }
