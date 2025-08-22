@@ -7,10 +7,11 @@ import { ComponentBaseProps, ComponentConfig, DataRequestConfig, Position, Size 
 
 import { mainTypes } from '../../types';
 import { INIT_SETTINGS_CONFIG } from '../../constants';
+import { NgxPuzzleChartFactoryService } from 'ngx-puzzle/core/factories/concrete/ngx-puzzle-chart-factory.service';
 
 @Injectable({ providedIn: 'root' })
 export class ComponentRegistryService<TConfigProps extends ComponentBaseProps = ComponentBaseProps, TSubType = string> {
-	private chartFactory = inject(ChartFactoryService);
+	private chartFactory = inject(NgxPuzzleChartFactoryService);
 	// private tableFactory = inject(TableFactoryService);
 	// private textFactory = inject(TextFactoryService);
 	// private controlFactory = inject(ControlFactoryService);

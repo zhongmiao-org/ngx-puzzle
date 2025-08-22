@@ -1,6 +1,11 @@
 import { Injectable, inject } from '@angular/core';
 import { ComponentConfig } from '../../interfaces';
-import { ComponentRegistryService, SessionIndexedDbService, ComponentInjectorService, CanvasMediatorService } from '../internal';
+import {
+  ComponentRegistryService,
+  SessionIndexedDbService,
+  ComponentInjectorService,
+  PuzzleCanvasMediatorService
+} from '../internal';
 import { generateUUID } from 'ngx-puzzle/utils';
 // import { generateUniqueId } from 'imm-element-ui';
 // import { parseDate } from '../../../shared';
@@ -15,7 +20,7 @@ export class BiExternalService {
 	private registry = inject(ComponentRegistryService);
 	private sessionService = inject(SessionIndexedDbService);
 	private injector = inject(ComponentInjectorService);
-	private mediator = inject(CanvasMediatorService);
+	private mediator = inject(PuzzleCanvasMediatorService);
 
 	/**
 	 * 获取所有当前组件配置
@@ -115,7 +120,7 @@ export class BiExternalService {
 
 	// private initializeConfigData(config: ComponentConfig): ComponentConfig {
 	// 	if (!config?.controls?.datePick) {
-	// 		return config;
+	// 		return config;s
 	// 	}
 	//
 	// 	const datePickControl = config.controls.datePick;

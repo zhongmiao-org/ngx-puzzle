@@ -1,9 +1,9 @@
 import {
-  AfterViewInit, ChangeDetectorRef,
+  afterNextRender,
+  AfterViewInit,
   Component,
   ElementRef,
-  HostListener,
-  inject, NgZone,
+  inject,
   OnDestroy,
   OnInit,
   Renderer2,
@@ -18,7 +18,7 @@ import { fromEvent, Subject, takeUntil } from 'rxjs';
 import { StylesFormatPipe } from 'ngx-puzzle/pipes/styles-format.pipe';
 import { INIT_SETTINGS_CONFIG } from 'ngx-puzzle/core/constants';
 import { ComponentBaseProps, ComponentConfig, Position, Size, Tick, TooltipPosition } from 'ngx-puzzle/core/interfaces';
-import { CanvasMediatorService, ComponentInjectorService, ComponentRegistryService } from 'ngx-puzzle/core';
+import { ComponentInjectorService, ComponentRegistryService, PuzzleCanvasMediatorService } from 'ngx-puzzle/core';
 
 @Component({
   selector: 'ngx-puzzle-canvas, puzzle-canvas',
@@ -36,11 +36,15 @@ export class NgxPuzzleCanvasComponent implements OnInit, AfterViewInit, OnDestro
   private destroy$ = new Subject<void>();
   private _config: ComponentConfig = INIT_SETTINGS_CONFIG['canvas'];
   private selectedId: string = 'canvas';
+  private injector = inject(ComponentInjectorService);
+  private registry = inject(ComponentRegistryService);
+  private mediator = inject(PuzzleCanvasMediatorService<ComponentBaseProps, string>);
+  private renderer = inject(Renderer2);
 
   set size(size: Size) {
     this._config = {
       ...this._config,
-      size,
+      size
     };
     this.updateRulers();
   }
@@ -55,16 +59,13 @@ export class NgxPuzzleCanvasComponent implements OnInit, AfterViewInit, OnDestro
 
   positionSignal: WritableSignal<TooltipPosition> = signal({ x: 0, y: 0, left: 0, top: 0, width: 0, height: 0 });
   showGuideSignal: WritableSignal<boolean> = signal(false);
+  hTicks: WritableSignal<Tick[]> = signal<Tick[]>([]);
+  vTicks: WritableSignal<Tick[]> = signal<Tick[]>([]);
 
-  public hTicks: Tick[] = [];
-  public vTicks: Tick[] = [];
-
-  constructor(
-    private injector: ComponentInjectorService,
-    private registry: ComponentRegistryService,
-    private mediator: CanvasMediatorService,
-    private renderer: Renderer2,
-  ) {}
+  constructor() // private registry: ComponentRegistryService, // private injector: ComponentInjectorService,
+  // private mediator: CanvasMediatorService,
+  // private renderer: Renderer2
+  {}
 
   ngOnInit() {}
 
@@ -90,6 +91,7 @@ export class NgxPuzzleCanvasComponent implements OnInit, AfterViewInit, OnDestro
 
     // 添加元素
     this.mediator.componentAdd$.subscribe((config) => {
+      console.log(`componentAdd$`, config);
       this.createComponent(config);
     });
 
@@ -122,7 +124,7 @@ export class NgxPuzzleCanvasComponent implements OnInit, AfterViewInit, OnDestro
       if (config.id === this.config.id) {
         this.config.props = {
           ...this.config.props,
-          ...config.props,
+          ...config.props
         };
       }
     });
@@ -139,8 +141,8 @@ export class NgxPuzzleCanvasComponent implements OnInit, AfterViewInit, OnDestro
 
   private updateRulers() {
     // 更新标尺刻度
-    this.hTicks = this.generateTicks(this.config.size.width, 100);
-    this.vTicks = this.generateTicks(this.config.size.height, 100);
+    this.hTicks.set(this.generateTicks(this.config.size.width, 100));
+    this.vTicks.set(this.generateTicks(this.config.size.height, 100));
   }
 
   private updateRulerPosition() {
@@ -154,7 +156,7 @@ export class NgxPuzzleCanvasComponent implements OnInit, AfterViewInit, OnDestro
     for (let pos = 0; pos <= length; pos += interval) {
       ticks.push({
         position: pos,
-        label: pos.toString(),
+        label: pos.toString()
       });
     }
     return ticks;
@@ -183,7 +185,7 @@ export class NgxPuzzleCanvasComponent implements OnInit, AfterViewInit, OnDestro
       x: position.x,
       y: position.y,
       left: position.x,
-      top: position.y,
+      top: position.y
     };
   }
 

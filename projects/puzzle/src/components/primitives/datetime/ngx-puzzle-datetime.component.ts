@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, computed, effect, input, OnDestroy, signal } from '@angular/core';
 import { NgStyle } from '@angular/common';
-import { StylesFormatPipe } from '../../pipes/styles-format.pipe';
+// import { StylesFormatPipe } from '../../pipes/styles-format.pipe';
 import { DateTimeConfig } from '../../../core';
+import { StylesFormatPipe } from 'ngx-puzzle/pipes/styles-format.pipe';
 
 const DEFAULTS: DateTimeConfig = {
 	layout: 'single',
@@ -30,11 +31,11 @@ const DEFAULTS: DateTimeConfig = {
 	selector: 'imm-bi-datetime',
 	standalone: true,
 	imports: [NgStyle, StylesFormatPipe],
-	templateUrl: './datetime.component.html',
-	styleUrls: ['./datetime.component.css'],
+	templateUrl: './ngx-puzzle-datetime.component.html',
+	styleUrls: ['./ngx-puzzle-datetime.component.css'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DatetimeComponent implements OnDestroy {
+export class NgxPuzzleDatetimeComponent implements OnDestroy {
 	// Split first-level inputs (undefined by default; when provided, override defaults)
 	year = input<DateTimeConfig['year'] | undefined>();
 	month = input<DateTimeConfig['month'] | undefined>();

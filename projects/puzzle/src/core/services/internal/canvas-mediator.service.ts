@@ -8,8 +8,8 @@ import {
 	HistoryActionStack,
 	Position,
 	Size,
-} from '../../interfaces';
-import { ComponentRegistryService } from './component-registry.service';
+} from 'ngx-puzzle/core';
+import { ComponentRegistryService } from 'ngx-puzzle/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { isEqual } from 'lodash';
 import { actionTypes, controlType } from '../../types';
@@ -18,7 +18,7 @@ import { OperationHistoryEnum } from '../../enums';
 import { DebounceUtil, isTargetInputElement } from 'ngx-puzzle/core/utils';
 
 @Injectable({ providedIn: 'root' })
-export class CanvasMediatorService<TConfigProps extends ComponentBaseProps = ComponentBaseProps, TSubType = string>
+export class PuzzleCanvasMediatorService<TConfigProps extends ComponentBaseProps = ComponentBaseProps, TSubType = string>
 	implements CanvasMediator<TConfigProps, TSubType>
 {
 	private registry = inject(ComponentRegistryService<TConfigProps, TSubType>);

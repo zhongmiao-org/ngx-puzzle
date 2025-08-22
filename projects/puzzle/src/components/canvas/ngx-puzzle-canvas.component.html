@@ -3,7 +3,7 @@
 		<div
 			#rulerHorizontal
 			class="puzzle-ruler-horizontal">
-			@for (tick of hTicks; track tick.label) {
+			@for (tick of hTicks(); track tick.label) {
 				<div
 					class="puzzle-tick"
 					[style.left.px]="tick.position">
@@ -27,7 +27,7 @@
 		<div
 			#rulerVertical
 			class="puzzle-ruler-vertical">
-			@for (tick of vTicks; track tick.label) {
+			@for (tick of vTicks(); track tick.label) {
 				<div
 					class="puzzle-tick"
 					[style.top.px]="tick.position">
@@ -47,7 +47,6 @@
       }
 		</div>
 	</div>
-<!--  {{config.props['styles'] | stylesFormat | json}}-->
 	<div #canvasContainer id="canvas-container" class="puzzle-canvas-container">
 		<div
       (mousedown)="canvasHandleSelect($event)"

@@ -1,8 +1,10 @@
-import { Component, effect, ElementRef, inject, input, OnDestroy, OnInit } from '@angular/core';
-import * as echarts from 'echarts/core';
-import { ECBasicOption, EChartsType } from 'echarts/types/dist/shared';
-import { ComposeOption } from 'echarts';
+import { AfterViewInit, Component, effect, ElementRef, inject, input, OnDestroy, OnInit } from '@angular/core';
+import * as echarts from 'echarts';
+import { ECBasicOption } from 'echarts/types/dist/shared';
+import { ComposeOption, EChartsType } from 'echarts';
 import { SafeAny } from 'ngx-puzzle/core';
+
+type EChartsOption = echarts.EChartsOption;
 
 @Component({
   selector: 'bi-ngx-puzzle-charts',
@@ -11,11 +13,11 @@ import { SafeAny } from 'ngx-puzzle/core';
   templateUrl: './ngx-puzzle-charts.component.html',
   styleUrl: './ngx-puzzle-charts.component.scss'
 })
-export class NgxPuzzleChartsComponent implements OnInit, OnDestroy {
+export class NgxPuzzleChartsComponent implements OnInit, AfterViewInit, OnDestroy {
   private el = inject(ElementRef);
   private chartInstance!: EChartsType;
 
-  options = input<ComposeOption<SafeAny>>(); // 接收 ECharts 配置
+  options = input<EChartsOption>(); // 接收 ECharts 配置
   theme = input<string>(); // 支持主题
   autoResize = input<boolean>(true); // 是否自动适应
 
@@ -31,16 +33,17 @@ export class NgxPuzzleChartsComponent implements OnInit, OnDestroy {
       }
     });
 
-    const option: ECBasicOption = {
-
-    }
+    const option: ECBasicOption = {};
   }
 
   ngOnInit(): void {
-    this.initChart();
     if (this.autoResize()) {
       window.addEventListener('resize', this.resizeChart);
     }
+  }
+
+  ngAfterViewInit() {
+    this.initChart();
   }
 
   ngOnDestroy(): void {
@@ -53,7 +56,9 @@ export class NgxPuzzleChartsComponent implements OnInit, OnDestroy {
   }
 
   private initChart(): void {
+    console.log('initChart', this.options(), this.theme());
     const el = this.el.nativeElement.querySelector('.echarts-container');
+    console.log('el', el);
     this.chartInstance = echarts.init(el, this.theme);
     if (this.options()) {
       this.chartInstance.setOption(this.options()!);

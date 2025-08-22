@@ -1,21 +1,18 @@
 import { ComponentBaseProps, ComponentConfig, ControlFilterCondition, DataRequestConfig } from 'ngx-puzzle/core/interfaces';
 import { Component, inject, OnDestroy } from '@angular/core';
 import { mainTypes } from 'ngx-puzzle/core/types';
-import { PuzzleCanvasMediatorService } from 'ngx-puzzle/core/mediator/puzzle-canvas-mediator.service';
 import { SafeAny } from 'ngx-tethys/types';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ControlsService } from 'ngx-puzzle/core/services/internal/controls.service';
-import { CanvasMediatorService, DEFAULT_INTERVAL_MULTIPLIERS, RefreshIntervalUnitEnum } from 'ngx-puzzle/core';
-
+import { DEFAULT_INTERVAL_MULTIPLIERS, PuzzleCanvasMediatorService, RefreshIntervalUnitEnum } from 'ngx-puzzle/core';
 
 @Component({
-	template: ``,
+  template: ``
 })
 export abstract class NgxPuzzleCanvasBaseComponent<TConfigProps extends ComponentBaseProps = ComponentBaseProps, TSubType = string>
   implements OnDestroy
 {
-
   private refreshTimer: SafeAny | null = null;
 
   private currentControlFilters: ControlFilterCondition[] = [];
@@ -40,7 +37,7 @@ export abstract class NgxPuzzleCanvasBaseComponent<TConfigProps extends Componen
     return this._isEdit;
   }
 
-  protected constructor(public mediator: CanvasMediatorService<TConfigProps, TSubType>) {
+  protected constructor(public mediator: PuzzleCanvasMediatorService<TConfigProps, TSubType>) {
     this.setupObservables();
   }
 
@@ -73,8 +70,8 @@ export abstract class NgxPuzzleCanvasBaseComponent<TConfigProps extends Componen
         ...this._config,
         props: {
           ...this._config.props,
-          [this.dataKey]: this.getDefaultOptions(this._config.subType),
-        },
+          [this.dataKey]: this.getDefaultOptions(this._config.subType)
+        }
       };
       this.mediator.updateComponentData(this._config);
     }
@@ -186,13 +183,14 @@ export abstract class NgxPuzzleCanvasBaseComponent<TConfigProps extends Componen
   private buildRequestDataWithFilters(dataRequest: DataRequestConfig): DataRequestConfig {
     return {
       ...dataRequest,
-      paramSearch: dataRequest.paramSearch?.map((search) => ({
-        ...search,
-        columnFilters: [
-          ...(Array.isArray(search?.columnFilters) ? search.columnFilters : []),
-          ...(Array.isArray(this.currentControlFilters) ? this.currentControlFilters : []),
-        ],
-      })) || [],
+      paramSearch:
+        dataRequest.paramSearch?.map((search) => ({
+          ...search,
+          columnFilters: [
+            ...(Array.isArray(search?.columnFilters) ? search.columnFilters : []),
+            ...(Array.isArray(this.currentControlFilters) ? this.currentControlFilters : [])
+          ]
+        })) || []
     };
   }
 
@@ -205,8 +203,7 @@ export abstract class NgxPuzzleCanvasBaseComponent<TConfigProps extends Componen
   }
 
   private getIntervalInMilliseconds(interval: number, unit: RefreshIntervalUnitEnum): number {
-    const multiplier = DEFAULT_INTERVAL_MULTIPLIERS[unit]
-      || DEFAULT_INTERVAL_MULTIPLIERS[RefreshIntervalUnitEnum.minutes];
+    const multiplier = DEFAULT_INTERVAL_MULTIPLIERS[unit] || DEFAULT_INTERVAL_MULTIPLIERS[RefreshIntervalUnitEnum.minutes];
     return interval * multiplier;
   }
 
@@ -220,4 +217,3 @@ export abstract class NgxPuzzleCanvasBaseComponent<TConfigProps extends Componen
     this.destroy$.complete();
   }
 }
-

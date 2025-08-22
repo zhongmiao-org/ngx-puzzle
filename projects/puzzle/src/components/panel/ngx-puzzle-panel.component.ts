@@ -1,13 +1,13 @@
 import { AfterViewInit, Component, HostBinding, inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { CHART_SERIES_TYPE_OPTIONS, INIT_SETTINGS_CONFIG, TEXT_TYPE_OPTIONS, TABLE_TYPE_OPTIONS } from '../../core/constants';
 import { CdkDrag, CdkDragEnd, CdkDropList } from '@angular/cdk/drag-drop';
-import { PuzzleCanvasMediatorService } from 'ngx-puzzle/core/mediator/puzzle-canvas-mediator.service';
 import { ComponentConfig } from 'ngx-puzzle/core/interfaces';
 import { mainTypes } from 'ngx-puzzle/core/types';
 import { ChartTypesEnum, TextTypesEnum, TableTypesEnum } from 'ngx-puzzle/core/enums';
 import { generateUUID } from '../../utils';
 import { ThyTooltipDirective } from 'ngx-tethys/tooltip';
 import { ThyIcon } from 'ngx-tethys/icon';
+import { PuzzleCanvasMediatorService } from 'ngx-puzzle/core/services/internal/canvas-mediator.service';
 
 @Component({
   selector: 'ngx-puzzle-panel, puzzle-panel',

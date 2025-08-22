@@ -4,12 +4,10 @@ import { NgxPuzzleCanvasBaseComponent } from '../base/ngx-puzzle-canvas-base.com
 import { ComponentChartProps, ComponentConfig, DataRequestConfig } from 'ngx-puzzle/core/interfaces';
 import { mainTypes, mapLevelTypes } from 'ngx-puzzle/core/types';
 import { ChartTypesEnum } from 'ngx-puzzle/core/enums';
-import { PuzzleCanvasMediatorService } from 'ngx-puzzle/core/mediator/puzzle-canvas-mediator.service';
-import { updateCharts } from 'ngx-puzzle/utils';
 import { CHART_DATA_OPTIONS, CHART_DEFAULT_MOCKS_MAP } from 'ngx-puzzle/core/constants';
 import { SafeAny } from 'ngx-tethys/types';
 import { map } from 'rxjs/operators';
-import { AggregationService, CanvasMediatorService, ChartMapsService, DataSearchService, MockService } from 'ngx-puzzle/core';
+import { AggregationService, ChartMapsService, DataSearchService, MockService, PuzzleCanvasMediatorService } from 'ngx-puzzle/core';
 import { getChangedIndexes } from 'ngx-puzzle/core/utils/util';
 import {
   NgxPuzzleChartsComponent
@@ -45,7 +43,7 @@ export class NgxPuzzleChartComponent extends NgxPuzzleCanvasBaseComponent<Compon
 
   public options!: SafeAny;
 
-  constructor(mediator: CanvasMediatorService<ComponentChartProps, ChartTypesEnum>) {
+  constructor(mediator: PuzzleCanvasMediatorService<ComponentChartProps, ChartTypesEnum>) {
     super(mediator);
   }
 

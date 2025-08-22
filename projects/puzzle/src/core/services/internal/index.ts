@@ -1,5 +1,5 @@
 // 内部服务 - 不对外暴露
-export { CanvasMediatorService } from './canvas-mediator.service';
+export { PuzzleCanvasMediatorService } from './canvas-mediator.service';
 export { ComponentRegistryService } from './component-registry.service';
 export { ComponentInjectorService } from './component-inject.service';
 export { SessionIndexedDbService } from './session-indexed-db.service';
