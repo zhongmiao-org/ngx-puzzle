@@ -1,7 +1,7 @@
 @if (isEdit()) {
 	<div
 		cdkDrag
-		cdkDragBoundary=".canvas-content-wrapper"
+		cdkDragBoundary=".puzzle-canvas-content-wrapper"
 		(mousedown)="componentHandleSelect($event)"
 		(cdkDragMoved)="componentHandleDrag()"
 		(cdkDragEnded)="componentHandleDragEnd()"

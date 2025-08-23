@@ -1,4 +1,4 @@
-<thy-collapse>
+<thy-collapse [thyAccordion]="true" thyArrowIconPosition="right">
   @for (section of sections; track section.label) {
     <thy-collapse-item [thyTitle]="section.label">
       @if (section.schemaType === 'array') {

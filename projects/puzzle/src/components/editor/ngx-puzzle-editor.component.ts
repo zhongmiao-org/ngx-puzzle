@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, inject, OnDestroy, OnInit, signal, ViewChild } from '@angular/core';
 import { NgClass, NgStyle, NgSwitch, NgSwitchCase, NgSwitchDefault } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
@@ -79,7 +79,7 @@ export class NgxPuzzleEditorComponent implements AfterViewInit, OnDestroy {
     styles: {},
   };
 
-  public tabs: EditorTab[] = [];
+  public tabs = signal<EditorTab[]>([]);
 
   public activeTab: editorTabTypes = 'appearance';
 
@@ -93,8 +93,8 @@ export class NgxPuzzleEditorComponent implements AfterViewInit, OnDestroy {
   }
 
   private setupTabs(config: ComponentConfig): void {
-    this.tabs = EDITOR_TAB_MAP[config.type] || [BASE_TAB];
-    this.onTabChange(this.tabs[0].value);
+    this.tabs.set( EDITOR_TAB_MAP[config.type] || [BASE_TAB]);
+    this.onTabChange(this.tabs()[0].value);
   }
 
   private resetConfig(config: ComponentConfig): void {

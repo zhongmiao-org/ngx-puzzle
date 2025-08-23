@@ -1,10 +1,8 @@
 import { AfterViewInit, Component, effect, ElementRef, inject, input, OnDestroy, OnInit } from '@angular/core';
 import * as echarts from 'echarts';
-import { ECBasicOption } from 'echarts/types/dist/shared';
-import { ComposeOption, EChartsType } from 'echarts';
-import { SafeAny } from 'ngx-puzzle/core';
+import { EChartsType, EChartsOption } from 'echarts';
 
-type EChartsOption = echarts.EChartsOption;
+// type EChartsOption = echarts.EChartsOption;
 
 @Component({
   selector: 'bi-ngx-puzzle-charts',
@@ -33,7 +31,6 @@ export class NgxPuzzleChartsComponent implements OnInit, AfterViewInit, OnDestro
       }
     });
 
-    const option: ECBasicOption = {};
   }
 
   ngOnInit(): void {

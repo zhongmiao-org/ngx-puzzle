@@ -811,36 +811,7 @@ export const CHART_DATA: EditorChartField = {
 	],
 };
 
-// 标题设置
-export const CHART_TITLE: EditorChartField = {
-	label: '标题设置',
-	key: 'title',
-	path: 'title',
-	schemaType: 'group',
-	children: [
-		{
-			label: '展示主标题',
-			key: 'titleEnabled',
-			path: 'title.enabled',
-			schemaType: 'select',
-			options: ENABLE_OPTIONS,
-		},
-		{ label: '主标题', key: 'titleText', path: 'title.text', schemaType: 'text' },
-		{
-			label: '对齐方式',
-			key: 'titleTextAlign',
-			path: 'title.textAlign',
-			schemaType: 'select',
-			options: [
-				{ label: '左对齐', val: 'left' },
-				{ label: '居中', val: 'center' },
-				{ label: '右对齐', val: 'right' },
-			],
-		},
-		{ label: '颜色', key: 'titleColor', path: 'title.color', schemaType: 'color' },
-		{ label: '字体大小', key: 'titleFontSize', path: 'title.fontSize', schemaType: 'number' },
-	],
-};
+
 
 // 副标题设置
 export const CHART_SUBTITLE: EditorChartField = {
@@ -905,50 +876,50 @@ export const CHART_FOOTNOTE: EditorChartField = {
 };
 
 // 图例配置
-export const CHART_LEGEND: EditorChartField = {
-	label: '图例设置',
-	key: 'legend',
-	path: 'legend',
-	schemaType: 'group',
-	children: [
-		{
-			label: '展示图例',
-			key: 'legendEnabled',
-			path: 'legend.enabled',
-			schemaType: 'select',
-			options: ENABLE_OPTIONS,
-		},
-		{
-			label: '图例定位',
-			key: 'legendPosition',
-			path: 'legend.position',
-			schemaType: 'select',
-			options: AXIS_POSITION_OPTIONS,
-		},
-		{ label: '图例字体颜色', key: 'legendItemLabelColor', path: 'legend.item.label.color', schemaType: 'color' },
-		{
-			label: '图例项标签加粗',
-			key: 'legendItemLabelFontWeight',
-			path: 'legend.item.label.fontWeight',
-			schemaType: 'select',
-			options: FONT_WEIGHT_OPTIONS,
-		},
-		{
-			label: '图例大小',
-			key: 'legendItemMarkerSize',
-			path: 'legend.item.marker.size',
-			schemaType: 'number',
-			min: 2,
-		},
-		{
-			label: '图例字体大小',
-			key: 'legendItemLabelFontSize',
-			path: 'legend.item.label.fontSize',
-			schemaType: 'number',
-			min: 2,
-		},
-	],
-};
+// export const CHART_LEGEND: EditorChartField = {
+// 	label: '图例设置',
+// 	key: 'legend',
+// 	path: 'legend',
+// 	schemaType: 'group',
+// 	children: [
+// 		{
+// 			label: '展示图例',
+// 			key: 'legendEnabled',
+// 			path: 'legend.enabled',
+// 			schemaType: 'select',
+// 			options: ENABLE_OPTIONS,
+// 		},
+// 		{
+// 			label: '图例定位',
+// 			key: 'legendPosition',
+// 			path: 'legend.position',
+// 			schemaType: 'select',
+// 			options: AXIS_POSITION_OPTIONS,
+// 		},
+// 		{ label: '图例字体颜色', key: 'legendItemLabelColor', path: 'legend.item.label.color', schemaType: 'color' },
+// 		{
+// 			label: '图例项标签加粗',
+// 			key: 'legendItemLabelFontWeight',
+// 			path: 'legend.item.label.fontWeight',
+// 			schemaType: 'select',
+// 			options: FONT_WEIGHT_OPTIONS,
+// 		},
+// 		{
+// 			label: '图例大小',
+// 			key: 'legendItemMarkerSize',
+// 			path: 'legend.item.marker.size',
+// 			schemaType: 'number',
+// 			min: 2,
+// 		},
+// 		{
+// 			label: '图例字体大小',
+// 			key: 'legendItemLabelFontSize',
+// 			path: 'legend.item.label.fontSize',
+// 			schemaType: 'number',
+// 			min: 2,
+// 		},
+// 	],
+// };
 
 // 热力图图例配置
 export const GRADIENT_LEGEND: EditorChartField = {

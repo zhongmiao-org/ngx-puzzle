@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AbstractComponentFactory } from '../abstract-component-factory';
-import { ComponentConfig, ComponentInstance } from '../../interfaces';
+import { ComponentConfig, ComponentInstance } from 'ngx-puzzle/core';
 import { NgxPuzzleChartEditorComponent } from 'ngx-puzzle/components/editor/dynamic-editor/chart-editor/ngx-puzzle-chart-editor.component';
 
 @Injectable({ providedIn: 'root' })

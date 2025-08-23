@@ -21,6 +21,8 @@ export * from './refresh-fields-config';
 export * from './refresh-fields-map';
 export * from './background-images';
 
+export * from './fields';
+
 // mock data
 export * from './text-mock.data';
 export * from './map-mock.data';
