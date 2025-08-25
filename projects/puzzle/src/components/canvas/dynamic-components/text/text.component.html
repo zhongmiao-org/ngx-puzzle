@@ -1,0 +1,10 @@
+<imm-bi-drag-wrapper
+  [isEdit]="isEdit"
+  [size]="config.size"
+  [position]="config.position"
+  [componentId]="config.id"
+  [mainType]="'text'"
+  [styles]="config.props.styles"
+>
+  <div [ngStyle]="config.props.text.styles | stylesFormat">{{ config.props.text.content }}</div>
+</imm-bi-drag-wrapper>

@@ -1,58 +1,27 @@
-import { mainTypes, rowGroupingDisplayType, rowGroupPanelShowTypes, SafeAny } from '../types';
-import { AgChartOptions } from 'ag-charts-community';
-import { ColDef } from 'ag-grid-community';
-import { Is } from '../enums';
-import { SideBarDef } from 'ag-grid-enterprise';
-
-export interface ChartData {
-	[key: string]: string | number;
-}
+import { mainTypes, SafeAny } from '../types';
+import { RefreshConfig } from './refresh.interface';
+import { DataRequestConfig } from './data-request';
 
 export interface ComponentConfig<TConfigProps extends ComponentBaseProps = ComponentBaseProps, TSubType = string> {
 	id: string;
+	// 子类型
 	type: mainTypes;
 	subType: TSubType;
+	// 定位
 	position: Position;
+	// 大小
 	size: Size;
-	props: TConfigProps; // 特有配置参数
+	// 特有配置参数
+	props: TConfigProps;
+	// 数据源配置
+	dataRequest?: DataRequestConfig;
+	// 定时器设置
+	refreshConfig?: RefreshConfig;
 }
 
 export interface ComponentBaseProps {
 	styles: Record<string, SafeAny>;
 	[key: string]: SafeAny;
-}
-
-// chart 配置
-export interface ComponentChartProps extends ComponentBaseProps {
-	chart: AgChartOptions;
-}
-
-// table 配置
-export interface ComponentTableProps<TData = SafeAny> extends ComponentBaseProps {
-	table: TableConfig<TData>;
-}
-
-// text 配置
-export interface ComponentTextProps extends ComponentBaseProps {
-	text: TextConfig
-}
-
-export interface TableConfig<TData = SafeAny> {
-	rowDataUrl: string;
-	columnDefs?: ColDef[];
-	defaultColDef: ColDef;
-	autoGroupColumnDef: ColDef;
-	rowGroupPanelShow: rowGroupPanelShowTypes;
-	groupDefaultExpanded: Is;
-	showOpenedGroup: Is;
-	groupDisplayType: rowGroupingDisplayType;
-	sideBar: SideBarDef | string | string[] | boolean | null | undefined;
-	rowData?: TData[];
-}
-
-export interface TextConfig {
-	content: string;
-	styles: Record<string, SafeAny>;
 }
 
 export interface Position {

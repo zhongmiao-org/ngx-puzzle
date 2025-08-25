@@ -10,49 +10,49 @@ import { NgxPuzzleEditorComponent } from 'ngx-puzzle/components/editor/ngx-puzzl
 import { NgxPuzzleCanvasComponent } from 'ngx-puzzle/components/canvas/ngx-puzzle-canvas.component';
 
 @Component({
-    selector: 'ngx-puzzle',
-    standalone: true,
+  selector: 'ngx-puzzle',
+  standalone: true,
   imports: [ThySlideModule, ThyButtonModule, ThyIconModule, NgxPuzzlePanelComponent, NgxPuzzleEditorComponent, NgxPuzzleCanvasComponent],
-    templateUrl: './puzzle.component.html',
-    styleUrl: './puzzle.component.scss'
+  templateUrl: './puzzle.component.html',
+  styleUrl: './puzzle.component.scss'
 })
 export class NgxPuzzleComponent implements AfterViewInit {
-    @HostBinding() className = 'ngx-puzzle-component';
+  @HostBinding() className = 'ngx-puzzle-component';
 
-    protected readonly MIN_WIDTH = 100;
-    protected readonly MIN_HEIGHT = 100;
+  protected readonly MIN_WIDTH = 100;
+  protected readonly MIN_HEIGHT = 100;
 
-    private thySlideNewService = inject(ThySlideService);
-    private registry = inject(PuzzleComponentRegistryService);
-    private sessionService = inject(PuzzleSessionIndexedDbService);
+  private thySlideNewService = inject(ThySlideService);
+  private registry = inject(PuzzleComponentRegistryService);
+  private sessionService = inject(PuzzleSessionIndexedDbService);
 
-    public width = this.MIN_WIDTH;
-    public height = this.MIN_HEIGHT;
+  public width = this.MIN_WIDTH;
+  public height = this.MIN_HEIGHT;
 
-    // -------------------new----------------------
-    leftCollapsed = signal<boolean>(false);
-    rightCollapsed = signal<boolean>(false);
+  // -------------------new----------------------
+  leftCollapsed = signal<boolean>(false);
+  rightCollapsed = signal<boolean>(false);
 
-    constructor() {
-        this.registerIcons();
-    }
+  constructor() {
+    this.registerIcons();
+  }
 
-    ngAfterViewInit() {}
+  ngAfterViewInit() {}
 
-    private registerIcons() {}
+  private registerIcons() {}
 
-    save(): void {
-        console.log(`saved ---->`);
-    }
+  save(): void {
+    console.log(`saved ---->`);
+  }
 
-    preview(): void {
-        console.log(`预览`);
-        let allConfigs = this.registry.getAll();
-        console.log(allConfigs);
-        const uuid = generateUUID();
-        this.sessionService.setItem(uuid, allConfigs).then(() => {
-            const url = `/am/preview/${uuid}`;
-            window.open(url, '_blank');
-        });
-    }
+  preview(): void {
+    console.log(`预览`);
+    let allConfigs = this.registry.getAll();
+    console.log(allConfigs);
+    const uuid = generateUUID();
+    this.sessionService.setItem(uuid, allConfigs).then(() => {
+      const url = `/am/preview/${uuid}`;
+      window.open(url, '_blank');
+    });
+  }
 }

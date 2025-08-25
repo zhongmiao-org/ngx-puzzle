@@ -1,5 +1,3 @@
-好的，以下是英文版的贡献指南模板。您可以根据需要进行调整和补充。
-
 ## Contribution Guidelines
 
 Welcome and thank you for your interest in contributing to the `ng-puzzle` project! Below are the guidelines to help you get started and make the most of your contributions.

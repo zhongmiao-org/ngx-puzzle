@@ -1,0 +1,201 @@
+<div class="control-editor">
+	<p-accordion [multiple]="false">
+		@for (section of sections; track section.label) {
+			<p-accordion-panel [value]="section.label">
+				<p-accordion-header>{{ section.label }}</p-accordion-header>
+				<p-accordion-content>
+					@if (section?.children && section.children!.length > 0) {
+						<div class="flex flex-wrap gap-4">
+							@for (field of section.children; track field.key) {
+								@if (field.schemaType === 'options-editor') {
+									<!-- options-editor 单独占一行 -->
+									<div class="w-full mb-4">
+										<label class="block mb-2 text-sm font-medium">
+											{{ field.label }}
+											@if (field?.description) {
+												<i
+													[pTooltip]="field?.description"
+													[tooltipPosition]="'top'"
+													class="field-label-icon pi pi-question-circle ml-1"></i>
+											}
+										</label>
+
+										<div class="options-editor-container">
+											<div class="options-header flex justify-between items-center mb-3">
+												<span class="text-sm text-gray-600">配置选项数据</span>
+												<div class="flex gap-2">
+													<p-button
+														size="small"
+														icon="pi pi-plus"
+														label="添加选项"
+														(click)="addOption(field.key)" />
+												</div>
+											</div>
+
+											@if (formData[field.key] && formData[field.key].length > 0) {
+												<p-table
+													[value]="formData[field.key]"
+													[size]="'small'"
+													[tableStyle]="{ 'min-width': '100%' }"
+													(onEditComplete)="tableEditComplete(field.key)"
+													styleClass="p-datatable-sm">
+													<ng-template #header>
+														<tr>
+															<th style="width: 40%">选项值</th>
+															<th style="width: 40%">显示文本</th>
+															<th style="width: 20%">操作</th>
+														</tr>
+													</ng-template>
+													<ng-template
+														#body
+														let-option
+														let-rowIndex="rowIndex">
+														<tr>
+															<td
+																[pEditableColumn]="option.value"
+																pEditableColumnField="value">
+																<p-cellEditor>
+																	<ng-template #input>
+																		<input
+																			pInputText
+																			type="text"
+																			[pSize]="'small'"
+																			[(ngModel)]="option.value"
+																			placeholder="选项值"
+																			size="small" />
+																	</ng-template>
+																	<ng-template #output>
+																		{{ option.value || '(空)' }}
+																	</ng-template>
+																</p-cellEditor>
+															</td>
+															<td
+																[pEditableColumn]="option.label"
+																pEditableColumnField="label">
+																<p-cellEditor>
+																	<ng-template #input>
+																		<input
+																			pInputText
+																			type="text"
+																			[pSize]="'small'"
+																			[(ngModel)]="option.label"
+																			placeholder="显示文本"
+																			size="small" />
+																	</ng-template>
+																	<ng-template #output>
+																		{{ option.label || '(空)' }}
+																	</ng-template>
+																</p-cellEditor>
+															</td>
+															<td>
+																<p-button
+																	size="small"
+																	icon="pi pi-trash"
+																	[text]="true"
+																	severity="danger"
+																	[pTooltip]="'删除'"
+																	tooltipPosition="top"
+																	(click)="removeOption(field.key, rowIndex)" />
+															</td>
+														</tr>
+													</ng-template>
+												</p-table>
+											} @else {
+												<div class="empty-state text-center py-8 border border-gray-200 border-dashed rounded-lg">
+													<i class="pi pi-list text-3xl text-gray-400 mb-2"></i>
+													<p class="text-gray-500 mb-1">暂无选项数据</p>
+													<p class="text-sm text-gray-400">点击"添加选项"开始配置选项</p>
+												</div>
+											}
+										</div>
+									</div>
+								} @else {
+									<div class="flex-auto input-item">
+										<label class="block mb-1 text-sm">
+											{{ field.label }}
+											@if (field?.description) {
+												<i
+													[pTooltip]="field?.description"
+													[tooltipPosition]="'top'"
+													class="field-label-icon pi pi-question-circle"></i>
+											}
+										</label>
+										@switch (field.schemaType) {
+											@case ('select') {
+												<p-select
+													[options]="field.options"
+													optionLabel="label"
+													optionValue="val"
+													appendTo="body"
+													[(ngModel)]="formData[field.key]"
+													(onChange)="onFormFieldChange(field.key, $event.value)"
+													[inputId]="field.key" />
+											}
+											@case ('text') {
+												<input
+													pInputText
+													[attr.id]="field.key"
+													type="text"
+													pSize="small"
+													[(ngModel)]="formData[field.key]"
+													(ngModelChange)="onFormFieldChange(field.key, $event)" />
+											}
+											@case ('number') {
+												<p-inputNumber
+													[(ngModel)]="formData[field.key]"
+													(ngModelChange)="onFormFieldChange(field.key, $event)"
+													[inputId]="field.key"
+													[showButtons]="true"
+													[min]="field?.min || 0"
+													[max]="field?.max || 100"
+													[step]="field?.step || 1"
+													mode="decimal"
+													size="small"
+													[inputStyle]="{ width: '100%' }"></p-inputNumber>
+											}
+											@case ('color') {
+                        <p-color-picker
+                          [(ngModel)]="formData[field.key]"
+                          appendTo="body"
+                          (ngModelChange)="onFormFieldChange(field.key, $event)"
+                          [inputId]="field.key"
+                          [style]="{ 'margin-bottom': '8px' }" />
+                        <input
+                          class="color-input"
+                          pInputText
+                          type="text"
+                          pSize="small"
+                          [(ngModel)]="formData[field.key]"
+                          (ngModelChange)="onFormFieldChange(field.key, $event)" />
+											}
+											@case ('date') {
+												@if (field.key === 'defaultValue') {
+													<p-date-picker
+														[(ngModel)]="formData[field.key]"
+														size="small"
+														(ngModelChange)="dateChange(field.key, $event)"
+														[selectionMode]="formData['selectionMode'] || 'single'"
+														[readonlyInput]="true"
+														[showButtonBar]="true"
+														appendTo="body" />
+												} @else {
+													<p-date-picker
+														[(ngModel)]="formData[field.key]"
+														size="small"
+														(ngModelChange)="dateChange(field.key, $event)"
+														[readonlyInput]="true"
+														[showButtonBar]="true"
+														appendTo="body" />
+												}
+											}
+										}
+									</div>
+								}
+							}
+						</div>
+					}
+				</p-accordion-content>
+			</p-accordion-panel>
+		}
+	</p-accordion>
+</div>

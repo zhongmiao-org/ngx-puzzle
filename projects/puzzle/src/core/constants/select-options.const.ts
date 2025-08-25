@@ -1,16 +1,23 @@
 import { BaseSelectOption } from '../interfaces';
-import { rowGroupingDisplayType, rowGroupPanelShowTypes } from '../types';
-import { Is } from '../enums';
+import {
+	datePickSelectionType,
+	intervalUnitType,
+	pivotingAggregationTypes,
+	pivotingPanelShowTypes,
+	rowGroupingDisplayType,
+	rowGroupPanelShowTypes,
+} from '../types';
+import { Is, RefreshIntervalUnitEnum } from '../enums';
 
 /**
  * 图表
  */
-export const ENABLE_OPTIONS: BaseSelectOption[] = [
+export const ENABLE_OPTIONS: BaseSelectOption<boolean>[] = [
 	{ label: '启用', val: true },
 	{ label: '禁用', val: false },
 ];
 
-export const YES_OR_NO_OPTIONS: BaseSelectOption[] = [
+export const YES_OR_NO_OPTIONS: BaseSelectOption<boolean>[] = [
 	{ label: '是', val: true },
 	{ label: '否', val: false },
 ];
@@ -23,6 +30,15 @@ export const IS_OPTIONS: BaseSelectOption<Is>[] = [
 export const FONT_WEIGHT_OPTIONS: BaseSelectOption[] = [
 	{ label: '默认', val: 'normal' },
 	{ label: '加粗', val: 'bold' },
+];
+
+export const FONT_WEIGHT_CSS_OPTIONS: BaseSelectOption[] = [
+	{ label: '正常', val: 'normal' },
+	{ label: '加粗', val: 'bold' },
+	{ label: '细体', val: '300' },
+	{ label: '中等', val: '500' },
+	{ label: '粗体', val: '600' },
+	{ label: '特粗', val: '700' },
 ];
 
 export const AXIS_POSITION_OPTIONS: BaseSelectOption[] = [
@@ -60,10 +76,39 @@ export const ROW_GROUP_PANEL_OPTIONS: BaseSelectOption<rowGroupPanelShowTypes>[]
 	{ label: '从不', val: 'never' },
 ];
 
+export const PIVOTING_PANEL_OPTIONS: BaseSelectOption<pivotingPanelShowTypes>[] = [
+	{ label: '总是', val: 'always' },
+	{ label: '仅数据透视时', val: 'onlyWhenPivoting' },
+	{ label: '从不', val: 'never' },
+];
+
+// 聚合函数
+export const AGG_FUNC_OPTIONS: BaseSelectOption<pivotingAggregationTypes>[] = [
+	{ label: '求和', val: 'sum' },
+	{ label: '第一个', val: 'first' },
+	{ label: '最后一个', val: 'last' },
+	{ label: '最小值', val: 'min' },
+	{ label: '最大值', val: 'max' },
+	{ label: '计数', val: 'count' },
+	{ label: '平均值', val: 'avg' },
+];
+
 export const GROUP_DISPLAY_TYPE_OPTIONS: BaseSelectOption<rowGroupingDisplayType>[] = [
 	{ label: '简单分组', val: 'singleColumn' },
 	{ label: '多选列', val: 'multipleColumns' },
 	{ label: '分组行', val: 'groupRows' },
+];
+
+export const CHART_MARKER_SHAPE_OPTIONS: BaseSelectOption[] = [
+	{ label: '圆形', val: 'circle' },
+	{ label: '十字', val: 'cross' },
+	{ label: '菱形', val: 'diamond' },
+	{ label: '心形', val: 'heart' },
+	{ label: '加号', val: 'plus' },
+	{ label: '图钉', val: 'pin' },
+	{ label: '方形', val: 'square' },
+	{ label: '星形', val: 'star' },
+	{ label: '三角形', val: 'triangle' },
 ];
 
 export const COLOR_OPTIONS: BaseSelectOption[] = [
@@ -318,4 +363,48 @@ export const TEXT_WHITE_SPACE_OPTIONS: BaseSelectOption[] = [
 	{ label: '预格式', val: 'pre' },
 	{ label: '预格式换行', val: 'pre-wrap' },
 	{ label: '保留空格', val: 'pre-line' },
+];
+
+/**
+ * 自定义组件
+ */
+
+export const DATE_PICKER_SELECTION_MODE_OPTIONS: BaseSelectOption<datePickSelectionType>[] = [
+	{
+		label: `日期单选`,
+		val: `single`,
+	},
+	{
+		label: `日期区间`,
+		val: `range`,
+	},
+];
+
+export const SIZE_OPTIONS: BaseSelectOption[] = [
+	{
+		label: `小号`,
+		val: `small`,
+	},
+	{
+		label: `默认`,
+		val: `normal`,
+	},
+	{
+		label: `大号`,
+		val: `large`,
+	},
+];
+
+export const VIEW_OPTIONS = [
+	{ label: '日期', val: 'date' },
+	{ label: '月份', val: 'month' },
+	{ label: '年份', val: 'year' },
+];
+
+// 刷新
+export const INTERVAL_UNIT_OPTIONS: BaseSelectOption<RefreshIntervalUnitEnum>[] = [
+	{ label: '秒', val: RefreshIntervalUnitEnum.seconds },
+	{ label: '分钟', val: RefreshIntervalUnitEnum.minutes },
+	{ label: '小时', val: RefreshIntervalUnitEnum.hours },
+	{ label: '天', val: RefreshIntervalUnitEnum.days },
 ];

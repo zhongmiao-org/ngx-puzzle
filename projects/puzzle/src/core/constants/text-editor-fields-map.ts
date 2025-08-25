@@ -1,18 +1,18 @@
-import { EditorTextField } from '../interfaces';
+import { EditorBaseField } from '../interfaces';
 import {
 	TEXT_ALIGN_OPTIONS,
 	TEXT_DECORATIONS_OPTIONS,
 	TEXT_FONT_STYLE_OPTIONS,
 	TEXT_FONT_WEIGHT_OPTIONS,
 	TEXT_WHITE_SPACE_OPTIONS,
-} from '../constants/select-options.const';
+} from './select-options.const';
 
-export const TEXT_CONTENT_FIELDS: EditorTextField = {
+export const TEXT_CONTENT_FIELDS: EditorBaseField = {
 	label: '文本内容',
 	key: 'textContent',
 	path: 'textContent',
 	schemaType: 'group',
-	fields: [
+	children: [
 		{
 			label: '文本内容',
 			key: 'content',
@@ -23,12 +23,12 @@ export const TEXT_CONTENT_FIELDS: EditorTextField = {
 };
 
 // 文本基本样式设置
-export const TEXT_STYLE_FIELDS: EditorTextField = {
+export const TEXT_STYLE_FIELDS: EditorBaseField = {
 	label: '基本样式',
 	key: 'basicStyle',
 	path: 'basicStyle',
 	schemaType: 'group',
-	fields: [
+	children: [
 		{
 			label: '字体颜色',
 			key: 'color',

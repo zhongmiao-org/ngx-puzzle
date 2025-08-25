@@ -1,5 +1,6 @@
 import { ComponentConfig } from '../interfaces';
 import { mainTypes, SafeAny } from '../types';
+import { RefreshIntervalUnitEnum } from '../enums';
 
 const BASIC_STYLES: Record<string, SafeAny> = {
 	backgroundColor: '',
@@ -18,7 +19,7 @@ const BASIC_STYLES: Record<string, SafeAny> = {
 export const INIT_SETTINGS_CONFIG: { [key in mainTypes]: ComponentConfig } = {
 	canvas: {
 		id: 'canvas',
-		size: { width: 2560, height: 1440 }, // 默认 2k
+		size: { width: 2000, height: 2000 },
 		type: 'canvas',
 		subType: '',
 		position: { x: 0, y: 0 },
@@ -27,10 +28,6 @@ export const INIT_SETTINGS_CONFIG: { [key in mainTypes]: ComponentConfig } = {
 				backgroundColor: '',
 				backgroundImage: '',
 				backgroundColorAlpha: 1,
-				paddingTop: 0,
-				paddingBottom: 0,
-				paddingLeft: 0,
-				paddingRight: 0,
 			},
 		},
 	},
@@ -43,6 +40,7 @@ export const INIT_SETTINGS_CONFIG: { [key in mainTypes]: ComponentConfig } = {
 		props: {
 			styles: { ...BASIC_STYLES },
 		},
+		refreshConfig: { enabled: false, interval: 30, intervalUnit: RefreshIntervalUnitEnum.minutes, controlIds: [] },
 	},
 	table: {
 		id: '',
@@ -53,6 +51,7 @@ export const INIT_SETTINGS_CONFIG: { [key in mainTypes]: ComponentConfig } = {
 		props: {
 			styles: { ...BASIC_STYLES },
 		},
+		refreshConfig: { enabled: false, interval: 30, intervalUnit: RefreshIntervalUnitEnum.minutes, controlIds: [] },
 	},
 	text: {
 		id: '',
@@ -64,4 +63,36 @@ export const INIT_SETTINGS_CONFIG: { [key in mainTypes]: ComponentConfig } = {
 			styles: { ...BASIC_STYLES },
 		},
 	},
+	control: {
+		id: '',
+		type: 'control',
+		subType: '',
+		position: { x: 0, y: 0 },
+		size: { width: 200, height: 40 },
+		props: {
+			styles: { ...BASIC_STYLES },
+		},
+	},
 };
+
+// controls: {
+// 	datePick: {
+// 		enabled: false,
+// 		type: 'datePick',
+// 		props: {
+// 			selectionMode: 'range',
+// 			dateFormat: 'yy-mm-dd',
+// 			showTime: false,
+// 			placeholder: '请选择时间范围',
+// 			size: 'normal'
+// 		},
+// 		styles: {
+// 			width: 200,
+// 			height: 40,
+// 			top: 10,
+// 			left: 20,
+// 		},
+// 		bindField: 'timeRange',
+// 		defaultValue: null
+// 	}
+// },

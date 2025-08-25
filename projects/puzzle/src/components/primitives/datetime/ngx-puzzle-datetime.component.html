@@ -1,0 +1,9 @@
+<div [ngStyle]="styles() | stylesFormat">
+  @if (layout() === 'single' || customFormat()) {
+    {{ formatted() }}
+  } @else {
+    @for (line of formattedLines(); track $index) {
+      <div>{{ line }}</div>
+    }
+  }
+</div>

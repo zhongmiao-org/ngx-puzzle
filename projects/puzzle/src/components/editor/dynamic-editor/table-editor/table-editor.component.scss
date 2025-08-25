@@ -2,16 +2,18 @@
 
 :host {
   ::ng-deep .p-datatable-table {
+    table-layout: fixed;
     .p-datatable-thead {
-      font-size: 12px;
+      font-size: 10px;
+
     }
     .p-datatable-tbody {
-      font-size: 12px;
+      font-size: 10px;
     }
   }
 
   .editor-td {
-    padding: 2px 1px;
+    padding: 6px 3px;
   }
   .editor-input {
     padding: 0 1px;

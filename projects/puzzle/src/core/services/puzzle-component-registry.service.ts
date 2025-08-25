@@ -4,8 +4,8 @@ import { ComponentBaseProps, ComponentConfig, Position, Size } from '../interfac
 import { mainTypes } from '../types';
 import { INIT_SETTINGS_CONFIG } from '../constants';
 import { NgxPuzzleChartFactoryService } from 'ngx-puzzle/core/factories/concrete/ngx-puzzle-chart-factory.service';
-import { NgxPuzzleTableFactoryService } from 'ngx-puzzle/core/factories/concrete/ngx-puzzle-table-factory.service';
-import { NgxPuzzleTextFactoryService } from 'ngx-puzzle/core/factories/concrete/ngx-puzzle-text-factory.service';
+// import { NgxPuzzleTableFactoryService } from 'ngx-puzzle/core/factories/concrete/ngx-puzzle-table-factory.service';
+// import { NgxPuzzleTextFactoryService } from 'ngx-puzzle/core/factories/concrete/ngx-puzzle-text-factory.service';
 
 @Injectable({ providedIn: 'root' })
 export class PuzzleComponentRegistryService<TConfigProps extends ComponentBaseProps = ComponentBaseProps, TSubType = string> {
@@ -14,13 +14,14 @@ export class PuzzleComponentRegistryService<TConfigProps extends ComponentBasePr
 
 	constructor(
         chartFactory: NgxPuzzleChartFactoryService,
-        tableFactory: NgxPuzzleTableFactoryService,
-        textFactory: NgxPuzzleTextFactoryService
+        // tableFactory: NgxPuzzleTableFactoryService,
+        // textFactory: NgxPuzzleTextFactoryService
+        // private controlFactory = inject(ControlFactoryService);
     ) {
 		this.components.set('canvas', INIT_SETTINGS_CONFIG['canvas'] as ComponentConfig<TConfigProps, TSubType>);
 		this.factories['chart'] = chartFactory;
-		this.factories['table'] = tableFactory;
-    this.factories['text'] = textFactory;
+		// this.factories['table'] = tableFactory;
+    // this.factories['text'] = textFactory;
 	}
 
 	getFactory(type: mainTypes): AbstractComponentFactory {

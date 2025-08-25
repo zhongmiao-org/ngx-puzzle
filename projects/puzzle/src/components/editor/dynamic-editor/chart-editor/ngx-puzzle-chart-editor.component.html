@@ -1,19 +1,19 @@
-<thy-collapse>
-  @for (group of chartFields; track group.label) {
-    <thy-collapse-item [thyTitle]="group.label">
-      @if (group.schemaType === 'array') {
-        @for (dataGroup of formData[group.key]; let i = $index; track i) {
+<thy-collapse [thyAccordion]="true" thyArrowIconPosition="right">
+  @for (section of sections; track section.label) {
+    <thy-collapse-item [thyTitle]="section.label">
+      @if (section.schemaType === 'array') {
+        @for (dataGroup of formData[section.key]; let i = $index; track i) {
           <thy-card thyDivided="true">
-            <thy-card-header [thyTitle]="group.label + ' - ' + (i + 1)">
+            <thy-card-header [thyTitle]="section.label + ' - ' + (i + 1)">
               <ng-template #headerOperation>
-                @if(group.key === 'series' && i !== 0  && !!group?.removeActive) {
+                @if (section.key === 'series' && i !== 0 && !!section?.removeActive) {
                   <button thyButtonIcon="close"></button>
                 }
               </ng-template>
             </thy-card-header>
             <thy-card-content>
               <div thyRow [thyGutter]="16">
-                @for (field of group.fields; track field.key) {
+                @for (field of section.children; track field.key) {
                   <div [thyCol]="12" class="mb-2">
                     <label class="form-label">
                       {{ field.label }}
@@ -21,36 +21,36 @@
                     @switch (field.schemaType) {
                       @case ('number') {
                         <thy-input-number
-                          [(ngModel)]="formData[group.key][i][field.key]"
+                          [(ngModel)]="formData[section.key][i][field.key]"
                           [thyMin]="field?.min || 0"
                           [thyMax]="field?.max || 9999"
                           [thyStep]="field?.step || 1"
                           [thySize]="'sm'"
                           [thySuffix]="field?.suffix || ''"
-                          (ngModelChange)="onFormFieldChange(field.key, $event, group.key, i)"
+                          (ngModelChange)="onFormFieldChange(field.key, $event, section.key, i)"
                         />
                       }
                       @case ('text') {
                         <input
                           thyInput
-                          [(ngModel)]="formData[group.key][i][field.key]"
-                          (ngModelChange)="onFormFieldChange(field.key, $event, group.key, i)"
+                          [(ngModel)]="formData[section.key][i][field.key]"
+                          (ngModelChange)="onFormFieldChange(field.key, $event, section.key, i)"
                         />
                       }
                       @case ('color') {
                         <div
                           class="color-picker-box"
-                          [ngStyle]="{ backgroundColor: formData[group.key][i][field.key] }"
+                          [ngStyle]="{ backgroundColor: formData[section.key][i][field.key] }"
                           thyColorPicker
                           [thyOffset]="10"
-                          [(ngModel)]="formData[group.key][i][field.key]"
-                          (ngModelChange)="onFormFieldChange(field.key, $event, group.key, i)"
+                          [(ngModel)]="formData[section.key][i][field.key]"
+                          (ngModelChange)="onFormFieldChange(field.key, $event, section.key, i)"
                         ></div>
                       }
                       @case ('select') {
                         <thy-select
-                          [(ngModel)]="formData[group.key][i][field.key]"
-                          (ngModelChange)="onFormFieldChange(field.key, $event, group.key, i)"
+                          [(ngModel)]="formData[section.key][i][field.key]"
+                          (ngModelChange)="onFormFieldChange(field.key, $event, section.key, i)"
                         >
                           @for (option of field.options; track option.val) {
                             <thy-option [thyRawValue]="option" [thyValue]="option.val" [thyLabelText]="option.label"> </thy-option>
@@ -65,14 +65,14 @@
           </thy-card>
           <!--            <div [thyCol]="12"></div>-->
         }
-        @if (group.key === 'series' && group?.hasAdd !== false) {
+        @if (section.key === 'series' && section?.hasAdd !== false) {
           <div thyRow>
-            <button thyButton="primary" (click)="addArrayItem(group.key, group.fields!)" thyIcon="plus">添加系列</button>
+            <button thyButton="primary" (click)="addArrayItem(section.key, section.children!)" thyIcon="plus">添加系列</button>
           </div>
         }
       } @else {
         <div thyRow [thyGutter]="16">
-          @for (field of group.fields; track field.key) {
+          @for (field of section.children; track field.key) {
             <div [thyCol]="12" class="mb-2">
               <label class="form-label">
                 {{ field.label }}
@@ -117,266 +117,3 @@
     </thy-collapse-item>
   }
 </thy-collapse>
-
-<!--<p-accordion [multiple]="false">-->
-<!--	@for (group of chartFields; track group.label) {-->
-<!--		<p-accordion-panel [value]="group.label">-->
-<!--			<p-accordion-header>{{ group.label }}</p-accordion-header>-->
-<!--			<p-accordion-content>-->
-<!--				<div-->
-<!--					class="flex gap-4 flex-wrap"-->
-<!--					style="width: 100%">-->
-<!--					@for (field of group.children; track field.key) {-->
-<!--						@switch (field.schemaType) {-->
-<!--							&lt;!&ndash; 数据项系列 &ndash;&gt;-->
-<!--							@case ('array') {-->
-<!--								@for (item of formData[field.key]; let i = $index; track i) {-->
-<!--									<div class="flex series-item gap-2 mb-2 flex-wrap border border-gray-200 p-2 rounded">-->
-<!--										@if (field.key === 'series' && item.length > 0 && !!field?.removeActive) {-->
-<!--											<i-->
-<!--												class="close-btn pi pi-times"-->
-<!--												(click)="removeArrayItem(field.key, i)"></i>-->
-<!--										}-->
-<!--										@for (childField of field.itemSchema; let j = $index; track j) {-->
-<!--											@if (!childField?.belong || (!!childField?.belong && childField.belong!.includes(formData[field.key][i]['type']))) {-->
-<!--												<div class="flex-auto input-item">-->
-<!--													<label class="block mb-1 text-sm">-->
-<!--														{{ childField.label }}-->
-<!--														@if (childField?.description) {-->
-<!--															<i-->
-<!--																[pTooltip]="childField?.description"-->
-<!--																[tooltipPosition]="'top'"-->
-<!--																class="field-label-icon pi pi-question-circle"></i>-->
-<!--														}-->
-<!--													</label>-->
-<!--													@switch (childField.schemaType) {-->
-<!--														@case ('text') {-->
-<!--															<input-->
-<!--																pInputText-->
-<!--																type="text"-->
-<!--																pSize="small"-->
-<!--																[(ngModel)]="formData[field.key][i][childField.key]"-->
-<!--																(ngModelChange)="onFormFieldChange(childField.key, $event, field.key, i)" />-->
-<!--														}-->
-<!--														@case ('select') {-->
-<!--															<p-select-->
-<!--																[disabled]="childField.disabled!"-->
-<!--																[options]="childField.options"-->
-<!--																optionLabel="label"-->
-<!--																optionValue="val"-->
-<!--																appendTo="body"-->
-<!--																[(ngModel)]="formData[field.key][i][childField.key]"-->
-<!--																(onChange)="onFormFieldChange(childField.key, $event, field.key, i)" />-->
-<!--														}-->
-<!--														@case ('color') {-->
-<!--															<p-color-picker-->
-<!--																appendTo="body"-->
-<!--																[(ngModel)]="formData[field.key][i][childField.key]"-->
-<!--																(ngModelChange)="onFormFieldChange(childField.key, $event, field.key, i)"-->
-<!--																[inputId]="field.key"-->
-<!--																[style]="{ 'margin-bottom': '8px' }" />-->
-<!--															<input-->
-<!--																class="color-input"-->
-<!--																pInputText-->
-<!--																type="text"-->
-<!--																pSize="small"-->
-<!--																[(ngModel)]="formData[field.key][i][childField.key]"-->
-<!--																(ngModelChange)="onFormFieldChange(childField.key, $event, field.key, i)" />-->
-<!--														}-->
-<!--														@case ('multiColorSelect') {-->
-<!--															<p-multi-select-->
-<!--																[options]="childField.options"-->
-<!--																optionLabel="label"-->
-<!--																optionValue="val"-->
-<!--																appendTo="body"-->
-<!--																display="chip"-->
-<!--																size="small"-->
-<!--																[maxSelectedLabels]="1"-->
-<!--																[(ngModel)]="formData[field.key][i][childField.key]"-->
-<!--																(ngModelChange)="onFormFieldChange(childField.key, $event, field.key, i)">-->
-<!--																<ng-template-->
-<!--																	let-option-->
-<!--																	#item>-->
-<!--																	<div class="flex items-center gap-2">-->
-<!--																		<div-->
-<!--																			class="color-item-label"-->
-<!--																			[style.background-color]="option.val"></div>-->
-<!--																		<div>{{ option.label }}</div>-->
-<!--																	</div>-->
-<!--																</ng-template>-->
-<!--															</p-multi-select>-->
-<!--														}-->
-<!--														@case ('number') {-->
-<!--															<p-inputNumber-->
-<!--																[(ngModel)]="formData[field.key][i][childField.key]"-->
-<!--																(ngModelChange)="onFormFieldChange(childField.key, $event, field.key, i)"-->
-<!--																[inputId]="field.key"-->
-<!--																[showButtons]="true"-->
-<!--																[min]="childField?.min || 0"-->
-<!--																[max]="childField?.max || 100"-->
-<!--																[step]="childField?.step || 1"-->
-<!--																mode="decimal"-->
-<!--																size="small"-->
-<!--																[inputStyle]="{ width: '100%' }"></p-inputNumber>-->
-<!--														}-->
-<!--														@case ('button') {-->
-<!--															<p-button-->
-<!--																type="button"-->
-<!--																size="small"-->
-<!--																icon="pi pi-pen-to-square"-->
-<!--																label="编辑数据"-->
-<!--																(click)="openSeriesData(formData[field.key][i][childField.key], i)"></p-button>-->
-<!--														}-->
-<!--													}-->
-<!--												</div>-->
-<!--											}-->
-<!--										}-->
-<!--									</div>-->
-<!--								}-->
-<!--								@if (field.key === 'series' && field?.hasAdd !== false) {-->
-<!--									&lt;!&ndash; 添加新项按钮 &ndash;&gt;-->
-<!--									<p-button-->
-<!--										type="button"-->
-<!--										size="small"-->
-<!--										icon="pi pi-plus"-->
-<!--										label="添加一项"-->
-<!--										(click)="addArrayItem(field.key, field.itemSchema!)"></p-button>-->
-<!--								}-->
-<!--							}-->
-<!--							&lt;!&ndash; 编辑数据 &ndash;&gt;-->
-<!--							@case ('button') {-->
-<!--								<div>-->
-<!--									<p-button-->
-<!--										type="button"-->
-<!--										size="small"-->
-<!--										icon="pi pi-pen-to-square"-->
-<!--										label="编辑数据"-->
-<!--										(click)="openData()"></p-button>-->
-<!--								</div>-->
-<!--							}-->
-<!--							&lt;!&ndash; 文本 &ndash;&gt;-->
-<!--							@case ('text') {-->
-<!--								<div-->
-<!--									class="flex-auto input-item"-->
-<!--									[ngClass]="{ 'mb-4': true }">-->
-<!--									<label-->
-<!--										class="block mb-2"-->
-<!--										[for]="field.key">-->
-<!--										{{ field.label }}-->
-<!--									</label>-->
-<!--									<input-->
-<!--										pInputText-->
-<!--										[attr.id]="field.key"-->
-<!--										type="text"-->
-<!--										pSize="small"-->
-<!--										[(ngModel)]="formData[field.key]"-->
-<!--										(ngModelChange)="onFormFieldChange(field.key, $event)" />-->
-<!--								</div>-->
-<!--							}-->
-<!--							&lt;!&ndash; 数字 &ndash;&gt;-->
-<!--							@case ('number') {-->
-<!--								<div-->
-<!--									class="flex-auto input-item"-->
-<!--									[ngClass]="{ 'mb-4': true }">-->
-<!--									<label-->
-<!--										class="block mb-2"-->
-<!--										[for]="field.key">-->
-<!--										{{ field.label }}-->
-<!--									</label>-->
-<!--									<p-inputNumber-->
-<!--										[(ngModel)]="formData[field.key]"-->
-<!--										(ngModelChange)="onFormFieldChange(field.key, $event)"-->
-<!--										[inputId]="field.key"-->
-<!--										[showButtons]="true"-->
-<!--										mode="decimal"-->
-<!--										size="small"-->
-<!--										[inputStyle]="{ width: '100%' }"></p-inputNumber>-->
-<!--								</div>-->
-<!--							}-->
-<!--							&lt;!&ndash; 颜色设置 &ndash;&gt;-->
-<!--							@case ('color') {-->
-<!--								<div-->
-<!--									class="flex-auto input-item"-->
-<!--									[ngClass]="{ 'mb-4': true }">-->
-<!--									<label-->
-<!--										class="block mb-2"-->
-<!--										[for]="field.key">-->
-<!--										{{ field.label }}-->
-<!--									</label>-->
-<!--									<p-color-picker-->
-<!--										[(ngModel)]="formData[field.key]"-->
-<!--										appendTo="body"-->
-<!--										(ngModelChange)="onFormFieldChange(field.key, $event)"-->
-<!--										[inputId]="field.key"-->
-<!--										[style]="{ 'margin-bottom': '8px' }" />-->
-<!--									<input-->
-<!--										class="color-input"-->
-<!--										pInputText-->
-<!--										type="text"-->
-<!--										pSize="small"-->
-<!--										[(ngModel)]="formData[field.key]"-->
-<!--										(ngModelChange)="onFormFieldChange(field.key, $event)" />-->
-<!--								</div>-->
-<!--							}-->
-<!--							&lt;!&ndash; 下拉选择 &ndash;&gt;-->
-<!--							@case ('select') {-->
-<!--								<div-->
-<!--									class="flex-auto input-item"-->
-<!--									[ngClass]="{ 'mb-4': true }">-->
-<!--									<label-->
-<!--										class="block mb-2"-->
-<!--										[for]="field.key">-->
-<!--										{{ field.label }}-->
-<!--									</label>-->
-<!--									<p-select-->
-<!--										[options]="field.options"-->
-<!--										optionLabel="label"-->
-<!--										optionValue="val"-->
-<!--										appendTo="body"-->
-<!--										[(ngModel)]="formData[field.key]"-->
-<!--										(onChange)="onFormFieldChange(field.key, $event.value)"-->
-<!--										[inputId]="field.key" />-->
-<!--								</div>-->
-<!--							}-->
-<!--						}-->
-<!--					}-->
-<!--				</div>-->
-<!--			</p-accordion-content>-->
-<!--		</p-accordion-panel>-->
-<!--	}-->
-<!--</p-accordion>-->
-<!--<p-dialog-->
-<!--	[header]="isTreeData ? '查看数据' : '编辑数据'"-->
-<!--	[modal]="true"-->
-<!--	[(visible)]="visible"-->
-<!--	[style]="{ width: '1200px' }">-->
-<!--	<div class="table-content">-->
-<!--		@if (isTreeData) {-->
-<!--			<ag-grid-angular-->
-<!--				style="width: 100%; height: 100%"-->
-<!--				class="ag-theme-alpine"-->
-<!--				[rowData]="processedRowData"-->
-<!--				[columnDefs]="columnDefs"-->
-<!--				[gridOptions]="gridOptions"-->
-<!--				rowSelection="single"-->
-<!--				[groupDefaultExpanded]="-1"></ag-grid-angular>-->
-<!--		} @else {-->
-<!--			<ag-grid-angular-->
-<!--				style="width: 100%; height: 100%"-->
-<!--				[columnDefs]="columnDefs"-->
-<!--				[defaultColDef]="defaultColDef"-->
-<!--				[rowData]="rowData" />-->
-<!--		}-->
-<!--	</div>-->
-<!--	<div class="flex justify-end gap-2 mt-2">-->
-<!--		<p-button-->
-<!--			label="取消"-->
-<!--			size="small"-->
-<!--			severity="secondary"-->
-<!--			(click)="cancel()" />-->
-<!--		<p-button-->
-<!--			label="确认"-->
-<!--			size="small"-->
-<!--			(click)="confirm()" />-->
-<!--	</div>-->
-<!--</p-dialog>-->

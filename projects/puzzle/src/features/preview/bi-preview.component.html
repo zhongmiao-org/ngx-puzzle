@@ -1,0 +1,51 @@
+<div
+	class="bi-preview-container"
+	[class.enable-zoom]="enableZoom()"
+	[class.enable-scroll]="!enableZoom()"
+	[class.fullscreen]="isFullscreen()">
+	<div
+		class="bi-preview-component"
+		[style.zoom]="enableZoom() ? scaleRatio : 1">
+		<div
+			class="canvas-content-wrapper"
+			#canvasWrapper
+			[style.width.px]="canvasWidth"
+			[style.height.px]="canvasHeight"
+			[ngStyle]="(config && config.props.styles) || {} | stylesFormat">
+			<ng-template #canvasContent></ng-template>
+		</div>
+	</div>
+
+	@if (enableZoomBtn() || enableFullscreenBtn()) {
+		<!-- 顶部右侧控制按钮（缩放模式切换 + 全屏切换） -->
+		<div
+			class="zoom-toggle-btn"
+			[class.fullscreen-hidden]="isFullscreen()">
+			@if (enableZoomBtn() && scaleRatio !== 1) {
+				<button
+					type="button"
+					class="toggle-button"
+					(click)="toggleZoomMode()">
+					<span
+						class="icon"
+						[class]="
+							enableZoom() ? 'pi pi-arrow-up-right-and-arrow-down-left-from-center' : 'pi pi-arrow-down-left-and-arrow-up-right-to-center'
+						"></span>
+					<span class="text">{{ enableZoom() ? '滚动' : '缩放' }}</span>
+				</button>
+			}
+
+			@if (enableFullscreenBtn()) {
+				<button
+					type="button"
+					class="toggle-button"
+					(click)="toggleFullscreen()">
+					<span
+						class="icon"
+						[class]="isFullscreen() ? 'pi pi-window-minimize' : 'pi pi-window-maximize'"></span>
+					<span class="text">{{ isFullscreen() ? '还原' : '全屏' }}</span>
+				</button>
+			}
+		</div>
+	}
+</div>

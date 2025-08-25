@@ -1,20 +1,20 @@
 import { LabelFormatterEnum } from '../enums';
-import { AgAxisLabelFormatterParams } from 'ag-charts-enterprise';
+import { SafeAny } from 'ngx-puzzle/core';
 
-export const scatterChartOptionMap: Record<LabelFormatterEnum, (params: AgAxisLabelFormatterParams) => string> = {
-	default: (params: AgAxisLabelFormatterParams) => {
+export const scatterChartOptionMap: Record<LabelFormatterEnum, (params: SafeAny) => string> = {
+	default: (params: SafeAny) => {
 		return `${params.value}`;
 	},
-	lengthCm: (params: AgAxisLabelFormatterParams) => {
+	lengthCm: (params: SafeAny) => {
 		return `${params.value}(cm)`;
 	},
-	lengthM: (params: AgAxisLabelFormatterParams) => {
+	lengthM: (params: SafeAny) => {
 		return `${params.value}(m)`;
 	},
-	massKg: (params: AgAxisLabelFormatterParams) => {
+	massKg: (params: SafeAny) => {
 		return `${params.value}(kg)`;
 	},
-	percentage: (params: AgAxisLabelFormatterParams) => {
+	percentage: (params: SafeAny) => {
 		return `${params.value}%`;
 	},
 };

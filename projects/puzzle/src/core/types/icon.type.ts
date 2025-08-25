@@ -1,1 +1,1 @@
-export type mainTypes = 'chart' | 'canvas' | 'table' | 'text'; // 文本
+export type mainTypes = 'chart' | 'canvas' | 'table' | 'text' | 'control';

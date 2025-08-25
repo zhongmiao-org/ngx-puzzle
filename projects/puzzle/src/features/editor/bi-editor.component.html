@@ -1,0 +1,44 @@
+<div class="bi-editor-component">
+	<div
+		class="drawer left-drawer"
+		[class.collapsed]="leftCollapsed">
+		@if (!leftCollapsed) {
+			<p-panel
+				header="组件"
+				[style.height.%]="100"
+				class="editor-panel">
+				<div class="bi-form-wrapper">
+					<ng-content select="[editorFormContent]"></ng-content>
+				</div>
+				<imm-bi-panel></imm-bi-panel>
+			</p-panel>
+		}
+		<p-button
+			class="toggle-btn left"
+			severity="secondary"
+			[icon]="!leftCollapsed ? 'pi pi-angle-left' : 'pi pi-angle-right'"
+			(click)="toggleLeft()"></p-button>
+	</div>
+
+	<div class="main-content">
+		<imm-bi-canvas id="canvas"></imm-bi-canvas>
+	</div>
+	<div
+		class="drawer right-drawer"
+		[class.wide]="isDrawerWide"
+		[class.collapsed]="rightCollapsed">
+		@if (!rightCollapsed) {
+			<p-panel
+				header="编辑"
+				[style.height.%]="100"
+				class="editor-panel">
+				<imm-bi-editor-panel></imm-bi-editor-panel>
+			</p-panel>
+		}
+		<p-button
+			class="toggle-btn right"
+			severity="secondary"
+			[icon]="!rightCollapsed ? 'pi pi-angle-right' : 'pi pi-angle-left'"
+			(click)="toggleRight()"></p-button>
+	</div>
+</div>

@@ -1,5 +1,5 @@
 <p-accordion [multiple]="false">
-	@for (group of tableFields; track group.label) {
+	@for (group of sections; track group.label) {
 		<p-accordion-panel [value]="group.label">
 			<p-accordion-header>{{ group.label }}</p-accordion-header>
 			<p-accordion-content>
@@ -49,6 +49,33 @@
                       size="small"
                       [inputStyle]="{ width: '100%' }"></p-inputNumber>
                   }
+                  <!-- 编辑数据 -->
+                  @case ('button') {
+                    <div class="w-full">
+                      <p-button
+                        type="button"
+                        size="small"
+                        icon="pi pi-pen-to-square"
+                        [label]="field.label"
+                        (click)="openData()"
+                      ></p-button>
+                    </div>
+                  }
+                  @case ('color') {
+                    <p-color-picker
+                      appendTo="body"
+                      [(ngModel)]="formData[field.key]"
+                      (ngModelChange)="onFormFieldChange(field.key, $event)"
+                      [inputId]="field.key"
+                      [style]="{ 'margin-bottom': '8px' }" />
+                    <input
+                      class="color-input"
+                      pInputText
+                      type="text"
+                      pSize="small"
+                      [(ngModel)]="formData[field.key]"
+                      (ngModelChange)="onFormFieldChange(field.key, $event)" />
+                  }
                 }
               </div>
             }
@@ -57,12 +84,11 @@
 				@if (group.headerSetting && group.headerSetting.length > 0) {
 					<p-table
 						[value]="(group?.rowData) || []"
-						[size]="'small'"
-						(onEditComplete)="editComplete(group.key)">
+						[size]="'small'">
 						<ng-template #header>
 							<tr>
 								@for (field of group.headerSetting; let i = $index; track i) {
-									<th>
+									<th class="text-center">
 										{{ field.headerName }}
 									</th>
 								}
@@ -88,15 +114,20 @@
 															pInputText
 															[pSize]="'small'"
 															type="text"
+                              (blur)="editTableComplete(data['field'], head.field)"
+                              (keydown.enter)="editTableComplete(data['field'], head.field)"
 															[(ngModel)]="data[head.field]" />
 													}
 													@case ('select') {
 														<p-select
 															class="editor-select"
 															[options]="head.options"
+                              [showClear]="head?.clearable"
 															optionLabel="label"
 															optionValue="val"
 															appendTo="body"
+                              autofocus="true"
+                              (onChange)="editTableComplete(data['field'], head.field)"
 															[(ngModel)]="data[head.field]" />
 													}
 												}
@@ -115,3 +146,12 @@
 		</p-accordion-panel>
 	}
 </p-accordion>
+<imm-bi-data-source-dialog
+  [(visible)]="visible"
+  [bufferIndex]="bufferIndex"
+  [requestOptions]="requestOptions()"
+  [showAggPreview]="false"
+  (confirm)="onDataSourceConfirm($event)"
+  (cancel)="onDataSourceCancel()">
+</imm-bi-data-source-dialog>
+

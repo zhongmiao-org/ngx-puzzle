@@ -2,7 +2,7 @@ import { inject, NgModule } from '@angular/core';
 import { NgxPuzzleComponent } from './puzzle.component';
 import { ThyIconRegistry } from 'ngx-tethys/icon';
 import { DomSanitizer } from '@angular/platform-browser';
-import { ChartTypesEnum, TableTypesEnum, TabTypesEnum, TextTypesEnum } from 'ngx-puzzle/core/enums';
+import { ChartTypesEnum, ControlTypesEnum, TableTypesEnum, TabTypesEnum, TextTypesEnum } from 'ngx-puzzle/core/enums';
 
 @NgModule({
     imports: [NgxPuzzleComponent],
@@ -24,6 +24,7 @@ export class NgxPuzzleModule {
         this.registerIconsForType('table', TableTypesEnum, 'tables');
         this.registerIconsForType('text', TextTypesEnum, 'text');
         this.registerIconsForType('editor', TabTypesEnum, 'editor');
+        this.registerIconsForType('control', ControlTypesEnum, 'control');
 
     }
     private registerIconsForType(namespace: string, enumType: any, iconPath: string) {
