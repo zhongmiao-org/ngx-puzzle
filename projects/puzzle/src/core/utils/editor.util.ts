@@ -41,7 +41,15 @@ export function convertFormDataToOptions<TOptions, TEditorField extends EditorBa
 				});
 				setOptionValue(options, field.path!, arrayValue);
 			} else {
-				setOptionValue(options, field.path!, formData[field.key]);
+				const value = formData[field.key];
+				if (
+					value === undefined ||
+					(field.schemaType === 'color' && value === '') ||
+					(field.schemaType === 'multiColorSelect' && Array.isArray(value) && value.length === 0)
+				) {
+					continue;
+				}
+				setOptionValue(options, field.path!, value);
 			}
 		}
 	};

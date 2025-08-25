@@ -16,7 +16,6 @@ export const CHART_X_AXIS: EditorChartField = {
         { label: '时间轴', val: 'time' },
         { label: '对数轴', val: 'log' }
       ],
-      defaultValue: 'category',
     },
     {
       label: '显示X轴',
@@ -24,7 +23,6 @@ export const CHART_X_AXIS: EditorChartField = {
       path: 'xAxis.show',
       schemaType: 'select',
       options: ENABLE_OPTIONS,
-      defaultValue: true,
     },
     {
       label: '反向坐标轴',
@@ -32,7 +30,6 @@ export const CHART_X_AXIS: EditorChartField = {
       path: 'xAxis.inverse',
       schemaType: 'select',
       options: ENABLE_OPTIONS,
-      defaultValue: false,
       description: '是否反向坐标轴',
     },
     {
@@ -40,7 +37,6 @@ export const CHART_X_AXIS: EditorChartField = {
       key: 'xAxisName',
       path: 'xAxis.name',
       schemaType: 'text',
-      defaultValue: '',
       description: '坐标轴名称',
     },
     {
@@ -54,7 +50,6 @@ export const CHART_X_AXIS: EditorChartField = {
         { label: '居中', val: 'center' },
         { label: '结束', val: 'end' }
       ],
-      defaultValue: 'end',
       description: '坐标轴名称显示位置',
     },
     {
@@ -65,7 +60,6 @@ export const CHART_X_AXIS: EditorChartField = {
       min: -360,
       max: 360,
       step: 1,
-      defaultValue: null,
       description: '坐标轴名称旋转角度',
     },
     {
@@ -75,7 +69,6 @@ export const CHART_X_AXIS: EditorChartField = {
       schemaType: 'number',
       min: 0,
       step: 1,
-      defaultValue: 15,
       description: '坐标轴名称与轴线之间的距离',
     },
     {
@@ -88,7 +81,6 @@ export const CHART_X_AXIS: EditorChartField = {
         { label: '启用', val: true },
         { label: '禁用', val: false }
       ],
-      defaultValue: 'auto',
       description: '是否自动移动轴名称避免与标签重叠',
     },
     {
@@ -98,7 +90,6 @@ export const CHART_X_AXIS: EditorChartField = {
       schemaType: 'number',
       min: 0,
       step: 1,
-      defaultValue: null,
       description: '轴名称截断的最大宽度',
     },
     {
@@ -106,7 +97,6 @@ export const CHART_X_AXIS: EditorChartField = {
       key: 'xAxisNameTruncateEllipsis',
       path: 'xAxis.nameTruncate.ellipsis',
       schemaType: 'text',
-      defaultValue: '...',
       description: '轴名称截断时的省略符号',
     },
     {
@@ -114,7 +104,6 @@ export const CHART_X_AXIS: EditorChartField = {
       key: 'xAxisNameTruncatePlaceholder',
       path: 'xAxis.nameTruncate.placeholder',
       schemaType: 'text',
-      defaultValue: '',
       description: '轴名称截断时的占位符',
     },
     {
@@ -122,7 +111,6 @@ export const CHART_X_AXIS: EditorChartField = {
       key: 'xAxisMin',
       path: 'xAxis.min',
       schemaType: 'text',
-      defaultValue: null,
       description: '坐标轴刻度最小值，支持数字或 "dataMin"',
     },
     {
@@ -130,7 +118,6 @@ export const CHART_X_AXIS: EditorChartField = {
       key: 'xAxisMax',
       path: 'xAxis.max',
       schemaType: 'text',
-      defaultValue: null,
       description: '坐标轴刻度最大值，支持数字或 "dataMax"',
     },
     {
@@ -138,7 +125,6 @@ export const CHART_X_AXIS: EditorChartField = {
       key: 'xAxisStartValue',
       path: 'xAxis.startValue',
       schemaType: 'number',
-      defaultValue: null,
       description: '坐标轴起始值',
     },
     {
@@ -147,7 +133,6 @@ export const CHART_X_AXIS: EditorChartField = {
       path: 'xAxis.silent',
       schemaType: 'select',
       options: ENABLE_OPTIONS,
-      defaultValue: false,
       description: '坐标轴是否是静默的，不响应鼠标事件',
     },
     // 轴名称文字样式
@@ -156,7 +141,6 @@ export const CHART_X_AXIS: EditorChartField = {
       key: 'xAxisNameTextStyleColor',
       path: 'xAxis.nameTextStyle.color',
       schemaType: 'color',
-      defaultValue: '#333',
     },
     {
       label: '轴名称文字大小',
@@ -166,7 +150,6 @@ export const CHART_X_AXIS: EditorChartField = {
       min: 8,
       max: 100,
       step: 1,
-      defaultValue: 12,
     },
     {
       label: '轴名称文字粗细',
@@ -174,7 +157,6 @@ export const CHART_X_AXIS: EditorChartField = {
       path: 'xAxis.nameTextStyle.fontWeight',
       schemaType: 'select',
       options: FONT_WEIGHT_OPTIONS,
-      defaultValue: 'normal',
     },
     {
       label: '轴名称文字样式',
@@ -186,14 +168,12 @@ export const CHART_X_AXIS: EditorChartField = {
         { label: '斜体', val: 'italic' },
         { label: '倾斜', val: 'oblique' }
       ],
-      defaultValue: 'normal',
     },
     {
       label: '轴名称字体系列',
       key: 'xAxisNameTextStyleFontFamily',
       path: 'xAxis.nameTextStyle.fontFamily',
       schemaType: 'text',
-      defaultValue: 'sans-serif',
     },
     {
       label: '轴名称行高',
@@ -202,14 +182,12 @@ export const CHART_X_AXIS: EditorChartField = {
       schemaType: 'number',
       min: 0,
       step: 0.1,
-      defaultValue: null,
     },
     {
       label: '轴名称描边颜色',
       key: 'xAxisNameTextStyleTextBorderColor',
       path: 'xAxis.nameTextStyle.textBorderColor',
       schemaType: 'color',
-      defaultValue: 'transparent',
     },
     {
       label: '轴名称描边宽度',
@@ -218,14 +196,12 @@ export const CHART_X_AXIS: EditorChartField = {
       schemaType: 'number',
       min: 0,
       step: 0.5,
-      defaultValue: 0,
     },
     {
       label: '轴名称阴影颜色',
       key: 'xAxisNameTextStyleTextShadowColor',
       path: 'xAxis.nameTextStyle.textShadowColor',
       schemaType: 'color',
-      defaultValue: 'transparent',
     },
     {
       label: '轴名称阴影模糊',
@@ -234,7 +210,6 @@ export const CHART_X_AXIS: EditorChartField = {
       schemaType: 'number',
       min: 0,
       step: 1,
-      defaultValue: 0,
     },
     {
       label: '轴名称阴影偏移X',
@@ -242,7 +217,6 @@ export const CHART_X_AXIS: EditorChartField = {
       path: 'xAxis.nameTextStyle.textShadowOffsetX',
       schemaType: 'number',
       step: 1,
-      defaultValue: 0,
     },
     {
       label: '轴名称阴影偏移Y',
@@ -250,7 +224,6 @@ export const CHART_X_AXIS: EditorChartField = {
       path: 'xAxis.nameTextStyle.textShadowOffsetY',
       schemaType: 'number',
       step: 1,
-      defaultValue: 0,
     },
     // 轴标签样式
     {
@@ -259,7 +232,6 @@ export const CHART_X_AXIS: EditorChartField = {
       path: 'xAxis.axisLabel.show',
       schemaType: 'select',
       options: ENABLE_OPTIONS,
-      defaultValue: true,
     },
     {
       label: '标签间隔',
@@ -268,7 +240,6 @@ export const CHART_X_AXIS: EditorChartField = {
       schemaType: 'number',
       min: 0,
       step: 1,
-      defaultValue: 'auto',
       description: '坐标轴刻度标签的显示间隔，0表示显示所有标签',
     },
     {
@@ -279,7 +250,6 @@ export const CHART_X_AXIS: EditorChartField = {
       min: -90,
       max: 90,
       step: 1,
-      defaultValue: 0,
     },
     {
       label: '标签内边距',
@@ -288,7 +258,6 @@ export const CHART_X_AXIS: EditorChartField = {
       schemaType: 'number',
       min: 0,
       step: 1,
-      defaultValue: 8,
       description: '刻度标签与轴线之间的距离',
     },
     {
@@ -296,7 +265,6 @@ export const CHART_X_AXIS: EditorChartField = {
       key: 'xAxisAxisLabelColor',
       path: 'xAxis.axisLabel.color',
       schemaType: 'color',
-      defaultValue: '#666',
     },
     {
       label: '标签文字大小',
@@ -306,7 +274,6 @@ export const CHART_X_AXIS: EditorChartField = {
       min: 8,
       max: 100,
       step: 1,
-      defaultValue: 12,
     },
     {
       label: '标签文字粗细',
@@ -314,14 +281,12 @@ export const CHART_X_AXIS: EditorChartField = {
       path: 'xAxis.axisLabel.fontWeight',
       schemaType: 'select',
       options: FONT_WEIGHT_OPTIONS,
-      defaultValue: 'normal',
     },
     {
       label: '标签字体系列',
       key: 'xAxisAxisLabelFontFamily',
       path: 'xAxis.axisLabel.fontFamily',
       schemaType: 'text',
-      defaultValue: 'sans-serif',
     },
     // 轴线样式
     {
@@ -330,14 +295,12 @@ export const CHART_X_AXIS: EditorChartField = {
       path: 'xAxis.axisLine.show',
       schemaType: 'select',
       options: ENABLE_OPTIONS,
-      defaultValue: true,
     },
     {
       label: '轴线颜色',
       key: 'xAxisAxisLineLineStyleColor',
       path: 'xAxis.axisLine.lineStyle.color',
       schemaType: 'color',
-      defaultValue: '#333',
     },
     {
       label: '轴线宽度',
@@ -346,7 +309,6 @@ export const CHART_X_AXIS: EditorChartField = {
       schemaType: 'number',
       min: 0,
       step: 0.5,
-      defaultValue: 1,
     },
     {
       label: '轴线类型',
@@ -358,7 +320,6 @@ export const CHART_X_AXIS: EditorChartField = {
         { label: '虚线', val: 'dashed' },
         { label: '点线', val: 'dotted' }
       ],
-      defaultValue: 'solid',
     },
     // 轴刻度样式
     {
@@ -367,7 +328,6 @@ export const CHART_X_AXIS: EditorChartField = {
       path: 'xAxis.axisTick.show',
       schemaType: 'select',
       options: ENABLE_OPTIONS,
-      defaultValue: true,
     },
     {
       label: '刻度长度',
@@ -376,14 +336,12 @@ export const CHART_X_AXIS: EditorChartField = {
       schemaType: 'number',
       min: 0,
       step: 1,
-      defaultValue: 5,
     },
     {
       label: '刻度线颜色',
       key: 'xAxisAxisTickLineStyleColor',
       path: 'xAxis.axisTick.lineStyle.color',
       schemaType: 'color',
-      defaultValue: '#333',
     },
     {
       label: '刻度线宽度',
@@ -392,7 +350,6 @@ export const CHART_X_AXIS: EditorChartField = {
       schemaType: 'number',
       min: 0,
       step: 0.5,
-      defaultValue: 1,
     },
     // 分割线样式
     {
@@ -401,14 +358,12 @@ export const CHART_X_AXIS: EditorChartField = {
       path: 'xAxis.splitLine.show',
       schemaType: 'select',
       options: ENABLE_OPTIONS,
-      defaultValue: false,
     },
     {
       label: '分割线颜色',
       key: 'xAxisSplitLineLineStyleColor',
       path: 'xAxis.splitLine.lineStyle.color',
       schemaType: 'color',
-      defaultValue: '#ccc',
     },
     {
       label: '分割线宽度',
@@ -417,7 +372,6 @@ export const CHART_X_AXIS: EditorChartField = {
       schemaType: 'number',
       min: 0,
       step: 0.5,
-      defaultValue: 1,
     },
     {
       label: '分割线类型',
@@ -429,7 +383,6 @@ export const CHART_X_AXIS: EditorChartField = {
         { label: '虚线', val: 'dashed' },
         { label: '点线', val: 'dotted' }
       ],
-      defaultValue: 'solid',
     },
     // 分割区域样式
     {
@@ -438,7 +391,6 @@ export const CHART_X_AXIS: EditorChartField = {
       path: 'xAxis.splitArea.show',
       schemaType: 'select',
       options: ENABLE_OPTIONS,
-      defaultValue: false,
     }
   ],
 };

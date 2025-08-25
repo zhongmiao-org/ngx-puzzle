@@ -12,7 +12,6 @@ export const CHART_LEGEND: EditorChartField = {
       path: 'legend.show',
       schemaType: 'select',
       options: ENABLE_OPTIONS,
-      defaultValue: true,
     },
     {
       label: '布局方向',
@@ -22,8 +21,7 @@ export const CHART_LEGEND: EditorChartField = {
       options: [
         { label: '水平', val: 'horizontal' },
         { label: '垂直', val: 'vertical' }
-      ],
-      defaultValue: 'horizontal',
+      ]
     },
     {
       label: '对齐方式',
@@ -34,8 +32,7 @@ export const CHART_LEGEND: EditorChartField = {
         { label: '自动', val: 'auto' },
         { label: '左对齐', val: 'left' },
         { label: '右对齐', val: 'right' }
-      ],
-      defaultValue: 'auto',
+      ]
     },
     {
       label: '水平位置',
@@ -47,8 +44,7 @@ export const CHART_LEGEND: EditorChartField = {
         { label: '居中', val: 'center' },
         { label: '右侧', val: 'right' },
         { label: '自定义', val: 'auto' }
-      ],
-      defaultValue: 'center',
+      ]
     },
     {
       label: '垂直位置',
@@ -60,8 +56,7 @@ export const CHART_LEGEND: EditorChartField = {
         { label: '中间', val: 'middle' },
         { label: '底部', val: 'bottom' },
         { label: '自定义', val: 'auto' }
-      ],
-      defaultValue: 'top',
+      ]
     },
     {
       label: '右侧距离',
@@ -71,7 +66,6 @@ export const CHART_LEGEND: EditorChartField = {
       min: 0,
       step: 1,
       description: '距离右侧的像素值',
-      defaultValue: null,
     },
     {
       label: '底部距离',
@@ -81,7 +75,6 @@ export const CHART_LEGEND: EditorChartField = {
       min: 0,
       step: 1,
       description: '距离底部的像素值',
-      defaultValue: null,
     },
     {
       label: '图例宽度',
@@ -91,7 +84,6 @@ export const CHART_LEGEND: EditorChartField = {
       min: 0,
       step: 1,
       description: '图例组件的宽度',
-      defaultValue: null,
     },
     {
       label: '图例高度',
@@ -101,21 +93,18 @@ export const CHART_LEGEND: EditorChartField = {
       min: 0,
       step: 1,
       description: '图例组件的高度',
-      defaultValue: null,
     },
     {
       label: '背景颜色',
       key: 'legendBackgroundColor',
       path: 'legend.backgroundColor',
       schemaType: 'color',
-      defaultValue: 'transparent',
     },
     {
       label: '边框颜色',
       key: 'legendBorderColor',
       path: 'legend.borderColor',
       schemaType: 'color',
-      defaultValue: '#ccc',
     },
     {
       label: '边框宽度',
@@ -124,7 +113,6 @@ export const CHART_LEGEND: EditorChartField = {
       schemaType: 'number',
       min: 0,
       step: 1,
-      defaultValue: 0,
     },
     {
       label: '边框圆角',
@@ -134,7 +122,6 @@ export const CHART_LEGEND: EditorChartField = {
       min: 0,
       step: 1,
       description: '背景边框的圆角半径',
-      defaultValue: 0,
     },
     {
       label: '内边距',
@@ -144,7 +131,6 @@ export const CHART_LEGEND: EditorChartField = {
       min: 0,
       step: 1,
       description: '图例内边距，也可设置为数组 [上, 右, 下, 左]',
-      defaultValue: 5,
     },
     {
       label: '图例项间距',
@@ -154,7 +140,6 @@ export const CHART_LEGEND: EditorChartField = {
       min: 0,
       step: 1,
       description: '各个图例项之间的间距',
-      defaultValue: 10,
     },
     {
       label: '图例标记宽度',
@@ -164,7 +149,6 @@ export const CHART_LEGEND: EditorChartField = {
       min: 0,
       step: 1,
       description: '图例标记的图形宽度',
-      defaultValue: 25,
     },
     {
       label: '图例标记高度',
@@ -174,7 +158,6 @@ export const CHART_LEGEND: EditorChartField = {
       min: 0,
       step: 1,
       description: '图例标记的图形高度',
-      defaultValue: 14,
     },
     {
       label: '选择模式',
@@ -187,7 +170,6 @@ export const CHART_LEGEND: EditorChartField = {
         { label: '单选', val: 'single' },
         { label: '多选', val: 'multiple' }
       ],
-      defaultValue: true,
       description: '图例选择的模式',
     },
     {
@@ -199,7 +181,6 @@ export const CHART_LEGEND: EditorChartField = {
         { label: '不显示', val: false },
         { label: '显示', val: true }
       ],
-      defaultValue: false,
       description: '是否显示全选/反选按钮',
     },
     {
@@ -212,7 +193,6 @@ export const CHART_LEGEND: EditorChartField = {
         { label: '开始', val: 'start' },
         { label: '结束', val: 'end' }
       ],
-      defaultValue: 'auto',
       description: '选择器按钮的位置',
     },
     {
@@ -223,7 +203,6 @@ export const CHART_LEGEND: EditorChartField = {
       min: 0,
       step: 1,
       description: '选择器按钮之间的间距',
-      defaultValue: 7,
     },
     {
       label: '选择器与图例间距',
@@ -233,39 +212,6 @@ export const CHART_LEGEND: EditorChartField = {
       min: 0,
       step: 1,
       description: '选择器按钮组与图例项之间的间距',
-      defaultValue: 10,
-    },
-    {
-      label: '阴影模糊大小',
-      key: 'legendShadowBlur',
-      path: 'legend.shadowBlur',
-      schemaType: 'number',
-      min: 0,
-      step: 1,
-      defaultValue: 0,
-    },
-    {
-      label: '阴影颜色',
-      key: 'legendShadowColor',
-      path: 'legend.shadowColor',
-      schemaType: 'color',
-      defaultValue: 'transparent',
-    },
-    {
-      label: '阴影水平偏移',
-      key: 'legendShadowOffsetX',
-      path: 'legend.shadowOffsetX',
-      schemaType: 'number',
-      step: 1,
-      defaultValue: 0,
-    },
-    {
-      label: '阴影垂直偏移',
-      key: 'legendShadowOffsetY',
-      path: 'legend.shadowOffsetY',
-      schemaType: 'number',
-      step: 1,
-      defaultValue: 0,
     },
     {
       label: '触发事件',
@@ -274,7 +220,6 @@ export const CHART_LEGEND: EditorChartField = {
       schemaType: 'select',
       options: ENABLE_OPTIONS,
       description: '是否触发鼠标或触摸事件',
-      defaultValue: false,
     },
     // 图例文字样式设置
     {
@@ -282,7 +227,6 @@ export const CHART_LEGEND: EditorChartField = {
       key: 'legendTextStyleColor',
       path: 'legend.textStyle.color',
       schemaType: 'color',
-      defaultValue: '#333',
     },
     {
       label: '图例文字大小',
@@ -291,8 +235,7 @@ export const CHART_LEGEND: EditorChartField = {
       schemaType: 'number',
       min: 8,
       max: 100,
-      step: 1,
-      defaultValue: 12,
+      step: 1
     },
     {
       label: '图例文字粗细',
@@ -300,7 +243,6 @@ export const CHART_LEGEND: EditorChartField = {
       path: 'legend.textStyle.fontWeight',
       schemaType: 'select',
       options: FONT_WEIGHT_OPTIONS,
-      defaultValue: 'normal',
     },
     {
       label: '图例文字样式',
@@ -311,8 +253,7 @@ export const CHART_LEGEND: EditorChartField = {
         { label: '正常', val: 'normal' },
         { label: '斜体', val: 'italic' },
         { label: '倾斜', val: 'oblique' }
-      ],
-      defaultValue: 'normal',
+      ]
     },
     {
       label: '图例文字字体',
@@ -320,7 +261,6 @@ export const CHART_LEGEND: EditorChartField = {
       path: 'legend.textStyle.fontFamily',
       schemaType: 'text',
       description: '字体系列，如 "Microsoft YaHei", Arial, sans-serif',
-      defaultValue: 'sans-serif',
     },
     {
       label: '图例文字行高',
@@ -329,85 +269,6 @@ export const CHART_LEGEND: EditorChartField = {
       schemaType: 'number',
       min: 0,
       step: 0.1,
-      defaultValue: null,
-    },
-    {
-      label: '图例文字宽度',
-      key: 'legendTextStyleWidth',
-      path: 'legend.textStyle.width',
-      schemaType: 'number',
-      min: 0,
-      step: 1,
-      defaultValue: null,
-    },
-    {
-      label: '图例文字高度',
-      key: 'legendTextStyleHeight',
-      path: 'legend.textStyle.height',
-      schemaType: 'number',
-      min: 0,
-      step: 1,
-      defaultValue: null,
-    },
-    {
-      label: '图例文字描边颜色',
-      key: 'legendTextStyleTextBorderColor',
-      path: 'legend.textStyle.textBorderColor',
-      schemaType: 'color',
-      defaultValue: 'transparent',
-    },
-    {
-      label: '图例文字描边宽度',
-      key: 'legendTextStyleTextBorderWidth',
-      path: 'legend.textStyle.textBorderWidth',
-      schemaType: 'number',
-      min: 0,
-      step: 0.5,
-      defaultValue: 0,
-    },
-    {
-      label: '图例文字描边类型',
-      key: 'legendTextStyleTextBorderType',
-      path: 'legend.textStyle.textBorderType',
-      schemaType: 'select',
-      options: [
-        { label: '实线', val: 'solid' },
-        { label: '虚线', val: 'dashed' },
-        { label: '点线', val: 'dotted' }
-      ],
-      defaultValue: 'solid',
-    },
-    {
-      label: '图例文字阴影颜色',
-      key: 'legendTextStyleTextShadowColor',
-      path: 'legend.textStyle.textShadowColor',
-      schemaType: 'color',
-      defaultValue: 'transparent',
-    },
-    {
-      label: '图例文字阴影模糊',
-      key: 'legendTextStyleTextShadowBlur',
-      path: 'legend.textStyle.textShadowBlur',
-      schemaType: 'number',
-      min: 0,
-      step: 1,
-      defaultValue: 0,
-    },
-    {
-      label: '图例文字阴影偏移X',
-      key: 'legendTextStyleTextShadowOffsetX',
-      path: 'legend.textStyle.textShadowOffsetX',
-      schemaType: 'number',
-      step: 1,
-      defaultValue: 0,
-    },
-    {
-      label: '图例文字阴影偏移Y',
-      key: 'legendTextStyleTextShadowOffsetY',
-      path: 'legend.textStyle.textShadowOffsetY',
-      schemaType: 'number',
-      step: 1,
-      defaultValue: 0,
     },
     // 选择器标签样式设置
     {
@@ -415,7 +276,6 @@ export const CHART_LEGEND: EditorChartField = {
       key: 'legendSelectorLabelColor',
       path: 'legend.selectorLabel.color',
       schemaType: 'color',
-      defaultValue: '#666',
     },
     {
       label: '选择器文字大小',
@@ -424,8 +284,7 @@ export const CHART_LEGEND: EditorChartField = {
       schemaType: 'number',
       min: 8,
       max: 100,
-      step: 1,
-      defaultValue: 12,
+      step: 1
     },
     {
       label: '选择器文字粗细',
@@ -433,7 +292,6 @@ export const CHART_LEGEND: EditorChartField = {
       path: 'legend.selectorLabel.fontWeight',
       schemaType: 'select',
       options: FONT_WEIGHT_OPTIONS,
-      defaultValue: 'normal',
     },
     {
       label: '选择器文字字体',
@@ -441,7 +299,6 @@ export const CHART_LEGEND: EditorChartField = {
       path: 'legend.selectorLabel.fontFamily',
       schemaType: 'text',
       description: '选择器按钮的字体系列',
-      defaultValue: 'sans-serif',
     },
     // 选择器高亮状态样式
     {
@@ -449,7 +306,6 @@ export const CHART_LEGEND: EditorChartField = {
       key: 'legendEmphasisSelectorLabelColor',
       path: 'legend.emphasis.selectorLabel.color',
       schemaType: 'color',
-      defaultValue: '#333',
     },
     {
       label: '选择器高亮文字大小',
@@ -458,8 +314,7 @@ export const CHART_LEGEND: EditorChartField = {
       schemaType: 'number',
       min: 8,
       max: 100,
-      step: 1,
-      defaultValue: 12,
+      step: 1
     },
     {
       label: '选择器高亮文字粗细',
@@ -467,7 +322,109 @@ export const CHART_LEGEND: EditorChartField = {
       path: 'legend.emphasis.selectorLabel.fontWeight',
       schemaType: 'select',
       options: FONT_WEIGHT_OPTIONS,
-      defaultValue: 'bold',
+    },
+    // 可滚动图例特有配置
+    {
+      label: '滚动数据索引',
+      key: 'legendScrollDataIndex',
+      path: 'legend.scrollDataIndex',
+      schemaType: 'number',
+      min: 0,
+      step: 1,
+      description: '图例当前最左上显示项的 dataIndex',
+    },
+    {
+      label: '翻页按钮间距',
+      key: 'legendPageButtonItemGap',
+      path: 'legend.pageButtonItemGap',
+      schemaType: 'number',
+      min: 0,
+      step: 1,
+      description: '各个翻页按钮之间的间距',
+    },
+    {
+      label: '翻页按钮与图例间距',
+      key: 'legendPageButtonGap',
+      path: 'legend.pageButtonGap',
+      schemaType: 'number',
+      min: 0,
+      step: 1,
+      description: '翻页按钮组与图例项之间的间距',
+    },
+    {
+      label: '翻页按钮位置',
+      key: 'legendPageButtonPosition',
+      path: 'legend.pageButtonPosition',
+      schemaType: 'select',
+      options: [
+        { label: '开始', val: 'start' },
+        { label: '结束', val: 'end' }
+      ],
+      description: '翻页按钮的位置',
+    },
+    {
+      label: '页面格式化器',
+      key: 'legendPageFormatter',
+      path: 'legend.pageFormatter',
+      schemaType: 'text',
+      description: '页面格式化函数，支持 {current} 和 {total} 变量',
+    },
+    {
+      label: '翻页图标颜色',
+      key: 'legendPageIconColor',
+      path: 'legend.pageIconColor',
+      schemaType: 'color',
+      description: '翻页按钮的颜色',
+    },
+    {
+      label: '翻页图标禁用颜色',
+      key: 'legendPageIconInactiveColor',
+      path: 'legend.pageIconInactiveColor',
+      schemaType: 'color',
+      description: '翻页按钮不激活时（即翻页到头时）的颜色',
+    },
+    {
+      label: '翻页图标大小',
+      key: 'legendPageIconSize',
+      path: 'legend.pageIconSize',
+      schemaType: 'number',
+      min: 8,
+      max: 50,
+      step: 1,
+      description: '翻页按钮的大小',
+    },
+    {
+      label: '翻页文字颜色',
+      key: 'legendPageTextStyleColor',
+      path: 'legend.pageTextStyle.color',
+      schemaType: 'color',
+      description: '翻页信息的文字样式',
+    },
+    {
+      label: '翻页文字大小',
+      key: 'legendPageTextStyleFontSize',
+      path: 'legend.pageTextStyle.fontSize',
+      schemaType: 'number',
+      min: 8,
+      max: 100,
+      step: 1,
+    },
+    {
+      label: '翻页文字粗细',
+      key: 'legendPageTextStyleFontWeight',
+      path: 'legend.pageTextStyle.fontWeight',
+      schemaType: 'select',
+      options: FONT_WEIGHT_OPTIONS,
+    },
+    {
+      label: '翻页动画时长',
+      key: 'legendAnimationDurationUpdate',
+      path: 'legend.animationDurationUpdate',
+      schemaType: 'number',
+      min: 0,
+      step: 100,
+      description: '翻页时的动画时长',
     }
   ],
 };
+

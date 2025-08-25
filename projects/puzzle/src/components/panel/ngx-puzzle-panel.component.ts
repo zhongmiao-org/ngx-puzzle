@@ -1,9 +1,15 @@
 import { AfterViewInit, Component, HostBinding, inject, OnInit, ViewEncapsulation } from '@angular/core';
-import { CHART_SERIES_TYPE_OPTIONS, INIT_SETTINGS_CONFIG, TEXT_TYPE_OPTIONS, TABLE_TYPE_OPTIONS } from '../../core/constants';
+import {
+  CHART_SERIES_TYPE_OPTIONS,
+  INIT_SETTINGS_CONFIG,
+  TEXT_TYPE_OPTIONS,
+  TABLE_TYPE_OPTIONS,
+  CONTROL_TYPE_OPTIONS
+} from '../../core/constants';
 import { CdkDrag, CdkDragEnd, CdkDropList } from '@angular/cdk/drag-drop';
 import { ComponentConfig } from 'ngx-puzzle/core/interfaces';
 import { mainTypes } from 'ngx-puzzle/core/types';
-import { ChartTypesEnum, TextTypesEnum, TableTypesEnum } from 'ngx-puzzle/core/enums';
+import { ChartTypesEnum, TextTypesEnum, TableTypesEnum, ControlTypesEnum } from 'ngx-puzzle/core/enums';
 import { generateUUID } from '../../utils';
 import { ThyTooltipDirective } from 'ngx-tethys/tooltip';
 import { ThyIcon } from 'ngx-tethys/icon';
@@ -32,6 +38,9 @@ export class NgxPuzzlePanelComponent implements OnInit, AfterViewInit {
 
   public textList = TEXT_TYPE_OPTIONS;
 
+  public controlList = CONTROL_TYPE_OPTIONS;
+
+
   ngOnInit() {}
 
   ngAfterViewInit() {
@@ -39,7 +48,7 @@ export class NgxPuzzlePanelComponent implements OnInit, AfterViewInit {
     this.canvasContainer = document.getElementById('canvas-container') as HTMLElement;
   }
 
-  onDragEnded(event: CdkDragEnd, type: mainTypes, subType: ChartTypesEnum | TableTypesEnum | TextTypesEnum) {
+  onDragEnded(event: CdkDragEnd, type: mainTypes, subType: ChartTypesEnum | TableTypesEnum | TextTypesEnum | ControlTypesEnum) {
     const canvasEleRect = this.canvasElement.getBoundingClientRect();
     const offsetTop = this.canvasContainer.scrollTop;
     const offsetLeft = this.canvasContainer.scrollLeft;

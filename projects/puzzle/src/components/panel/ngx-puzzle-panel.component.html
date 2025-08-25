@@ -32,4 +32,15 @@
       </li>
     }
   </ul>
+  <h5 class="font-size-md font-weight-normal">控件</h5>
+  <ul class="panel-list">
+    @for (control of controlList; track control.val) {
+      <li cdkDropList>
+        <div class="drop-item" cdkDrag (cdkDragEnded)="onDragEnded($event, 'control', control.val)">
+          <thy-icon class="panel-icon" [thyIconName]="'control:' + control.val"></thy-icon>
+        </div>
+        <p [thyTooltip]="control.label">{{ control.label }}</p>
+      </li>
+    }
+  </ul>
 </div>
