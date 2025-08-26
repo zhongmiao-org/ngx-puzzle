@@ -6,3 +6,8 @@
   cursor: pointer;
   border: 1px solid variables.$input-border-color;
 }
+
+::ng-deep .thy-slide-layout .thy-slide-body {
+  scrollbar-gutter: stable;
+  padding-right: 6px;
+}

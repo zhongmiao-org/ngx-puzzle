@@ -64,14 +64,6 @@ export const CHART_DATA_OPTIONS: Partial<{ [key in ChartTypesEnum]: object }> = 
     dataset: { dimensions: ['name', 'value'], source: [] },
     series: [{ type: 'pie', radius: '60%', label: { show: true }, encode: { itemName: 'name', value: 'value' } }]
   },
-  [ChartTypesEnum.donut]: {
-    tooltip: { trigger: 'item' },
-    legend: {},
-    dataset: { dimensions: ['name', 'value'], source: [] },
-    series: [
-      { type: 'pie', radius: ['40%', '70%'], avoidLabelOverlap: false, label: { show: true }, encode: { itemName: 'name', value: 'value' } }
-    ]
-  },
   [ChartTypesEnum.boxPlot]: {
     tooltip: { trigger: 'item' },
     dataset: { dimensions: ['category', 'min', 'Q1', 'median', 'Q3', 'max'], source: [] },

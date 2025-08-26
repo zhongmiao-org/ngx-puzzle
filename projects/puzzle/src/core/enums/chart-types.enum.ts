@@ -40,11 +40,6 @@ export enum ChartTypesEnum {
   scatter = 'scatter',
 
   /**
-   * 环形图 - 中间有空洞的饼图变体
-   */
-  donut = 'donut',
-
-  /**
    * 饼图 - 圆形统计图，分割成扇形以展示比例
    */
   pie = 'pie',

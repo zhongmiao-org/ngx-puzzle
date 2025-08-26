@@ -7,7 +7,6 @@ export const CHART_SERIES_TYPE_OPTIONS: BaseSelectOption<ChartTypesEnum>[] = [
   { label: '折线图', val: ChartTypesEnum.line },
   { label: '散点图', val: ChartTypesEnum.scatter },
   { label: '饼图', val: ChartTypesEnum.pie },
-  { label: '环形图', val: ChartTypesEnum.donut },
   { label: '箱线图（盒须图）', val: ChartTypesEnum.boxPlot },
   { label: 'K线图', val: ChartTypesEnum.candlestick },
   { label: '雷达图', val: ChartTypesEnum.radar },
