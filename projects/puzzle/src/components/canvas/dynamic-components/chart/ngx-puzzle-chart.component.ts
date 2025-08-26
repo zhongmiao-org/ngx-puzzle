@@ -49,9 +49,7 @@ export class NgxPuzzleChartComponent extends NgxPuzzleCanvasBaseComponent<Compon
 
   override afterUpdateConfig() {
     // this.options = updateCharts(this.config.props.chart, { data: this.chartData[0] });
-    if (this.config.subType === ChartTypesEnum.mapMarker) {
-      // this.handleMapMarkerUpdate();
-    }
+    // MapMarker subtype removed; map marker handling disabled.
     this.restartRefreshTimer();
   }
 
@@ -107,7 +105,7 @@ export class NgxPuzzleChartComponent extends NgxPuzzleCanvasBaseComponent<Compon
   }
 
   private updateDataByIndexes(indexes: number[], params?: SafeAny[], aggregations?: string[]) {
-    const isScatterOrBubble = this.config.subType === ChartTypesEnum.bubble || this.config.subType === ChartTypesEnum.scatter;
+    const isScatterOrBubble = this.config.subType === ChartTypesEnum.scatter;
 
     indexes.forEach((index) => {
       this.processDataForIndex(index, params, aggregations, isScatterOrBubble);

@@ -2,8 +2,6 @@ import { AfterViewInit, Component, effect, ElementRef, inject, input, OnDestroy 
 import * as echarts from 'echarts';
 import { EChartsType, EChartsOption } from 'echarts';
 
-// type EChartsOption = echarts.EChartsOption;
-
 @Component({
   selector: 'bi-ngx-puzzle-charts',
   standalone: true,
@@ -26,7 +24,7 @@ export class NgxPuzzleChartsComponent implements AfterViewInit, OnDestroy {
       const theme = this.theme();
 
       if (this.chartInstance && options) {
-        console.log('options', options)
+        console.log('options', options);
         this.chartInstance.setOption(options);
       }
 

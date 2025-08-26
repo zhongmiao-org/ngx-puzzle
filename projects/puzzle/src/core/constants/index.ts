@@ -3,7 +3,6 @@ export * from './chart-list';
 export * from './chart-mock.data';
 export * from './init-setting.data';
 export * from './chart-option-map';
-export * from './chart-editor-fields-map';
 export * from './table-editor-fields-map';
 export * from './editor-fields-map';
 export * from './select-options.const';
