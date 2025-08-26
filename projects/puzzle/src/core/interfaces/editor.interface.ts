@@ -21,7 +21,9 @@ export interface EditorBaseField<TEditorField extends EditorBaseField = SafeAny>
 	suffix?: string;
 
 	skipConversion?: boolean;
-	[key: string]: SafeAny;
+  visibleWhen?: (values: any) => boolean; // 显隐条件
+
+  [key: string]: SafeAny;
 }
 
 export interface EditorFields extends EditorBaseField {

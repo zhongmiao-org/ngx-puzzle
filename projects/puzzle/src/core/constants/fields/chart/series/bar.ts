@@ -13,15 +13,6 @@ export const CHART_BAR_SERIES: EditorChartField = {
     { label: '类型', key: 'type', path: 'type', schemaType: 'select', disabled: true, options: [{ label: '柱状图', val: 'bar' }] },
     { label: '系列名称', key: 'name', path: 'name', schemaType: 'text' },
 
-    // 系列调色盘（仅该系列生效）
-    {
-      label: '系列调色盘',
-      key: 'color',
-      path: 'color',
-      schemaType: 'array',
-      itemsType: 'color',
-      description: '仅该系列使用的调色盘；留空则使用全局 option.color 或视觉映射'
-    },
     {
       label: '颜色分配',
       key: 'colorBy',
@@ -33,29 +24,20 @@ export const CHART_BAR_SERIES: EditorChartField = {
       ],
       description: 'colorBy: series 表示整组统一色，data 表示每个数据项轮换调色盘'
     },
-
-    // 数据绑定（基于 dataset，无需 data 与 encode）
     {
-      label: '数据布局方式',
-      key: 'layoutBy',
-      path: 'seriesLayoutBy',
-      schemaType: 'select',
-      options: [
-        { label: '按行（每行一个系列）', val: 'row' },
-        { label: '按列（每列一个系列）', val: 'column' }
-      ],
-      description: '与 dataset 的二维表结构对齐；对象数组源一般无需配置'
+      label: '数据项名称映射',
+      key: 'encodeItemName',
+      path: 'encode.itemName',
+      schemaType: 'text',
+      description: '用于图例/提示框等展示的数据项名称维度；可填维度名或索引，支持单个或多个'
     },
     {
-      label: '数据集索引',
-      key: 'datasetIndex',
-      path: 'datasetIndex',
-      schemaType: 'number',
-      min: 0,
-      step: 1,
-      description: '指向 dataset 数组中的下标，通常为 0'
+      label: '数值维度映射',
+      key: 'encodeValue',
+      path: 'encode.value',
+      schemaType: 'text',
+      description: '用于视觉/提示框的数值维度；可填维度名或索引，支持单个或多个'
     },
-
     // 坐标系/轴
     {
       label: '坐标系',

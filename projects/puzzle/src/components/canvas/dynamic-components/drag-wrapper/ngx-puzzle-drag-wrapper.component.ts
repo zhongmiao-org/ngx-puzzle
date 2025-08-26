@@ -6,17 +6,18 @@ import { ComponentBaseProps, ComponentConfig, Position, Size } from 'ngx-puzzle/
 import { SafeAny } from 'ngx-tethys/types';
 import { mainTypes, PuzzleCanvasMediatorService, ZoomScaleService } from 'ngx-puzzle/core';
 import { Subject, takeUntil } from 'rxjs';
+import { ThyIcon } from 'ngx-tethys/icon';
 
 
 @Component({
-	selector: 'app-drag-wrapper',
-	standalone: true,
-	imports: [CommonModule, StylesFormatPipe, CdkDrag],
-	templateUrl: './ngx-puzzle-drag-wrapper.component.html',
-	styleUrl: './ngx-puzzle-drag-wrapper.component.scss',
+  selector: 'app-drag-wrapper',
+  standalone: true,
+  imports: [CommonModule, StylesFormatPipe, CdkDrag, ThyIcon],
+  templateUrl: './ngx-puzzle-drag-wrapper.component.html',
+  styleUrl: './ngx-puzzle-drag-wrapper.component.scss'
 })
 export class NgxPuzzleDragWrapperComponent<TConfigProps extends ComponentBaseProps = ComponentBaseProps, TSubType = string>
-	implements AfterViewInit, OnDestroy
+  implements AfterViewInit, OnDestroy
 {
   @ViewChild(CdkDrag, { static: false }) private dragRef!: CdkDrag;
 
@@ -56,7 +57,7 @@ export class NgxPuzzleDragWrapperComponent<TConfigProps extends ComponentBasePro
     { className: 'bottom-right', direction: 'se' },
     { className: 'bottom', direction: 's' },
     { className: 'bottom-left', direction: 'sw' },
-    { className: 'left', direction: 'w' },
+    { className: 'left', direction: 'w' }
   ];
 
   get hasDragRef() {
@@ -71,7 +72,7 @@ export class NgxPuzzleDragWrapperComponent<TConfigProps extends ComponentBasePro
       'chart-wrapper': this.mainType() === 'chart',
       'table-wrapper': this.mainType() === 'table',
       'text-wrapper': this.mainType() === 'text',
-      'control-wrapper': this.mainType() === 'control',
+      'control-wrapper': this.mainType() === 'control'
     };
   }
 
@@ -101,7 +102,7 @@ export class NgxPuzzleDragWrapperComponent<TConfigProps extends ComponentBasePro
           this.forwardScale.set(zoom);
         }
       },
-      { allowSignalWrites: true },
+      { allowSignalWrites: true }
     );
   }
 
@@ -139,7 +140,7 @@ export class NgxPuzzleDragWrapperComponent<TConfigProps extends ComponentBasePro
     const { x, y } = drag.getFreeDragPosition();
     return {
       x: Math.round(x) | 0,
-      y: Math.round(y) | 0,
+      y: Math.round(y) | 0
     };
   }
 

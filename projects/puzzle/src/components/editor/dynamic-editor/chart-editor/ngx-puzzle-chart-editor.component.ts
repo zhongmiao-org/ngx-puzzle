@@ -51,7 +51,7 @@ import { CHART_FIELDS_MAP, SafeAny } from 'ngx-puzzle/core';
   styleUrl: './ngx-puzzle-chart-editor.component.scss'
 })
 export class NgxPuzzleChartEditorComponent extends EditorBaseComponent<SafeAny, ChartTypesEnum, EditorChartField> {
-  @HostBinding('class.editor-component') isEditorComponent = true;
+  @HostBinding('class.chart-editor-component') isEditorComponent = true;
 
   private _fieldCache = new Map<string, SafeAny>();
   private _isInternalUpdate = false;
