@@ -34,6 +34,9 @@ export const CHART_SCATTER_SERIES: EditorChartField = {
       ]
     },
     { label: '数据集索引', key: 'datasetIndex', path: 'datasetIndex', schemaType: 'number', min: 0, step: 1 },
+    { label: '数据集ID', key: 'datasetId', path: 'datasetId', schemaType: 'text' },
+    { label: 'X 轴维度映射', key: 'encodeX', path: 'encode.x', schemaType: 'text' },
+    { label: 'Y 轴维度映射', key: 'encodeY', path: 'encode.y', schemaType: 'text' },
     { label: '数据项名称映射', key: 'encodeItemName', path: 'encode.itemName', schemaType: 'text' },
     { label: '数值维度映射', key: 'encodeValue', path: 'encode.value', schemaType: 'text' },
 

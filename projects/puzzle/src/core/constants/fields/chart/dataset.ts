@@ -4,51 +4,29 @@ export const CHART_DATASET: EditorChartField = {
   label: '数据源设置',
   key: 'dataset',
   path: 'dataset',
-  schemaType: 'group',
-  skipConversion: true,
+  schemaType: 'array',
+  hasAdd: false,
+  removeActive: false,
+  /**
+   * todo 还需要改造,添加数据源之后,只单独循环这种的
+   *       {
+   *         id: 'male',
+   *         fromDatasetId: 'raw',
+   *         transform: {
+   *           type: 'filter',
+   *           config: {
+   *             dimension: 'gender',
+   *             '=': 'Male'
+   *           }
+   *         }
+   *       }
+   */
   children: [
-    {
-      label: '数据源',
-      key: 'button',
-      path: 'button',
-      schemaType: 'button',
-      skipConversion: true
-    },
-    {
-      label: '聚合函数',
-      key: 'aggregation',
-      path: 'aggregation',
-      schemaType: 'code',
-      skipConversion: true,
-      description: `  聚合函数说明：
-
-  可用的聚合方法：
-  - sum(data, field?)      - 求和，支持指定字段
-  - avg(data, field?)      - 平均值，支持指定字段
-  - count(data)            - 计数
-  - max(data, field?)      - 最大值，支持指定字段
-  - min(data, field?)      - 最小值，支持指定字段
-  - filter(data, predicate) - 过滤数据
-  - map(data, mapper)      - 映射转换
-  - groupBy(data, field)   - 按字段分组
-  - sortBy(data, field, 'asc'|'desc') - 排序
-  - unique(data, field?)   - 去重
-  - take(data, count)      - 取前N项
-  - skip(data, count)      - 跳过N项
-  - groupSum(data, groupField, sumField) - 分组求和
-  - groupAvg(data, groupField, avgField) - 分组平均
-
-  示例用法：
-  return sum(data, 'amount');          // 对amount字段求和
-  return groupBy(data, 'category');    // 按category分组
-  return filter(data, item => item.value > 100); // 过滤数据
-`,
-      config: {
-        codeMirrorProps: {
-          language: 'javascript',
-          minHeight: '280px'
-        }
-      }
-    }
+    { label: '标识ID', key: 'id', path: 'id', schemaType: 'text' },
+    { label: '来源数据集ID', key: 'fromDatasetId', path: 'fromDatasetId', schemaType: 'text' },
+    { label: '转换类型', key: 'transformType', path: 'transform.type', schemaType: 'text' },
+    // { label: '转换配置(JSON)', key: 'transformConfig', path: 'transform.config', schemaType: 'json' },
+    { label: '维度(数组/逗号分隔)', key: 'dimensions', path: 'dimensions', schemaType: 'text' }
+    // { label: '静态数据源(JSON)', key: 'source', path: 'source', schemaType: 'json' }
   ]
 };

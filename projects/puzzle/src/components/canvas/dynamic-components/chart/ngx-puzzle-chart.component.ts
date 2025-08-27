@@ -77,7 +77,7 @@ export class NgxPuzzleChartComponent extends NgxPuzzleCanvasBaseComponent<Compon
         });
       }
       // 预览模式：全量更新
-      this.updateDataCompletely(paramSearch, aggregations);
+      // this.updateDataCompletely(paramSearch, aggregations);
     }
   }
 
