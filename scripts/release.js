@@ -195,7 +195,14 @@ function ensureNpmLogin() {
       if (fs.existsSync(distPkgPath)) {
         try {
           const distPkg = readJson(distPkgPath);
+          // Ensure correct public package name and publish config in dist
+          if (distPkg.name !== '@zhongmiao/ngx-puzzle') {
+            distPkg.name = '@zhongmiao/ngx-puzzle';
+          }
           distPkg.version = nextVersion;
+          distPkg.publishConfig = distPkg.publishConfig || {};
+          distPkg.publishConfig.access = 'public';
+          distPkg.publishConfig.registry = 'https://registry.npmjs.org/';
           writeJson(distPkgPath, distPkg);
           console.log(`Updated dist package.json version -> ${nextVersion}`);
         } catch {

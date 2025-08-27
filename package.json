@@ -26,7 +26,7 @@
     "changelog": "conventional-changelog -p conventionalcommits -i CHANGELOG.md -s",
     "changelog:all": "conventional-changelog -p conventionalcommits -i CHANGELOG.md -s -r 0",
     "postrelease": "npm run changelog && git add CHANGELOG.md && git commit -m \"docs(changelog): update changelog\" && git push",
-    "publish:dist": "cd dist/puzzle && npm publish",
+    "publish:dist": "cd dist/puzzle && npm publish --access public",
     "postinstall": "husky install"
   },
   "dependencies": {
