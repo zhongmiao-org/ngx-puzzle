@@ -1,0 +1,233 @@
+#!/usr/bin/env node
+/*
+ Enhanced interactive release script for ngx-puzzle
+ Flow:
+ 1) Create release branch release-vX.Y.Z
+ 2) Validate environment and ensure build succeeds (before bump)
+ 3) Bump version in root and library package.json
+ 4) Generate/Update CHANGELOG.md
+ 5) Overwrite dist output with updated version and changelog
+ 6) Publish package from dist/puzzle
+
+ Usage:
+   npm run release:select
+
+ Flags (optional):
+   --type <major|minor|patch>  Non-interactive bump type
+   --yes                       Skip confirmation prompts
+   --dry-run                   Print planned actions without changes
+*/
+
+const fs = require('fs');
+const path = require('path');
+const readline = require('readline');
+const { execSync } = require('child_process');
+
+const ROOT = process.cwd();
+const ROOT_PKG = path.join(ROOT, 'package.json');
+const LIB_PKG = path.join(ROOT, 'projects/puzzle/package.json');
+const DIST_DIR = path.join(ROOT, 'dist', 'puzzle');
+
+function readJson(file) {
+  return JSON.parse(fs.readFileSync(file, 'utf8'));
+}
+function writeJson(file, data) {
+  fs.writeFileSync(file, JSON.stringify(data, null, 2) + '\n', 'utf8');
+}
+function copyFile(src, dest) {
+  fs.mkdirSync(path.dirname(dest), { recursive: true });
+  fs.copyFileSync(src, dest);
+}
+
+function bump(version, type) {
+  const m = version.match(/^(\d+)\.(\d+)\.(\d+)(?:-.+)?$/);
+  if (!m) throw new Error(`Invalid semver version: ${version}`);
+  let [major, minor, patch] = m.slice(1).map((n) => parseInt(n, 10));
+  switch (type) {
+    case 'major':
+      major += 1; minor = 0; patch = 0; break;
+    case 'minor':
+      minor += 1; patch = 0; break;
+    case 'patch':
+      patch += 1; break;
+    default:
+      throw new Error(`Unknown bump type: ${type}`);
+  }
+  return `${major}.${minor}.${patch}`;
+}
+
+function parseArgs() {
+  const args = process.argv.slice(2);
+  const opts = { yes: false, dryRun: false, type: undefined };
+  for (let i = 0; i < args.length; i++) {
+    const a = args[i];
+    if (a === '--yes' || a === '-y') opts.yes = true;
+    else if (a === '--dry-run') opts.dryRun = true;
+    else if (a === '--type') { opts.type = args[i + 1]; i++; }
+  }
+  return opts;
+}
+
+function promptSelect(question, choices) {
+  const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+  return new Promise((resolve) => {
+    console.log(question);
+    choices.forEach((c, idx) => {
+      console.log(`  ${idx + 1}. ${c.label}`);
+      if (c.desc) console.log(`     - ${c.desc}`);
+    });
+    rl.question('Choose [1-3]: ', (answer) => {
+      rl.close();
+      const n = parseInt(answer, 10);
+      if (!Number.isFinite(n) || n < 1 || n > choices.length) {
+        console.error('Invalid selection. Aborting.');
+        process.exit(1);
+      }
+      resolve(choices[n - 1].value);
+    });
+  });
+}
+
+function promptConfirm(question) {
+  const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+  return new Promise((resolve) => {
+    rl.question(`${question} [y/N]: `, (answer) => {
+      rl.close();
+      resolve(/^y(es)?$/i.test(answer.trim()));
+    });
+  });
+}
+
+function ensureCleanGit() {
+  const out = execSync('git status --porcelain', { encoding: 'utf8' }).trim();
+  if (out) {
+    throw new Error('Git working tree is not clean. Please commit or stash your changes.');
+  }
+}
+
+function ensureNpmLogin() {
+  try {
+    const who = execSync('npm whoami', { encoding: 'utf8' }).trim();
+    if (!who) throw new Error('not logged in');
+    return who;
+  } catch {
+    throw new Error('Not logged in to npm. Run "npm login" and try again.');
+  }
+}
+
+(async function main() {
+  try {
+    const opts = parseArgs();
+
+    // Load package versions
+    const rootPkg = readJson(ROOT_PKG);
+    const libPkg = fs.existsSync(LIB_PKG) ? readJson(LIB_PKG) : null;
+
+    const current = rootPkg.version;
+    if (!current) {
+      throw new Error('Root package.json missing version field');
+    }
+
+    const choices = [
+      { value: 'major', label: 'major (e.g., 18.0.0 -> 19.0.0)', desc: 'Breaking changes; aligns with Angular major releases' },
+      { value: 'minor', label: 'minor (e.g., 18.0.0 -> 18.1.0)', desc: 'New features, backward-compatible' },
+      { value: 'patch', label: 'patch (e.g., 18.0.0 -> 18.0.1)', desc: 'Bug fixes, performance, docs; no breaking changes' }
+    ];
+
+    let type = opts.type;
+    if (!type) {
+      type = await promptSelect('Select version bump type (Semantic Versioning):', choices);
+    }
+    if (!['major', 'minor', 'patch'].includes(type)) {
+      throw new Error(`Invalid --type value: ${type}`);
+    }
+
+    const nextVersion = bump(current, type);
+
+    if (opts.dryRun) {
+      console.log(`[dry-run] Will create branch: release-v${nextVersion}`);
+      console.log('[dry-run] Will validate git status and npm login');
+      console.log('[dry-run] Will run: npm run build (pre-bump)');
+      console.log(`[dry-run] Will bump version: ${current} -> ${nextVersion} in root and library`);
+      console.log('[dry-run] Will run: npm run changelog');
+      console.log('[dry-run] Will overwrite dist/puzzle/package.json.version and copy CHANGELOG.md');
+      console.log('[dry-run] Will commit changes and push branch');
+      console.log('[dry-run] Will publish from dist/puzzle');
+      process.exit(0);
+    }
+
+    // Preconditions
+    ensureCleanGit();
+    const npmUser = ensureNpmLogin();
+
+    console.log(`Environment OK. Node: ${process.version}, npm: ${execSync('npm -v', { encoding: 'utf8' }).trim()}, npm user: ${npmUser}`);
+
+    // Create release branch BEFORE build
+    const releaseBranch = `release-v${nextVersion}`;
+    console.log(`Creating release branch ${releaseBranch} ...`);
+    execSync(`git checkout -b ${releaseBranch}`, { stdio: 'inherit' });
+
+    // Validate build BEFORE bump
+    console.log('Validating build (pre-bump)...');
+    execSync('npm run build', { stdio: 'inherit' });
+
+    if (!opts.yes) {
+      const ok = await promptConfirm(`Proceed to bump version to ${nextVersion}, update changelog, and publish?`);
+      if (!ok) { console.log('Aborted.'); process.exit(0); }
+    }
+
+    // Bump versions
+    rootPkg.version = nextVersion;
+    writeJson(ROOT_PKG, rootPkg);
+    if (libPkg) {
+      libPkg.version = nextVersion;
+      writeJson(LIB_PKG, libPkg);
+    }
+    console.log(`Version updated to ${nextVersion}`);
+
+    // Update changelog
+    console.log('Updating changelog...');
+    execSync('npm run changelog', { stdio: 'inherit' });
+
+    // Overwrite dist output with updated version and changelog
+    if (fs.existsSync(DIST_DIR)) {
+      const distPkgPath = path.join(DIST_DIR, 'package.json');
+      if (fs.existsSync(distPkgPath)) {
+        try {
+          const distPkg = readJson(distPkgPath);
+          distPkg.version = nextVersion;
+          writeJson(distPkgPath, distPkg);
+          console.log(`Updated dist package.json version -> ${nextVersion}`);
+        } catch {
+          console.warn('Warning: Failed to update dist package.json.');
+        }
+      } else {
+        console.warn('Warning: dist/puzzle/package.json not found.');
+      }
+      try {
+        copyFile(path.join(ROOT, 'CHANGELOG.md'), path.join(DIST_DIR, 'CHANGELOG.md'));
+        console.log('Copied updated CHANGELOG.md to dist.');
+      } catch {
+        console.warn('Warning: Failed to copy CHANGELOG.md to dist.');
+      }
+    } else {
+      console.warn('Warning: dist/puzzle does not exist. Did the build run?');
+    }
+
+    // Commit and push branch
+    execSync('git add package.json projects/puzzle/package.json CHANGELOG.md', { stdio: 'inherit' });
+    execSync(`git commit -m "chore(release): v${nextVersion}"`, { stdio: 'inherit' });
+    execSync(`git push -u origin ${releaseBranch}`, { stdio: 'inherit' });
+
+    // Publish from dist
+    console.log('Publishing package from dist/puzzle ...');
+    execSync('npm run publish:dist', { stdio: 'inherit' });
+
+    console.log('\nRelease completed successfully.');
+    console.log(`- Branch ${releaseBranch} pushed`);
+    console.log(`- Version ${nextVersion} published`);
+  } catch (err) {
+    console.error('Release script failed:', err.message || err);
+    process.exit(1);
+  }
+})();
