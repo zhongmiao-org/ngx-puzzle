@@ -14,14 +14,40 @@ Welcome and thank you for your interest in contributing to the `ng-puzzle` proje
   - Ensure your code follows the project's coding standards.
   - Add necessary unit tests and integration tests.
   - Update the documentation to reflect your changes.
-- **Commit Your Changes**: When committing your changes, write a clear commit message that explains what you did and why. For example:
+- **Commit Your Changes**: We enforce Conventional Commits via Husky + Commitlint. Your commit message must follow the format `<type>(optional scope): <short summary>`. Examples:
 ```
-feat: Add new chart type
+feat(editor): add new chart type selector
+fix(core): prevent null pointer when parsing options
+chore: update dependencies
 ```
 
 - **Push the Branch**: Push your branch to your forked repository.
 - **Create a Pull Request**: On GitHub, create a Pull Request (PR) to merge your changes into the main repository's `main` branch.
 - **Wait for Review**: The project maintainers will review your PR and provide feedback. Please be patient and make the necessary adjustments based on the feedback.
+
+#### 2.1 Commit Message Convention (Conventional Commits)
+We use [Conventional Commits](https://www.conventionalcommits.org/) and validate messages with Commitlint on the `commit-msg` hook.
+
+Allowed types include:
+- feat: a new feature
+- fix: a bug fix
+- docs: documentation only changes
+- style: formatting, missing semi colons, etc. (no code change)
+- refactor: code change that neither fixes a bug nor adds a feature
+- perf: performance improvement
+- test: adding or fixing tests
+- build: changes that affect the build system or external dependencies
+- ci: changes to CI configuration files and scripts
+- chore: other changes that don't modify src or test files
+- revert: revert a previous commit
+
+Optional scope can specify the area, e.g., `editor`, `core`, `chart`.
+
+Body and footer are optional but recommended for complex changes. Use footer for breaking changes using `BREAKING CHANGE:`.
+
+Setup notes:
+- Husky is installed automatically via `postinstall`. If hooks are missing, run: `npx husky install`.
+- Commitlint config: `commitlint.config.cjs` extends `@commitlint/config-conventional`.
 
 ### 3. Code Style
 - **Formatting**: Use Prettier for code formatting. The configuration file is located at `.prettierrc`.
@@ -47,3 +73,36 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 If you have any questions or suggestions, feel free to reach out to us!
 
 We hope this contribution guide helps you get started and make meaningful contributions to the `ng-puzzle` project!
+
+
+### 9. Changelog
+- We maintain a CHANGELOG.md generated from Conventional Commits.
+- On each release (`npm run release`), the changelog is automatically updated by the `postrelease` script.
+- Before releasing, we validate the library builds successfully via `prerelease` (runs `npm run build`). If build fails, the release is aborted.
+- The CHANGELOG.md, README.md and LICENSE are copied into the published package during build, so users on npm can read them.
+- To update locally without releasing:
+  - Latest changes since last tag: `npm run changelog`
+  - Regenerate from entire history: `npm run changelog:all`
+- Commit message used by automation: `docs(changelog): update changelog` (validated by Commitlint).
+
+### 10. Release helper (interactive)
+Use the interactive release helper to cut a release end-to-end (branch → validate → bump → changelog → overwrite dist → publish):
+
+- Run: `npm run release:select`
+- Choose bump type (SemVer):
+  - major: breaking changes; typically aligns with Angular major updates
+  - minor: new features, backward-compatible
+  - patch: bug fixes and optimizations, no breaking changes
+- The script performs:
+  1) Creates a branch `release-v<nextVersion>`
+  2) Validates environment and runs a pre-bump build (`npm run build`)
+  3) Updates version in root and library package.json to `<nextVersion>`
+  4) Generates/updates CHANGELOG.md using Conventional Commits
+  5) Overwrites `dist/puzzle/package.json` version and copies `CHANGELOG.md` into `dist/puzzle`
+  6) Commits changes and pushes the release branch
+  7) Publishes the package from `dist/puzzle` to npm
+
+Flags:
+- `--type <major|minor|patch>` non-interactive
+- `--yes` skip confirmation
+- `--dry-run` show actions without changing anything
