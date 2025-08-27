@@ -1,5 +1,5 @@
 {
-  "name": "@zhongmiao/puzzle",
+  "name": "@zhongmiao/ngx-puzzle",
   "author": "ark65<liuwufangzhou@gmail.com>,<liuwufangzhou@qq.vip.com>",
   "version": "18.0.0",
   "license": "MIT",
@@ -33,5 +33,9 @@
   "dependencies": {
     "tslib": "^2.3.0"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
 }

@@ -115,6 +115,95 @@ function ensureNpmLogin() {
   }
 }
 
+// Helpers for fault tolerance and resume
+function getCurrentBranch() {
+  try {
+    return execSync('git rev-parse --abbrev-ref HEAD', { encoding: 'utf8' }).trim();
+  } catch {
+    return '';
+  }
+}
+function isReleaseBranch(branch) {
+  return /^release-v\d+\.\d+\.\d+$/.test(branch);
+}
+function hasUncommittedChangelogChanges() {
+  const status = execSync('git status --porcelain', { encoding: 'utf8' }).split('\n');
+  return status.some((line) => /CHANGELOG\.md$/.test(line));
+}
+function distPrepared(nextVersion) {
+  try {
+    const distPkgPath = path.join(DIST_DIR, 'package.json');
+    if (!fs.existsSync(distPkgPath)) return false;
+    const distPkg = readJson(distPkgPath);
+    return distPkg.version === nextVersion && distPkg.name === '@zhongmiao/ngx-puzzle';
+  } catch {
+    return false;
+  }
+}
+function prepareDistMetadata(nextVersion) {
+  if (fs.existsSync(DIST_DIR)) {
+    const distPkgPath = path.join(DIST_DIR, 'package.json');
+    if (fs.existsSync(distPkgPath)) {
+      try {
+        const distPkg = readJson(distPkgPath);
+        if (distPkg.name !== '@zhongmiao/ngx-puzzle') {
+          distPkg.name = '@zhongmiao/ngx-puzzle';
+        }
+        distPkg.version = nextVersion;
+        distPkg.publishConfig = distPkg.publishConfig || {};
+        distPkg.publishConfig.access = 'public';
+        distPkg.publishConfig.registry = 'https://registry.npmjs.org/';
+        writeJson(distPkgPath, distPkg);
+      } catch {}
+    }
+    try {
+      copyFile(path.join(ROOT, 'CHANGELOG.md'), path.join(DIST_DIR, 'CHANGELOG.md'));
+    } catch {}
+  }
+}
+function sleep(ms) { Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms); }
+function tryGitPush(branch, retries = 3) {
+  let attempt = 0;
+  let lastErr;
+  // capture original remote URL
+  let originalUrl = '';
+  try { originalUrl = execSync('git remote get-url origin', { encoding: 'utf8' }).trim(); } catch {}
+  while (attempt < retries) {
+    try {
+      console.log(`Pushing branch (attempt ${attempt + 1}/${retries}) ...`);
+      execSync(`git push -u origin ${branch}`, { stdio: 'inherit' });
+      return; // success
+    } catch (e) {
+      lastErr = e;
+      console.warn(`git push failed: ${e.message || e}`);
+      // If looks like SSH/port 22 timeout, try HTTPS fallback once
+      if (/port 22|ssh: connect to host/i.test(String(e))) {
+        const httpsUrl = originalUrl.replace(/^git@github.com:/, 'https://github.com/');
+        if (httpsUrl && httpsUrl !== originalUrl) {
+          try {
+            console.log('Trying HTTPS remote temporarily due to SSH error...');
+            execSync(`git remote set-url origin ${httpsUrl}`, { stdio: 'inherit' });
+            execSync(`git push -u origin ${branch}`, { stdio: 'inherit' });
+            // restore original
+            if (originalUrl) execSync(`git remote set-url origin ${originalUrl}`, { stdio: 'inherit' });
+            return;
+          } catch (e2) {
+            console.warn(`HTTPS push also failed: ${e2.message || e2}`);
+            // restore original before retrying
+            if (originalUrl) try { execSync(`git remote set-url origin ${originalUrl}`, { stdio: 'inherit' }); } catch {}
+          }
+        }
+      }
+      attempt++;
+      if (attempt < retries) {
+        console.log('Waiting 5s before retry...');
+        sleep(5000);
+      }
+    }
+  }
+  throw lastErr || new Error('git push failed');
+}
+
 (async function main() {
   try {
     const opts = parseArgs();
@@ -151,7 +240,7 @@ function ensureNpmLogin() {
       console.log(`[dry-run] Will bump version: ${current} -> ${nextVersion} in root and library`);
       console.log('[dry-run] Will run: npm run changelog');
       console.log('[dry-run] Will overwrite dist/puzzle/package.json.version and copy CHANGELOG.md');
-      console.log('[dry-run] Will commit changes and push branch');
+      console.log('[dry-run] Will commit changes and push branch (with retry and HTTPS fallback)');
       console.log('[dry-run] Will publish from dist/puzzle');
       process.exit(0);
     }
@@ -162,12 +251,25 @@ function ensureNpmLogin() {
 
     console.log(`Environment OK. Node: ${process.version}, npm: ${execSync('npm -v', { encoding: 'utf8' }).trim()}, npm user: ${npmUser}`);
 
-    // Create release branch BEFORE build
-    const releaseBranch = `release-v${nextVersion}`;
-    console.log(`Creating release branch ${releaseBranch} ...`);
-    execSync(`git checkout -b ${releaseBranch}`, { stdio: 'inherit' });
+    // Determine branch and possibly resume
+    let currentBranch = getCurrentBranch();
+    let releaseBranch = `release-v${nextVersion}`;
 
-    // Validate build BEFORE bump
+    const onReleaseBranch = isReleaseBranch(currentBranch);
+    const canResume = onReleaseBranch && !hasUncommittedChangelogChanges();
+
+    if (canResume) {
+      releaseBranch = currentBranch;
+      console.log(`Detected existing release branch ${releaseBranch}. Will try to resume without bump if possible.`);
+    } else {
+      // Create release branch BEFORE build
+      releaseBranch = `release-v${nextVersion}`;
+      console.log(`Creating release branch ${releaseBranch} ...`);
+      execSync(`git checkout -b ${releaseBranch}`, { stdio: 'inherit' });
+      currentBranch = releaseBranch;
+    }
+
+    // Validate build BEFORE bump (only if not already built or we're freshly starting)
     console.log('Validating build (pre-bump)...');
     execSync('npm run build', { stdio: 'inherit' });
 
@@ -176,18 +278,22 @@ function ensureNpmLogin() {
       if (!ok) { console.log('Aborted.'); process.exit(0); }
     }
 
-    // Bump versions
-    rootPkg.version = nextVersion;
-    writeJson(ROOT_PKG, rootPkg);
-    if (libPkg) {
-      libPkg.version = nextVersion;
-      writeJson(LIB_PKG, libPkg);
-    }
-    console.log(`Version updated to ${nextVersion}`);
+    // Bump versions unless resuming
+    if (!canResume) {
+      rootPkg.version = nextVersion;
+      writeJson(ROOT_PKG, rootPkg);
+      if (libPkg) {
+        libPkg.version = nextVersion;
+        writeJson(LIB_PKG, libPkg);
+      }
+      console.log(`Version updated to ${nextVersion}`);
 
-    // Update changelog
-    console.log('Updating changelog...');
-    execSync('npm run changelog', { stdio: 'inherit' });
+      // Update changelog
+      console.log('Updating changelog...');
+      execSync('npm run changelog', { stdio: 'inherit' });
+    } else {
+      console.log('Resume mode: Skipping version bump and changelog update because on release branch and changelog has no new changes.');
+    }
 
     // Overwrite dist output with updated version and changelog
     if (fs.existsSync(DIST_DIR)) {
@@ -195,7 +301,14 @@ function ensureNpmLogin() {
       if (fs.existsSync(distPkgPath)) {
         try {
           const distPkg = readJson(distPkgPath);
+          // Ensure correct public package name and publish config in dist
+          if (distPkg.name !== '@zhongmiao/ngx-puzzle') {
+            distPkg.name = '@zhongmiao/ngx-puzzle';
+          }
           distPkg.version = nextVersion;
+          distPkg.publishConfig = distPkg.publishConfig || {};
+          distPkg.publishConfig.access = 'public';
+          distPkg.publishConfig.registry = 'https://registry.npmjs.org/';
           writeJson(distPkgPath, distPkg);
           console.log(`Updated dist package.json version -> ${nextVersion}`);
         } catch {
@@ -215,9 +328,19 @@ function ensureNpmLogin() {
     }
 
     // Commit and push branch
-    execSync('git add package.json projects/puzzle/package.json CHANGELOG.md', { stdio: 'inherit' });
-    execSync(`git commit -m "chore(release): v${nextVersion}"`, { stdio: 'inherit' });
-    execSync(`git push -u origin ${releaseBranch}`, { stdio: 'inherit' });
+    if (!canResume) {
+      execSync('git add package.json projects/puzzle/package.json CHANGELOG.md', { stdio: 'inherit' });
+      execSync(`git commit -m "chore(release): v${nextVersion}"`, { stdio: 'inherit' });
+    } else {
+      console.log('Resume mode: No new changes to commit.');
+    }
+    tryGitPush(releaseBranch);
+
+    // Ensure dist metadata is aligned before publish
+    if (!distPrepared(nextVersion)) {
+      console.log('Preparing dist metadata...');
+      prepareDistMetadata(nextVersion);
+    }
 
     // Publish from dist
     console.log('Publishing package from dist/puzzle ...');
