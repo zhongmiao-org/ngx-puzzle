@@ -16,7 +16,7 @@ import { generateUUID } from 'ngx-puzzle/utils';
 @Injectable({
 	providedIn: 'root',
 })
-export class BiExternalService {
+export class PuzzleExternalService {
 	private registry = inject(ComponentRegistryService);
 	private sessionService = inject(SessionIndexedDbService);
 	private injector = inject(ComponentInjectorService);

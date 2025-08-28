@@ -7,7 +7,7 @@
             <thy-card-header [thyTitle]="section.label + ' - ' + (i + 1)">
               <ng-template #headerOperation>
                 @if (section.key === 'series' && i !== 0 && !!section?.removeActive) {
-                  <button thyButtonIcon="close"></button>
+                  <button thyButtonIcon="close" (click)="removeArrayItem(section.key, i)"></button>
                 }
               </ng-template>
             </thy-card-header>

@@ -1,12 +1,12 @@
 import { inject, NgModule } from '@angular/core';
-import { NgxPuzzleComponent } from './puzzle.component';
 import { ThyIconRegistry } from 'ngx-tethys/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ChartTypesEnum, ControlTypesEnum, TableTypesEnum, TabTypesEnum, TextTypesEnum } from 'ngx-puzzle/core/enums';
+import { NgxPuzzleEditorComponent } from './puzzle-editor.component';
 
 @NgModule({
-    imports: [NgxPuzzleComponent],
-    exports: [NgxPuzzleComponent]
+    imports: [NgxPuzzleEditorComponent],
+    exports: [NgxPuzzleEditorComponent]
 })
 export class NgxPuzzleModule {
 

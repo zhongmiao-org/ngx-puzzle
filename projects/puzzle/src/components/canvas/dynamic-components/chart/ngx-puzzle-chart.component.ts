@@ -26,7 +26,6 @@ export class NgxPuzzleChartComponent extends NgxPuzzleCanvasBaseComponent<Compon
   private aggregationService = inject(AggregationService);
   private mockService = inject(MockService);
   private dataSearchService = inject(DataSearchService);
-  private chartMapService = inject(ChartMapsService);
   private chartData: SafeAny[] = [];
 
   set config(config: ComponentConfig<ComponentChartProps, ChartTypesEnum>) {
@@ -105,26 +104,24 @@ export class NgxPuzzleChartComponent extends NgxPuzzleCanvasBaseComponent<Compon
   }
 
   private updateDataByIndexes(indexes: number[], params?: SafeAny[], aggregations?: string[]) {
-    const isScatterOrBubble = this.config.subType === ChartTypesEnum.scatter;
-
     indexes.forEach((index) => {
-      this.processDataForIndex(index, params, aggregations, isScatterOrBubble);
+      this.processDataForIndex(index, params, aggregations);
     });
   }
 
   // 提取的通用数据处理方法
-  private processDataForIndex(index: number, params?: SafeAny[], aggregations?: string[], isScatterOrBubble?: boolean) {
+  private processDataForIndex(index: number, params?: SafeAny[], aggregations?: string[],): void {
     if (!params || !params[index] || !params[index]?.modelName) {
       // 使用模拟数据
       const mockData = this.applyAggregationIfExists(this.mockService.getMockData(this.config.subType, index), aggregations, index);
-      this.updateChartData(mockData, index, isScatterOrBubble);
+      this.updateChartData(mockData, index);
     } else {
       // 从服务获取真实数据
       this.dataSearchService
         .webSearchMap(params[index])
         .pipe(map((data) => this.applyAggregationIfExists(data, aggregations, index)))
         .subscribe((data) => {
-          this.updateChartData(data, index, isScatterOrBubble);
+          this.updateChartData(data, index);
         });
     }
   }
@@ -146,127 +143,50 @@ export class NgxPuzzleChartComponent extends NgxPuzzleCanvasBaseComponent<Compon
     return data;
   }
 
-  // 统一的图表数据更新方法
-  private updateChartData(data: SafeAny, index: number, isScatterOrBubble?: boolean) {
-    if (isScatterOrBubble) {
-      this.updateDataForSeries(data, index);
-    } else {
-      this.updateDataForOptions(data, index);
-    }
+  // 统一的图表数据更新方法：始终写入 series[index].data
+  private updateChartData(data: SafeAny, index: number) {
+    this.updateDataForSeries(data, index);
   }
 
-  private updateDataForOptions(data: SafeAny, index: number = 0) {
-    this.chartData[index] = data;
-    // if (this.hasChartRef) {
-    //   this.charts?.chart?.updateDelta({ data });
-    // }
+  private normalizeSeries(): SafeAny[] {
+    const chart = this.config.props.chart as SafeAny;
+    let series = chart.series as SafeAny;
+    if (!Array.isArray(series)) {
+      // 将单个对象标准化为数组，便于统一写入逻辑
+      series = series ? [series] : [];
+      chart.series = series;
+    }
+    return series as SafeAny[];
+  }
+
+  private extractSeriesDataPayload(raw: SafeAny): SafeAny {
+    // 当返回对象中包含 data/values/seriesData 字段时，优先取这些常用数据字段
+    if (raw && typeof raw === 'object' && !Array.isArray(raw)) {
+      if (Array.isArray(raw.data)) return raw.data;
+      if (Array.isArray((raw as any).values)) return (raw as any).values;
+      if (Array.isArray((raw as any).seriesData)) return (raw as any).seriesData;
+    }
+    // 默认直接返回，支持数值数组、二维数组或对象数组（由聚合函数自行处理）
+    return raw;
+  }
+
+  private ensureSeriesItem(index: number) {
+    const series = this.normalizeSeries();
+    while (series.length <= index) {
+      series.push({});
+    }
+    return series[index];
   }
 
   private updateDataForSeries(data: SafeAny, index: number = 0) {
-    let series = this.config.props.chart.series as SafeAny[];
-    series[index]['data'] = data;
-    this.chartData[index] = data;
-    // if (this.hasChartRef) {
-    //   this.charts?.chart?.updateDelta({ series });
-    // }
+    const seriesItem = this.ensureSeriesItem(index);
+    const payload = this.extractSeriesDataPayload(data);
+    seriesItem['data'] = payload;
+    this.chartData[index] = payload;
   }
 
   getDefaultOptions(subType: ChartTypesEnum) {
     return CHART_DATA_OPTIONS[subType];
   }
 
-  // 提取的地图标记更新处理逻辑
-  // private handleMapMarkerUpdate() {
-  //   let dataList: SafeAny[][] = [];
-  //
-  //   if (this.hasChartRef && this.charts?.chart?.getOptions()) {
-  //     const { hasChangeLevel, levelValue, dataList: extractedDataList } = this.extractMapChangeInfo();
-  //     dataList = extractedDataList;
-  //
-  //     if (hasChangeLevel) {
-  //       this.getTopology(levelValue);
-  //     }
-  //
-  //     this.updateMapOptions(dataList);
-  //   } else {
-  //     this.handleInitialMapTopology();
-  //   }
-  // }
-
-  // 提取地图变更信息
-  // private extractMapChangeInfo() {
-  //   const lastOptionsSeries = this.charts?.chart?.getOptions().series as Record<string, SafeAny>[];
-  //   const seriesKey = 'levelKey';
-  //   const seriesDataKey = 'data';
-  //
-  //   let hasChangeLevel = false;
-  //   let levelValue: mapLevelTypes = 'province';
-  //   let dataList: SafeAny[][] = [];
-  //
-  //   for (let i = 0; i < lastOptionsSeries.length; i++) {
-  //     dataList.push(lastOptionsSeries[i][seriesDataKey]);
-  //
-  //     if (!hasChangeLevel) {
-  //       hasChangeLevel = lastOptionsSeries[i][seriesKey] !== (this.config.props.chart.series as Record<string, SafeAny>[])[i][seriesKey];
-  //       levelValue = (this.config.props.chart.series as Record<string, SafeAny>[])[i][seriesKey];
-  //     }
-  //   }
-  //
-  //   return { hasChangeLevel, levelValue, dataList };
-  // }
-
-  // 更新地图选项
-  // private updateMapOptions(dataList: SafeAny[][]) {
-  //   if (this.hasChartRef) {
-  //     console.log(`[图表] 更新地图数据:`, dataList.length);
-  //     this.options = {
-  //       ...this.options,
-  //       series: (this.options.series as AgTopologySeriesOptions[]).map((item: AgTopologySeriesOptions, index: number) => {
-  //         if (dataList?.[index]) {
-  //           return {
-  //             ...item,
-  //             // @ts-ignore
-  //             data: dataList[index],
-  //           };
-  //         }
-  //         return item;
-  //       }),
-  //     };
-  //     this.charts?.chart?.update(this.options);
-  //   }
-  // }
-
-  // 处理初始地图拓扑
-  // private handleInitialMapTopology() {
-  //   const topology = (this.config.props.chart.series as AgTopologySeriesOptions[])[0].topology;
-  //   if (topology === null) {
-  //     this.getTopology();
-  //   }
-  // }
-  //
-  // getTopology(level: mapLevelTypes = 'province') {
-  //   this.chartMapService.getChinaMap(level).subscribe(({ topology, points }) => {
-  //     let series = this.options.series;
-  //     console.log(`[图表] 获取地图拓扑数据: ${level}`);
-  //
-  //     series = series.map((seriesItem) => {
-  //       if (seriesItem.type === 'map-shape-background') {
-  //         return {
-  //           ...seriesItem,
-  //           topology,
-  //         };
-  //       } else if (seriesItem.type === 'map-marker') {
-  //         return {
-  //           ...seriesItem,
-  //           data: points,
-  //         };
-  //       }
-  //       return seriesItem;
-  //     });
-  //
-  //     // if (this.hasChartRef) {
-  //     //   this.charts?.chart?.updateDelta({ series });
-  //     // }
-  //   });
-  // }
 }

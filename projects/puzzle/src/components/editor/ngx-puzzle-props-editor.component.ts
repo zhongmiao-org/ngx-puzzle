@@ -24,7 +24,6 @@ import { BASE_TAB, DATA_TAB, EDITOR_FIELDS_MAP, EDITOR_TAB_MAP, STYLE_TAB } from
 import { ThyTabsModule } from 'ngx-tethys/tabs';
 import { ThyIcon } from 'ngx-tethys/icon';
 import { cloneDeep, isEqual } from 'lodash';
-// import { AgChartOptions } from 'ag-charts-community';
 import { ThyLayoutModule } from 'ngx-tethys/layout';
 import { ThyGridModule } from 'ngx-tethys/grid';
 import { ThyInputModule } from 'ngx-tethys/input';
@@ -37,7 +36,7 @@ import {
 import { PuzzleCanvasMediatorService } from 'ngx-puzzle/core';
 
 @Component({
-  selector: 'ngx-puzzle-editor, puzzle-editor',
+  selector: 'ngx-puzzle-props-editor, puzzle-props-editor',
   standalone: true,
   imports: [
     FormsModule,
@@ -52,13 +51,13 @@ import { PuzzleCanvasMediatorService } from 'ngx-puzzle/core';
     ThySelectModule,
     NgxPuzzleChartEditorComponent
   ],
-  templateUrl: './ngx-puzzle-editor.component.html',
-  styleUrl: './ngx-puzzle-editor.component.scss',
+  templateUrl: './ngx-puzzle-props-editor.component.html',
+  styleUrl: './ngx-puzzle-props-editor.component.scss',
   host: {
     '[class.ngx-puzzle-editor]': `true`
   }
 })
-export class NgxPuzzleEditorComponent implements AfterViewInit, OnDestroy {
+export class NgxPuzzlePropsEditorComponent implements AfterViewInit, OnDestroy {
   // @ViewChild(Tabs) tabComponent!: Tabs;
 
   private readonly mediator = inject(PuzzleCanvasMediatorService<ComponentBaseProps, string>);

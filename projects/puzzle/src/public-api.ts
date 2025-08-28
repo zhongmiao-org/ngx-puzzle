@@ -3,4 +3,4 @@
  */
 
 export * from './puzzle.module';
-export * from './puzzle.component';
+export * from './puzzle-editor.component';

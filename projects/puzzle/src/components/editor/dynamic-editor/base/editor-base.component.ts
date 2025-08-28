@@ -73,7 +73,7 @@ export abstract class EditorBaseComponent<
   protected updateFormData(config?: TConfig): void {
     // 先转换新的 formData
     const newFormData = convertOptionsToFormData(config, this.sections);
-    // 比较新旧数据，只有不相等时才更新
+    console.log(`updateFormData`, newFormData)
     if (!isEqual(this.formData, newFormData)) {
       this.formData = newFormData;
     }
@@ -91,6 +91,7 @@ export abstract class EditorBaseComponent<
    */
   onFormFieldChange(key: string, value: SafeAny, parentKey?: string, index?: number): void {
     this.formData = updateFormData(this.formData, key, value, parentKey, index);
+    console.log(`onFormFieldChange`, this.formData)
     const updated = convertFormDataToOptions(this.formData, structuredClone(this.options()), this.sections)!;
     this.onChange.emit(updated as TConfig);
   }
@@ -173,6 +174,7 @@ export abstract class EditorBaseComponent<
   protected removeArrayItem(key: string, index: number): void {
     this.formData[key].splice(index, 1);
     this.options.set(convertFormDataToOptions(this.formData, this.options(), this.sections));
+    console.log(`removeArrayItem`, this.options())
     this.onChange.emit(this.options()!);
   }
 

@@ -7,11 +7,11 @@ export const CHART_DATA_OPTIONS: Partial<{ [key in ChartTypesEnum]: object }> = 
     xAxis: { type: 'category', axisTick: { show: false }, data: ['Forest', 'Steppe', 'Desert', 'Wetland'] },
     yAxis: {},
     series: [
-      { type: 'bar', name: '2012', data: [320, 220, 150, 98], itemStyle: { color: '#003366' } },
-      { type: 'bar', name: '2013', data: [332, 182, 232, 77], itemStyle: { color: '#006699' } },
-      { type: 'bar', name: '2014', data: [301, 191, 201, 101], itemStyle: { color: '#4cabce' } },
-      { type: 'bar', name: '2015', data: [334, 234, 154, 99], itemStyle: { color: '#e5323e' } },
-      { type: 'bar', name: '2016', data: [390, 290, 190, 40] }
+      { type: 'bar', name: '2012', data: [], itemStyle: { color: '#003366' } },
+      { type: 'bar', name: '2013', data: [], itemStyle: { color: '#006699' } },
+      { type: 'bar', name: '2014', data: [], itemStyle: { color: '#4cabce' } },
+      { type: 'bar', name: '2015', data: [], itemStyle: { color: '#e5323e' } },
+      { type: 'bar', name: '2016', data: [] }
     ]
   },
   [ChartTypesEnum.line]: {
@@ -20,9 +20,9 @@ export const CHART_DATA_OPTIONS: Partial<{ [key in ChartTypesEnum]: object }> = 
     xAxis: { type: 'category', boundaryGap: false, data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] },
     yAxis: { type: 'value' },
     series: [
-      { type: 'line', smooth: true, name: 'Subscriptions', data: [120, 132, 101, 134, 90, 230, 210] },
-      { type: 'line', smooth: true, name: 'Services', data: [220, 182, 191, 234, 290, 330, 310] },
-      { type: 'line', smooth: true, name: 'Products', data: [150, 232, 201, 154, 190, 330, 410] }
+      { type: 'line', smooth: true, name: 'Subscriptions', data: [] },
+      { type: 'line', smooth: true, name: 'Services', data: [] },
+      { type: 'line', smooth: true, name: 'Products', data: [] }
     ]
   },
   [ChartTypesEnum.radar]: {
@@ -57,24 +57,12 @@ export const CHART_DATA_OPTIONS: Partial<{ [key in ChartTypesEnum]: object }> = 
       {
         name: 'Male',
         type: 'scatter',
-        data: [
-          [172, 65],
-          [181, 75],
-          [174, 70],
-          [169, 62],
-          [178, 80]
-        ]
+        data: []
       },
       {
         name: 'Female',
         type: 'scatter',
-        data: [
-          [168, 59],
-          [160, 50],
-          [155, 48],
-          [165, 55],
-          [158, 52]
-        ]
+        data: []
       }
     ]
   },
@@ -85,36 +73,20 @@ export const CHART_DATA_OPTIONS: Partial<{ [key in ChartTypesEnum]: object }> = 
       type: 'pie',
       radius: '60%',
       label: { show: true },
-      data: [
-        { name: 'Direct', value: 335 },
-        { name: 'Email', value: 310 },
-        { name: 'Affiliate', value: 234 },
-        { name: 'Video Ads', value: 135 },
-        { name: 'Search', value: 1548 }
-      ]
+      data: []
     }]
   },
   [ChartTypesEnum.boxPlot]: {
     tooltip: { trigger: 'item' },
     xAxis: { type: 'category', boundaryGap: true, splitArea: { show: false }, data: ['A', 'B', 'C'] },
     yAxis: { type: 'value', splitArea: { show: true } },
-    series: [{ type: 'boxplot', data: [
-      [850, 940, 980, 1040, 1160],
-      [740, 800, 850, 890, 970],
-      [900, 990, 1040, 1100, 1200]
-    ] }]
+    series: [{ type: 'boxplot', data: [] }]
   },
   [ChartTypesEnum.candlestick]: {
     tooltip: { trigger: 'axis' },
     xAxis: { type: 'category', data: ['2020-01-01','2020-01-02','2020-01-03','2020-01-04','2020-01-05'] },
     yAxis: { scale: true },
-    series: [{ type: 'candlestick', data: [
-      [2320.26, 2302.6, 2287.3, 2362.94],
-      [2300, 2291.3, 2288.26, 2308.38],
-      [2295.35, 2346.5, 2295.35, 2346.92],
-      [2347.22, 2358.98, 2337.35, 2363.8],
-      [2360.75, 2382.48, 2347.89, 2383.76]
-    ] }]
+    series: [{ type: 'candlestick', data: [] }]
   },
   [ChartTypesEnum.heatmap]: {
     tooltip: {},
@@ -122,68 +94,18 @@ export const CHART_DATA_OPTIONS: Partial<{ [key in ChartTypesEnum]: object }> = 
     xAxis: { type: 'category', data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'] },
     yAxis: { type: 'category', data: ['1', '2'] },
     visualMap: { min: 0, max: 100, calculable: true, orient: 'horizontal', left: 'center', bottom: '5%' },
-    series: [{ type: 'heatmap', label: { show: false }, data: [
-      [0, 0, 10],
-      [1, 0, 20],
-      [2, 0, 30],
-      [3, 0, 40],
-      [4, 0, 50],
-      [0, 1, 20],
-      [1, 1, 10],
-      [2, 1, 60],
-      [3, 1, 80],
-      [4, 1, 30]
-    ] }]
+    series: [{ type: 'heatmap', label: { show: false }, data: [] }]
   },
   [ChartTypesEnum.sunburst]: {
     series: {
       type: 'sunburst',
       radius: [0, '90%'],
       label: { rotate: 'radial' },
-      data: [
-        {
-          name: 'Grand',
-          children: [
-            {
-              name: 'A',
-              value: 6,
-              children: [
-                { name: 'A1', value: 2 },
-                { name: 'A2', value: 4 }
-              ]
-            },
-            {
-              name: 'B',
-              value: 4,
-              children: [
-                { name: 'B1', value: 2 },
-                { name: 'B2', value: 2 }
-              ]
-            }
-          ]
-        }
-      ]
+      data: []
     }
   },
   [ChartTypesEnum.treemap]: {
-    series: [{ type: 'treemap', leafDepth: 2, data: [
-      {
-        name: 'Category A',
-        value: 10,
-        children: [
-          { name: 'A1', value: 4 },
-          { name: 'A2', value: 6 }
-        ]
-      },
-      {
-        name: 'Category B',
-        value: 8,
-        children: [
-          { name: 'B1', value: 3 },
-          { name: 'B2', value: 5 }
-        ]
-      }
-    ] }]
+    series: [{ type: 'treemap', leafDepth: 2, data: [] }]
   },
   [ChartTypesEnum.sankey]: {
     series: [{ type: 'sankey', emphasis: { focus: 'adjacency' }, data: [

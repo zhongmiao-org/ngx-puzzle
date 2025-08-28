@@ -1,20 +1,6 @@
-import { Component, effect, HostBinding, input, output } from '@angular/core';
-// import { AgChartOptions } from 'ag-charts-community';
+import { Component, HostBinding } from '@angular/core';
 import { DataRequestConfig, EditorChartArraySchema, EditorChartField } from 'ngx-puzzle/core/interfaces';
-// import { AgGridAngular, AgGridModule } from 'ag-grid-angular';
-// import {
-//   ClientSideRowModelApiModule,
-//   ClientSideRowModelModule,
-//   ColDef,
-//   GridOptions,
-//   ModuleRegistry,
-//   NumberEditorModule,
-//   TextEditorModule,
-//   ValidationModule
-// } from 'ag-grid-community';
-import { ChartTypesEnum, Is } from 'ngx-puzzle/core/enums';
-// import { AgScatterSeriesOptions } from 'ag-charts-enterprise';
-// import { cloneDeep } from 'lodash';
+import { ChartTypesEnum } from 'ngx-puzzle/core/enums';
 import { convertFormDataToOptions, convertOptionsToFormData, Debounce, updateFormData } from 'ngx-puzzle/core/utils';
 import { ThyCollapseModule } from 'ngx-tethys/collapse';
 import { ThyCardModule } from 'ngx-tethys/card';
@@ -65,10 +51,11 @@ export class NgxPuzzleChartEditorComponent extends EditorBaseComponent<SafeAny, 
     this.sections = CHART_FIELDS_MAP[type]!;
   }
 
-  protected override updateFormData(config: SafeAny): void {
-    this.options.set(config);
-    this.formData = convertOptionsToFormData(config, this.sections);
-  }
+  // protected override updateFormData(config: SafeAny): void {
+  //   console.log(`chart updateFormData`, config)
+  //   this.options.set(config);
+  //   this.formData = convertOptionsToFormData(config, this.sections);
+  // }
 
   protected override afterConfigUpdate(opts?: SafeAny, requestOptions?: DataRequestConfig): void {
     if (!opts) return;
@@ -122,26 +109,6 @@ export class NgxPuzzleChartEditorComponent extends EditorBaseComponent<SafeAny, 
     item['type'] = defaultType;
     this.formData[key].push(item);
   }
-
-  // createCodeMirrorField(config: any, index = 0): FormField {
-  //   const componentId = this.componentId() || 'default';
-  //   const cacheKey = `code_${componentId}_${index}`;
-  //
-  //   if (this._fieldCache.has(cacheKey)) {
-  //     return this._fieldCache.get(cacheKey)!;
-  //   }
-  //
-  //   if (this.aggregationControls?.length === 0) {
-  //     this.aggregationControls.push(new FormControl());
-  //   }
-  //
-  //   const field: FormField = {
-  //     ...config,
-  //     fieldControl: this.aggregationControls[index]
-  //   };
-  //   this._fieldCache.set(cacheKey, field);
-  //   return field;
-  // }
 
   @Debounce(500)
   onCoding(stringFn: string, index = 0) {
