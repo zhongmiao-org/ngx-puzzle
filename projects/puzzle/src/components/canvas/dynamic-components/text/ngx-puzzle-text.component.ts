@@ -10,7 +10,7 @@ import { TEXT_DATA_OPTIONS } from 'ngx-puzzle/core/constants';
 import { StylesFormatPipe } from 'ngx-puzzle/pipes/styles-format.pipe';
 
 @Component({
-	selector: 'app-text',
+	selector: 'puzzle-text',
 	standalone: true,
 	imports: [CommonModule, NgxPuzzleDragWrapperComponent, StylesFormatPipe],
 	templateUrl: './ngx-puzzle-text.component.html',

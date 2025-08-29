@@ -3,7 +3,7 @@ import { ChartTypesEnum } from '../enums';
 export const CHART_DEFAULT_MOCKS_MAP: Partial<{ [key in ChartTypesEnum]: string[] }> = {
   [ChartTypesEnum.bar]: ['bar2012', 'bar2013', 'bar2014', 'bar2015', 'bar2016'],
   [ChartTypesEnum.line]: ['lineSubscriptions', 'lineServices', 'lineProducts'],
-  [ChartTypesEnum.radar]: ['radarData'],
+  [ChartTypesEnum.radar]: ['radarData', 'radarData2'],
   [ChartTypesEnum.scatter]: ['scatterMale', 'scatterFemale'],
   [ChartTypesEnum.pie]: ['pieData'],
   [ChartTypesEnum.boxPlot]: ['boxPlotData'],

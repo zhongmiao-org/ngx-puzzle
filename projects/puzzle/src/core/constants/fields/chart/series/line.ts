@@ -8,30 +8,12 @@ export const CHART_LINE_SERIES: EditorChartField = {
   schemaType: 'array',
   removeActive: true,
   children: [
-    { label: '数据源', key: 'data', path: 'data', schemaType: 'button' },
+    { label: '设置数据源', key: 'data', path: 'data', schemaType: 'button' },
     // 基础（保留常用 8 项）
     { label: '类型', key: 'type', path: 'type', schemaType: 'select', disabled: true, options: [{ label: '折线图', val: 'line' }] },
     { label: '系列名称', key: 'name', path: 'name', schemaType: 'text' },
 
     // 数据绑定（常用）
-    {
-      label: '数据布局方式',
-      key: 'layoutBy',
-      path: 'seriesLayoutBy',
-      schemaType: 'select',
-      options: [
-        { label: '按行（每行一个系列）', val: 'row' },
-        { label: '按列（每列一个系列）', val: 'column' }
-      ]
-    },
-    {
-      label: '数据集索引',
-      key: 'datasetIndex',
-      path: 'datasetIndex',
-      schemaType: 'number',
-      min: 0,
-      step: 1
-    },
 
     // 折线常用配置
     {

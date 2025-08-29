@@ -17,3 +17,4 @@ export * from './theme-river-data'
 export * from './tree-data'
 export * from './gauge-data'
 export * from './graph-data'
+export * from './radar-data';

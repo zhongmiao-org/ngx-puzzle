@@ -1,6 +1,18 @@
 // Radar mock data (series[0].data items)
-export interface RadarSeriesItem { name: string; value: number[] }
+export interface RadarSeriesItem {
+  name: string;
+  value: number[];
+}
 export const radarData: RadarSeriesItem[] = [
-  { name: 'Allocated Budget', value: [4300, 10000, 28000, 35000, 50000, 19000] },
-  { name: 'Actual Spending', value: [5000, 14000, 28000, 31000, 42000, 21000] }
+  {
+    value: [4200, 3000, 20000, 35000, 50000, 18000],
+    name: 'Allocated Budget'
+  },
 ];
+
+export const radarData2: RadarSeriesItem[] = [
+  {
+    value: [5000, 14000, 28000, 26000, 42000, 21000],
+    name: 'Actual Spending'
+  }
+]

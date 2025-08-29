@@ -13,17 +13,6 @@ export const CHART_SCATTER_SERIES: EditorChartField = {
     { label: '系列名称', key: 'name', path: 'name', schemaType: 'text' },
 
     // 数据绑定（常用）
-    {
-      label: '数据布局方式',
-      key: 'seriesLayoutBy',
-      path: 'seriesLayoutBy',
-      schemaType: 'select',
-      options: [
-        { label: '按行（每行一个系列）', val: 'row' },
-        { label: '按列（每列一个系列）', val: 'column' }
-      ]
-    },
-    { label: '数据集索引', key: 'datasetIndex', path: 'datasetIndex', schemaType: 'number', min: 0, step: 1 },
 
     // 符号（基础）
     {
@@ -54,6 +43,12 @@ export const CHART_SCATTER_SERIES: EditorChartField = {
         { label: '内部', val: 'inside' },
         { label: '中心', val: 'center' }
       ]
+    },
+    {
+      label: '设置数据源',
+      key: 'data',
+      path: 'data',
+      schemaType: 'button'
     }
   ]
 };

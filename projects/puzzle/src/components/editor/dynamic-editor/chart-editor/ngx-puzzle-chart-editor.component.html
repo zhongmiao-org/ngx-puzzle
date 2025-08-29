@@ -57,6 +57,11 @@
                           }
                         </thy-select>
                       }
+                      @case ('button') {
+                        <button thyButton="primary" (click)="onButtonClick(field, i)">
+                          {{ field.label }}
+                        </button>
+                      }
                     }
                   </div>
                 }

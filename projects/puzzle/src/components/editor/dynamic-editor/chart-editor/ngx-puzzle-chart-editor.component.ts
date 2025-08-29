@@ -1,7 +1,7 @@
 import { Component, HostBinding } from '@angular/core';
 import { DataRequestConfig, EditorChartArraySchema, EditorChartField } from 'ngx-puzzle/core/interfaces';
 import { ChartTypesEnum } from 'ngx-puzzle/core/enums';
-import { convertFormDataToOptions, convertOptionsToFormData, Debounce, updateFormData } from 'ngx-puzzle/core/utils';
+import { convertFormDataToOptions, Debounce, updateFormData } from 'ngx-puzzle/core/utils';
 import { ThyCollapseModule } from 'ngx-tethys/collapse';
 import { ThyCardModule } from 'ngx-tethys/card';
 import { ThyButtonModule } from 'ngx-tethys/button';
@@ -140,4 +140,5 @@ export class NgxPuzzleChartEditorComponent extends EditorBaseComponent<SafeAny, 
       return item.children ? [node, ...this.processTreeData(item.children, node)] : [node];
     });
   }
+
 }

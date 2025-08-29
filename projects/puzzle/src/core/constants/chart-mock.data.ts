@@ -26,25 +26,34 @@ export const CHART_DATA_OPTIONS: Partial<{ [key in ChartTypesEnum]: object }> = 
     ]
   },
   [ChartTypesEnum.radar]: {
+    title: {
+      text: 'Basic Radar Chart'
+    },
     tooltip: { trigger: 'item' },
-    legend: {},
+    legend: {
+      data: ['Allocated Budget', 'Actual Spending']
+    },
     radar: {
+      // shape: 'circle',
       indicator: [
-        { name: 'Sales', max: 6500 },
-        { name: 'Administration', max: 16000 },
-        { name: 'Information Tech', max: 30000 },
-        { name: 'Customer Support', max: 38000 },
-        { name: 'Development', max: 52000 },
-        { name: 'Marketing', max: 25000 }
+        { name: 'Sales', min: 0, max: 6500, alignTicks: true },
+        { name: 'Administration', min: 0, max: 16000, alignTicks: true },
+        { name: 'Information Technology', min: 0, max: 30000, alignTicks: true },
+        { name: 'Customer Support', min: 0, max: 38000, alignTicks: true },
+        { name: 'Development', min: 0, max: 52000, alignTicks: true },
+        { name: 'Marketing', min: 0, max: 25000, alignTicks: true }
       ]
     },
     series: [
       {
+        name: 'Budget',
         type: 'radar',
-        data: [
-          { name: 'Allocated Budget', value: [4300, 10000, 28000, 35000, 50000, 19000] },
-          { name: 'Actual Spending', value: [5000, 14000, 28000, 31000, 42000, 21000] }
-        ]
+        data: []
+      },
+      {
+        name: 'Spending',
+        type: 'radar',
+        data: []
       }
     ]
   },
@@ -69,12 +78,14 @@ export const CHART_DATA_OPTIONS: Partial<{ [key in ChartTypesEnum]: object }> = 
   [ChartTypesEnum.pie]: {
     tooltip: { trigger: 'item' },
     legend: {},
-    series: [{
-      type: 'pie',
-      radius: '60%',
-      label: { show: true },
-      data: []
-    }]
+    series: [
+      {
+        type: 'pie',
+        radius: '60%',
+        label: { show: true },
+        data: []
+      }
+    ]
   },
   [ChartTypesEnum.boxPlot]: {
     tooltip: { trigger: 'item' },
@@ -84,7 +95,7 @@ export const CHART_DATA_OPTIONS: Partial<{ [key in ChartTypesEnum]: object }> = 
   },
   [ChartTypesEnum.candlestick]: {
     tooltip: { trigger: 'axis' },
-    xAxis: { type: 'category', data: ['2020-01-01','2020-01-02','2020-01-03','2020-01-04','2020-01-05'] },
+    xAxis: { type: 'category', data: ['2020-01-01', '2020-01-02', '2020-01-03', '2020-01-04', '2020-01-05'] },
     yAxis: { scale: true },
     series: [{ type: 'candlestick', data: [] }]
   },
@@ -108,35 +119,49 @@ export const CHART_DATA_OPTIONS: Partial<{ [key in ChartTypesEnum]: object }> = 
     series: [{ type: 'treemap', leafDepth: 2, data: [] }]
   },
   [ChartTypesEnum.sankey]: {
-    series: [{ type: 'sankey', emphasis: { focus: 'adjacency' }, data: [
-      { name: 'A' }, { name: 'B' }, { name: 'C' }, { name: 'D' }, { name: 'E' }
-    ], links: [
-      { source: 'A', target: 'B', value: 5 },
-      { source: 'A', target: 'C', value: 3 },
-      { source: 'B', target: 'D', value: 2 },
-      { source: 'C', target: 'D', value: 2 },
-      { source: 'C', target: 'E', value: 1 }
-    ] }]
+    series: [
+      {
+        type: 'sankey',
+        emphasis: { focus: 'adjacency' },
+        data: [{ name: 'A' }, { name: 'B' }, { name: 'C' }, { name: 'D' }, { name: 'E' }],
+        links: [
+          { source: 'A', target: 'B', value: 5 },
+          { source: 'A', target: 'C', value: 3 },
+          { source: 'B', target: 'D', value: 2 },
+          { source: 'C', target: 'D', value: 2 },
+          { source: 'C', target: 'E', value: 1 }
+        ]
+      }
+    ]
   },
   [ChartTypesEnum.chord]: {
-    series: [{ type: 'chord', data: [
-      { name: 'Group1' }, { name: 'Group2' }, { name: 'Group3' }, { name: 'Group4' }
-    ], links: [
-      { source: 'Group1', target: 'Group2', value: 10 },
-      { source: 'Group2', target: 'Group3', value: 8 },
-      { source: 'Group3', target: 'Group1', value: 6 },
-      { source: 'Group1', target: 'Group4', value: 4 }
-    ] }]
+    series: [
+      {
+        type: 'chord',
+        data: [{ name: 'Group1' }, { name: 'Group2' }, { name: 'Group3' }, { name: 'Group4' }],
+        links: [
+          { source: 'Group1', target: 'Group2', value: 10 },
+          { source: 'Group2', target: 'Group3', value: 8 },
+          { source: 'Group3', target: 'Group1', value: 6 },
+          { source: 'Group1', target: 'Group4', value: 4 }
+        ]
+      }
+    ]
   },
   [ChartTypesEnum.funnel]: {
     tooltip: { trigger: 'item' },
-    series: [{ type: 'funnel', data: [
-      { name: 'Visit', value: 100 },
-      { name: 'Click', value: 80 },
-      { name: 'Inquiry', value: 60 },
-      { name: 'Order', value: 40 },
-      { name: 'Deal', value: 20 }
-    ] }]
+    series: [
+      {
+        type: 'funnel',
+        data: [
+          { name: 'Visit', value: 100 },
+          { name: 'Click', value: 80 },
+          { name: 'Inquiry', value: 60 },
+          { name: 'Order', value: 40 },
+          { name: 'Deal', value: 20 }
+        ]
+      }
+    ]
   },
   [ChartTypesEnum.effectScatter]: {
     tooltip: { trigger: 'item' },

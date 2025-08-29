@@ -178,6 +178,10 @@ export abstract class EditorBaseComponent<
     this.onChange.emit(this.options()!);
   }
 
+  onButtonClick<T extends EditorBaseField>(field: T, i: number) {
+    console.log(`onButtonClick`, field, i);
+  }
+
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();

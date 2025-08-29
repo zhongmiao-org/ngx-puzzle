@@ -25,7 +25,7 @@ export class NgxPuzzleChartsComponent implements AfterViewInit, OnDestroy {
 
       if (this.chartInstance && options) {
         console.log('options', options);
-        this.chartInstance.setOption(options);
+        this.chartInstance.setOption(options, true);
       }
 
       if (this.chartInstance && theme) {

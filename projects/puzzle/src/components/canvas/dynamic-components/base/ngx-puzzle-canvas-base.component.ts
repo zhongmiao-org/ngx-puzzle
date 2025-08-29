@@ -80,6 +80,7 @@ export abstract class NgxPuzzleCanvasBaseComponent<TConfigProps extends Componen
   protected setupObservables() {
     this.mediator.componentUpdateProps$.pipe(takeUntil(this.destroy$)).subscribe(({ id, props }) => {
       if (id === this._config.id) {
+        console.log(`componentUpdateProps$`, { id, props });
         this.updateProps(props);
       }
     });

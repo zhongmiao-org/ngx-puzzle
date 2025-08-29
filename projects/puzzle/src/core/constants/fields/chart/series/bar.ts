@@ -14,17 +14,6 @@ export const CHART_BAR_SERIES: EditorChartField = {
     { label: '系列名称', key: 'name', path: 'name', schemaType: 'text' },
 
     // 数据绑定（常用）
-    {
-      label: '数据布局方式',
-      key: 'seriesLayoutBy',
-      path: 'seriesLayoutBy',
-      schemaType: 'select',
-      options: [
-        { label: '按行（每行一个系列）', val: 'row' },
-        { label: '按列（每列一个系列）', val: 'column' }
-      ]
-    },
-    { label: '数据集索引', key: 'datasetIndex', path: 'datasetIndex', schemaType: 'number', min: 0, step: 1 },
 
     // 柱体与堆叠（基础）
     { label: '柱宽', key: 'barWidth', path: 'barWidth', schemaType: 'number', min: 0, max: 2000, step: 1 },
@@ -46,6 +35,12 @@ export const CHART_BAR_SERIES: EditorChartField = {
         { label: '内部', val: 'inside' },
         { label: '底部', val: 'bottom' }
       ]
+    },
+    {
+      label: '设置数据源',
+      key: 'data',
+      path: 'data',
+      schemaType: 'button'
     }
   ]
 };
