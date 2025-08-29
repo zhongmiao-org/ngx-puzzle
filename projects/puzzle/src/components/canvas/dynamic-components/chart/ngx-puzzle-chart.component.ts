@@ -1,13 +1,13 @@
 import { NgxPuzzleDragWrapperComponent } from '../drag-wrapper/ngx-puzzle-drag-wrapper.component';
-import { Component, inject, ViewChild } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { NgxPuzzleCanvasBaseComponent } from '../base/ngx-puzzle-canvas-base.component';
 import { ComponentChartProps, ComponentConfig, DataRequestConfig } from 'ngx-puzzle/core/interfaces';
-import { mainTypes, mapLevelTypes } from 'ngx-puzzle/core/types';
+import { mainTypes } from 'ngx-puzzle/core/types';
 import { ChartTypesEnum } from 'ngx-puzzle/core/enums';
 import { CHART_DATA_OPTIONS, CHART_DEFAULT_MOCKS_MAP } from 'ngx-puzzle/core/constants';
 import { SafeAny } from 'ngx-tethys/types';
 import { map } from 'rxjs/operators';
-import { AggregationService, ChartMapsService, DataSearchService, MockService, PuzzleCanvasMediatorService } from 'ngx-puzzle/core';
+import { AggregationService, DataSearchService, MockService, PuzzleCanvasMediatorService } from 'ngx-puzzle/core';
 import { getChangedIndexes } from 'ngx-puzzle/core/utils/util';
 import {
   NgxPuzzleChartsComponent
@@ -76,7 +76,7 @@ export class NgxPuzzleChartComponent extends NgxPuzzleCanvasBaseComponent<Compon
         });
       }
       // 预览模式：全量更新
-      // this.updateDataCompletely(paramSearch, aggregations);
+      this.updateDataCompletely(paramSearch, aggregations);
     }
   }
 
@@ -89,7 +89,7 @@ export class NgxPuzzleChartComponent extends NgxPuzzleCanvasBaseComponent<Compon
       console.log(`[图表] 没有数据变化`);
       return;
     }
-
+    console.log(`updateDataIncrementally`)
     this.updateDataByIndexes(diffIndexes.length ? diffIndexes : aggDiffIndexes, params, aggregations);
   }
 
@@ -114,6 +114,7 @@ export class NgxPuzzleChartComponent extends NgxPuzzleCanvasBaseComponent<Compon
     if (!params || !params[index] || !params[index]?.modelName) {
       // 使用模拟数据
       const mockData = this.applyAggregationIfExists(this.mockService.getMockData(this.config.subType, index), aggregations, index);
+      console.log(`processDataForIndex`, mockData)
       this.updateChartData(mockData, index);
     } else {
       // 从服务获取真实数据
