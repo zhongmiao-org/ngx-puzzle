@@ -4,108 +4,275 @@ export const CHART_DATA_OPTIONS: Partial<{ [key in ChartTypesEnum]: object }> = 
   [ChartTypesEnum.bar]: {
     legend: {},
     tooltip: { trigger: 'axis' },
-    dataset: {
-      dimensions: ['type', '2012', '2013', '2014', '2015', '2016'],
-      source: [
-        { type: 'Forest', '2012': 320, '2013': 332, '2014': 301, '2015': 334, '2016': 390 },
-        { type: 'Steppe', '2012': 220, '2013': 182, '2014': 191, '2015': 234, '2016': 290 },
-        { type: 'Desert', '2012': 150, '2013': 232, '2014': 201, '2015': 154, '2016': 190 },
-        { type: 'Wetland', '2012': 98, '2013': 77, '2014': 101, '2015': 99, '2016': 40 }
-      ]
-    },
-    xAxis: { type: 'category', axisTick: { show: false } },
+    xAxis: { type: 'category', axisTick: { show: false }, data: ['Forest', 'Steppe', 'Desert', 'Wetland'] },
     yAxis: {},
     series: [
-      { type: 'bar', layoutBy: 'row', itemStyle: { color: '#003366' } },
-      { type: 'bar', layoutBy: 'row', itemStyle: { color: '#006699' } },
-      { type: 'bar', layoutBy: 'row', itemStyle: { color: '#4cabce' } },
-      { type: 'bar', layoutBy: 'row', itemStyle: { color: '#e5323e' } }
+      { type: 'bar', name: '2012', data: [], itemStyle: { color: '#003366' } },
+      { type: 'bar', name: '2013', data: [], itemStyle: { color: '#006699' } },
+      { type: 'bar', name: '2014', data: [], itemStyle: { color: '#4cabce' } },
+      { type: 'bar', name: '2015', data: [], itemStyle: { color: '#e5323e' } },
+      { type: 'bar', name: '2016', data: [] }
     ]
   },
   [ChartTypesEnum.line]: {
     tooltip: { trigger: 'axis' },
     legend: {},
-    dataset: {
-      dimensions: ['day', 'Subscriptions', 'Services', 'Products'],
-      source: [
-        { day: 'Mon', Subscriptions: 120, Services: 220, Products: 150 },
-        { day: 'Tue', Subscriptions: 132, Services: 182, Products: 232 },
-        { day: 'Wed', Subscriptions: 101, Services: 191, Products: 201 },
-        { day: 'Thu', Subscriptions: 134, Services: 234, Products: 154 },
-        { day: 'Fri', Subscriptions: 90, Services: 290, Products: 190 },
-        { day: 'Sat', Subscriptions: 230, Services: 330, Products: 330 },
-        { day: 'Sun', Subscriptions: 210, Services: 310, Products: 410 }
-      ]
-    },
-    xAxis: { type: 'category', boundaryGap: false },
+    xAxis: { type: 'category', boundaryGap: false, data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] },
     yAxis: { type: 'value' },
     series: [
-      { type: 'line', smooth: true, name: 'Subscriptions', encode: { x: 'day', y: 'Subscriptions' } },
-      { type: 'line', smooth: true, name: 'Services', encode: { x: 'day', y: 'Services' } },
-      { type: 'line', smooth: true, name: 'Products', encode: { x: 'day', y: 'Products' } }
+      { type: 'line', smooth: true, name: 'Subscriptions', data: [] },
+      { type: 'line', smooth: true, name: 'Services', data: [] },
+      { type: 'line', smooth: true, name: 'Products', data: [] }
+    ]
+  },
+  [ChartTypesEnum.radar]: {
+    title: {
+      text: 'Basic Radar Chart'
+    },
+    tooltip: { trigger: 'item' },
+    legend: {
+      data: ['Allocated Budget', 'Actual Spending']
+    },
+    radar: {
+      // shape: 'circle',
+      indicator: [
+        { name: 'Sales', min: 0, max: 6500, alignTicks: true },
+        { name: 'Administration', min: 0, max: 16000, alignTicks: true },
+        { name: 'Information Technology', min: 0, max: 30000, alignTicks: true },
+        { name: 'Customer Support', min: 0, max: 38000, alignTicks: true },
+        { name: 'Development', min: 0, max: 52000, alignTicks: true },
+        { name: 'Marketing', min: 0, max: 25000, alignTicks: true }
+      ]
+    },
+    series: [
+      {
+        name: 'Budget',
+        type: 'radar',
+        data: []
+      },
+      {
+        name: 'Spending',
+        type: 'radar',
+        data: []
+      }
     ]
   },
   [ChartTypesEnum.scatter]: {
     tooltip: { trigger: 'item' },
-    dataset: {
-      dimensions: ['height', 'weight', 'gender'],
-      source: []
-    },
+    legend: {},
     xAxis: { type: 'value', axisLabel: { formatter: '{value} cm' } },
     yAxis: { type: 'value', axisLabel: { formatter: '{value} kg' } },
     series: [
-      { type: 'scatter', name: 'Male', encode: { x: 'height', y: 'weight' } },
-      { type: 'scatter', name: 'Female', encode: { x: 'height', y: 'weight' } }
+      {
+        name: 'Male',
+        type: 'scatter',
+        data: []
+      },
+      {
+        name: 'Female',
+        type: 'scatter',
+        data: []
+      }
     ]
   },
   [ChartTypesEnum.pie]: {
     tooltip: { trigger: 'item' },
     legend: {},
-    dataset: { dimensions: ['name', 'value'], source: [] },
-    series: [{ type: 'pie', radius: '60%', label: { show: true }, encode: { itemName: 'name', value: 'value' } }]
+    series: [
+      {
+        type: 'pie',
+        radius: '60%',
+        label: { show: true },
+        data: []
+      }
+    ]
   },
   [ChartTypesEnum.boxPlot]: {
     tooltip: { trigger: 'item' },
-    dataset: { dimensions: ['category', 'min', 'Q1', 'median', 'Q3', 'max'], source: [] },
-    xAxis: { type: 'category', boundaryGap: true, splitArea: { show: false } },
+    xAxis: { type: 'category', boundaryGap: true, splitArea: { show: false }, data: ['A', 'B', 'C'] },
     yAxis: { type: 'value', splitArea: { show: true } },
-    series: [{ type: 'boxplot', encode: { x: 'category', y: ['min', 'Q1', 'median', 'Q3', 'max'] } }]
+    series: [{ type: 'boxplot', data: [] }]
   },
   [ChartTypesEnum.candlestick]: {
     tooltip: { trigger: 'axis' },
-    dataset: { dimensions: ['date', 'open', 'close', 'low', 'high'], source: [] },
-    xAxis: { type: 'category' },
+    xAxis: { type: 'category', data: ['2020-01-01', '2020-01-02', '2020-01-03', '2020-01-04', '2020-01-05'] },
     yAxis: { scale: true },
-    series: [{ type: 'candlestick', encode: { x: 'date', y: ['open', 'close', 'low', 'high'] } }]
+    series: [{ type: 'candlestick', data: [] }]
   },
   [ChartTypesEnum.heatmap]: {
     tooltip: {},
     grid: { height: '50%', top: '10%' },
-    dataset: { dimensions: ['x', 'y', 'value'], source: [] },
-    xAxis: { type: 'category' },
-    yAxis: { type: 'category' },
+    xAxis: { type: 'category', data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'] },
+    yAxis: { type: 'category', data: ['1', '2'] },
     visualMap: { min: 0, max: 100, calculable: true, orient: 'horizontal', left: 'center', bottom: '5%' },
-    series: [{ type: 'heatmap', label: { show: false }, encode: { x: 'x', y: 'y', value: 'value' } }]
+    series: [{ type: 'heatmap', label: { show: false }, data: [] }]
   },
   [ChartTypesEnum.sunburst]: {
-    dataset: { source: [] },
-    series: [{ type: 'sunburst', radius: [0, '90%'] }]
+    series: {
+      type: 'sunburst',
+      radius: [0, '90%'],
+      label: { rotate: 'radial' },
+      data: []
+    }
   },
   [ChartTypesEnum.treemap]: {
-    dataset: { source: [] },
-    series: [{ type: 'treemap', leafDepth: 2 }]
+    series: [{ type: 'treemap', leafDepth: 2, data: [] }]
   },
   [ChartTypesEnum.sankey]: {
-    dataset: { dimensions: ['source', 'target', 'value'], source: [] },
-    series: [{ type: 'sankey', emphasis: { focus: 'adjacency' }, encode: { source: 'source', target: 'target', value: 'value' } }]
+    series: [
+      {
+        type: 'sankey',
+        emphasis: { focus: 'adjacency' },
+        data: [{ name: 'A' }, { name: 'B' }, { name: 'C' }, { name: 'D' }, { name: 'E' }],
+        links: [
+          { source: 'A', target: 'B', value: 5 },
+          { source: 'A', target: 'C', value: 3 },
+          { source: 'B', target: 'D', value: 2 },
+          { source: 'C', target: 'D', value: 2 },
+          { source: 'C', target: 'E', value: 1 }
+        ]
+      }
+    ]
   },
   [ChartTypesEnum.chord]: {
-    dataset: { dimensions: ['source', 'target', 'value'], source: [] },
-    series: [{ type: 'chord', encode: { source: 'source', target: 'target', value: 'value' } }]
+    series: [
+      {
+        type: 'chord',
+        data: [{ name: 'Group1' }, { name: 'Group2' }, { name: 'Group3' }, { name: 'Group4' }],
+        links: [
+          { source: 'Group1', target: 'Group2', value: 10 },
+          { source: 'Group2', target: 'Group3', value: 8 },
+          { source: 'Group3', target: 'Group1', value: 6 },
+          { source: 'Group1', target: 'Group4', value: 4 }
+        ]
+      }
+    ]
   },
   [ChartTypesEnum.funnel]: {
     tooltip: { trigger: 'item' },
-    dataset: { dimensions: ['name', 'value'], source: [] },
-    series: [{ type: 'funnel', encode: { itemName: 'name', value: 'value' } }]
+    series: [
+      {
+        type: 'funnel',
+        data: [
+          { name: 'Visit', value: 100 },
+          { name: 'Click', value: 80 },
+          { name: 'Inquiry', value: 60 },
+          { name: 'Order', value: 40 },
+          { name: 'Deal', value: 20 }
+        ]
+      }
+    ]
+  },
+  [ChartTypesEnum.effectScatter]: {
+    tooltip: { trigger: 'item' },
+    xAxis: { type: 'value' },
+    yAxis: { type: 'value' },
+    series: [
+      {
+        type: 'effectScatter',
+        rippleEffect: { brushType: 'stroke', scale: 3 },
+        symbolSize: 12,
+        data: [
+          [10, 8],
+          [15, 20],
+          [20, 18],
+          [25, 30],
+          [30, 22]
+        ]
+      }
+    ]
+  },
+  [ChartTypesEnum.parallel]: {
+    parallelAxis: [
+      { dim: 0, name: 'Price' },
+      { dim: 1, name: 'Net Weight' },
+      { dim: 2, name: 'Amount' },
+      { dim: 3, name: 'Score' }
+    ],
+    series: [
+      {
+        type: 'parallel',
+        lineStyle: { width: 1 },
+        data: [
+          [12.99, 100, 80, 90],
+          [9.99, 60, 50, 70],
+          [22.5, 120, 110, 88],
+          [5.5, 40, 30, 60]
+        ]
+      }
+    ]
+  },
+  [ChartTypesEnum.themeRiver]: {
+    tooltip: { trigger: 'axis' },
+    singleAxis: { type: 'time' },
+    series: [
+      {
+        type: 'themeRiver',
+        data: [
+          ['2020-01-01', 10, 'A'],
+          ['2020-01-02', 15, 'A'],
+          ['2020-01-03', 13, 'A'],
+          ['2020-01-01', 8, 'B'],
+          ['2020-01-02', 12, 'B'],
+          ['2020-01-03', 10, 'B'],
+          ['2020-01-01', 5, 'C'],
+          ['2020-01-02', 6, 'C'],
+          ['2020-01-03', 7, 'C']
+        ]
+      }
+    ]
+  },
+  [ChartTypesEnum.tree]: {
+    series: [
+      {
+        type: 'tree',
+        orient: 'LR',
+        expandAndCollapse: true,
+        label: { position: 'left', verticalAlign: 'middle', align: 'right' },
+        leaves: { label: { position: 'right', verticalAlign: 'middle', align: 'left' } },
+        data: [
+          {
+            name: 'Root',
+            children: [
+              { name: 'Child A', children: [{ name: 'A1' }, { name: 'A2' }] },
+              { name: 'Child B', children: [{ name: 'B1' }, { name: 'B2' }] }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  [ChartTypesEnum.gauge]: {
+    series: [
+      {
+        type: 'gauge',
+        progress: { show: true },
+        detail: { valueAnimation: true, formatter: '{value}%' },
+        data: [{ value: 37, name: 'Completion' }]
+      }
+    ]
+  },
+  [ChartTypesEnum.graph]: {
+    tooltip: {},
+    series: [
+      {
+        type: 'graph',
+        layout: 'force',
+        roam: true,
+        label: { show: true },
+        data: [
+          { name: 'Node1', value: 10 },
+          { name: 'Node2', value: 20 },
+          { name: 'Node3', value: 15 },
+          { name: 'Node4', value: 12 }
+        ],
+        links: [
+          { source: 'Node1', target: 'Node2' },
+          { source: 'Node2', target: 'Node3' },
+          { source: 'Node3', target: 'Node4' },
+          { source: 'Node1', target: 'Node4' }
+        ]
+      }
+    ]
   }
 };

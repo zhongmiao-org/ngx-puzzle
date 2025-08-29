@@ -14,11 +14,10 @@
 			}
       @if (showGuideSignal()) {
         <div
-          [style.left.px]="positionSignal().left"
-          [style.width.px]="positionSignal().width"
+          [ngStyle]="horizontalCursorStyle()"
           class="puzzle-cursor puzzle-horizontal-cursor">
-          <span class="puzzle-left">{{ positionSignal().left }}</span>
-          <span class="puzzle-right">{{ positionSignal().left + positionSignal().width }}</span>
+          <span class="puzzle-left">{{ horizontalLabels().left }}</span>
+          <span class="puzzle-right">{{ horizontalLabels().right }}</span>
         </div>
       }
 		</div>
@@ -38,11 +37,10 @@
 			}
       @if (showGuideSignal()) {
         <div
-          [style.top.px]="positionSignal().top"
-          [style.height.px]="positionSignal().height"
+          [ngStyle]="verticalCursorStyle()"
           class="puzzle-cursor puzzle-vertical-cursor">
-          <span class="puzzle-top">{{ positionSignal().top }}</span>
-          <span class="puzzle-bottom">{{ positionSignal().top + positionSignal().height }}</span>
+          <span class="puzzle-top">{{ verticalLabels().top }}</span>
+          <span class="puzzle-bottom">{{ verticalLabels().bottom }}</span>
         </div>
       }
 		</div>

@@ -10,7 +10,8 @@ import {
   signal,
   ViewChild,
   ViewContainerRef,
-  WritableSignal
+  WritableSignal,
+  computed
 } from '@angular/core';
 
 import { JsonPipe, NgStyle } from '@angular/common';
@@ -58,12 +59,44 @@ export class NgxPuzzleCanvasComponent implements OnInit, AfterViewInit, OnDestro
   }
 
   positionSignal: WritableSignal<TooltipPosition> = signal({ x: 0, y: 0, left: 0, top: 0, width: 0, height: 0 });
+
+  horizontalCursorStyle = computed(() => {
+    const pos = this.positionSignal();
+    return {
+      left: `${pos.left}px`,
+      width: `${pos.width}px`
+    };
+  });
+
+  verticalCursorStyle = computed(() => {
+    const pos = this.positionSignal();
+    return {
+      top: `${pos.top}px`,
+      height: `${pos.height}px`
+    };
+  });
+
+  horizontalLabels = computed(() => {
+    const pos = this.positionSignal();
+    return {
+      left: pos.left,
+      right: pos.left + pos.width
+    };
+  });
+
+  verticalLabels = computed(() => {
+    const pos = this.positionSignal();
+    return {
+      top: pos.top,
+      bottom: pos.top + pos.height
+    };
+  });
+
   showGuideSignal: WritableSignal<boolean> = signal(false);
   hTicks: WritableSignal<Tick[]> = signal<Tick[]>([]);
   vTicks: WritableSignal<Tick[]> = signal<Tick[]>([]);
 
-  constructor() // private registry: ComponentRegistryService, // private injector: ComponentInjectorService,
-  // private mediator: CanvasMediatorService,
+  constructor() // private mediator: CanvasMediatorService, // private registry: ComponentRegistryService, // private injector: ComponentInjectorService,
   // private renderer: Renderer2
   {}
 
@@ -100,6 +133,7 @@ export class NgxPuzzleCanvasComponent implements OnInit, AfterViewInit, OnDestro
       if (config.id !== this.config.id) {
         this.showGuideSignal.set(true);
         this.positionSignal.set(this.covertPosition(config.size, config.position));
+        console.log(`canvas componentSelect$`);
       } else {
         this.showGuideSignal.set(false);
       }

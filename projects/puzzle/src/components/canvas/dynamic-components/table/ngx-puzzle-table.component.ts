@@ -11,7 +11,7 @@
 // import { NgxPuzzleDragWrapperComponent } from '../drag-wrapper/ngx-puzzle-drag-wrapper.component';
 //
 // @Component({
-// 	selector: 'app-table',
+// 	selector: 'puzzle-table',
 // 	standalone: true,
 // 	imports: [AgGridAngular, NgxPuzzleDragWrapperComponent],
 // 	templateUrl: './ngx-puzzle-table.component.html',

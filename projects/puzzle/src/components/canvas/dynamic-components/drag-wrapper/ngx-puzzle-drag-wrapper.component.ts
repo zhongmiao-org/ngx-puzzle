@@ -10,7 +10,7 @@ import { ThyIcon } from 'ngx-tethys/icon';
 
 
 @Component({
-  selector: 'app-drag-wrapper',
+  selector: 'puzzle-drag-wrapper',
   standalone: true,
   imports: [CommonModule, StylesFormatPipe, CdkDrag, ThyIcon],
   templateUrl: './ngx-puzzle-drag-wrapper.component.html',

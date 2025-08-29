@@ -1,16 +1,9 @@
-/**
- * 漏斗图数据
- * 包含组别和数值数据
- */
-
-export interface FunnelDataItem {
-  group: string;
-  value: number;
-}
-
-export const funnelData: FunnelDataItem[] = [
-  { group: 'Qualify', value: 7910 },
-  { group: 'Develop', value: 8170 },
-  { group: 'Propose', value: 7260 },
-  { group: 'Close', value: 4460 },
+// Funnel mock data
+export interface FunnelItem { name: string; value: number }
+export const funnelData: FunnelItem[] = [
+  { name: 'Visit', value: 100 },
+  { name: 'Click', value: 80 },
+  { name: 'Inquiry', value: 60 },
+  { name: 'Order', value: 40 },
+  { name: 'Deal', value: 20 }
 ];
