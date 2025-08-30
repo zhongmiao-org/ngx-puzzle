@@ -1,58 +1,233 @@
 # ngx-puzzle
 
-`ngx-puzzle` 是一个基于 Angular 的拖拽式大屏构建工具，像拼图一样自由组合图表、表格、文字等组件，快速生成可视化数据看板。通过模块化设计和实时预览，让开发者和业务人员轻松搭建响应式数据分析界面。
+English | [中文文档](README.zh-CN.md)
 
-## 核心功能
-- ✨ **拖拽即所得** – 将组件像拼图一样吸附到画布，手动布局。
-- 📊 **丰富组件库** – 支持图表、表格、文本。
-- 🛠 **Angular 驱动** – 组件化架构，易于二次开发。
-- ⚡ **实时数据对接** – 可连接 API 或静态数据源。
+[![npm (scoped)](https://img.shields.io/npm/v/%40zhongmiao/ngx-puzzle?style=flat)](https://www.npmjs.com/package/@zhongmiao/ngx-puzzle)
+[![npm](https://img.shields.io/npm/dm/%40zhongmiao/ngx-puzzle)](https://www.npmjs.com/package/@zhongmiao/ngx-puzzle)
+![](https://img.shields.io/badge/Made%20with%20Angular-red?logo=angular)
+[![GitHub release date](https://img.shields.io/github/release-date/ark65/ngx-puzzle.svg?style=flat-square)](https://github.com/ark65/ngx-puzzle)
+[![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](LICENSE)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
-适用于快速原型开发、企业内部看板或数据可视化门户。
+Drag-and-drop dashboard builder for Angular applications. Think of it like a puzzle: compose charts, tables, text, and controls on a canvas to quickly assemble responsive data dashboards. Built with Angular standalone components and signals.
 
-## 安装
-```shell script
+Suitable for rapid prototyping, internal BI dashboards, and data visualization portals.
+
+## Features
+- Drag-and-drop editor with snapping layout
+- Rich built-in components: chart, table, text, control
+- Architecture-first Angular library (standalone, signals, OnPush)
+- External data-binding contract to connect real APIs or mock data
+- Preview/save via external service hooks
+
+## Installation
+```bash
 npm install @zhongmiao/ngx-puzzle
+# peer deps
+# Angular 18+, RxJS 7.8+, ngx-tethys 18.x, echarts 6.x
 ```
 
+## Compatibility
+- Angular: 18+
+- RxJS: 7.8+
+- ngx-tethys: 18.x (UI dialogs, layout in examples)
+- ECharts: 6.x (used by chart components)
 
-## 快速开始
-1. 在您的 Angular 项目中安装 `ngx-puzzle`。
-2. 在您的应用模块中导入 `NgxPuzzleModule`。
-3. 在您的组件模板中使用 `<ngx-puzzle>` 标签。
+See package.json for exact versions.
 
-### 示例代码
-```typescript
-import { NgxPuzzleModule } from '@zhongmiao/ngx-puzzle';
+## Quick Start (standalone)
+Use the editor component directly in a standalone host component. Below is a minimal yet practical example adapted from the example app.
 
-@NgModule({
-  imports: [
-    // 其他模块
-    NgxPuzzleModule
-  ],
-  // ...
+```ts
+import { Component, inject, OnInit, OnDestroy } from '@angular/core';
+import { ThyContent, ThyLayout } from 'ngx-tethys/layout';
+import { NgxPuzzleEditorComponent } from 'ngx-puzzle';
+import {
+  NgxPuzzleControlChangeNotification,
+  NgxPuzzleDataBindingRequest,
+  NgxPuzzleDataBindingService,
+  NgxPuzzleExternalService
+} from 'ngx-puzzle/core';
+import { Subject, takeUntil } from 'rxjs';
+import { ThyDialog } from 'ngx-tethys/dialog';
+import { ExampleDataSourceDialogComponent } from './data-source-dialog.component';
+
+@Component({
+  selector: 'example-puzzle',
+  standalone: true,
+  template: `
+    <thy-layout>
+      <thy-content>
+        <ngx-puzzle-editor></ngx-puzzle-editor>
+      </thy-content>
+    </thy-layout>
+  `,
+  imports: [ThyLayout, ThyContent, NgxPuzzleEditorComponent]
 })
-export class AppModule { }
+export class AppPuzzleComponent implements OnInit, OnDestroy {
+  private puzzleService = inject(NgxPuzzleExternalService);
+  private dataBindingService = inject(NgxPuzzleDataBindingService);
+  private destroy$ = new Subject<void>();
+  private dialog = inject(ThyDialog);
+
+  ngOnInit() {
+    this.dataBindingService.bindingRequest$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((request) => this.handleDataBindingRequest(request));
+
+    this.dataBindingService.controlChange$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((notification) => this.handleControlChange(notification));
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  private handleDataBindingRequest(request: NgxPuzzleDataBindingRequest) {
+    const initialData: any = {};
+    if (request.apiSource) {
+      initialData.type = request.apiSource.method as 'GET' | 'POST';
+      initialData.url = request.apiSource.url;
+      if (request.apiSource.method === 'POST' && request.apiSource.params) {
+        try {
+          initialData.body = JSON.stringify(request.apiSource.params, null, 2);
+        } catch {
+          initialData.body = '';
+        }
+      }
+    }
+
+    const ref = this.dialog.open(ExampleDataSourceDialogComponent, {
+      initialState: {
+        inputType: initialData.type,
+        inputUrl: initialData.url,
+        inputBody: initialData.body
+      }
+    });
+
+    ref.afterClosed().pipe(takeUntil(this.destroy$)).subscribe((result: any) => {
+      if (!result) return;
+      const apiSource = this.createApiSourceFromDialog(result);
+      const existed = this.dataBindingService.getComponentDataRequest(request.componentId) || { apiSources: [] };
+      const streams = existed.apiSources ? [...existed.apiSources] : [];
+      if (apiSource) streams[request.seriesIndex] = apiSource;
+
+      this.dataBindingService.responseBinding({
+        componentId: request.componentId,
+        dataRequest: { ...existed, apiSources: streams }
+      });
+    });
+  }
+
+  private handleControlChange(notification: NgxPuzzleControlChangeNotification) {
+    const newSources = [
+      { url: '/api/chart-data-1', method: 'POST', params: this.buildParamsFromFilters(notification.controlFilters) },
+      { url: '/api/chart-data-2', method: 'POST', params: this.buildParamsFromFilters(notification.controlFilters) }
+    ];
+
+    this.dataBindingService.responseBinding({
+      componentId: notification.componentId,
+      dataRequest: { apiSources: newSources }
+    });
+  }
+
+  private createApiSourceFromDialog(result: { type: 'GET' | 'POST'; url: string; body?: string }):
+    | { url: string; method: string; params?: Record<string, unknown> }
+    | undefined {
+    if (result?.url && result.url.trim()) {
+      const url = result.url.trim();
+      if (result.type === 'POST') {
+        let payload: unknown;
+        try {
+          payload = result.body ? JSON.parse(result.body) : {};
+        } catch {
+          payload = {};
+        }
+        return { url, method: 'POST', params: payload as Record<string, unknown> };
+      }
+      return { url, method: 'GET' };
+    }
+    return undefined; // fallback to component mock
+  }
+
+  private buildParamsFromFilters(filters: unknown) {
+    return { filters };
+  }
+
+  save() { this.puzzleService.getAllConfigs(); }
+  preview() { this.puzzleService.generatePreviewId(); }
+}
 ```
 
+### Data source dialog used above
+```ts
+import { Component, inject, input, OnInit, signal } from '@angular/core';
+import { ThyDialog, ThyDialogBody, ThyDialogFooter, ThyDialogHeader } from 'ngx-tethys/dialog';
+import { ThySelect } from 'ngx-tethys/select';
+import { ThyOption } from 'ngx-tethys/shared';
+import { FormsModule } from '@angular/forms';
+import { ThyInputDirective } from 'ngx-tethys/input';
+import { ThyButton } from 'ngx-tethys/button';
+import { NgIf } from '@angular/common';
 
-```html
-<ngx-puzzle></ngx-puzzle>
+@Component({
+  selector: 'example-data-source-dialog',
+  standalone: true,
+  imports: [ThyDialogHeader, ThyDialogBody, ThyDialogFooter, ThySelect, ThyOption, FormsModule, ThyInputDirective, ThyButton, NgIf],
+  template: `...` // see example app for full template
+})
+export class ExampleDataSourceDialogComponent implements OnInit {
+  private dialog = inject(ThyDialog);
+  inputType = input<'GET' | 'POST'>('GET');
+  inputUrl = input<string>('');
+  inputBody = input<string>('');
+  type = signal<'GET' | 'POST'>('GET');
+  url = signal<string>('');
+  body = signal<string>('');
+  ngOnInit() {
+    this.type.set(this.inputType() ?? 'GET');
+    this.url.set(this.inputUrl() ?? '');
+    this.body.set(this.inputBody() ?? '');
+  }
+  confirm() { this.dialog.close({ type: this.type(), url: this.url(), body: this.body() }); }
+  close() { this.dialog.close(); }
+}
 ```
 
+## Architecture Overview
+- Standalone components only (no NgModules). Use Angular signals for local state and computed() for derived state.
+- OnPush change detection for performance.
+- External data binding via NgxPuzzleDataBindingService:
+  - bindingRequest$: component requests data (includes componentId, seriesIndex, and optional apiSource)
+  - responseBinding(...): host responds with dataRequest containing apiSources array
+  - controlChange$: control components notify filter changes; host can update apiSources
+- NgxPuzzleExternalService: retrieve/save editor configs and generate preview id.
 
-## 文档
-更多详细文档请参阅 [官方文档](docs/zh-cn/guides/intro/index.md)。
+## Usage Notes and Best Practices
+- Prefer signals over mutable state; use set/update, avoid mutate.
+- Keep templates simple; use Angular built-in control flow (@if/@for).
+- Use host bindings in the decorator's host field, not HostBinding/HostListener decorators.
+- Use NgOptimizedImage for static images.
 
-## 贡献
-欢迎贡献代码！请参考 [贡献指南](CONTRIBUTING.zh-CN.md)。
+## Run the example
+```bash
+npm install
+npm start
+# open http://localhost:4200 and navigate to the example page
+```
 
-## 许可证
-本项目采用 MIT 许可证。详见 [LICENSE](LICENSE) 文件。
+## Contributing
+See CONTRIBUTING.md (and CONTRIBUTING.zh-CN.md for Chinese).
 
-## 贡献者
+## Acknowledgements
+- ngx-tethys (UI components, dialogs, layout used in examples): https://github.com/atinc/ngx-tethys
+- Apache ECharts (chart rendering for built-in chart components): https://echarts.apache.org/ and https://github.com/apache/echarts
+
+## License
+MIT. See LICENSE.
+
+## Contributors
 - ark65 (liuwufangzhou@gmail.com, liuwufangzhou@qq.vip.com)
-
-## 联系我们
-如果您有任何问题或建议，请随时联系我们！
 
