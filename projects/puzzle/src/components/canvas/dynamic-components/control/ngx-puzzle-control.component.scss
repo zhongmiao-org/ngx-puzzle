@@ -1,0 +1,30 @@
+@import "../styles.scss";
+.control-wrapper {
+  .control-field {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+
+    .control-label-container {
+      flex: none;
+      display: flex;
+      align-items: center;
+
+      .control-label-text {
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+        font-weight: 500;
+        color: #333;
+        line-height: 1.4;
+        word-break: break-word;
+      }
+    }
+
+    .control-input-container {
+      flex: 1;
+      min-width: 0;
+    }
+  }
+}

@@ -5,16 +5,23 @@
 	[componentId]="config.id"
 	[styles]="config.props.styles">
 	@if (!!this.config.props) {
-		<ag-grid-angular
-			style="width: 100%; height: 100%"
-			[columnDefs]="columnDefs"
-			[defaultColDef]="defaultColDef"
-			[autoGroupColumnDef]="autoGroupColumnDef"
-			[rowGroupPanelShow]="rowGroupPanelShow"
-			[groupDefaultExpanded]="groupDefaultExpanded"
-			[groupDisplayType]="groupDisplayType"
-			[sideBar]="sideBar"
-			[rowData]="rowData"
-			(gridReady)="onGridReady($event)" />
+		<table thyTable style="width: 100%; height: 100%">
+			<thead>
+				<tr>
+					@for (col of columnDefs; track col.field) {
+						<th>{{ col.field }}</th>
+					}
+				</tr>
+			</thead>
+			<tbody>
+				@for (row of rowData; track row) {
+					<tr>
+						@for (col of columnDefs; track col.field) {
+							<td>{{ row[col.field] }}</td>
+						}
+					</tr>
+				}
+			</tbody>
+		</table>
 	}
 </puzzle-drag-wrapper>
