@@ -1,6 +1,6 @@
 export enum TableTypesEnum {
 	// 默认
-	default = 'default',
+	default = 'table',
 	// 行分组
 	rowGrouping = 'rowGrouping',
 	// 聚合

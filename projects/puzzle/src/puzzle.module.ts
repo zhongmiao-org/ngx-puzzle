@@ -24,7 +24,7 @@ export class NgxPuzzleModule {
         this.registerIconsForType('table', TableTypesEnum, 'tables');
         this.registerIconsForType('text', TextTypesEnum, 'text');
         this.registerIconsForType('editor', TabTypesEnum, 'editor');
-        this.registerIconsForType('control', ControlTypesEnum, 'control');
+        this.registerIconsForType('control', ControlTypesEnum, 'controls');
 
     }
     private registerIconsForType(namespace: string, enumType: any, iconPath: string) {
