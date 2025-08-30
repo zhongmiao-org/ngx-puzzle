@@ -1,15 +1,16 @@
 import { NgxPuzzleDragWrapperComponent } from '../drag-wrapper/ngx-puzzle-drag-wrapper.component';
 import { Component, inject } from '@angular/core';
 import { NgxPuzzleCanvasBaseComponent } from '../base/ngx-puzzle-canvas-base.component';
-import { ComponentChartProps, ComponentConfig, DataRequestConfig } from 'ngx-puzzle/core/interfaces';
+import { ComponentChartProps, ComponentConfig, DataRequestConfig, ApiSource } from 'ngx-puzzle/core/interfaces';
 import { mainTypes } from 'ngx-puzzle/core/types';
 import { ChartTypesEnum } from 'ngx-puzzle/core/enums';
 import { CHART_DATA_OPTIONS, CHART_DEFAULT_MOCKS_MAP } from 'ngx-puzzle/core/constants';
 import { SafeAny } from 'ngx-tethys/types';
-import { map } from 'rxjs/operators';
-import { AggregationService, DataSearchService, MockService, PuzzleCanvasMediatorService } from 'ngx-puzzle/core';
-import { getChangedIndexes } from 'ngx-puzzle/core/utils/util';
+import { takeUntil } from 'rxjs/operators';
+import { MockService, PuzzleCanvasMediatorService } from 'ngx-puzzle/core';
 import { NgxPuzzleChartsComponent } from 'ngx-puzzle/components/primitives/ngx-puzzle-charts/ngx-puzzle-charts.component';
+import { Subscription } from 'rxjs';
+import { NgxPuzzleHttpService } from 'ngx-puzzle/core';
 
 @Component({
   selector: 'puzzle-chart',
@@ -21,9 +22,16 @@ import { NgxPuzzleChartsComponent } from 'ngx-puzzle/components/primitives/ngx-p
 export class NgxPuzzleChartComponent extends NgxPuzzleCanvasBaseComponent<ComponentChartProps, ChartTypesEnum> {
   dataKey: mainTypes = 'chart';
 
-  private aggregationService = inject(AggregationService);
   private mockService = inject(MockService);
-  private dataSearchService = inject(DataSearchService);
+
+  // 数据缓存：索引 -> 数据
+  private cacheData: Map<number, SafeAny> = new Map();
+
+  // 数据流订阅管理：索引 -> 订阅
+  private dataStreamSubscriptions: Map<number, Subscription> = new Map();
+
+  // 上一次的 API 源快照，用于计算增量变化（编辑模式）
+  private lastApiSources: ApiSource[] = [];
 
   set config(config: ComponentConfig<ComponentChartProps, ChartTypesEnum>) {
     this.initConfig(config);
@@ -33,11 +41,7 @@ export class NgxPuzzleChartComponent extends NgxPuzzleCanvasBaseComponent<Compon
     return this._config;
   }
 
-  // get hasChartRef() {
-  //   // return !!this?.charts?.chart;
-  // }
-
-  public options!: SafeAny;
+  private httpService = inject(NgxPuzzleHttpService);
 
   constructor(mediator: PuzzleCanvasMediatorService<ComponentChartProps, ChartTypesEnum>) {
     super(mediator);
@@ -50,38 +54,30 @@ export class NgxPuzzleChartComponent extends NgxPuzzleCanvasBaseComponent<Compon
 
   // 实现抽象方法：更新数据
   updateData(requestData: DataRequestConfig): void {
-    const { paramSearch, aggregations } = requestData;
+    const { apiSources } = requestData;
+
     if (this.isEdit) {
-      // 编辑模式：增量更新
-      this.updateDataIncrementally(paramSearch, aggregations);
+      // 编辑模式：使用上一份快照与新的 apiSources 计算差异
+      const prevSources = this.lastApiSources || [];
+      this.updateDataIncrementallyByApi(prevSources, apiSources || []);
+      // 同步快照
+      this.lastApiSources = (apiSources || []).map((s) => (s ? { ...s, params: s.params ? { ...s.params } : undefined } : s));
     } else {
-      // 如果 controlFilter 存在就塞入到 paramSearch
-      if (this.controlFilter && this.controlFilter.length) {
-        paramSearch?.forEach((item) => {
-          let newColumnFilters;
-          if (item?.columnFilters && item.columnFilters?.length) {
-            newColumnFilters = item.columnFilters.concat(this.controlFilter);
-          } else {
-            newColumnFilters = this.controlFilter;
-          }
-          item['columnFilters'] = newColumnFilters;
-        });
-      }
-      // 预览模式：全量更新
-      this.updateDataCompletely(paramSearch, aggregations);
+      // 预览模式：全量更新并刷新快照
+      this.updateDataCompletelyByApi(apiSources);
+      this.lastApiSources = (apiSources || []).map((s) => (s ? { ...s, params: s.params ? { ...s.params } : undefined } : s));
     }
   }
 
   override afterUpdateConfig(): void {
     // 检测系列变化并补全数据
     this.handleSeriesChanges();
-
     this.restartRefreshTimer();
   }
 
   override setBaseDataRequest(): void {
-    const { paramSearch, aggregations } = this.config.dataRequest || {};
-    this.mediator.updateDataRequest(this.config.id, { paramSearch, aggregations });
+    const dataRequest = this.config.dataRequest || {};
+    this.mediator.updateDataRequest(this.config.id, dataRequest);
   }
 
   /**
@@ -89,7 +85,7 @@ export class NgxPuzzleChartComponent extends NgxPuzzleCanvasBaseComponent<Compon
    */
   private handleSeriesChanges(): void {
     const series = this.normalizeSeries();
-    const { paramSearch, aggregations } = this.config.dataRequest || {};
+    const { apiSources } = this.config.dataRequest || {};
 
     // 找出需要补全数据的系列信息（包含索引和名称）
     const seriesToUpdate: Array<{ index: number; name?: string }> = [];
@@ -108,101 +104,214 @@ export class NgxPuzzleChartComponent extends NgxPuzzleCanvasBaseComponent<Compon
 
     // 为需要的系列补全数据
     if (seriesToUpdate.length > 0) {
-      this.updateDataForSeriesWithNames(seriesToUpdate, paramSearch, aggregations);
+      this.updateDataForSeriesWithNames(seriesToUpdate, apiSources);
     }
   }
 
   /**
    * 为指定的系列更新数据（支持系列名称智能匹配）
    */
-  private updateDataForSeriesWithNames(
-    seriesToUpdate: Array<{ index: number; name?: string }>,
-    params?: SafeAny[],
-    aggregations?: string[]
-  ): void {
+  private updateDataForSeriesWithNames(seriesToUpdate: Array<{ index: number; name?: string }>, dataStreams?: ApiSource[]): void {
     seriesToUpdate.forEach(({ index, name }) => {
-      this.processDataForIndex(index, params, aggregations, name);
+      this.processDataForIndex(index, dataStreams, name);
     });
   }
 
-  private updateDataIncrementally(params?: SafeAny[], aggregations?: string[]): void {
-    const diffIndexes = getChangedIndexes(this.config?.dataRequest?.paramSearch || [], params || []);
-    const aggDiffIndexes = getChangedIndexes(this.config?.dataRequest?.aggregations || [], aggregations || []);
-    console.log(`[图表] 编辑模式 - 变更索引:`, diffIndexes, aggDiffIndexes);
+  private updateDataIncrementallyByApi(prevStreams: ApiSource[], newStreamsInput?: ApiSource[]): void {
+    const newDataStreams = newStreamsInput || [];
 
-    if (diffIndexes.length === 0 && aggDiffIndexes.length === 0) {
+    // 检测变化并同步缓存（基于上一次与本次）
+    this.syncDataCacheWithStreams(prevStreams, newDataStreams);
+
+    // 对比数据流变化（基于上一次与本次）
+    const dataStreamChanges = this.getDataStreamChanges(prevStreams, newDataStreams);
+
+    console.log(`[图表] 编辑模式 - 数据流变化:`, dataStreamChanges);
+
+    if (dataStreamChanges.length === 0) {
       console.log(`[图表] 没有数据变化`);
       return;
     }
-    console.log(`updateDataIncrementally`);
-    this.updateDataByIndexes(diffIndexes.length ? diffIndexes : aggDiffIndexes, params, aggregations);
+
+    console.log(`[图表] 需要更新的索引:`, dataStreamChanges);
+
+    this.updateDataByIndexes(dataStreamChanges, newDataStreams);
   }
 
-  private updateDataCompletely(params?: SafeAny[], aggregations?: string[]): void {
+  private updateDataCompletelyByApi(dataStreams?: ApiSource[]): void {
     let allIndexes: number[];
-    if (!params) {
+
+    if (!dataStreams || dataStreams.length === 0) {
+      // 使用 mock 数据的默认索引
       allIndexes = CHART_DEFAULT_MOCKS_MAP[this.config.subType]?.map((_, index) => index) || [];
     } else {
-      allIndexes = params.map((_, index) => index);
+      // 使用数据流的索引
+      allIndexes = dataStreams.map((_, index) => index);
     }
-    this.updateDataByIndexes(allIndexes, params, aggregations);
+
+    this.updateDataByIndexes(allIndexes, dataStreams);
   }
 
   /**
-   * 根据索引数组更新数据（支持系列名称智能匹配）
+   * 同步数据缓存与数据流变化
    */
-  private updateDataByIndexes(indexes: number[], params?: SafeAny[], aggregations?: string[]): void {
+  private syncDataCacheWithStreams(currentStreams: ApiSource[], newStreams: ApiSource[]): void {
+    console.log(`[图表缓存] 同步缓存`, {
+      currentLength: currentStreams.length,
+      newLength: newStreams.length,
+      cacheSize: this.cacheData.size
+    });
+
+    // 1. 如果新数组比旧数组短，删除多余的缓存
+    if (newStreams.length < currentStreams.length) {
+      for (let i = newStreams.length; i < currentStreams.length; i++) {
+        this.removeCachedData(i);
+      }
+    }
+
+    // 2. 检测被删除/插入的项，重新排列缓存
+    const maxLength = Math.max(currentStreams.length, newStreams.length);
+    const newCacheData = new Map<number, SafeAny>();
+
+    for (let i = 0; i < maxLength; i++) {
+      const currentStream = currentStreams[i];
+      const newStream = newStreams[i];
+
+      if (newStream && currentStream && currentStream === newStream) {
+        // 数据流没变，保持缓存
+        if (this.cacheData.has(i)) {
+          newCacheData.set(i, this.cacheData.get(i));
+        }
+      }
+      // 如果数据流变了或者是新增的，不复制缓存（让后续重新请求）
+    }
+
+    // 更新缓存
+    this.cacheData.clear();
+    newCacheData.forEach((value, key) => {
+      this.cacheData.set(key, value);
+    });
+
+    console.log(`[图表缓存] 缓存同步完成`, { newCacheSize: this.cacheData.size });
+  }
+
+  /**
+   * 检测数据流变化，返回变化的索引
+   */
+  private getDataStreamChanges(current: ApiSource[], updated: ApiSource[]): number[] {
+    const changes: number[] = [];
+    const maxLength = Math.max(current.length, updated.length);
+
+    for (let i = 0; i < maxLength; i++) {
+      const currentStream = current[i];
+      const updatedStream = updated[i];
+
+      // 如果索引超出范围，认为是变化
+      if (!currentStream || !updatedStream) {
+        changes.push(i);
+        continue;
+      }
+
+      // 对比数据源是否有变化（url/method/params）
+      const serialize = (s: ApiSource) => `${s?.method || ''}|${s?.url || ''}|${JSON.stringify(s?.params || {})}`;
+      if (serialize(currentStream) !== serialize(updatedStream)) {
+        changes.push(i);
+      }
+    }
+
+    return changes;
+  }
+
+  /**
+   * 根据索引数组更新数据
+   */
+  private updateDataByIndexes(indexes: number[], dataStreams?: ApiSource[]): void {
     const series = this.normalizeSeries();
+
     indexes.forEach((index) => {
       const seriesName = series[index]?.name;
-      this.processDataForIndex(index, params, aggregations, seriesName);
+      this.processDataForIndex(index, dataStreams, seriesName);
     });
   }
 
   /**
-   * 处理指定索引的数据（支持系列名称智能匹配）
-   * @param index 系列索引
-   * @param params 请求参数数组
-   * @param aggregations 聚合函数数组
-   * @param seriesName 系列名称，用于智能匹配 mock 数据
+   * 处理指定索引的数据
    */
-  private processDataForIndex(index: number, params?: SafeAny[], aggregations?: string[], seriesName?: string): void {
-    console.log(`processDataForIndex`, { index, subType: this.config.subType, seriesName, hasParams: !!params?.[index] });
+  private processDataForIndex(index: number, dataStreams?: ApiSource[], seriesName?: string): void {
+    console.log(`processDataForIndex`, { index, subType: this.config.subType, seriesName, hasDataStreams: !!dataStreams });
 
-    if (!params || !params[index] || !params[index]?.modelName) {
-      // 使用模拟数据，传递系列名称进行智能匹配
-      const rawMockData = this.mockService.getMockData(this.config.subType, index, seriesName);
-      const mockData = this.applyAggregationIfExists(rawMockData, aggregations, index);
-      console.log(`processDataForIndex mockData:`, { seriesName, rawMockData, processedData: mockData });
+    // 获取对应索引的数据源
+    const apiSource = dataStreams?.[index];
+
+    if (!apiSource) {
+      // 没有数据源，使用模拟数据
+      const mockData = this.mockService.getMockData(this.config.subType, index, seriesName);
+      console.log(`processDataForIndex mockData:`, { seriesName, mockData });
+      this.setCachedData(index, mockData);
       this.updateChartData(mockData, index);
     } else {
-      // 从服务获取真实数据
-      console.log(`processDataForIndex: 从服务获取数据`, params[index]);
-      this.dataSearchService
-        .webSearchMap(params[index])
-        .pipe(map((data) => this.applyAggregationIfExists(data, aggregations, index)))
-        .subscribe((data) => {
-          console.log(`processDataForIndex: 服务返回数据`, data);
-          this.updateChartData(data, index);
-        });
+      // 清理旧的订阅
+      this.cleanupSubscription(index);
+
+      // 基于数据源发起请求
+      const request$ = this.httpService.request(apiSource);
+
+      const subscription = request$.pipe(takeUntil(this.destroy$)).subscribe((data) => {
+        console.log(`processDataForIndex: API 返回数据`, { index, data });
+        this.setCachedData(index, data);
+        this.updateChartData(data, index);
+      });
+
+      // 保存订阅引用
+      this.dataStreamSubscriptions.set(index, subscription);
     }
   }
 
-  private applyAggregationIfExists(data: any, aggregations?: string[], index: number = 0): any {
-    const aggregation = aggregations?.[index];
+  /**
+   * 设置缓存数据
+   */
+  private setCachedData(index: number, data: SafeAny): void {
+    this.cacheData.set(index, data);
+    console.log(`[图表缓存] 设置缓存数据`, { index, cacheSize: this.cacheData.size });
+  }
 
-    if (aggregation) {
-      try {
-        // 使用聚合服务执行函数
-        const result = this.aggregationService.execute(aggregation, data);
-        console.log(`[图表] 聚合处理结果:`, result);
-        return result;
-      } catch (error) {
-        console.error(`[图表] 聚合处理失败:`, error);
-        return data;
-      }
+
+  /**
+   * 删除缓存数据
+   */
+  private removeCachedData(index: number): void {
+    this.cacheData.delete(index);
+    this.cleanupSubscription(index);
+    console.log(`[图表缓存] 删除缓存数据`, { index, cacheSize: this.cacheData.size });
+  }
+
+  /**
+   * 清理指定索引的订阅
+   */
+  private cleanupSubscription(index: number): void {
+    const subscription = this.dataStreamSubscriptions.get(index);
+    if (subscription && !subscription.closed) {
+      subscription.unsubscribe();
     }
-    return data;
+    this.dataStreamSubscriptions.delete(index);
+  }
+
+  /**
+   * 清理所有订阅和缓存
+   */
+  private cleanupAll(): void {
+    console.log(`[图表缓存] 清理所有缓存和订阅`);
+
+    // 清理所有订阅
+    this.dataStreamSubscriptions.forEach((subscription) => {
+      if (!subscription.closed) {
+        subscription.unsubscribe();
+      }
+    });
+    this.dataStreamSubscriptions.clear();
+
+    // 清理所有缓存
+    this.cacheData.clear();
   }
 
   // 统一的图表数据更新方法：始终写入 series[index].data
@@ -221,14 +330,37 @@ export class NgxPuzzleChartComponent extends NgxPuzzleCanvasBaseComponent<Compon
     return series as SafeAny[];
   }
 
+
   private extractSeriesDataPayload(raw: SafeAny): SafeAny {
+    console.log('extractSeriesDataPayload 原始数据:', raw);
+
     // 当返回对象中包含 data/values/seriesData 字段时，优先取这些常用数据字段
     if (raw && typeof raw === 'object' && !Array.isArray(raw)) {
-      if (Array.isArray(raw.data)) return raw.data;
-      if (Array.isArray((raw as any).values)) return (raw as any).values;
-      if (Array.isArray((raw as any).seriesData)) return (raw as any).seriesData;
+      // 检查 success 字段，确保是成功的响应
+      if (raw.success !== false) {
+        if (Array.isArray(raw.data)) {
+          console.log('提取到 data 字段:', raw.data);
+          return raw.data;
+        }
+        if (Array.isArray((raw as any).values)) {
+          console.log('提取到 values 字段:', (raw as any).values);
+          return (raw as any).values;
+        }
+        if (Array.isArray((raw as any).seriesData)) {
+          console.log('提取到 seriesData 字段:', (raw as any).seriesData);
+          return (raw as any).seriesData;
+        }
+      }
+
+      // 如果响应失败，返回空数组避免图表报错
+      if (raw.success === false) {
+        console.warn('API 响应失败:', raw.message || '未知错误');
+        return [];
+      }
     }
-    // 默认直接返回，支持数值数组、二维数组或对象数组（由聚合函数自行处理）
+
+    // 默认直接返回，支持数值数组、二维数组或对象数组
+    console.log('使用原始数据:', raw);
     return raw;
   }
 
@@ -242,12 +374,70 @@ export class NgxPuzzleChartComponent extends NgxPuzzleCanvasBaseComponent<Compon
 
   private updateDataForSeries(data: SafeAny, index: number = 0): void {
     console.log(`updateDataForSeries`, { data, index });
+
     const seriesItem = this.ensureSeriesItem(index);
     const payload = this.extractSeriesDataPayload(data);
-    seriesItem['data'] = payload;
 
-    // 更新组件的 options 以触发图表重新渲染
-    this.options = { ...this.config.props.chart };
-    console.log(`updateDataForSeries updated options:`, this.options);
+    console.log(`更新系列 ${index} 的数据:`, payload);
+
+    seriesItem['data'] = payload;
+    this.config.props.chart = {
+      ...this.config.props.chart
+    }
+
+    console.log(`updateDataForSeries 直接更新 config.props.chart:`, this.config.props.chart);
+    console.log(`当前系列配置:`, this.config.props.chart.series);
+  }
+
+
+
+  /**
+   * 处理系列绑定删除 - 重写基类方法
+   */
+  protected override handleSeriesBindingDelete(seriesIndex: number): void {
+    console.log(`[组件-${this._config.id}] 系列绑定已删除:`, seriesIndex);
+
+    // 删除对应的缓存数据
+    this.removeCachedData(seriesIndex);
+
+    // 重新排列缓存：将后面的数据往前移
+    const newCacheData = new Map<number, SafeAny>();
+    const newSubscriptions = new Map<number, Subscription>();
+
+    this.cacheData.forEach((value, key) => {
+      if (key < seriesIndex) {
+        // 保持位置不变
+        newCacheData.set(key, value);
+      } else if (key > seriesIndex) {
+        // 往前移一位
+        newCacheData.set(key - 1, value);
+      }
+      // key === seriesIndex 的项被跳过（删除）
+    });
+
+    this.dataStreamSubscriptions.forEach((subscription, key) => {
+      if (key < seriesIndex) {
+        // 保持位置不变
+        newSubscriptions.set(key, subscription);
+      } else if (key > seriesIndex) {
+        // 往前移一位
+        newSubscriptions.set(key - 1, subscription);
+      }
+      // key === seriesIndex 的项被跳过（删除）
+    });
+
+    // 更新缓存和订阅
+    this.cacheData = newCacheData;
+    this.dataStreamSubscriptions = newSubscriptions;
+
+    console.log(`[图表缓存] 删除系列后重新排列`, {
+      deletedIndex: seriesIndex,
+      newCacheSize: this.cacheData.size
+    });
+  }
+
+  override ngOnDestroy(): void {
+    this.cleanupAll();
+    super.ngOnDestroy();
   }
 }
