@@ -1,0 +1,102 @@
+<puzzle-drag-wrapper
+	[isEdit]="isEdit"
+	[size]="config.size"
+	[position]="config.position"
+	[componentId]="config.id"
+	[zIndex]="zIndex()"
+	[styles]="config.props.styles">
+	<div
+		class="control-wrapper"
+		[attr.data-control-type]="config.subType">
+		@if (control?.label?.enable) {
+			<div class="control-field">
+				<div class="control-label-container">
+					<label
+						class="control-label-text"
+						[ngStyle]="control?.label?.styles | stylesFormat"
+						[thyTooltip]="control?.label?.description"
+						thyTooltipPlacement="top">
+						{{ control?.label?.text }}
+					</label>
+				</div>
+				<div class="control-input-container">
+					<ng-container *ngTemplateOutlet="viewControl"></ng-container>
+				</div>
+			</div>
+		} @else {
+			<ng-container *ngTemplateOutlet="viewControl"></ng-container>
+		}
+	</div>
+</puzzle-drag-wrapper>
+
+<ng-template #viewControl>
+	@switch (config.subType) {
+		@case ('date-pick') {
+			<thy-date-picker
+				style="width: 100%"
+				[(ngModel)]="controlValue"
+				[thyShowTime]="control.props?.['showTime']"
+				[thyPlaceHolder]="control.props?.['placeholder']"
+				[thyDisabled]="control.props?.['disabled']"
+				(ngModelChange)="controlValueChange()" />
+		}
+		@case ('select') {
+			<thy-select
+				style="width: 100%"
+				[(ngModel)]="controlValue"
+				[thyPlaceHolder]="control.props?.['placeholder']"
+				[thyDisabled]="control.props?.['disabled']"
+				(ngModelChange)="controlValueChange()">
+				@for (opt of control.props?.['options']; track opt) {
+					<thy-option [thyValue]="opt[control.props?.['optionValue']]" [thyLabel]="opt[control.props?.['optionLabel']]"></thy-option>
+				}
+			</thy-select>
+		}
+		@case ('multi-select') {
+			<thy-select
+				style="width: 100%"
+				[(ngModel)]="controlValue"
+				[thyPlaceHolder]="control.props?.['placeholder']"
+				[thyDisabled]="control.props?.['disabled']"
+    [thyMode]="'multiple'"
+				(ngModelChange)="controlValueChange()"
+				(visibleChange)="panelOnShow($event)">
+				@for (opt of control.props?.['options']; track opt) {
+					<thy-option [thyValue]="opt[control.props?.['optionValue']]" [thyLabel]="opt[control.props?.['optionLabel']]"></thy-option>
+				}
+			</thy-select>
+		}
+		@case ('input') {
+			<input
+				style="width: 100%"
+				[(ngModel)]="controlValue"
+				thyInput
+				type="text"
+				[placeholder]="control.props?.['placeholder']"
+				(ngModelChange)="controlValueChange()" />
+		}
+		@case ('date-time') {
+			<imm-bi-datetime
+				[year]="control.props?.['year']"
+				[month]="control.props?.['month']"
+				[day]="control.props?.['day']"
+				[weekday]="control.props?.['weekday']"
+				[hourCycle]="control.props?.['hourCycle']"
+				[hour]="control.props?.['hour']"
+				[minute]="control.props?.['minute']"
+				[second]="control.props?.['second']"
+				[dateSeparator]="control.props?.['dateSeparator']"
+				[timeSeparator]="control.props?.['timeSeparator']"
+				[useChineseDate]="control.props?.['useChineseDate']"
+				[useChineseTime]="control.props?.['useChineseTime']"
+				[customFormat]="control.props?.['customFormat']"
+				[autoUpdate]="control.props?.['autoUpdate']"
+				[updateOnLoad]="control.props?.['updateOnLoad']"
+				[timezone]="control.props?.['timezone']"
+				[show]="control.props?.['show']"
+				[order]="control.props?.['order']"
+				[layout]="control.props?.['layout']"
+				[styles]="control.props?.['styles']"></imm-bi-datetime>
+		}
+	}
+</ng-template>

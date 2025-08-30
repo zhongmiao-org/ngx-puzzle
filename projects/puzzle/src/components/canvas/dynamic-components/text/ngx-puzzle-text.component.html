@@ -4,6 +4,7 @@
   [position]="config.position"
   [componentId]="config.id"
   [styles]="config.props.styles"
+  [mainType]="config.type"
 >
   <div [ngStyle]="config.props.text.styles | stylesFormat">{{ config.props.text.content }}</div>
 </puzzle-drag-wrapper>
