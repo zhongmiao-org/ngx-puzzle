@@ -1,13 +1,21 @@
 import { Component, effect, input, output, model, OnDestroy, inject } from '@angular/core';
 import { Subject } from 'rxjs';
-import { DataRequestConfig, SafeAny, EditorBaseField } from '../../../../core';
-import { convertFormDataToOptions, convertOptionsToFormData, updateFormData } from '../../../../core/utils';
+import {
+  DataRequestConfig,
+  SafeAny,
+  EditorBaseField,
+  NgxPuzzleDataBindingRequest,
+  convertFormDataToOptions,
+  convertOptionsToFormData,
+  updateFormData
+} from 'ngx-puzzle/core';
 import { isEqual } from 'lodash';
 import { ControlsService } from 'ngx-puzzle/core/services/internal/controls.service';
+import { NgxPuzzleDataBindingService } from 'ngx-puzzle/core/services/external/ngx-puzzle-data-binding.service';
 
 /**
  * 编辑器基类，提供通用的编辑器功能
- * @template TConfig 具体的配置对象类型（如 AgChartOptions、TableConfig、TextConfig）
+ * @template TConfig 具体的配置对象类型
  * @template TSubType 子类型枚举
  * @template TField 字段类型，继承自 EditorBaseField
  */
@@ -21,12 +29,13 @@ export abstract class EditorBaseComponent<
 > implements OnDestroy
 {
   protected controlsService = inject(ControlsService);
+  protected dataBindingService = inject(NgxPuzzleDataBindingService);
 
   // 通用输入属性
   componentId = input<string>();
   options = model<TConfig>();
   subType = input<string>();
-  requestOptions = model<DataRequestConfig>({ paramSearch: [], aggregations: [] });
+  requestOptions = input<DataRequestConfig>({ apiSources: [] });
 
   // 通用输出事件
   readonly onChange = output<TConfig>();
@@ -44,6 +53,10 @@ export abstract class EditorBaseComponent<
   protected destroy$ = new Subject<void>();
 
   constructor() {
+    effect(() => {
+      const dataRequest = this.requestOptions();
+      console.log(`EditorBaseComponent dataRequest`, dataRequest);
+    });
     this.setupEffects();
   }
 
@@ -68,12 +81,17 @@ export abstract class EditorBaseComponent<
   protected abstract setFields(type?: TSubType): void;
 
   /**
-   * 更新表单数据
+   * 获取组件类型 - 子类需要实现
+   */
+  protected abstract getComponentType(): string;
+
+  /**
+   * 更新表单数据 - 子类可重写
    */
   protected updateFormData(config?: TConfig): void {
     // 先转换新的 formData
     const newFormData = convertOptionsToFormData(config, this.sections);
-    console.log(`updateFormData`, newFormData)
+    console.log(`updateFormData`, newFormData);
     if (!isEqual(this.formData, newFormData)) {
       this.formData = newFormData;
     }
@@ -87,102 +105,51 @@ export abstract class EditorBaseComponent<
   }
 
   /**
-   * 表单字段变更处理
+   * 表单字段变更处理 - 子类可重写
    */
   onFormFieldChange(key: string, value: SafeAny, parentKey?: string, index?: number): void {
     this.formData = updateFormData(this.formData, key, value, parentKey, index);
-    console.log(`onFormFieldChange`, this.formData)
+    console.log(`onFormFieldChange`, this.formData);
     const updated = convertFormDataToOptions(this.formData, structuredClone(this.options()), this.sections)!;
     this.onChange.emit(updated as TConfig);
   }
 
   /**
-   * 打开数据源对话框
+   * 删除数组项 - 支持数据绑定同步
    */
-  openData(index: number = 0): void {
-    const currentRequestOptions = this.requestOptions();
-
-    // 确保 requestOptions 存在基本结构
-    if (!currentRequestOptions) {
-      this.requestOptions.set({
-        paramSearch: [],
-        aggregations: []
-      });
-    }
-
-    const updatedOptions = { ...this.requestOptions() };
-
-    // 确保 paramSearch 数组有足够的长度
-    if (!updatedOptions.paramSearch) {
-      updatedOptions.paramSearch = [];
-    }
-
-    // 扩展 paramSearch 数组到所需长度
-    while (updatedOptions.paramSearch.length <= index) {
-      updatedOptions.paramSearch.push({});
-    }
-
-    // 确保 aggregations 数组有足够的长度
-    if (!updatedOptions.aggregations) {
-      updatedOptions.aggregations = [];
-    }
-
-    // 扩展 aggregations 数组到所需长度，使用默认聚合函数
-    while (updatedOptions.aggregations.length <= index) {
-      updatedOptions.aggregations.push(this.getDefaultAggregationValue());
-    }
-
-    // 更新 requestOptions
-    this.requestOptions.set(updatedOptions);
-
-    this.beforeOpenData(index);
-    this.bufferIndex = index;
-    this.visible = true;
-  }
-
-  getDefaultAggregationValue(): string {
-    return `(data) => {
-  if (!Array.isArray(data)) {
-    return [];
-  }
-  return data;
-}`;
-  }
-
-  /**
-   * 打开数据源对话框前的钩子
-   */
-  protected beforeOpenData(index: number): void {
-    // 子类可重写此方法
-  }
-
-  /**
-   * 数据源确认处理
-   */
-  onDataSourceConfirm(updatedRequestOptions: DataRequestConfig): void {
-    this.requestOptions.set(updatedRequestOptions);
-    this.requestOptionsChange.emit(updatedRequestOptions);
-  }
-
-  /**
-   * 数据源取消处理
-   */
-  onDataSourceCancel(): void {
-    this.bufferIndex = 0;
-  }
-
   protected removeArrayItem(key: string, index: number): void {
     this.formData[key].splice(index, 1);
     this.options.set(convertFormDataToOptions(this.formData, this.options(), this.sections));
-    console.log(`removeArrayItem`, this.options())
+    console.log(`removeArrayItem`, this.options());
     this.onChange.emit(this.options()!);
+
+    // 如果删除的是系列数据，同步删除数据绑定
+    if (key === 'series' && this.componentId()) {
+      this.dataBindingService.removeSeriesBinding(this.componentId()!, index);
+    }
   }
 
-  onButtonClick<T extends EditorBaseField>(field: T, i: number) {
-    console.log(`onButtonClick`, field, i);
+  onDataBtnClick<T extends EditorBaseField>(field: T, i: number) {
+    console.log(`onDataBtnClick`, field, i);
+
+    // 简化的数据绑定请求，只传递必要信息
+    const request: NgxPuzzleDataBindingRequest = {
+      componentId: this.componentId() || '',
+      componentType: this.getComponentType(),
+      seriesIndex: i,
+      apiSource: this.requestOptions()?.apiSources?.[i]
+    };
+
+    // 发起数据绑定请求
+    this.dataBindingService.requestBinding(request);
   }
 
   ngOnDestroy(): void {
+    // 清理组件的数据绑定
+    if (this.componentId()) {
+      this.dataBindingService.removeComponentDataRequest(this.componentId()!);
+    }
+
     this.destroy$.next();
     this.destroy$.complete();
   }

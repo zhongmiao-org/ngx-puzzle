@@ -1,5 +1,5 @@
-import { AfterViewInit, Component, inject, OnDestroy, OnInit, signal, ViewChild } from '@angular/core';
-import { NgClass, NgStyle, NgSwitch, NgSwitchCase, NgSwitchDefault } from '@angular/common';
+import { AfterViewInit, Component, inject, OnDestroy, signal } from '@angular/core';
+import { NgStyle } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
   BaseSelectOption,
@@ -8,7 +8,6 @@ import {
   DataRequestConfig,
   EditorFields,
   EditorFormData,
-  // EditorImageOption,
   EditorStyleField,
   EditorTab,
   Position,
@@ -20,7 +19,7 @@ import {
 } from 'ngx-puzzle/core/interfaces';
 import { basicTypes, editorTabTypes, mainTypes, SafeAny } from 'ngx-puzzle/core/types';
 import { Subject, takeUntil } from 'rxjs';
-import { BASE_TAB, DATA_TAB, EDITOR_FIELDS_MAP, EDITOR_TAB_MAP, STYLE_TAB } from 'ngx-puzzle/core/constants';
+import { BASE_TAB, EDITOR_FIELDS_MAP, EDITOR_TAB_MAP } from 'ngx-puzzle/core/constants';
 import { ThyTabsModule } from 'ngx-tethys/tabs';
 import { ThyIcon } from 'ngx-tethys/icon';
 import { cloneDeep, isEqual } from 'lodash';
@@ -30,9 +29,7 @@ import { ThyInputModule } from 'ngx-tethys/input';
 import { ThyInputNumberModule } from 'ngx-tethys/input-number';
 import { ThyColorPickerModule } from 'ngx-tethys/color-picker';
 import { ThySelectModule } from 'ngx-tethys/select';
-import {
-  NgxPuzzleChartEditorComponent
-} from 'ngx-puzzle/components/editor/dynamic-editor/chart-editor/ngx-puzzle-chart-editor.component';
+import { NgxPuzzleChartEditorComponent } from 'ngx-puzzle/components/editor/dynamic-editor/chart-editor/ngx-puzzle-chart-editor.component';
 import { PuzzleCanvasMediatorService } from 'ngx-puzzle/core';
 
 @Component({
@@ -58,7 +55,6 @@ import { PuzzleCanvasMediatorService } from 'ngx-puzzle/core';
   }
 })
 export class NgxPuzzlePropsEditorComponent implements AfterViewInit, OnDestroy {
-  // @ViewChild(Tabs) tabComponent!: Tabs;
 
   private readonly mediator = inject(PuzzleCanvasMediatorService<ComponentBaseProps, string>);
 
@@ -75,13 +71,12 @@ export class NgxPuzzlePropsEditorComponent implements AfterViewInit, OnDestroy {
     height: 0,
     positionX: 0,
     positionY: 0,
-    styles: {},
+    styles: {}
   };
 
   public tabs = signal<EditorTab[]>([]);
 
   public activeTab: editorTabTypes = 'appearance';
-
 
   ngAfterViewInit(): void {
     const config = this.mediator.getCurrentSelect();
@@ -92,7 +87,7 @@ export class NgxPuzzlePropsEditorComponent implements AfterViewInit, OnDestroy {
   }
 
   private setupTabs(config: ComponentConfig): void {
-    this.tabs.set( EDITOR_TAB_MAP[config.type] || [BASE_TAB]);
+    this.tabs.set(EDITOR_TAB_MAP[config.type] || [BASE_TAB]);
     this.onTabChange(this.tabs()[0].value);
   }
 
@@ -142,6 +137,13 @@ export class NgxPuzzlePropsEditorComponent implements AfterViewInit, OnDestroy {
         this.updatePosition(position);
       }
     });
+    this.mediator.dataRequest$.pipe(takeUntil(this.destroy$)).subscribe(({ id, dataRequest }) => {
+      if (id === this.config.id) {
+        this.config.dataRequest = {
+          ...dataRequest
+        };
+      }
+    });
   }
 
   private updateAllConfig(config: ComponentConfig): void {
@@ -149,7 +151,7 @@ export class NgxPuzzlePropsEditorComponent implements AfterViewInit, OnDestroy {
 
     this.config = {
       ...this.config,
-      ...configCopy,
+      ...configCopy
     };
     const typeFields = EDITOR_FIELDS_MAP[config.type];
     this.fields = typeFields?.fields || [];
@@ -164,30 +166,30 @@ export class NgxPuzzlePropsEditorComponent implements AfterViewInit, OnDestroy {
       positionY: config.position.y,
       styles: {
         ...this.formData.styles,
-        ...config.props.styles,
-      },
+        ...config.props.styles
+      }
     };
   }
 
   private updateProps<TConfigProps extends ComponentBaseProps>(props: TConfigProps): void {
     this.config.props = {
       ...this.config.props,
-      ...props,
+      ...props
     };
 
     this.formData = {
       ...this.formData,
       styles: {
         ...this.formData.styles,
-        ...props.styles,
-      },
+        ...props.styles
+      }
     };
   }
 
   private updatePosition(position: Position) {
     this.config = {
       ...this.config,
-      position,
+      position
     };
     this.formData.positionX = position.x;
     this.formData.positionY = position.y;
@@ -196,7 +198,7 @@ export class NgxPuzzlePropsEditorComponent implements AfterViewInit, OnDestroy {
   private updateSize(size: Size) {
     this.config = {
       ...this.config,
-      size,
+      size
     };
     this.formData.width = size.width;
     this.formData.height = size.height;
@@ -236,11 +238,11 @@ export class NgxPuzzlePropsEditorComponent implements AfterViewInit, OnDestroy {
   styleDataChange(val: number | string | BaseSelectOption, field: string): void {
     this.config.props.styles = {
       ...this.config.props.styles,
-      [field]: val,
+      [field]: val
     };
     this.formData.styles = {
       ...this.formData.styles,
-      [field]: val,
+      [field]: val
     };
     this.emitUpdateProps(this.config.props);
   }
@@ -259,25 +261,25 @@ export class NgxPuzzlePropsEditorComponent implements AfterViewInit, OnDestroy {
       case 'chart':
         this.config.props = {
           ...this.config.props,
-          chart: optionsCopy,
+          chart: optionsCopy
         };
         break;
       case 'table':
         this.config.props = {
           ...this.config.props,
-          table: optionsCopy,
+          table: optionsCopy
         };
         break;
       case 'text':
         this.config.props = {
           ...this.config.props,
-          text: optionsCopy,
+          text: optionsCopy
         };
         break;
       case 'control':
         this.config.props = {
           ...this.config.props,
-          control: optionsCopy,
+          control: optionsCopy
         };
         break;
     }

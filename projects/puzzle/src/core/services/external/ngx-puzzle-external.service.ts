@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { ComponentConfig } from '../../interfaces';
+import { ComponentConfig } from 'ngx-puzzle/core';
 import {
   ComponentRegistryService,
   SessionIndexedDbService,
@@ -16,7 +16,7 @@ import { generateUUID } from 'ngx-puzzle/utils';
 @Injectable({
 	providedIn: 'root',
 })
-export class PuzzleExternalService {
+export class NgxPuzzleExternalService {
 	private registry = inject(ComponentRegistryService);
 	private sessionService = inject(SessionIndexedDbService);
 	private injector = inject(ComponentInjectorService);

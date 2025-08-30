@@ -89,8 +89,10 @@
           @case ('advanced') {
             @if (config.type === 'chart' && config.props['chart']) {
               <ngx-puzzle-chart-editor
+                [componentId]="config.id"
                 [options]="config.props['chart']"
                 [subType]="config.subType"
+                [requestOptions]="config.dataRequest || {}"
                 (onChange)="updateOptions($event, 'chart')"
               ></ngx-puzzle-chart-editor>
             }
