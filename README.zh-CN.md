@@ -2,10 +2,9 @@
 
 中文 | [English](README.md)
 
-[![npm (scoped)](https://img.shields.io/npm/v/%40zhongmiao/ngx-puzzle?style=flat)](https://www.npmjs.com/package/@zhongmiao/ngx-puzzle)
+[![npm version](https://img.shields.io/badge/ngx--puzzle-18.1.1-blue?style=flat)](https://www.npmjs.com/package/@zhongmiao/ngx-puzzle)
 [![npm](https://img.shields.io/npm/dm/%40zhongmiao/ngx-puzzle)](https://www.npmjs.com/package/@zhongmiao/ngx-puzzle)
 ![](https://img.shields.io/badge/Angular-%E7%94%A8%E4%BA%8E%E6%89%93%E9%80%A0-red?logo=angular)
-[![GitHub release date](https://img.shields.io/github/release-date/ark65/ngx-puzzle.svg?style=flat-square)](https://github.com/ark65/ngx-puzzle)
 [![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](LICENSE)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
