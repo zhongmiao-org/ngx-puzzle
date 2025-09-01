@@ -1,3 +1,13 @@
+## <small>18.2.4 (2025-09-01)</small>
+
+* chore(release): enhance changelog generation by adding temporary configuration for precise section mapping (#32) ([ff07a79](https://github.com/zhongmiao-org/ngx-puzzle/commit/ff07a79))
+* chore(release): enhance changelog generation by adding temporary configuration for precise section mapping (#31) ([4fb7653](https://github.com/zhongmiao-org/ngx-puzzle/commit/4fb7653))
+* chore(release): refactor `release.js` for improved readability and changelog handling (#30) ([209365d](https://github.com/zhongmiao-org/ngx-puzzle/commit/209365d))
+* chore(release): refactor `release.js` for improved readability and changelog handling ([00cc434](https://github.com/zhongmiao-org/ngx-puzzle/commit/00cc434))
+* refactor(pipes): update imports and type definitions for core consistency in puzzle module (#27) ([5ac4ffa](https://github.com/zhongmiao-org/ngx-puzzle/commit/5ac4ffa))
+* Ark/refactor release (#28) ([e220cd7](https://github.com/zhongmiao-org/ngx-puzzle/commit/e220cd7))
+
+
 ## <small>18.2.3 (2025-09-01)</small>
 
 - No changes since 18.2.2.
