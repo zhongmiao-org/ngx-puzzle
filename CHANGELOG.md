@@ -6,7 +6,6 @@
 * chore(release): refactor `release.js` for improved readability and changelog handling ([00cc434](https://github.com/zhongmiao-org/ngx-puzzle/commit/00cc434))
 * refactor(pipes): update imports and type definitions for core consistency in puzzle module (#27) ([5ac4ffa](https://github.com/zhongmiao-org/ngx-puzzle/commit/5ac4ffa))
 * Ark/refactor release (#28) ([e220cd7](https://github.com/zhongmiao-org/ngx-puzzle/commit/e220cd7))
-* release: v18.2.3 (#26) ([9b766d4](https://github.com/zhongmiao-org/ngx-puzzle/commit/9b766d4))
 
 
 ## <small>18.2.3 (2025-09-01)</small>
