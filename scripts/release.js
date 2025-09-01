@@ -330,7 +330,7 @@ function tryGitPush(branch, retries = 3) {
     // Commit and push branch
     if (!canResume) {
       execSync('git add package.json projects/puzzle/package.json CHANGELOG.md', { stdio: 'inherit' });
-      execSync(`git commit -m "chore(release): v${nextVersion}"`, { stdio: 'inherit' });
+      execSync(`git commit -m "release: v${nextVersion}"`, { stdio: 'inherit' });
     } else {
       console.log('Resume mode: No new changes to commit.');
     }
