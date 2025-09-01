@@ -370,10 +370,36 @@ function tryGitPush(branch, retries = 3) {
 
           if (latestTag) {
             console.log(`Generating changelog from ${latestTag} to ${newTagName}...`);
-            // Use the tag range for precise changelog generation
-            execSync(`npx conventional-changelog -p conventionalcommits -i CHANGELOG.md -s --commit-path . --from ${latestTag} --to ${newTagName}`, {
-              stdio: 'inherit'
-            });
+
+            // Create a simple temporary config
+            const tempConfigPath = path.join(ROOT, '.temp-changelog.json');
+            const tempConfig = {
+              "types": [
+                { "type": "feat", "section": "Features" },
+                { "type": "fix", "section": "Bug Fixes" },
+                { "type": "docs", "section": "Documentation" },
+                { "type": "style", "section": "Styles" },
+                { "type": "refactor", "section": "Code Refactoring" },
+                { "type": "perf", "section": "Performance Improvements" },
+                { "type": "test", "section": "Tests" },
+                { "type": "chore", "section": "Chores" },
+                { "type": "build", "section": "Build System" },
+                { "type": "ci", "section": "Continuous Integration" }
+              ]
+            };
+
+            fs.writeFileSync(tempConfigPath, JSON.stringify(tempConfig, null, 2));
+
+            try {
+              execSync(`npx conventional-changelog -p conventionalcommits -i CHANGELOG.md -s --commit-path . --from ${latestTag} --to ${newTagName} --preset-config ${tempConfigPath}`, {
+                stdio: 'inherit'
+              });
+            } finally {
+              // Clean up temp config
+              try {
+                fs.unlinkSync(tempConfigPath);
+              } catch {}
+            }
           } else {
             console.log('Generating changelog for initial release...');
             execSync('npx conventional-changelog -p conventionalcommits -r 1 -i CHANGELOG.md -s', { stdio: 'inherit' });

@@ -1,12 +1,10 @@
 ## <small>18.2.3 (2025-09-01)</small>
 
+- No changes since 18.2.2.
 
+## <small>18.2.2 (2025-09-01)</small>s
 
-
-## <small>18.2.2 (2025-09-01)</small>
-
-
-
+- No changes since 18.2.1.
 
 ## <small>18.2.1 (2025-09-01)</small>
 
