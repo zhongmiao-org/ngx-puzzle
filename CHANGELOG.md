@@ -1,3 +1,8 @@
+## <small>18.2.7 (2025-09-01)</small>
+
+* docs: update npm badge in README for version and style consistency ([d5aa62d](https://github.com/zhongmiao-org/ngx-puzzle/commit/d5aa62d))
+
+
 ## <small>18.2.6 (2025-09-01)</small>
 
 * chore(release): enhance changelog filtering logic to exclude additional release patterns ([73c4ea6](https://github.com/zhongmiao-org/ngx-puzzle/commit/73c4ea6))
