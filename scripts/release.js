@@ -317,10 +317,19 @@ function tryGitPush(branch, retries = 3) {
 
       try {
         const tags = execSync('git tag --sort=-version:refname', { encoding: 'utf8' }).trim().split('\n');
-        latestTag = tags.find((tag) => tag.startsWith('v')) || '';
+        // Filter out empty strings and find the latest tag that's not the current version we're releasing
+        const validTags = tags.filter(tag => tag.trim() && tag.startsWith('v'));
+
+        // Don't include the current version tag if it already exists
+        const currentVersionTag = `v${nextVersion}`;
+        latestTag = validTags.find(tag => tag !== currentVersionTag) || '';
+
+        console.log(`Debug: All tags: ${validTags.slice(0, 5).join(', ')}`);
+        console.log(`Debug: Current version tag: ${currentVersionTag}`);
+        console.log(`Debug: Latest previous tag: ${latestTag}`);
 
         if (latestTag) {
-          // Check if there are any commits since the last tag
+          // Check if there are any commits since the last tag (excluding current version tag)
           const commitsSinceTag = execSync(`git log ${latestTag}..HEAD --oneline`, { encoding: 'utf8' }).trim();
           hasChanges = commitsSinceTag.length > 0;
 
@@ -340,6 +349,7 @@ function tryGitPush(branch, retries = 3) {
         }
       } catch (error) {
         console.warn('Warning: Could not determine latest tag, assuming changes exist.');
+        console.warn(`Error details: ${error.message}`);
         hasChanges = true;
       }
 
@@ -349,6 +359,12 @@ function tryGitPush(branch, retries = 3) {
         console.log(`Creating temporary tag ${newTagName} for changelog generation...`);
 
         try {
+          // First, delete the tag if it already exists locally
+          try {
+            execSync(`git tag -d ${newTagName}`, { stdio: 'pipe' });
+            console.log(`Removed existing local tag ${newTagName}`);
+          } catch {}
+
           // Create the new tag at current HEAD
           execSync(`git tag -a ${newTagName} -m "release: ${newTagName}"`, { stdio: 'pipe' });
 
