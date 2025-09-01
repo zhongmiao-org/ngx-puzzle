@@ -95,9 +95,85 @@
                 [requestOptions]="config.dataRequest || {}"
                 (onChange)="updateOptions($event, 'chart')"
               ></ngx-puzzle-chart-editor>
+            } @else if (config.type === 'table') {
+              <ngx-puzzle-table-editor
+                [componentId]="config.id"
+                [options]="config.props['table']"
+                [subType]="config.subType"
+                [requestOptions]="config.dataRequest || {}"
+                (onChange)="updateOptions($event, 'table')"
+                (requestOptionsChange)="requestChange($event)"
+              ></ngx-puzzle-table-editor>
             }
           }
-          @case ('styles') {}
+          @case ('styles') {
+            @if (config.type === 'text') {
+              <ngx-puzzle-text-editor
+                [options]="config.props['text']"
+                [subType]="config.subType"
+                (onChange)="updateOptions($event, 'text')"
+              ></ngx-puzzle-text-editor>
+            }
+          }
+          @case ('control') {
+            <puzzle-control-editor
+              [options]="config.props['control']"
+              [subType]="config.subType"
+              (onChange)="updateOptions($event, 'control')"
+            ></puzzle-control-editor>
+          }
+          @case ('refresh') {
+            <ngx-puzzle-refresh-editor
+              [options]="config.refreshConfig"
+              (onChange)="updateRefreshOptions($event)"
+            ></ngx-puzzle-refresh-editor>
+          }
+          <!--          @case ('advanced') {-->
+          <!--            <p-tabpanel [value]="tab.value">-->
+          <!--              @if (config.type === 'chart' && config.props['chart']) {-->
+          <!--                <imm-bi-chart-editor-->
+          <!--                  [componentId]="config.id"-->
+          <!--                  [options]="config.props['chart']"-->
+          <!--                  [subType]="config.subType"-->
+          <!--                  [requestOptions]="config.dataRequest!"-->
+          <!--                  (onChange)="updateOptions($event, 'chart')"-->
+          <!--                  (requestOptionsChange)="requestChange($event)"></imm-bi-chart-editor>-->
+          <!--              } @else if (config.type === 'table') {-->
+          <!--                <imm-bi-table-editor-->
+          <!--                  [componentId]="config.id"-->
+          <!--                  [options]="config.props['table']"-->
+          <!--                  [subType]="config.subType"-->
+          <!--                  [requestOptions]="config.dataRequest!"-->
+          <!--                  (onChange)="updateOptions($event, 'table')"-->
+          <!--                  (requestOptionsChange)="requestChange($event)"></imm-bi-table-editor>-->
+          <!--              }-->
+          <!--            </p-tabpanel>-->
+          <!--          }-->
+          <!--          @case ('styles') {-->
+          <!--            <p-tabpanel [value]="tab.value">-->
+          <!--              @if (config.type === 'text') {-->
+          <!--                <imm-bi-text-editor-->
+          <!--                  [options]="config.props['text']"-->
+          <!--                  [subType]="config.subType"-->
+          <!--                  (onChange)="updateOptions($event, 'text')"></imm-bi-text-editor>-->
+          <!--              }-->
+          <!--            </p-tabpanel>-->
+          <!--          }-->
+          <!--          @case ('control') {-->
+          <!--            <p-tabpanel [value]="tab.value">-->
+          <!--              <imm-bi-control-editor-->
+          <!--                [options]="config.props['control']"-->
+          <!--                [subType]="config.subType"-->
+          <!--                (onChange)="updateOptions($event, 'control')"></imm-bi-control-editor>-->
+          <!--            </p-tabpanel>-->
+          <!--          }-->
+          <!--          @case ('refresh') {-->
+          <!--            <p-tabpanel [value]="tab.value">-->
+          <!--              <imm-bi-refresh-editor-->
+          <!--                [(options)]="config.refreshConfig"-->
+          <!--                (onChange)="updateRefreshOptions($event)"></imm-bi-refresh-editor>-->
+          <!--            </p-tabpanel>-->
+          <!--          }-->
         }
       </thy-tab>
     }

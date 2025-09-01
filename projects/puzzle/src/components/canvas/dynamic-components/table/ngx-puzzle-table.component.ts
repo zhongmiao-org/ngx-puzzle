@@ -63,13 +63,14 @@ export class NgxPuzzleTableComponent extends NgxPuzzleCanvasBaseComponent<Compon
 
  	override afterUpdateConfig() {
 		const { dataRequest, props } = this.config;
-		const { columnDefs } = props.table;
+		const { columns } = props.table as any;
 
 		// New dataRequest apiSources flow
 		this.updateData(dataRequest || {} as DataRequestConfig);
 
-		if (columnDefs) {
-			this.columnDefs = columnDefs as { field: string }[];
+		if (columns) {
+			// map TableColumnDef[] to local light-weight columnDefs used by template rendering
+			this.columnDefs = (columns as any[]).map((col: any) => ({ field: col.field }));
 		}
 
 		this.restartRefreshTimer();
@@ -80,7 +81,8 @@ export class NgxPuzzleTableComponent extends NgxPuzzleCanvasBaseComponent<Compon
 		const firstRow = data[0];
 		const columnDefs = Object.keys(firstRow).map((field) => ({ field }));
 		this.columnDefs = columnDefs;
-		this.config.props.table.columnDefs = columnDefs as SafeAny;
+		// Persist to config as TableColumnDef[] using new 'columns' key
+		(this.config.props.table as any).columns = columnDefs.map(col => ({ field: col.field, header: col.field })) as SafeAny;
 		if (!this.isInit) {
 			this.mediator.updateComponentData(this.config);
 			this.isInit = true;

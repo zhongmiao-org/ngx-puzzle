@@ -6,7 +6,8 @@ import { SafeAny } from 'ngx-puzzle/core/types';
 	standalone: true,
 })
 export class StylesFormatPipe implements PipeTransform {
-	transform(styles: Record<string, SafeAny>): { [key: string]: any } {
+	transform(styles?: Record<string, SafeAny>): { [key: string]: any } {
+    if (!styles) return {};
 		let newStyles: { [key: string]: SafeAny } = {};
 		for (const styleName in styles) {
 			switch (styleName) {
@@ -31,29 +32,3 @@ export class StylesFormatPipe implements PipeTransform {
 	}
 }
 
-function hexToRgb(hex: string): { r: number; g: number; b: number } | null {
-	// 去除 # 号，兼容 3 位或 6 位 HEX
-	const sanitizedHex = hex.replace(/^#/, '');
-
-	// 检查 HEX 格式是否合法
-	if (!/^(?:[0-9a-fA-F]{3}){1,2}$/.test(sanitizedHex)) {
-		return null;
-	}
-
-	// 处理 3 位 HEX（如 #RGB → RRGGBB）
-	let formattedHex = sanitizedHex;
-	if (sanitizedHex.length === 3) {
-		formattedHex = sanitizedHex
-			.split('')
-			.map((c) => c + c)
-			.join('');
-	}
-
-	// 解析为 R, G, B
-	const num = parseInt(formattedHex, 16);
-	const r = (num >> 16) & 255;
-	const g = (num >> 8) & 255;
-	const b = num & 255;
-
-	return { r, g, b };
-}

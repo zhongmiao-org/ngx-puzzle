@@ -28,7 +28,7 @@ const DEFAULTS: DateTimeConfig = {
 };
 
 @Component({
-	selector: 'imm-bi-datetime',
+	selector: 'ngx-puzzle-datetime, puzzle-datetime',
 	standalone: true,
 	imports: [NgStyle, StylesFormatPipe],
 	templateUrl: './ngx-puzzle-datetime.component.html',

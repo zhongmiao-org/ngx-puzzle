@@ -31,6 +31,12 @@ import { ThyColorPickerModule } from 'ngx-tethys/color-picker';
 import { ThySelectModule } from 'ngx-tethys/select';
 import { NgxPuzzleChartEditorComponent } from 'ngx-puzzle/components/editor/dynamic-editor/chart-editor/ngx-puzzle-chart-editor.component';
 import { PuzzleCanvasMediatorService } from 'ngx-puzzle/core';
+import { NgxPuzzleRefreshEditorComponent } from 'ngx-puzzle/components/editor/dynamic-editor/refresh-editor/ngx-puzzle-refresh-editor.component';
+import { NgxPuzzleTextEditorComponent } from 'ngx-puzzle/components/editor/dynamic-editor/text-editor/ngx-puzzle-text-editor.component';
+import { NgxPuzzleTableEditorComponent } from 'ngx-puzzle/components/editor/dynamic-editor/table-editor/ngx-puzzle-table-editor.component';
+import {
+  NgxPuzzleControlEditorComponent
+} from 'ngx-puzzle/components/editor/dynamic-editor/control-editor/ngx-puzzle-control-editor.component';
 
 @Component({
   selector: 'ngx-puzzle-props-editor, puzzle-props-editor',
@@ -46,7 +52,11 @@ import { PuzzleCanvasMediatorService } from 'ngx-puzzle/core';
     ThyInputModule,
     NgStyle,
     ThySelectModule,
-    NgxPuzzleChartEditorComponent
+    NgxPuzzleChartEditorComponent,
+    NgxPuzzleControlEditorComponent,
+    NgxPuzzleRefreshEditorComponent,
+    NgxPuzzleTextEditorComponent,
+    NgxPuzzleTableEditorComponent
   ],
   templateUrl: './ngx-puzzle-props-editor.component.html',
   styleUrl: './ngx-puzzle-props-editor.component.scss',
@@ -55,7 +65,6 @@ import { PuzzleCanvasMediatorService } from 'ngx-puzzle/core';
   }
 })
 export class NgxPuzzlePropsEditorComponent implements AfterViewInit, OnDestroy {
-
   private readonly mediator = inject(PuzzleCanvasMediatorService<ComponentBaseProps, string>);
 
   private destroy$: Subject<void> = new Subject<void>();

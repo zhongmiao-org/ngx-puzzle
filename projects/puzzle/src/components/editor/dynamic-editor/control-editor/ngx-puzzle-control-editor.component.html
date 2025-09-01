@@ -1,0 +1,134 @@
+<div class="control-editor">
+  <thy-collapse>
+    @for (section of sections; track section.label) {
+      <thy-collapse-item [thyTitle]="section.label">
+        @if (section?.children && section.children!.length > 0) {
+          <div thyRow [thyGutter]="16">
+            @for (field of section.children; track field.key) {
+              @if (field.schemaType === 'options-editor') {
+                <!-- options-editor 单独占一行 -->
+                <div [thyCol]="24" class="mb-4">
+                  <label class="block mb-2 text-sm font-medium">
+                    {{ field.label }}
+                    @if (field?.description) {
+                      <i [thyTooltip]="field?.description!" thyPlacement="top" class="field-label-icon pi pi-question-circle ml-1"></i>
+                    }
+                  </label>
+
+                  <div class="options-editor-container">
+                    <div class="options-header flex justify-between items-center mb-3">
+                      <span class="text-sm text-gray-600">配置选项数据</span>
+                      <div class="flex gap-2">
+                        <thy-button thySize="xs" (click)="addOption(field.key)">添加选项</thy-button>
+                      </div>
+                    </div>
+
+                    @if (formData[field.key] && formData[field.key].length > 0) {
+                      <table class="thy-table w-full">
+                        <thead>
+                          <tr>
+                            <th style="width: 40%">选项值</th>
+                            <th style="width: 40%">显示文本</th>
+                            <th style="width: 20%">操作</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          @for (option of formData[field.key]; let rowIndex = $index; track rowIndex) {
+                            <tr>
+                              <td>
+                                <input thyInput type="text" [(ngModel)]="option.value" (ngModelChange)="tableEditComplete(field.key)" />
+                              </td>
+                              <td>
+                                <input thyInput type="text" [(ngModel)]="option.label" (ngModelChange)="tableEditComplete(field.key)" />
+                              </td>
+                              <td>
+                                <button
+                                  thyButtonIcon="trash"
+                                  (click)="removeOption(field.key, rowIndex)"
+                                  [thyTooltip]="'删除'"
+                                  thyPlacement="top"
+                                ></button>
+                              </td>
+                            </tr>
+                          }
+                        </tbody>
+                      </table>
+                    } @else {
+                      <div class="empty-state text-center py-8 border border-gray-200 border-dashed rounded-lg">
+                        <i class="pi pi-list text-3xl text-gray-400 mb-2"></i>
+                        <p class="text-gray-500 mb-1">暂无选项数据</p>
+                        <p class="text-sm text-gray-400">点击"添加选项"开始配置选项</p>
+                      </div>
+                    }
+                  </div>
+                </div>
+              } @else {
+                <div [thyCol]="12" class="input-item">
+                  <label class="block mb-1 text-sm">
+                    {{ field.label }}
+                    @if (field?.description) {
+                      <i [thyTooltip]="field?.description!" thyPlacement="top" class="field-label-icon pi pi-question-circle"></i>
+                    }
+                  </label>
+                  @switch (field.schemaType) {
+                    @case ('select') {
+                      <thy-select [(ngModel)]="formData[field.key]" (ngModelChange)="onFormFieldChange(field.key, $event)">
+                        @for (opt of field.options; track opt.val) {
+                          <thy-option [thyValue]="opt.val">{{ opt.label }}</thy-option>
+                        }
+                      </thy-select>
+                    }
+                    @case ('text') {
+                      <input
+                        thyInput
+                        [attr.id]="field.key"
+                        type="text"
+                        [(ngModel)]="formData[field.key]"
+                        (ngModelChange)="onFormFieldChange(field.key, $event)"
+                      />
+                    }
+                    @case ('number') {
+                      <thy-input-number
+                        [(ngModel)]="formData[field.key]"
+                        (ngModelChange)="onFormFieldChange(field.key, $event)"
+                        [thyMin]="field?.min || 0"
+                        [thyMax]="field?.max || 100"
+                        [thyStep]="field?.step || 1"
+                        [thySize]="'sm'"
+                      ></thy-input-number>
+                    }
+                    @case ('color') {
+                      <div
+                        class="color-picker-box"
+                        [ngStyle]="{ backgroundColor: formData[field.key] }"
+                        thyColorPicker
+                        [thyOffset]="10"
+                        [(ngModel)]="formData[field.key]"
+                        (ngModelChange)="onFormFieldChange(field.key, $event)"
+                      ></div>
+                    }
+                    @case ('date') {
+                      @if (field.key === 'defaultValue') {
+                        <thy-date-picker
+                          [(ngModel)]="formData[field.key]"
+                          [thySize]="'sm'"
+                          (ngModelChange)="dateChange(field.key, $event)"
+                        ></thy-date-picker>
+                      } @else {
+                        <thy-date-picker
+                          [(ngModel)]="formData[field.key]"
+                          [thySize]="'sm'"
+                          (ngModelChange)="dateChange(field.key, $event)"
+                        ></thy-date-picker>
+                      }
+                    }
+                  }
+                </div>
+              }
+            }
+          </div>
+        }
+      </thy-collapse-item>
+    }
+  </thy-collapse>
+</div>
