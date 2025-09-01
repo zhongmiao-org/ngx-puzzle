@@ -10,7 +10,7 @@ module.exports = {
     repoUrl: 'https://github.com/zhongmiao-org/ngx-puzzle',
     locales: [
         { key: 'zh-cn', name: '中文' },
-        // { key: 'en-us', name: 'English' }
+        { key: 'en-us', name: 'English' }
     ],
     defaultLocale: 'zh-cn',
     navs: [

@@ -6,7 +6,7 @@ import { ThyCheckboxModule } from 'ngx-tethys/checkbox';
 import { ThySwitchModule } from 'ngx-tethys/switch';
 import { ThyNotifyModule } from 'ngx-tethys/notify';
 import { ThyDatePickerModule } from 'ngx-tethys/date-picker';
-import { inject, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -38,15 +38,6 @@ import { AppExampleComponentsComponent } from './components/components.component
     ],
     providers: [
         ...DOCGENI_SITE_PROVIDERS
-        // {
-        //     provide: GANTT_GLOBAL_CONFIG,
-        //     useFactory: () => {
-        //         const docgeniGlobalContext = inject(GlobalContext);
-        //         return {
-        //             locale: docgeniGlobalContext.locale === 'en-us' ? GanttI18nLocale.enUs : GanttI18nLocale.zhHans
-        //         };
-        //     }
-        // }
     ],
     bootstrap: [AppComponent]
 })
