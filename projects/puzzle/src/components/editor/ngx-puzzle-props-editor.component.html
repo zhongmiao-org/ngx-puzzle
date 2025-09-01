@@ -1,5 +1,5 @@
 <div class="ngx-puzzle-editor-component">
-  <thy-tabs [thyActiveTab]="activeTab">
+  <thy-tabs [thyActiveTab]="activeTab" (thyActiveTabChange)="onTabChange($event)">
     @for (tab of tabs(); let i = $index; track i) {
       <thy-tab [id]="tab.value">
         <ng-template #title>
