@@ -2,7 +2,7 @@
 
 English | [中文文档](README.zh-CN.md)
 
-[![npm version](https://img.shields.io/badge/ngx--puzzle-18.1.1-blue?style=flat)](https://www.npmjs.com/package/@zhongmiao/ngx-puzzle)
+[![npm version](https://img.shields.io/npm/v/@zhongmiao/ngx-puzzle?style=flat)](https://www.npmjs.com/package/@zhongmiao/ngx-puzzle)
 [![npm](https://img.shields.io/npm/dm/%40zhongmiao/ngx-puzzle)](https://www.npmjs.com/package/@zhongmiao/ngx-puzzle)
 ![](https://img.shields.io/badge/Made%20with%20Angular-red?logo=angular)
 [![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](LICENSE)
