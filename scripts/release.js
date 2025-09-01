@@ -238,9 +238,10 @@ function tryGitPush(branch, retries = 3) {
       console.log('[dry-run] Will validate git status and npm login');
       console.log('[dry-run] Will run: npm run build (pre-bump)');
       console.log(`[dry-run] Will bump version: ${current} -> ${nextVersion} in root and library`);
-      console.log('[dry-run] Will run: npm run changelog');
+      console.log('[dry-run] Will run: conventional-changelog -p conventionalcommits -r 1 -i CHANGELOG.md -s');
       console.log('[dry-run] Will overwrite dist/puzzle/package.json.version and copy CHANGELOG.md');
       console.log('[dry-run] Will commit changes and push branch (with retry and HTTPS fallback)');
+      console.log('[dry-run] Will create and push git tag v' + nextVersion);
       console.log('[dry-run] Will publish from dist/puzzle');
       process.exit(0);
     }
@@ -289,8 +290,8 @@ function tryGitPush(branch, retries = 3) {
       console.log(`Version updated to ${nextVersion}`);
 
       // Update changelog
-      console.log('Updating changelog...');
-      execSync('npm run changelog', { stdio: 'inherit' });
+      console.log('Updating changelog (latest release only)...');
+      execSync('npx conventional-changelog -p conventionalcommits -r 1 -i CHANGELOG.md -s', { stdio: 'inherit' });
     } else {
       console.log('Resume mode: Skipping version bump and changelog update because on release branch and changelog has no new changes.');
     }
@@ -330,11 +331,48 @@ function tryGitPush(branch, retries = 3) {
     // Commit and push branch
     if (!canResume) {
       execSync('git add package.json projects/puzzle/package.json CHANGELOG.md', { stdio: 'inherit' });
-      execSync(`git commit -m "chore(release): v${nextVersion}"`, { stdio: 'inherit' });
+      execSync(`git commit -m "release: v${nextVersion}"`, { stdio: 'inherit' });
     } else {
       console.log('Resume mode: No new changes to commit.');
     }
     tryGitPush(releaseBranch);
+
+    // Tag the release and push tags
+    try {
+      const tagName = `v${nextVersion}`;
+      const existingTags = execSync('git tag', { encoding: 'utf8' }).split('\n');
+      if (!existingTags.includes(tagName)) {
+        console.log(`Creating git tag ${tagName} ...`);
+        execSync(`git tag -a ${tagName} -m "release: ${tagName}"`, { stdio: 'inherit' });
+      } else {
+        console.log(`Tag ${tagName} already exists. Skipping tag creation.`);
+      }
+      console.log('Pushing tags ...');
+      // try to push tags with the same resilience as branch push
+      try {
+        execSync('git push --tags', { stdio: 'inherit' });
+      } catch (e) {
+        console.warn(`git push --tags failed: ${e.message || e}`);
+        // Attempt HTTPS fallback if origin is SSH
+        try {
+          const originalUrl = execSync('git remote get-url origin', { encoding: 'utf8' }).trim();
+          const httpsUrl = originalUrl.replace(/^git@github.com:/, 'https://github.com/');
+          if (httpsUrl && httpsUrl !== originalUrl) {
+            console.log('Trying HTTPS remote temporarily for pushing tags...');
+            execSync(`git remote set-url origin ${httpsUrl}`, { stdio: 'inherit' });
+            execSync('git push --tags', { stdio: 'inherit' });
+            if (originalUrl) execSync(`git remote set-url origin ${originalUrl}`, { stdio: 'inherit' });
+          } else {
+            throw e;
+          }
+        } catch (e2) {
+          console.warn(`Failed to push tags via HTTPS fallback: ${e2.message || e2}`);
+          throw e2;
+        }
+      }
+    } catch (e) {
+      console.warn(`Warning: Tagging or pushing tags failed: ${e.message || e}`);
+    }
 
     // Ensure dist metadata is aligned before publish
     if (!distPrepared(nextVersion)) {
