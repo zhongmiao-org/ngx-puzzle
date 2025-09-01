@@ -298,22 +298,110 @@ function tryGitPush(branch, retries = 3) {
       // Update changelog
       console.log('Updating changelog (latest release only)...');
 
-      // Create temporary tag to help conventional-changelog identify version range
-      const tempTagName = `v${nextVersion}-temp`;
+      // Get the latest tag to determine if there are changes
+      let latestTag = '';
+      let hasChanges = false;
+
       try {
-        execSync(`git tag ${tempTagName}`, { stdio: 'pipe' });
+        const tags = execSync('git tag --sort=-version:refname', { encoding: 'utf8' }).trim().split('\n');
+        latestTag = tags.find(tag => tag.startsWith('v')) || '';
 
-        // Generate changelog with proper version range
-        execSync('npx conventional-changelog -p conventionalcommits -r 1 -i CHANGELOG.md -s', { stdio: 'inherit' });
-
-        // Remove temporary tag
-        execSync(`git tag -d ${tempTagName}`, { stdio: 'pipe' });
+        if (latestTag) {
+          // Check if there are any commits since the last tag
+          const commitsSinceTag = execSync(`git log ${latestTag}..HEAD --oneline`, { encoding: 'utf8' }).trim();
+          hasChanges = commitsSinceTag.length > 0;
+        } else {
+          // No tags found, assume we have changes
+          hasChanges = true;
+        }
       } catch (error) {
-        // Clean up temp tag if it exists
+        console.warn('Warning: Could not determine latest tag, assuming changes exist.');
+        hasChanges = true;
+      }
+
+      if (hasChanges) {
+        // Create temporary tag to help conventional-changelog identify version range
+        const tempTagName = `v${nextVersion}-temp`;
         try {
+          execSync(`git tag ${tempTagName}`, { stdio: 'pipe' });
+
+          // Generate changelog with proper version range
+          execSync('npx conventional-changelog -p conventionalcommits -r 1 -i CHANGELOG.md -s', { stdio: 'inherit' });
+
+          // Remove temporary tag
           execSync(`git tag -d ${tempTagName}`, { stdio: 'pipe' });
-        } catch {}
-        throw error;
+        } catch (error) {
+          // Clean up temp tag if it exists
+          try {
+            execSync(`git tag -d ${tempTagName}`, { stdio: 'pipe' });
+          } catch {}
+          throw error;
+        }
+      } else {
+        // No changes since last tag, manually add "No changes" entry
+        const lastVersion = latestTag.replace(/^v/, '');
+        console.log(`No commits found since ${latestTag}. Adding "No changes" entry to changelog.`);
+
+        // Read current changelog
+        let changelogContent = '';
+        if (fs.existsSync(path.join(ROOT, 'CHANGELOG.md'))) {
+          changelogContent = fs.readFileSync(path.join(ROOT, 'CHANGELOG.md'), 'utf8');
+        }
+
+        // Create the new version entry with "No changes" message
+        const today = new Date().toISOString().split('T')[0];
+        const versionMatch = nextVersion.match(/^(\d+)\.(\d+)\.(\d+)$/);
+        let versionHeader = '';
+
+        if (versionMatch) {
+          const [, major, minor, patch] = versionMatch;
+          if (patch !== '0') {
+            // Patch version - use <small> format
+            versionHeader = `## <small>${nextVersion} (${today})</small>`;
+          } else if (minor !== '0') {
+            // Minor version - use regular format
+            versionHeader = `## ${nextVersion} (${today})`;
+          } else {
+            // Major version - use # format
+            versionHeader = `# ${nextVersion} (${today})`;
+          }
+        } else {
+          versionHeader = `## ${nextVersion} (${today})`;
+        }
+
+        const noChangesEntry = `${versionHeader}
+
+- No changes since ${lastVersion}.
+
+`;
+
+        // Insert at the top of the changelog (after any existing header)
+        const lines = changelogContent.split('\n');
+        let insertIndex = 0;
+
+        // Skip any initial headers or comments
+        for (let i = 0; i < lines.length; i++) {
+          if (lines[i].startsWith('#') && !lines[i].startsWith('## ') && !lines[i].startsWith('### ')) {
+            // This is likely a main title, skip it
+            continue;
+          }
+          if (lines[i].trim() === '' || lines[i].startsWith('All notable changes')) {
+            // Skip empty lines and intro text
+            continue;
+          }
+          if (lines[i].startsWith('This project adheres') || lines[i].startsWith('How to update')) {
+            // Skip metadata lines
+            continue;
+          }
+          insertIndex = i;
+          break;
+        }
+
+        // Insert the new entry
+        lines.splice(insertIndex, 0, noChangesEntry);
+
+        // Write back to file
+        fs.writeFileSync(path.join(ROOT, 'CHANGELOG.md'), lines.join('\n'), 'utf8');
       }
     } else {
       console.log('Resume mode: Skipping version bump and changelog update because on release branch and changelog has no new changes.');
