@@ -1,6 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { BaseSelectOption } from 'app/core/interfaces';
-import { fieldComponentTypes } from 'app/core/types';
+import { BaseSelectOption, fieldComponentTypes } from 'ngx-puzzle/core';
 
 @Pipe({
 	name: 'valueFormat',

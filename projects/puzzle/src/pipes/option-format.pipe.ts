@@ -1,21 +1,21 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { AgChartOptions } from 'ag-charts-community';
 import { ChartAxesTypesEnum, ChartTypesEnum } from 'ngx-puzzle/core/enums';
+import { SafeAny } from 'ngx-puzzle/core';
 
 @Pipe({
 	name: 'optionFormat',
 	standalone: true,
 })
 export class OptionFormatPipe implements PipeTransform {
-	transform(value: AgChartOptions, type: ChartTypesEnum): AgChartOptions {
-		if (type === ChartTypesEnum.candlestick || type === ChartTypesEnum.ohlc || type === ChartTypesEnum.rangeArea) {
+	transform(value: SafeAny, type: ChartTypesEnum): SafeAny {
+		if (type === ChartTypesEnum.candlestick) {
 			value = convertDataForCandlestick(value);
 		}
 		return value;
 	}
 }
 
-function convertDataForCandlestick(value: AgChartOptions) {
+function convertDataForCandlestick(value: SafeAny) {
 	const axes = 'axes' in value ? value.axes : [];
 	let isDateAxe = false;
 	for (const axe of axes!) {
