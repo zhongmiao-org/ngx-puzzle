@@ -1,3 +1,10 @@
+## <small>18.2.5 (2025-09-01)</small>
+
+* chore(release): filter out release commits from changelog generation ([3efe533](https://github.com/zhongmiao-org/ngx-puzzle/commit/3efe533))
+* Release v18.2.4 (#33) ([53e7a23](https://github.com/zhongmiao-org/ngx-puzzle/commit/53e7a23))
+* chore(release): enhance changelog generation by adding temporary configuration for precise section mapping (#32) ([ff07a79](https://github.com/zhongmiao-org/ngx-puzzle/commit/ff07a79))
+
+
 ## <small>18.2.4 (2025-09-01)</small>
 
 * chore(release): enhance changelog generation by adding temporary configuration for precise section mapping (#32) ([ff07a79](https://github.com/zhongmiao-org/ngx-puzzle/commit/ff07a79))
