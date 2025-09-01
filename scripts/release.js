@@ -279,6 +279,12 @@ function tryGitPush(branch, retries = 3) {
       if (!ok) { console.log('Aborted.'); process.exit(0); }
     }
 
+    // Ensure tags are up-to-date before changelog generation
+    try {
+      console.log('Fetching tags ...');
+      execSync('git fetch --tags --force', { stdio: 'inherit' });
+    } catch {}
+
     // Bump versions unless resuming
     if (!canResume) {
       rootPkg.version = nextVersion;
@@ -291,7 +297,24 @@ function tryGitPush(branch, retries = 3) {
 
       // Update changelog
       console.log('Updating changelog (latest release only)...');
-      execSync('npx conventional-changelog -p conventionalcommits -r 1 -i CHANGELOG.md -s', { stdio: 'inherit' });
+
+      // Create temporary tag to help conventional-changelog identify version range
+      const tempTagName = `v${nextVersion}-temp`;
+      try {
+        execSync(`git tag ${tempTagName}`, { stdio: 'pipe' });
+
+        // Generate changelog with proper version range
+        execSync('npx conventional-changelog -p conventionalcommits -r 1 -i CHANGELOG.md -s', { stdio: 'inherit' });
+
+        // Remove temporary tag
+        execSync(`git tag -d ${tempTagName}`, { stdio: 'pipe' });
+      } catch (error) {
+        // Clean up temp tag if it exists
+        try {
+          execSync(`git tag -d ${tempTagName}`, { stdio: 'pipe' });
+        } catch {}
+        throw error;
+      }
     } else {
       console.log('Resume mode: Skipping version bump and changelog update because on release branch and changelog has no new changes.');
     }
