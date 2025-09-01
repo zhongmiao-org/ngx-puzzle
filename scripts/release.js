@@ -45,11 +45,17 @@ function bump(version, type) {
   let [major, minor, patch] = m.slice(1).map((n) => parseInt(n, 10));
   switch (type) {
     case 'major':
-      major += 1; minor = 0; patch = 0; break;
+      major += 1;
+      minor = 0;
+      patch = 0;
+      break;
     case 'minor':
-      minor += 1; patch = 0; break;
+      minor += 1;
+      patch = 0;
+      break;
     case 'patch':
-      patch += 1; break;
+      patch += 1;
+      break;
     default:
       throw new Error(`Unknown bump type: ${type}`);
   }
@@ -63,7 +69,10 @@ function parseArgs() {
     const a = args[i];
     if (a === '--yes' || a === '-y') opts.yes = true;
     else if (a === '--dry-run') opts.dryRun = true;
-    else if (a === '--type') { opts.type = args[i + 1]; i++; }
+    else if (a === '--type') {
+      opts.type = args[i + 1];
+      i++;
+    }
   }
   return opts;
 }
@@ -161,13 +170,17 @@ function prepareDistMetadata(nextVersion) {
     } catch {}
   }
 }
-function sleep(ms) { Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms); }
+function sleep(ms) {
+  Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms);
+}
 function tryGitPush(branch, retries = 3) {
   let attempt = 0;
   let lastErr;
   // capture original remote URL
   let originalUrl = '';
-  try { originalUrl = execSync('git remote get-url origin', { encoding: 'utf8' }).trim(); } catch {}
+  try {
+    originalUrl = execSync('git remote get-url origin', { encoding: 'utf8' }).trim();
+  } catch {}
   while (attempt < retries) {
     try {
       console.log(`Pushing branch (attempt ${attempt + 1}/${retries}) ...`);
@@ -190,7 +203,10 @@ function tryGitPush(branch, retries = 3) {
           } catch (e2) {
             console.warn(`HTTPS push also failed: ${e2.message || e2}`);
             // restore original before retrying
-            if (originalUrl) try { execSync(`git remote set-url origin ${originalUrl}`, { stdio: 'inherit' }); } catch {}
+            if (originalUrl)
+              try {
+                execSync(`git remote set-url origin ${originalUrl}`, { stdio: 'inherit' });
+              } catch {}
           }
         }
       }
@@ -276,14 +292,11 @@ function tryGitPush(branch, retries = 3) {
 
     if (!opts.yes) {
       const ok = await promptConfirm(`Proceed to bump version to ${nextVersion}, update changelog, and publish?`);
-      if (!ok) { console.log('Aborted.'); process.exit(0); }
+      if (!ok) {
+        console.log('Aborted.');
+        process.exit(0);
+      }
     }
-
-    // Ensure tags are up-to-date before changelog generation
-    try {
-      console.log('Fetching tags ...');
-      execSync('git fetch --tags --force', { stdio: 'inherit' });
-    } catch {}
 
     // Bump versions unless resuming
     if (!canResume) {
@@ -304,15 +317,26 @@ function tryGitPush(branch, retries = 3) {
 
       try {
         const tags = execSync('git tag --sort=-version:refname', { encoding: 'utf8' }).trim().split('\n');
-        latestTag = tags.find(tag => tag.startsWith('v')) || '';
+        latestTag = tags.find((tag) => tag.startsWith('v')) || '';
 
         if (latestTag) {
           // Check if there are any commits since the last tag
           const commitsSinceTag = execSync(`git log ${latestTag}..HEAD --oneline`, { encoding: 'utf8' }).trim();
           hasChanges = commitsSinceTag.length > 0;
+
+          // Debug: Show has committed since the last tag
+          if (hasChanges) {
+            console.log(`Found ${commitsSinceTag.split('\n').length} commit(s) since ${latestTag}:`);
+            commitsSinceTag.split('\n').forEach((commit) => {
+              console.log(`  - ${commit}`);
+            });
+          } else {
+            console.log(`No commits found since ${latestTag}.`);
+          }
         } else {
           // No tags found, assume we have changes
           hasChanges = true;
+          console.log('No previous tags found, assuming changes exist.');
         }
       } catch (error) {
         console.warn('Warning: Could not determine latest tag, assuming changes exist.');
@@ -320,22 +344,33 @@ function tryGitPush(branch, retries = 3) {
       }
 
       if (hasChanges) {
-        // Create temporary tag to help conventional-changelog identify version range
-        const tempTagName = `v${nextVersion}-temp`;
+        // Use a different approach: specify the exact range
         try {
-          execSync(`git tag ${tempTagName}`, { stdio: 'pipe' });
-
-          // Generate changelog with proper version range
-          execSync('npx conventional-changelog -p conventionalcommits -r 1 -i CHANGELOG.md -s', { stdio: 'inherit' });
-
-          // Remove temporary tag
-          execSync(`git tag -d ${tempTagName}`, { stdio: 'pipe' });
+          if (latestTag) {
+            console.log(`Generating changelog from ${latestTag} to HEAD...`);
+            // Use explicit range instead of temporary tag
+            execSync(`npx conventional-changelog -p conventionalcommits -i CHANGELOG.md -s --commit-path . --from ${latestTag}`, {
+              stdio: 'inherit'
+            });
+          } else {
+            console.log('Generating changelog for initial release...');
+            execSync('npx conventional-changelog -p conventionalcommits -r 1 -i CHANGELOG.md -s', { stdio: 'inherit' });
+          }
         } catch (error) {
-          // Clean up temp tag if it exists
+          console.error('Conventional changelog failed, trying fallback method...');
+
+          // Fallback: Create temporary tag method
+          const tempTagName = `v${nextVersion}-temp`;
           try {
+            execSync(`git tag ${tempTagName}`, { stdio: 'pipe' });
+            execSync('npx conventional-changelog -p conventionalcommits -r 1 -i CHANGELOG.md -s', { stdio: 'inherit' });
             execSync(`git tag -d ${tempTagName}`, { stdio: 'pipe' });
-          } catch {}
-          throw error;
+          } catch (fallbackError) {
+            try {
+              execSync(`git tag -d ${tempTagName}`, { stdio: 'pipe' });
+            } catch {}
+            throw fallbackError;
+          }
         }
       } else {
         // No changes since last tag, manually add "No changes" entry
