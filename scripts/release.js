@@ -356,33 +356,34 @@ function tryGitPush(branch, retries = 3) {
       if (hasChanges) {
         console.log(`Generating changelog from ${latestTag} to HEAD...`);
 
-        // 直接获取提交信息并手动生成 changelog
         const commits = execSync(`git log ${latestTag}..HEAD --pretty=format:"%h %s" --no-merges`, { encoding: 'utf8' })
           .trim()
           .split('\n')
           .filter(line => line.trim())
-          .filter(line => !line.includes('release: v')); // 过滤掉 release 提交
+          .filter(line => {
+            const message = line.toLowerCase();
+            return !message.includes('release: v') &&
+              !message.includes('release v') &&
+              !message.match(/^[a-f0-9]+\s+release\s+v\d+\.\d+\.\d+/i);
+          });
+
 
         if (commits.length > 0) {
           const today = new Date().toISOString().split('T')[0];
           const versionHeader = `## <small>${nextVersion} (${today})</small>`;
 
-          // 简单分组提交
           const changelogCommits = commits.map(commit => {
             const [hash, ...messageParts] = commit.split(' ');
             const message = messageParts.join(' ');
             return `* ${message} ([${hash}](https://github.com/zhongmiao-org/ngx-puzzle/commit/${hash}))`;
           });
 
-          // 构建新的版本条目
           const newEntry = `${versionHeader}\n\n${changelogCommits.join('\n')}\n\n`;
 
-          // 读取现有 changelog 并插入新条目
           const changelogPath = path.join(ROOT, 'CHANGELOG.md');
           const currentContent = fs.readFileSync(changelogPath, 'utf8');
           const lines = currentContent.split('\n');
 
-          // 找到插入位置（第一个版本条目之前）
           let insertIndex = 0;
           for (let i = 0; i < lines.length; i++) {
             if ((lines[i].startsWith('## ') || lines[i].startsWith('# ')) && !lines[i].includes('Changelog')) {
