@@ -357,7 +357,11 @@ function tryGitPush(branch, retries = 3) {
         console.log(`Generating changelog from ${latestTag} to HEAD...`);
 
         // 直接获取提交信息并手动生成 changelog
-        const commits = execSync(`git log ${latestTag}..HEAD --pretty=format:"%h %s" --no-merges`, { encoding: 'utf8' }).trim().split('\n').filter(line => line.trim());
+        const commits = execSync(`git log ${latestTag}..HEAD --pretty=format:"%h %s" --no-merges`, { encoding: 'utf8' })
+          .trim()
+          .split('\n')
+          .filter(line => line.trim())
+          .filter(line => !line.includes('release: v')); // 过滤掉 release 提交
 
         if (commits.length > 0) {
           const today = new Date().toISOString().split('T')[0];
@@ -393,7 +397,7 @@ function tryGitPush(branch, retries = 3) {
           // 写回文件
           fs.writeFileSync(changelogPath, lines.join('\n'));
 
-          console.log(`✅ Added ${commits.length} commits to changelog`);
+          console.log(`✅ Added ${commits.length} commits to changelog (filtered out release commits)`);
         }
       }
     } else {
