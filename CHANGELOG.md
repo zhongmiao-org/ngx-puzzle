@@ -1,3 +1,7 @@
+## <small>18.2.1 (2025-09-01)</small>
+
+- No changes since 18.2.0.
+
 ## 18.2.0 (2025-09-01)
 
 * feat(chart): enhance data request handling and caching mechanisms
