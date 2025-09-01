@@ -1,3 +1,10 @@
+## <small>18.2.8 (2025-09-01)</small>
+
+* refactor(services): remove unused chart-map.service export ([5a67f33](https://github.com/zhongmiao-org/ngx-puzzle/commit/5a67f33))
+* docs: update npm badge in README for version and style consistency ([b09d352](https://github.com/zhongmiao-org/ngx-puzzle/commit/b09d352))
+* refactor(services): remove unused services and slide footer from an editor component ([9b074fe](https://github.com/zhongmiao-org/ngx-puzzle/commit/9b074fe))
+
+
 ## <small>18.2.7 (2025-09-01)</small>
 
 * docs: update npm badge in README for version and style consistency ([d5aa62d](https://github.com/zhongmiao-org/ngx-puzzle/commit/d5aa62d))
