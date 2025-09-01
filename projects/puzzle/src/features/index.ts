@@ -1,2 +1,2 @@
-export * from './editor/bi-editor.component'
-export * from './preview/bi-preview.component'
+export * from './editor/ngx-puzzle-editor.component'
+export * from './preview/ngx-puzzle-preview.component'

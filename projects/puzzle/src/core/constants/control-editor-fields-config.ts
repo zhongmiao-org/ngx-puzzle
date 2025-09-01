@@ -12,7 +12,7 @@ import {
 	CONTROL_DATETIME_FIELDS_FORMAT,
 	CONTROL_DATETIME_FIELDS_UPDATE_TZ,
 	CONTROL_DATETIME_FIELDS_STYLES,
-} from 'ngx-puzzle/core';
+} from './fields';
 import { SafeAny } from '../types';
 
 export const CONTROL_COMPONENT_FIELDS: Partial<Record<ControlTypesEnum, SafeAny>> = {

@@ -1,5 +1,5 @@
 import { EditorBaseField } from '../interfaces';
-import { REFRESH_FIELDS } from './refresh-fields-map';
+import { REFRESH_FIELDS } from './fields';
 import { RefreshIntervalUnitEnum } from '../enums';
 
 export const REFRESH_CONFIG: EditorBaseField[] = [REFRESH_FIELDS];

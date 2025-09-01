@@ -1,0 +1,94 @@
+<div class="table-editor">
+  <thy-collapse>
+    @for (section of sections; track section.label) {
+      <thy-collapse-item [thyTitle]="section.label">
+        @if (section?.children && section.children!.length > 0) {
+          <div thyRow [thyGutter]="16">
+            @for (field of section.children; track field.key) {
+              <div [thyCol]="12" class="input-item">
+                <label class="block mb-1 text-sm">
+                  {{ field.label }}
+                  @if (field?.description) {
+                    <i [thyTooltip]="field?.description!" thyPlacement="top" class="field-label-icon pi pi-question-circle"></i>
+                  }
+                </label>
+                @switch (field.schemaType) {
+                  @case ('select') {
+                    <thy-select [(ngModel)]="formData[field.key]" (ngModelChange)="onFormFieldChange(field.key, $event)">
+                      @for (opt of field.options; track opt.val) {
+                        <thy-option [thyValue]="opt.val">{{ opt.label }}</thy-option>
+                      }
+                    </thy-select>
+                  }
+                  @case ('text') {
+                    <input
+                      thyInput
+                      [attr.id]="field.key"
+                      type="text"
+                      [(ngModel)]="formData[field.key]"
+                      (ngModelChange)="onFormFieldChange(field.key, $event)"
+                    />
+                  }
+                  @case ('number') {
+                    <thy-input-number
+                      [(ngModel)]="formData[field.key]"
+                      (ngModelChange)="onFormFieldChange(field.key, $event)"
+                      [thyMin]="field?.min || 0"
+                      [thyMax]="field?.max || 999999"
+                      [thyStep]="field?.step || 1"
+                      [thySize]="'sm'"
+                    ></thy-input-number>
+                  }
+                  @case ('button') {
+                    <thy-button thySize="sm" (click)="onDataBtnClick(field, 0)">{{ field.label }}</thy-button>
+                  }
+                }
+              </div>
+            }
+          </div>
+        }
+        @if (section.headerSetting && section.headerSetting.length > 0) {
+          <div [thyCol]="24" class="mb-2"></div>
+          <table thyTable>
+            <thead>
+              <tr>
+                @for (head of section.headerSetting; let i = $index; track i) {
+                  <th class="text-center">{{ head.headerName }}</th>
+                }
+              </tr>
+            </thead>
+            <tbody>
+              @for (row of (section.rowData || []); track row.field) {
+                <tr>
+                  @for (head of section.headerSetting; let i = $index; track i) {
+                    <td class="text-center editor-td">
+                      @switch (head.schemaType) {
+                        @case ('text') {
+                          <input
+                            class="editor-input"
+                            thyInput
+                            type="text"
+                            [(ngModel)]="row[head.field]"
+                            (blur)="editTableComplete(row['field'], head.field)"
+                            (keydown.enter)="editTableComplete(row['field'], head.field)"
+                          />
+                        }
+                        @case ('select') {
+                          <thy-select class="editor-select" [(ngModel)]="row[head.field]" (ngModelChange)="editTableComplete(row['field'], head.field)">
+                            @for (opt of head.options; track opt.val) {
+                              <thy-option [thyValue]="opt.val">{{ opt.label }}</thy-option>
+                            }
+                          </thy-select>
+                        }
+                      }
+                    </td>
+                  }
+                </tr>
+              }
+            </tbody>
+          </table>
+        }
+      </thy-collapse-item>
+    }
+  </thy-collapse>
+</div>

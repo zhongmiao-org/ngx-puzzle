@@ -1,4 +1,4 @@
-import { ComponentBaseProps } from './component-config.interface';
+import { ComponentBaseProps } from 'ngx-puzzle/core';
 import { SafeAny } from '../types';
 import { ControlTypesEnum } from '../enums';
 
@@ -30,6 +30,7 @@ export interface ControlConfig<TValue = SafeAny, TControlProps extends BaseContr
 
 export interface BaseControlProps {
 	[key: string]: SafeAny;
+  styles?: Record<string, SafeAny>;
 }
 
 export interface ControlLabelConfig {
