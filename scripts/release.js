@@ -354,142 +354,47 @@ function tryGitPush(branch, retries = 3) {
       }
 
       if (hasChanges) {
-        // Create the new tag first to help conventional-changelog identify the correct range
-        const newTagName = `v${nextVersion}`;
-        console.log(`Creating temporary tag ${newTagName} for changelog generation...`);
+        console.log(`Generating changelog from ${latestTag} to HEAD...`);
 
-        try {
-          // First, delete the tag if it already exists locally
-          try {
-            execSync(`git tag -d ${newTagName}`, { stdio: 'pipe' });
-            console.log(`Removed existing local tag ${newTagName}`);
-          } catch {}
+        // 直接获取提交信息并手动生成 changelog
+        const commits = execSync(`git log ${latestTag}..HEAD --pretty=format:"%h %s" --no-merges`, { encoding: 'utf8' }).trim().split('\n').filter(line => line.trim());
 
-          // Create the new tag at current HEAD
-          execSync(`git tag -a ${newTagName} -m "release: ${newTagName}"`, { stdio: 'pipe' });
+        if (commits.length > 0) {
+          const today = new Date().toISOString().split('T')[0];
+          const versionHeader = `## <small>${nextVersion} (${today})</small>`;
 
-          if (latestTag) {
-            console.log(`Generating changelog from ${latestTag} to ${newTagName}...`);
+          // 简单分组提交
+          const changelogCommits = commits.map(commit => {
+            const [hash, ...messageParts] = commit.split(' ');
+            const message = messageParts.join(' ');
+            return `* ${message} ([${hash}](https://github.com/zhongmiao-org/ngx-puzzle/commit/${hash}))`;
+          });
 
-            // Create a simple temporary config
-            const tempConfigPath = path.join(ROOT, '.temp-changelog.json');
-            const tempConfig = {
-              "types": [
-                { "type": "feat", "section": "Features" },
-                { "type": "fix", "section": "Bug Fixes" },
-                { "type": "docs", "section": "Documentation" },
-                { "type": "style", "section": "Styles" },
-                { "type": "refactor", "section": "Code Refactoring" },
-                { "type": "perf", "section": "Performance Improvements" },
-                { "type": "test", "section": "Tests" },
-                { "type": "chore", "section": "Chores" },
-                { "type": "build", "section": "Build System" },
-                { "type": "ci", "section": "Continuous Integration" }
-              ]
-            };
+          // 构建新的版本条目
+          const newEntry = `${versionHeader}\n\n${changelogCommits.join('\n')}\n\n`;
 
-            fs.writeFileSync(tempConfigPath, JSON.stringify(tempConfig, null, 2));
+          // 读取现有 changelog 并插入新条目
+          const changelogPath = path.join(ROOT, 'CHANGELOG.md');
+          const currentContent = fs.readFileSync(changelogPath, 'utf8');
+          const lines = currentContent.split('\n');
 
-            try {
-              execSync(`npx conventional-changelog -p conventionalcommits -i CHANGELOG.md -s --commit-path . --from ${latestTag} --to ${newTagName} --preset-config ${tempConfigPath}`, {
-                stdio: 'inherit'
-              });
-            } finally {
-              // Clean up temp config
-              try {
-                fs.unlinkSync(tempConfigPath);
-              } catch {}
+          // 找到插入位置（第一个版本条目之前）
+          let insertIndex = 0;
+          for (let i = 0; i < lines.length; i++) {
+            if ((lines[i].startsWith('## ') || lines[i].startsWith('# ')) && !lines[i].includes('Changelog')) {
+              insertIndex = i;
+              break;
             }
-          } else {
-            console.log('Generating changelog for initial release...');
-            execSync('npx conventional-changelog -p conventionalcommits -r 1 -i CHANGELOG.md -s', { stdio: 'inherit' });
           }
 
-          // Remove the temporary tag since we'll create it again later in the proper flow
-          console.log(`Removing temporary tag ${newTagName}...`);
-          execSync(`git tag -d ${newTagName}`, { stdio: 'pipe' });
+          // 插入新条目
+          lines.splice(insertIndex, 0, ...newEntry.split('\n'));
 
-        } catch (error) {
-          console.error('Tag-based changelog generation failed, trying fallback method...');
+          // 写回文件
+          fs.writeFileSync(changelogPath, lines.join('\n'));
 
-          // Clean up the temporary tag if it was created
-          try {
-            execSync(`git tag -d ${newTagName}`, { stdio: 'pipe' });
-          } catch {}
-
-          // Fallback: Use -r 1 method
-          try {
-            console.log('Using fallback: generating changelog for latest release only...');
-            execSync('npx conventional-changelog -p conventionalcommits -r 1 -i CHANGELOG.md -s', { stdio: 'inherit' });
-          } catch (fallbackError) {
-            throw fallbackError;
-          }
+          console.log(`✅ Added ${commits.length} commits to changelog`);
         }
-      } else {
-        // No changes since last tag, manually add "No changes" entry
-        const lastVersion = latestTag.replace(/^v/, '');
-        console.log(`No commits found since ${latestTag}. Adding "No changes" entry to changelog.`);
-
-        // Read current changelog
-        let changelogContent = '';
-        if (fs.existsSync(path.join(ROOT, 'CHANGELOG.md'))) {
-          changelogContent = fs.readFileSync(path.join(ROOT, 'CHANGELOG.md'), 'utf8');
-        }
-
-        // Create the new version entry with "No changes" message
-        const today = new Date().toISOString().split('T')[0];
-        const versionMatch = nextVersion.match(/^(\d+)\.(\d+)\.(\d+)$/);
-        let versionHeader = '';
-
-        if (versionMatch) {
-          const [, major, minor, patch] = versionMatch;
-          if (patch !== '0') {
-            // Patch version - use <small> format
-            versionHeader = `## <small>${nextVersion} (${today})</small>`;
-          } else if (minor !== '0') {
-            // Minor version - use regular format
-            versionHeader = `## ${nextVersion} (${today})`;
-          } else {
-            // Major version - use # format
-            versionHeader = `# ${nextVersion} (${today})`;
-          }
-        } else {
-          versionHeader = `## ${nextVersion} (${today})`;
-        }
-
-        const noChangesEntry = `${versionHeader}
-
-- No changes since ${lastVersion}.
-
-`;
-
-        // Insert at the top of the changelog (after any existing header)
-        const lines = changelogContent.split('\n');
-        let insertIndex = 0;
-
-        // Skip any initial headers or comments
-        for (let i = 0; i < lines.length; i++) {
-          if (lines[i].startsWith('#') && !lines[i].startsWith('## ') && !lines[i].startsWith('### ')) {
-            // This is likely a main title, skip it
-            continue;
-          }
-          if (lines[i].trim() === '' || lines[i].startsWith('All notable changes')) {
-            // Skip empty lines and intro text
-            continue;
-          }
-          if (lines[i].startsWith('This project adheres') || lines[i].startsWith('How to update')) {
-            // Skip metadata lines
-            continue;
-          }
-          insertIndex = i;
-          break;
-        }
-
-        // Insert the new entry
-        lines.splice(insertIndex, 0, noChangesEntry);
-
-        // Write back to file
-        fs.writeFileSync(path.join(ROOT, 'CHANGELOG.md'), lines.join('\n'), 'utf8');
       }
     } else {
       console.log('Resume mode: Skipping version bump and changelog update because on release branch and changelog has no new changes.');
