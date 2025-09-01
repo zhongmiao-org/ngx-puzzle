@@ -1,3 +1,8 @@
+## <small>18.2.2 (2025-09-01)</small>
+
+
+
+
 ## <small>18.2.1 (2025-09-01)</small>
 
 - No changes since 18.2.0.
