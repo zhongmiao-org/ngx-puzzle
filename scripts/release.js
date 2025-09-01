@@ -324,7 +324,7 @@ function tryGitPush(branch, retries = 3) {
           const commitsSinceTag = execSync(`git log ${latestTag}..HEAD --oneline`, { encoding: 'utf8' }).trim();
           hasChanges = commitsSinceTag.length > 0;
 
-          // Debug: Show has committed since the last tag
+          // Debug: Show commits since the last tag
           if (hasChanges) {
             console.log(`Found ${commitsSinceTag.split('\n').length} commit(s) since ${latestTag}:`);
             commitsSinceTag.split('\n').forEach((commit) => {
@@ -344,31 +344,42 @@ function tryGitPush(branch, retries = 3) {
       }
 
       if (hasChanges) {
-        // Use a different approach: specify the exact range
+        // Create the new tag first to help conventional-changelog identify the correct range
+        const newTagName = `v${nextVersion}`;
+        console.log(`Creating temporary tag ${newTagName} for changelog generation...`);
+
         try {
+          // Create the new tag at current HEAD
+          execSync(`git tag -a ${newTagName} -m "release: ${newTagName}"`, { stdio: 'pipe' });
+
           if (latestTag) {
-            console.log(`Generating changelog from ${latestTag} to HEAD...`);
-            // Use explicit range instead of temporary tag
-            execSync(`npx conventional-changelog -p conventionalcommits -i CHANGELOG.md -s --commit-path . --from ${latestTag}`, {
+            console.log(`Generating changelog from ${latestTag} to ${newTagName}...`);
+            // Use the tag range for precise changelog generation
+            execSync(`npx conventional-changelog -p conventionalcommits -i CHANGELOG.md -s --commit-path . --from ${latestTag} --to ${newTagName}`, {
               stdio: 'inherit'
             });
           } else {
             console.log('Generating changelog for initial release...');
             execSync('npx conventional-changelog -p conventionalcommits -r 1 -i CHANGELOG.md -s', { stdio: 'inherit' });
           }
-        } catch (error) {
-          console.error('Conventional changelog failed, trying fallback method...');
 
-          // Fallback: Create temporary tag method
-          const tempTagName = `v${nextVersion}-temp`;
+          // Remove the temporary tag since we'll create it again later in the proper flow
+          console.log(`Removing temporary tag ${newTagName}...`);
+          execSync(`git tag -d ${newTagName}`, { stdio: 'pipe' });
+
+        } catch (error) {
+          console.error('Tag-based changelog generation failed, trying fallback method...');
+
+          // Clean up the temporary tag if it was created
           try {
-            execSync(`git tag ${tempTagName}`, { stdio: 'pipe' });
+            execSync(`git tag -d ${newTagName}`, { stdio: 'pipe' });
+          } catch {}
+
+          // Fallback: Use -r 1 method
+          try {
+            console.log('Using fallback: generating changelog for latest release only...');
             execSync('npx conventional-changelog -p conventionalcommits -r 1 -i CHANGELOG.md -s', { stdio: 'inherit' });
-            execSync(`git tag -d ${tempTagName}`, { stdio: 'pipe' });
           } catch (fallbackError) {
-            try {
-              execSync(`git tag -d ${tempTagName}`, { stdio: 'pipe' });
-            } catch {}
             throw fallbackError;
           }
         }
