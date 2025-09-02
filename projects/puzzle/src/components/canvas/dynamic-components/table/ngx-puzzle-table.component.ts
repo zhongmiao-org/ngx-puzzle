@@ -17,11 +17,14 @@ import { CommonModule } from '@angular/common';
 import { Observable, takeUntil } from 'rxjs';
 import { ThyTableModule } from 'ngx-tethys/table';
 import { NgxPuzzleDragWrapperComponent } from 'ngx-puzzle/components/canvas/dynamic-components/drag-wrapper/ngx-puzzle-drag-wrapper.component';
+import {
+  PuzzlePivotTableComponent
+} from 'ngx-puzzle/components/primitives/puzzle-pivot-table/puzzle-pivot-table.component';
 
 @Component({
   selector: 'puzzle-table',
   standalone: true,
-  imports: [CommonModule, NgxPuzzleDragWrapperComponent, ThyTableModule],
+  imports: [CommonModule, NgxPuzzleDragWrapperComponent, ThyTableModule, PuzzlePivotTableComponent],
   templateUrl: './ngx-puzzle-table.component.html',
   styleUrls: ['./ngx-puzzle-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

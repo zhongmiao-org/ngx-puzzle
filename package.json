@@ -78,7 +78,8 @@
     "@angular/router": "^18.2.0",
     "@date-fns/tz": "^1.2.0",
     "@tethys/icons": "1.4.50",
-    "@types/lodash": "4.17.19",
+    "@types/lodash": "4.17.20",
+    "@webdatarocks/webdatarocks": "1.4.19",
     "cpx": "^1.5.0",
     "date-fns": "^4.1.0",
     "echarts": "6.0.0",
@@ -87,7 +88,6 @@
     "ngx-tethys": "^18.2.17",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
-    "webdatarocks": "1.4.9",
     "zone.js": "~0.14.10"
   },
   "devDependencies": {
