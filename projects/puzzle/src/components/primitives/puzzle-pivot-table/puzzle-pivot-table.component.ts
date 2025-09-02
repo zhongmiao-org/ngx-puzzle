@@ -11,12 +11,8 @@ import WebDataRocks, { CellBuilder, CellData, Params, Pivot, Report } from '@web
 export class PuzzlePivotTableComponent implements AfterViewInit, OnDestroy {
   private readonly el = inject(ElementRef<HTMLElement>);
 
-  // Effects refs for cleanup
-  private widthHeightEffect?: EffectRef;
-  private reportEffect?: EffectRef;
   private localization = 'https://cdn.webdatarocks.com/loc/zh.json';
 
-  // Configuration signals (use input() instead of @Input)
   toolbar = input<boolean>(true);
   width = input<string | number>('100%');
   height = input<string | number>('100%');
@@ -26,7 +22,6 @@ export class PuzzlePivotTableComponent implements AfterViewInit, OnDestroy {
   });
   customizeCell = input<((cell: CellBuilder, data: CellData) => void) | undefined>(undefined);
 
-  // Outputs (use output() instead of @Output)
   readonly cellClick = output<CellData>();
   readonly cellDoubleClick = output<CellData>();
   readonly dataError = output<object>();
@@ -130,10 +125,6 @@ export class PuzzlePivotTableComponent implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    // destroy effects
-    this.widthHeightEffect?.destroy();
-    this.reportEffect?.destroy();
-
     if (this.instance) {
       try {
         this.instance.dispose?.();
