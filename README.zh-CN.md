@@ -2,13 +2,13 @@
 
 中文 | [English](README.md)
 
-[![npm version](https://img.shields.io/badge/ngx--puzzle-18.1.1-blue?style=flat)](https://www.npmjs.com/package/@zhongmiao/ngx-puzzle)
+[![ngx-puzzle](https://img.shields.io/npm/v/@zhongmiao/ngx-puzzle?style=flat&label=ngx-puzzle&color=blue)](https://www.npmjs.com/package/@zhongmiao/ngx-puzzle)
 [![npm](https://img.shields.io/npm/dm/%40zhongmiao/ngx-puzzle)](https://www.npmjs.com/package/@zhongmiao/ngx-puzzle)
 ![](https://img.shields.io/badge/Angular-%E7%94%A8%E4%BA%8E%E6%89%93%E9%80%A0-red?logo=angular)
 [![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](LICENSE)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
-![拖拽](./public/imgs/doc1.gif)
+![拖拽](./docs/images/doc1.gif)
 
 用于 Angular 的拖拽式看板构建器。像拼图一样在画布上自由组合图表、表格、文本和控件，快速搭建响应式数据大屏。采用 Angular 独立组件（standalone）与 signals 架构。
 

@@ -2,13 +2,13 @@
 
 English | [中文文档](README.zh-CN.md)
 
-[![npm version](https://img.shields.io/npm/v/@zhongmiao/ngx-puzzle?style=flat)](https://www.npmjs.com/package/@zhongmiao/ngx-puzzle)
+[![ngx-puzzle](https://img.shields.io/npm/v/@zhongmiao/ngx-puzzle?style=flat&label=ngx-puzzle&color=blue)](https://www.npmjs.com/package/@zhongmiao/ngx-puzzle)
 [![npm](https://img.shields.io/npm/dm/%40zhongmiao/ngx-puzzle)](https://www.npmjs.com/package/@zhongmiao/ngx-puzzle)
 ![](https://img.shields.io/badge/Made%20with%20Angular-red?logo=angular)
 [![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](LICENSE)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
-![Drag-and-drop](./public/imgs/doc1.gif)
+![Drag-and-drop](./docs/images/doc1.gif)
 
 Drag-and-drop dashboard builder for Angular applications. Think of it like a puzzle: compose charts, tables, text, and controls on a canvas to quickly assemble responsive data dashboards. Built with Angular standalone components and signals.
 
