@@ -1,6 +1,6 @@
 // table 配置 (ngx-tethys)
 import { fieldComponentTypes, SafeAny } from '../types';
-import { BaseSelectOption, EditorBaseField,ComponentBaseProps } from 'ngx-puzzle/core';
+import { BaseSelectOption, EditorBaseField, ComponentBaseProps } from 'ngx-puzzle/core';
 
 export interface ComponentTableProps<TData = SafeAny> extends ComponentBaseProps {
   table: TableConfig<TData>;

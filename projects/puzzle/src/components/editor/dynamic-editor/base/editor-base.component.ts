@@ -111,7 +111,7 @@ export abstract class EditorBaseComponent<
     this.formData = updateFormData(this.formData, key, value, parentKey, index);
     console.log(`onFormFieldChange`, this.formData);
     const updated = convertFormDataToOptions(this.formData, structuredClone(this.options()), this.sections)!;
-    this.onChange.emit(updated as TConfig);
+    this.onChange.emit(updated);
   }
 
   /**

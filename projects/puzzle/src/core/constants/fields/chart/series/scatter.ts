@@ -32,7 +32,16 @@ export const CHART_SCATTER_SERIES: EditorChartField = {
 
     // 样式与标签（基础）
     { label: '填充颜色', key: 'itemColor', path: 'itemStyle.color', schemaType: 'color' },
-    { label: '显示标签', key: 'labelShow', path: 'label.show', schemaType: 'select', options: [{ label: '禁用', val: false }, { label: '启用', val: true }] },
+    {
+      label: '显示标签',
+      key: 'labelShow',
+      path: 'label.show',
+      schemaType: 'select',
+      options: [
+        { label: '禁用', val: false },
+        { label: '启用', val: true }
+      ]
+    },
     {
       label: '标签位置',
       key: 'labelPosition',

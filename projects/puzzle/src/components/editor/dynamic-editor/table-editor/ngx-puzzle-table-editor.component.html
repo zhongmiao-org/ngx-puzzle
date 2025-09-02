@@ -58,7 +58,7 @@
               </tr>
             </thead>
             <tbody>
-              @for (row of (section.rowData || []); track row.field) {
+              @for (row of section.rowData || []; track row.field) {
                 <tr>
                   @for (head of section.headerSetting; let i = $index; track i) {
                     <td class="text-center editor-td">
@@ -74,7 +74,11 @@
                           />
                         }
                         @case ('select') {
-                          <thy-select class="editor-select" [(ngModel)]="row[head.field]" (ngModelChange)="editTableComplete(row['field'], head.field)">
+                          <thy-select
+                            class="editor-select"
+                            [(ngModel)]="row[head.field]"
+                            (ngModelChange)="editTableComplete(row['field'], head.field)"
+                          >
                             @for (opt of head.options; track opt.val) {
                               <thy-option [thyValue]="opt.val">{{ opt.label }}</thy-option>
                             }

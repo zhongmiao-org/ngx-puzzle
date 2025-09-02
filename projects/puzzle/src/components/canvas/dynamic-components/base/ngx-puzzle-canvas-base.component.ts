@@ -127,9 +127,7 @@ export abstract class NgxPuzzleCanvasBaseComponent<TConfigProps extends Componen
       console.log(`[组件-${this._config.id}] 通知外部控件变化`);
 
       // 更新当前的控件过滤条件
-      this.currentControlFilters = this._config.refreshConfig.controlIds
-        .map((id) => controlFilters[id])
-        .filter(Boolean);
+      this.currentControlFilters = this._config.refreshConfig.controlIds.map((id) => controlFilters[id]).filter(Boolean);
 
       // 通知外部控件变化，让外部处理业务逻辑
       this.dataBindingService.notifyControlChange(this._config.id, controlId, this.currentControlFilters);

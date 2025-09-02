@@ -1,5 +1,5 @@
 import { NgxPuzzleDragWrapperComponent } from '../drag-wrapper/ngx-puzzle-drag-wrapper.component';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnDestroy } from '@angular/core';
 import { NgxPuzzleCanvasBaseComponent } from '../base/ngx-puzzle-canvas-base.component';
 import { ComponentChartProps, ComponentConfig, DataRequestConfig, ApiSource } from 'ngx-puzzle/core/interfaces';
 import { mainTypes } from 'ngx-puzzle/core/types';
@@ -19,7 +19,7 @@ import { NgxPuzzleHttpService } from 'ngx-puzzle/core';
   templateUrl: './ngx-puzzle-chart.component.html',
   styleUrl: './ngx-puzzle-chart.component.scss'
 })
-export class NgxPuzzleChartComponent extends NgxPuzzleCanvasBaseComponent<ComponentChartProps, ChartTypesEnum> {
+export class NgxPuzzleChartComponent extends NgxPuzzleCanvasBaseComponent implements OnDestroy<ComponentChartProps, ChartTypesEnum> {
   dataKey: mainTypes = 'chart';
 
   private mockService = inject(MockService);
@@ -275,7 +275,6 @@ export class NgxPuzzleChartComponent extends NgxPuzzleCanvasBaseComponent<Compon
     console.log(`[图表缓存] 设置缓存数据`, { index, cacheSize: this.cacheData.size });
   }
 
-
   /**
    * 删除缓存数据
    */
@@ -321,7 +320,7 @@ export class NgxPuzzleChartComponent extends NgxPuzzleCanvasBaseComponent<Compon
 
   private normalizeSeries(): SafeAny[] {
     const chart = this.config.props.chart as SafeAny;
-    let series = chart.series as SafeAny;
+    let series = chart.series;
     if (!Array.isArray(series)) {
       // 将单个对象标准化为数组，便于统一写入逻辑
       series = series ? [series] : [];
@@ -329,7 +328,6 @@ export class NgxPuzzleChartComponent extends NgxPuzzleCanvasBaseComponent<Compon
     }
     return series as SafeAny[];
   }
-
 
   private extractSeriesDataPayload(raw: SafeAny): SafeAny {
     console.log('extractSeriesDataPayload 原始数据:', raw);
@@ -342,13 +340,13 @@ export class NgxPuzzleChartComponent extends NgxPuzzleCanvasBaseComponent<Compon
           console.log('提取到 data 字段:', raw.data);
           return raw.data;
         }
-        if (Array.isArray((raw as any).values)) {
-          console.log('提取到 values 字段:', (raw as any).values);
-          return (raw as any).values;
+        if (Array.isArray(raw.values)) {
+          console.log('提取到 values 字段:', raw.values);
+          return raw.values;
         }
-        if (Array.isArray((raw as any).seriesData)) {
-          console.log('提取到 seriesData 字段:', (raw as any).seriesData);
-          return (raw as any).seriesData;
+        if (Array.isArray(raw.seriesData)) {
+          console.log('提取到 seriesData 字段:', raw.seriesData);
+          return raw.seriesData;
         }
       }
 
@@ -383,13 +381,11 @@ export class NgxPuzzleChartComponent extends NgxPuzzleCanvasBaseComponent<Compon
     seriesItem['data'] = payload;
     this.config.props.chart = {
       ...this.config.props.chart
-    }
+    };
 
     console.log(`updateDataForSeries 直接更新 config.props.chart:`, this.config.props.chart);
     console.log(`当前系列配置:`, this.config.props.chart.series);
   }
-
-
 
   /**
    * 处理系列绑定删除 - 重写基类方法

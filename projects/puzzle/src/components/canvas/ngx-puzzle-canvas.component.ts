@@ -1,5 +1,4 @@
 import {
-  afterNextRender,
   AfterViewInit,
   Component,
   ElementRef,
@@ -14,7 +13,7 @@ import {
   computed
 } from '@angular/core';
 
-import { JsonPipe, NgStyle } from '@angular/common';
+import { NgStyle } from '@angular/common';
 import { fromEvent, Subject, takeUntil } from 'rxjs';
 import { StylesFormatPipe } from 'ngx-puzzle/pipes/styles-format.pipe';
 import { INIT_SETTINGS_CONFIG } from 'ngx-puzzle/core/constants';
@@ -24,7 +23,7 @@ import { ComponentInjectorService, ComponentRegistryService, PuzzleCanvasMediato
 @Component({
   selector: 'ngx-puzzle-canvas, puzzle-canvas',
   standalone: true,
-  imports: [NgStyle, StylesFormatPipe, JsonPipe],
+  imports: [NgStyle, StylesFormatPipe],
   templateUrl: './ngx-puzzle-canvas.component.html',
   styleUrl: './ngx-puzzle-canvas.component.scss'
 })
@@ -96,8 +95,7 @@ export class NgxPuzzleCanvasComponent implements OnInit, AfterViewInit, OnDestro
   hTicks: WritableSignal<Tick[]> = signal<Tick[]>([]);
   vTicks: WritableSignal<Tick[]> = signal<Tick[]>([]);
 
-  constructor() // private mediator: CanvasMediatorService, // private registry: ComponentRegistryService, // private injector: ComponentInjectorService,
-  // private renderer: Renderer2
+  constructor() // private renderer: Renderer2 // private mediator: CanvasMediatorService, // private registry: ComponentRegistryService, // private injector: ComponentInjectorService,
   {}
 
   ngOnInit() {}

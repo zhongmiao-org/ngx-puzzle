@@ -1,4 +1,3 @@
-
 // MultiSelect 组件属性配置
 import { EditorBaseField, ENABLE_OPTIONS } from 'ngx-puzzle/core';
 
@@ -13,7 +12,7 @@ export const CONTROL_MULTISELECT_FIELDS: EditorBaseField = {
       key: 'placeholder',
       path: 'props.placeholder',
       schemaType: 'text',
-      defaultValue: '请选择',
+      defaultValue: '请选择'
     },
     {
       label: '显示清除按钮',
@@ -21,7 +20,7 @@ export const CONTROL_MULTISELECT_FIELDS: EditorBaseField = {
       path: 'props.showClear',
       schemaType: 'select',
       defaultValue: false,
-      options: ENABLE_OPTIONS,
+      options: ENABLE_OPTIONS
     },
     {
       label: '可过滤',
@@ -29,14 +28,14 @@ export const CONTROL_MULTISELECT_FIELDS: EditorBaseField = {
       path: 'props.filter',
       schemaType: 'select',
       defaultValue: false,
-      options: ENABLE_OPTIONS,
+      options: ENABLE_OPTIONS
     },
     {
       label: '过滤占位符',
       key: 'filterPlaceholder',
       path: 'props.filterPlaceholder',
       schemaType: 'text',
-      defaultValue: '搜索选项',
+      defaultValue: '搜索选项'
     },
     {
       label: '显示方式',
@@ -46,8 +45,8 @@ export const CONTROL_MULTISELECT_FIELDS: EditorBaseField = {
       defaultValue: 'comma',
       options: [
         { label: '逗号分隔', val: 'comma' },
-        { label: '标签显示', val: 'chip' },
-      ],
+        { label: '标签显示', val: 'chip' }
+      ]
     },
     {
       label: '最大显示标签数',
@@ -57,7 +56,7 @@ export const CONTROL_MULTISELECT_FIELDS: EditorBaseField = {
       min: 1,
       max: 10,
       step: 1,
-      defaultValue: 3,
+      defaultValue: 3
     },
     {
       label: '禁用状态',
@@ -65,21 +64,21 @@ export const CONTROL_MULTISELECT_FIELDS: EditorBaseField = {
       path: 'props.disabled',
       schemaType: 'select',
       defaultValue: false,
-      options: ENABLE_OPTIONS,
+      options: ENABLE_OPTIONS
     },
     {
       label: '选项标签字段',
       key: 'optionLabel',
       path: 'props.optionLabel',
       schemaType: 'text',
-      defaultValue: 'label',
+      defaultValue: 'label'
     },
     {
       label: '选项值字段',
       key: 'optionValue',
       path: 'props.optionValue',
       schemaType: 'text',
-      defaultValue: 'value',
+      defaultValue: 'value'
     },
     {
       label: '关闭图标',
@@ -87,14 +86,14 @@ export const CONTROL_MULTISELECT_FIELDS: EditorBaseField = {
       path: 'props.showToggleAll',
       schemaType: 'select',
       defaultValue: true,
-      options: ENABLE_OPTIONS,
+      options: ENABLE_OPTIONS
     },
     {
       label: '选项',
       key: 'propsOptions',
       path: 'props.options',
       schemaType: 'options-editor',
-      defaultValue: [],
-    },
-  ],
+      defaultValue: []
+    }
+  ]
 };

@@ -45,7 +45,7 @@ export class NgxPuzzleTableEditorComponent extends EditorBaseComponent<TableConf
 
   protected setFields(type?: TableTypesEnum): void {
     if (!type) return;
-    this.sections = TABLE_FIELDS_MAP[type] as any;
+    this.sections = TABLE_FIELDS_MAP[type];
   }
 
   protected getComponentType(): string {
@@ -63,7 +63,7 @@ export class NgxPuzzleTableEditorComponent extends EditorBaseComponent<TableConf
     }
   }
 
-  editTableComplete(fieldValue: string, fieldKey: string) {
+  editTableComplete(fieldValue: string) {
     if (!this.editingColumnDefs) return;
     const index = findIndex(this.editingColumnDefs, { field: fieldValue });
     if (index !== -1) {

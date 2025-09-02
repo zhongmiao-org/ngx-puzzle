@@ -10,7 +10,7 @@ export const CHART_TOOLTIP: EditorChartField = {
       key: 'tooltipShow',
       path: 'tooltip.show',
       schemaType: 'select',
-      options: ENABLE_OPTIONS,
+      options: ENABLE_OPTIONS
     },
     {
       label: '显示内容',
@@ -18,7 +18,7 @@ export const CHART_TOOLTIP: EditorChartField = {
       path: 'tooltip.showContent',
       schemaType: 'select',
       options: ENABLE_OPTIONS,
-      description: '是否显示提示框浮层',
+      description: '是否显示提示框浮层'
     },
     {
       label: '触发类型',
@@ -30,7 +30,7 @@ export const CHART_TOOLTIP: EditorChartField = {
         { label: '坐标轴触发', val: 'axis' },
         { label: '不触发', val: 'none' }
       ],
-      description: '触发类型，只在坐标系中有效',
+      description: '触发类型，只在坐标系中有效'
     },
     {
       label: '触发条件',
@@ -42,7 +42,7 @@ export const CHART_TOOLTIP: EditorChartField = {
         { label: '鼠标点击时触发', val: 'click' },
         { label: '同时支持点击和移动', val: 'mousemove|click' },
         { label: '不触发', val: 'none' }
-      ],
+      ]
     },
     {
       label: '渲染模式',
@@ -54,7 +54,7 @@ export const CHART_TOOLTIP: EditorChartField = {
         { label: 'HTML', val: 'html' },
         { label: '富文本', val: 'richText' }
       ],
-      description: '提示框的渲染模式',
+      description: '提示框的渲染模式'
     },
     {
       label: '始终显示',
@@ -62,21 +62,21 @@ export const CHART_TOOLTIP: EditorChartField = {
       path: 'tooltip.alwaysShowContent',
       schemaType: 'select',
       options: ENABLE_OPTIONS,
-      description: '是否不自动隐藏提示框内容',
+      description: '是否不自动隐藏提示框内容'
     },
     {
       label: '内容格式化器',
       key: 'tooltipFormatter',
       path: 'tooltip.formatter',
       schemaType: 'text',
-      description: '提示框浮层内容格式器，支持字符串模板和回调函数',
+      description: '提示框浮层内容格式器，支持字符串模板和回调函数'
     },
     {
       label: '数值格式化器',
       key: 'tooltipValueFormatter',
       path: 'tooltip.valueFormatter',
       schemaType: 'text',
-      description: '数值的格式化器，当 formatter 未指定时生效',
+      description: '数值的格式化器，当 formatter 未指定时生效'
     },
     {
       label: '位置',
@@ -91,7 +91,7 @@ export const CHART_TOOLTIP: EditorChartField = {
         { label: '右侧', val: 'right' },
         { label: '底部', val: 'bottom' }
       ],
-      description: '提示框浮层的位置',
+      description: '提示框浮层的位置'
     },
     {
       label: '限制在图表区域内',
@@ -99,7 +99,7 @@ export const CHART_TOOLTIP: EditorChartField = {
       path: 'tooltip.confine',
       schemaType: 'select',
       options: ENABLE_OPTIONS,
-      description: '是否将 tooltip 框限制在图表的区域内',
+      description: '是否将 tooltip 框限制在图表的区域内'
     },
     {
       label: '水平对齐',
@@ -110,7 +110,7 @@ export const CHART_TOOLTIP: EditorChartField = {
         { label: '左对齐', val: 'left' },
         { label: '居中', val: 'center' },
         { label: '右对齐', val: 'right' }
-      ],
+      ]
     },
     {
       label: '垂直对齐',
@@ -121,7 +121,7 @@ export const CHART_TOOLTIP: EditorChartField = {
         { label: '顶部', val: 'top' },
         { label: '中间', val: 'middle' },
         { label: '底部', val: 'bottom' }
-      ],
+      ]
     },
     {
       label: '显示延迟',
@@ -130,7 +130,7 @@ export const CHART_TOOLTIP: EditorChartField = {
       schemaType: 'number',
       min: 0,
       step: 10,
-      description: '浮层显示的延迟，单位为 ms',
+      description: '浮层显示的延迟，单位为 ms'
     },
     {
       label: '隐藏延迟',
@@ -139,7 +139,7 @@ export const CHART_TOOLTIP: EditorChartField = {
       schemaType: 'number',
       min: 0,
       step: 10,
-      description: '浮层隐藏的延迟，单位为 ms',
+      description: '浮层隐藏的延迟，单位为 ms'
     },
     {
       label: '过渡动画时长',
@@ -148,7 +148,7 @@ export const CHART_TOOLTIP: EditorChartField = {
       schemaType: 'number',
       min: 0,
       step: 10,
-      description: '提示框浮层的移动动画过渡时间，单位是 ms',
+      description: '提示框浮层的移动动画过渡时间，单位是 ms'
     },
     {
       label: '鼠标可进入',
@@ -156,7 +156,7 @@ export const CHART_TOOLTIP: EditorChartField = {
       path: 'tooltip.enterable',
       schemaType: 'select',
       options: ENABLE_OPTIONS,
-      description: '鼠标是否可进入提示框浮层中',
+      description: '鼠标是否可进入提示框浮层中'
     },
     {
       label: '显示过渡动画',
@@ -164,21 +164,21 @@ export const CHART_TOOLTIP: EditorChartField = {
       path: 'tooltip.displayTransition',
       schemaType: 'select',
       options: ENABLE_OPTIONS,
-      description: '是否开启显示/隐藏的过渡动画',
+      description: '是否开启显示/隐藏的过渡动画'
     },
     {
       label: '自定义类名',
       key: 'tooltipClassName',
       path: 'tooltip.className',
       schemaType: 'text',
-      description: '指定 tooltip 的 DOM 类名（仅在 HTML 模式下有效）',
+      description: '指定 tooltip 的 DOM 类名（仅在 HTML 模式下有效）'
     },
     {
       label: '默认边框颜色',
       key: 'tooltipDefaultBorderColor',
       path: 'tooltip.defaultBorderColor',
       schemaType: 'color',
-      description: '多系列时的默认边框颜色',
+      description: '多系列时的默认边框颜色'
     },
     {
       label: '排序方式',
@@ -191,20 +191,20 @@ export const CHART_TOOLTIP: EditorChartField = {
         { label: '数值升序', val: 'valueAsc' },
         { label: '数值降序', val: 'valueDesc' }
       ],
-      description: '多系列提示框浮层中数据的排序方式',
+      description: '多系列提示框浮层中数据的排序方式'
     },
     // 外观样式
     {
       label: '背景颜色',
       key: 'tooltipBackgroundColor',
       path: 'tooltip.backgroundColor',
-      schemaType: 'color',
+      schemaType: 'color'
     },
     {
       label: '边框颜色',
       key: 'tooltipBorderColor',
       path: 'tooltip.borderColor',
-      schemaType: 'color',
+      schemaType: 'color'
     },
     {
       label: '边框圆角',
@@ -212,7 +212,7 @@ export const CHART_TOOLTIP: EditorChartField = {
       path: 'tooltip.borderRadius',
       schemaType: 'number',
       min: 0,
-      step: 1,
+      step: 1
     },
     {
       label: '边框宽度',
@@ -220,7 +220,7 @@ export const CHART_TOOLTIP: EditorChartField = {
       path: 'tooltip.borderWidth',
       schemaType: 'number',
       min: 0,
-      step: 0.5,
+      step: 0.5
     },
     {
       label: '内边距',
@@ -229,7 +229,7 @@ export const CHART_TOOLTIP: EditorChartField = {
       schemaType: 'number',
       min: 0,
       step: 1,
-      description: '提示框浮层内边距，支持数组 [上, 右, 下, 左]',
+      description: '提示框浮层内边距，支持数组 [上, 右, 下, 左]'
     },
     // 阴影效果
     {
@@ -238,41 +238,41 @@ export const CHART_TOOLTIP: EditorChartField = {
       path: 'tooltip.shadowBlur',
       schemaType: 'number',
       min: 0,
-      step: 1,
+      step: 1
     },
     {
       label: '阴影颜色',
       key: 'tooltipShadowColor',
       path: 'tooltip.shadowColor',
-      schemaType: 'color',
+      schemaType: 'color'
     },
     {
       label: '阴影水平偏移',
       key: 'tooltipShadowOffsetX',
       path: 'tooltip.shadowOffsetX',
       schemaType: 'number',
-      step: 1,
+      step: 1
     },
     {
       label: '阴影垂直偏移',
       key: 'tooltipShadowOffsetY',
       path: 'tooltip.shadowOffsetY',
       schemaType: 'number',
-      step: 1,
+      step: 1
     },
     {
       label: '额外CSS样式',
       key: 'tooltipExtraCssText',
       path: 'tooltip.extraCssText',
       schemaType: 'text',
-      description: '额外附加到浮层的 css 样式（仅在 HTML 模式下有效）',
+      description: '额外附加到浮层的 css 样式（仅在 HTML 模式下有效）'
     },
     // 文字样式
     {
       label: '文字颜色',
       key: 'tooltipTextStyleColor',
       path: 'tooltip.textStyle.color',
-      schemaType: 'color',
+      schemaType: 'color'
     },
     {
       label: '文字大小',
@@ -281,14 +281,14 @@ export const CHART_TOOLTIP: EditorChartField = {
       schemaType: 'number',
       min: 8,
       max: 100,
-      step: 1,
+      step: 1
     },
     {
       label: '文字粗细',
       key: 'tooltipTextStyleFontWeight',
       path: 'tooltip.textStyle.fontWeight',
       schemaType: 'select',
-      options: FONT_WEIGHT_OPTIONS,
+      options: FONT_WEIGHT_OPTIONS
     },
     {
       label: '文字样式',
@@ -299,13 +299,13 @@ export const CHART_TOOLTIP: EditorChartField = {
         { label: '正常', val: 'normal' },
         { label: '斜体', val: 'italic' },
         { label: '倾斜', val: 'oblique' }
-      ],
+      ]
     },
     {
       label: '字体系列',
       key: 'tooltipTextStyleFontFamily',
       path: 'tooltip.textStyle.fontFamily',
-      schemaType: 'text',
+      schemaType: 'text'
     },
     {
       label: '行高',
@@ -313,7 +313,7 @@ export const CHART_TOOLTIP: EditorChartField = {
       path: 'tooltip.textStyle.lineHeight',
       schemaType: 'number',
       min: 0,
-      step: 0.1,
+      step: 0.1
     },
     {
       label: '文字装饰',
@@ -325,13 +325,13 @@ export const CHART_TOOLTIP: EditorChartField = {
         { label: '下划线', val: 'underline' },
         { label: '上划线', val: 'overline' },
         { label: '删除线', val: 'line-through' }
-      ],
+      ]
     },
     {
       label: '文字描边颜色',
       key: 'tooltipTextStyleTextBorderColor',
       path: 'tooltip.textStyle.textBorderColor',
-      schemaType: 'color',
+      schemaType: 'color'
     },
     {
       label: '文字描边宽度',
@@ -339,13 +339,13 @@ export const CHART_TOOLTIP: EditorChartField = {
       path: 'tooltip.textStyle.textBorderWidth',
       schemaType: 'number',
       min: 0,
-      step: 0.5,
+      step: 0.5
     },
     {
       label: '文字阴影颜色',
       key: 'tooltipTextStyleTextShadowColor',
       path: 'tooltip.textStyle.textShadowColor',
-      schemaType: 'color',
+      schemaType: 'color'
     },
     {
       label: '文字阴影模糊',
@@ -353,21 +353,21 @@ export const CHART_TOOLTIP: EditorChartField = {
       path: 'tooltip.textStyle.textShadowBlur',
       schemaType: 'number',
       min: 0,
-      step: 1,
+      step: 1
     },
     {
       label: '文字阴影偏移X',
       key: 'tooltipTextStyleTextShadowOffsetX',
       path: 'tooltip.textStyle.textShadowOffsetX',
       schemaType: 'number',
-      step: 1,
+      step: 1
     },
     {
       label: '文字阴影偏移Y',
       key: 'tooltipTextStyleTextShadowOffsetY',
       path: 'tooltip.textStyle.textShadowOffsetY',
       schemaType: 'number',
-      step: 1,
+      step: 1
     },
     // 轴指示器设置
     {
@@ -381,7 +381,7 @@ export const CHART_TOOLTIP: EditorChartField = {
         { label: '无指示器', val: 'none' },
         { label: '十字准星', val: 'cross' }
       ],
-      description: '指示器类型',
+      description: '指示器类型'
     },
     {
       label: '指示器坐标轴',
@@ -395,14 +395,14 @@ export const CHART_TOOLTIP: EditorChartField = {
         { label: '角度轴', val: 'angle' },
         { label: '半径轴', val: 'radius' }
       ],
-      description: '指示器的坐标轴',
+      description: '指示器的坐标轴'
     },
     {
       label: '指示器线条颜色',
       key: 'tooltipAxisPointerLineStyleColor',
       path: 'tooltip.axisPointer.lineStyle.color',
       schemaType: 'color',
-      description: 'axisPointer 线的颜色',
+      description: 'axisPointer 线的颜色'
     },
     {
       label: '指示器线条宽度',
@@ -411,7 +411,7 @@ export const CHART_TOOLTIP: EditorChartField = {
       schemaType: 'number',
       min: 0,
       step: 0.5,
-      description: 'axisPointer 线的宽度',
+      description: 'axisPointer 线的宽度'
     },
     {
       label: '指示器线条类型',
@@ -423,14 +423,14 @@ export const CHART_TOOLTIP: EditorChartField = {
         { label: '虚线', val: 'dashed' },
         { label: '点线', val: 'dotted' }
       ],
-      description: 'axisPointer 线的类型',
+      description: 'axisPointer 线的类型'
     },
     {
       label: '十字准星标签背景色',
       key: 'tooltipAxisPointerCrossStyleTextStyleBackgroundColor',
       path: 'tooltip.axisPointer.crossStyle.textStyle.backgroundColor',
       schemaType: 'color',
-      description: '十字准星标签的背景色',
+      description: '十字准星标签的背景色'
     }
-  ],
-}
+  ]
+};

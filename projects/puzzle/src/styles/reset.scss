@@ -18,7 +18,8 @@ body {
   user-select: none;
 }
 
-ul, ol {
+ul,
+ol {
   list-style: none;
 }
 
@@ -27,7 +28,10 @@ a {
   color: inherit;
 }
 
-button, input, select, textarea {
+button,
+input,
+select,
+textarea {
   font-family: inherit;
   font-size: inherit;
   line-height: inherit;

@@ -7,32 +7,32 @@ import { ControlConfig, ControlFilterCondition, ControlTypesEnum, DatePickerCont
  * @returns 格式化后的日期字符串
  */
 export function formatDateToString(date: Date): string {
-	const year = date.getFullYear();
-	const month = String(date.getMonth() + 1).padStart(2, '0');
-	const day = String(date.getDate()).padStart(2, '0');
-	return `${year}-${month}-${day}`;
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
 }
 
 export function convertDateToString(value?: Date | Date[]) {
-	if (!value) return null;
+  if (!value) return null;
 
-	if (isArray(value)) {
-		return value.map((date) => {
-			if (!date) return null;
-			return formatDateToString(date);
-		});
-	}
-	return formatDateToString(value);
+  if (isArray(value)) {
+    return value.map((date) => {
+      if (!date) return null;
+      return formatDateToString(date);
+    });
+  }
+  return formatDateToString(value);
 }
 
 export function convertStringToDate(value?: string | string[]): Date | Date[] | null {
-	if (!value) return null;
+  if (!value) return null;
 
-	if (isArray(value)) {
-		return value.map((dateStr) => new Date(dateStr));
-	}
+  if (isArray(value)) {
+    return value.map((dateStr) => new Date(dateStr));
+  }
 
-	return new Date(value);
+  return new Date(value);
 }
 
 /**
@@ -42,46 +42,46 @@ export function convertStringToDate(value?: string | string[]): Date | Date[] | 
  * @returns 更新后的字段配置
  */
 export function updateFieldChildren(baseField: EditorBaseField, childrenConfig: Record<string, Partial<EditorBaseField>>): EditorBaseField {
-	// 深度复制，避免修改原始配置
-	const updatedField = cloneDeep(baseField);
+  // 深度复制，避免修改原始配置
+  const updatedField = cloneDeep(baseField);
 
-	if (!updatedField.children || !Array.isArray(updatedField.children)) {
-		return updatedField;
-	}
+  if (!updatedField.children || !Array.isArray(updatedField.children)) {
+    return updatedField;
+  }
 
-	// 遍历子字段，根据 key 更新对应的配置
-	updatedField.children = updatedField.children.map((child) => {
-		const childKey = child.key;
-		const childUpdates = childrenConfig[childKey];
+  // 遍历子字段，根据 key 更新对应的配置
+  updatedField.children = updatedField.children.map((child) => {
+    const childKey = child.key;
+    const childUpdates = childrenConfig[childKey];
 
-		if (childUpdates) {
-			return {
-				...child,
-				...childUpdates,
-			};
-		}
+    if (childUpdates) {
+      return {
+        ...child,
+        ...childUpdates
+      };
+    }
 
-		return child;
-	});
+    return child;
+  });
 
-	return updatedField;
+  return updatedField;
 }
 
 /**
  * 便捷方法：专门用于更新 optionsStream
  */
 export function updateFieldChildrenStream(baseField: EditorBaseField, streamConfig: Record<string, SafeAny>): EditorBaseField {
-	const childrenConfig: Record<string, Partial<EditorBaseField>> = {};
+  const childrenConfig: Record<string, Partial<EditorBaseField>> = {};
 
-	Object.keys(streamConfig).forEach((key) => {
-		childrenConfig[key] = {
-			optionsStream: streamConfig[key],
-			// 清除 options，优先使用 optionsStream
-			options: undefined,
-		};
-	});
+  Object.keys(streamConfig).forEach((key) => {
+    childrenConfig[key] = {
+      optionsStream: streamConfig[key],
+      // 清除 options，优先使用 optionsStream
+      options: undefined
+    };
+  });
 
-	return updateFieldChildren(baseField, childrenConfig);
+  return updateFieldChildren(baseField, childrenConfig);
 }
 
 /**
@@ -90,20 +90,18 @@ export function updateFieldChildrenStream(baseField: EditorBaseField, streamConf
  * @returns 是否为有效值
  */
 function isValidValue(value: SafeAny): boolean {
-	// null 或 undefined - 无效
-	if (value === null || value === undefined) {
-		return false;
-	}
+  // null 或 undefined - 无效
+  if (value === null || value === undefined) {
+    return false;
+  }
 
-	// 空字符串 - 无效
-	if (value === '') {
-		return false;
-	}
+  // 空字符串 - 无效
+  if (value === '') {
+    return false;
+  }
 
-	// 空数组 - 无效
-	return !(Array.isArray(value) && value.length === 0);
-
-
+  // 空数组 - 无效
+  return !(Array.isArray(value) && value.length === 0);
 }
 
 /**
@@ -112,9 +110,9 @@ function isValidValue(value: SafeAny): boolean {
  * @returns 有效的控件配置数组
  */
 function filterValidControls(controls: ControlConfig[]): ControlConfig[] {
-	return controls.filter((control) => {
-		return control.isActive && control.bindField && isValidValue(control.defaultValue);
-	});
+  return controls.filter((control) => {
+    return control.isActive && control.bindField && isValidValue(control.defaultValue);
+  });
 }
 
 /**
@@ -123,7 +121,7 @@ function filterValidControls(controls: ControlConfig[]): ControlConfig[] {
  * @returns 是否为日期选择器控件
  */
 function isDatePickerControl(control: ControlConfig): boolean {
-	return control.controlType === ControlTypesEnum.datePick || (control.props && 'selectionMode' in control.props);
+  return control.controlType === ControlTypesEnum.datePick || (control.props && 'selectionMode' in control.props);
 }
 
 /**
@@ -133,30 +131,30 @@ function isDatePickerControl(control: ControlConfig): boolean {
  * @returns 日期过滤条件或null
  */
 function createDatePickerFilter(control: ControlConfig, baseFilter: ControlFilterCondition): ControlFilterCondition | null {
-	const dateProps = control.props as DatePickerControlProps;
-	const value = control.defaultValue;
+  const dateProps = control.props as DatePickerControlProps;
+  const value = control.defaultValue;
 
-	// 区间选择模式
-	if (dateProps.selectionMode === 'range' && Array.isArray(value) && value.length === 2) {
-		const [startDate, endDate] = convertDateToString(value as Date[])!;
-		return {
-			...baseFilter,
-			type: 'inRange',
-			from: startDate!,
-			to: endDate!,
-		};
-	}
+  // 区间选择模式
+  if (dateProps.selectionMode === 'range' && Array.isArray(value) && value.length === 2) {
+    const [startDate, endDate] = convertDateToString(value as Date[])!;
+    return {
+      ...baseFilter,
+      type: 'inRange',
+      from: startDate!,
+      to: endDate!
+    };
+  }
 
-	// 单选模式
-	if (dateProps.selectionMode === 'single') {
-		return {
-			...baseFilter,
-			type: 'equals',
-			fiter: convertDateToString(value as Date)!,
-		};
-	}
+  // 单选模式
+  if (dateProps.selectionMode === 'single') {
+    return {
+      ...baseFilter,
+      type: 'equals',
+      fiter: convertDateToString(value as Date)!
+    };
+  }
 
-	return null;
+  return null;
 }
 
 /**
@@ -166,11 +164,11 @@ function createDatePickerFilter(control: ControlConfig, baseFilter: ControlFilte
  * @returns 多选过滤条件
  */
 function createMultiSelectFilter(control: ControlConfig, baseFilter: ControlFilterCondition): ControlFilterCondition {
-	return {
-		...baseFilter,
-		type: 'in',
-		fiter: control.defaultValue,
-	};
+  return {
+    ...baseFilter,
+    type: 'in',
+    fiter: control.defaultValue
+  };
 }
 
 /**
@@ -180,11 +178,11 @@ function createMultiSelectFilter(control: ControlConfig, baseFilter: ControlFilt
  * @returns 单选过滤条件
  */
 function createSelectFilter(control: ControlConfig, baseFilter: ControlFilterCondition): ControlFilterCondition {
-	return {
-		...baseFilter,
-		type: 'equals',
-		fiter: control.defaultValue,
-	};
+  return {
+    ...baseFilter,
+    type: 'equals',
+    fiter: control.defaultValue
+  };
 }
 
 /**ss
@@ -194,11 +192,11 @@ function createSelectFilter(control: ControlConfig, baseFilter: ControlFilterCon
  * @returns 文本过滤条件
  */
 function createTextFilter(control: ControlConfig, baseFilter: ControlFilterCondition): ControlFilterCondition {
-	return {
-		...baseFilter,
-		type: 'contains',
-		fiter: control.defaultValue,
-	};
+  return {
+    ...baseFilter,
+    type: 'contains',
+    fiter: control.defaultValue
+  };
 }
 
 /**
@@ -208,23 +206,23 @@ function createTextFilter(control: ControlConfig, baseFilter: ControlFilterCondi
  * @returns 过滤条件
  */
 function createControlFilter(control: ControlConfig, baseFilter: ControlFilterCondition): ControlFilterCondition | null {
-	// 日期选择器控件
-	if (isDatePickerControl(control)) {
-		return createDatePickerFilter(control, baseFilter);
-	}
+  // 日期选择器控件
+  if (isDatePickerControl(control)) {
+    return createDatePickerFilter(control, baseFilter);
+  }
 
-	// 多选控件
-	if (control.controlType === ControlTypesEnum.multiSelect) {
-		return createMultiSelectFilter(control, baseFilter);
-	}
+  // 多选控件
+  if (control.controlType === ControlTypesEnum.multiSelect) {
+    return createMultiSelectFilter(control, baseFilter);
+  }
 
-	// 单选控件
-	if (control.controlType === ControlTypesEnum.select) {
-		return createSelectFilter(control, baseFilter);
-	}
+  // 单选控件
+  if (control.controlType === ControlTypesEnum.select) {
+    return createSelectFilter(control, baseFilter);
+  }
 
-	// 文本及其他类型控件
-	return createTextFilter(control, baseFilter);
+  // 文本及其他类型控件
+  return createTextFilter(control, baseFilter);
 }
 
 /**
@@ -233,19 +231,19 @@ function createControlFilter(control: ControlConfig, baseFilter: ControlFilterCo
  * @returns 过滤条件对象 {[controlId: string]: ControlFilterCondition}
  */
 export function convertControlsToFilters(controls: ControlConfig[]): { [controlId: string]: ControlFilterCondition } {
-	const filterMap: { [controlId: string]: ControlFilterCondition } = {};
-	const validControls = filterValidControls(controls);
+  const filterMap: { [controlId: string]: ControlFilterCondition } = {};
+  const validControls = filterValidControls(controls);
 
-	validControls.forEach((control) => {
-		const baseFilter: ControlFilterCondition = {
-			columnField: control.bindField,
-		};
+  validControls.forEach((control) => {
+    const baseFilter: ControlFilterCondition = {
+      columnField: control.bindField
+    };
 
-		const controlFilter = createControlFilter(control, baseFilter);
-		if (controlFilter) {
-			filterMap[control.controlId] = controlFilter;
-		}
-	});
+    const controlFilter = createControlFilter(control, baseFilter);
+    if (controlFilter) {
+      filterMap[control.controlId] = controlFilter;
+    }
+  });
 
-	return filterMap;
+  return filterMap;
 }

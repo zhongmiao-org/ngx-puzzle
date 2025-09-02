@@ -1,11 +1,11 @@
-import { AfterViewInit, Component, HostBinding, inject, OnInit, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, inject, OnInit } from '@angular/core';
 import {
   CHART_SERIES_TYPE_OPTIONS,
   INIT_SETTINGS_CONFIG,
   TEXT_TYPE_OPTIONS,
   TABLE_TYPE_OPTIONS,
   CONTROL_TYPE_OPTIONS
-} from '../../core/constants';
+} from 'ngx-puzzle/core';
 import { CdkDrag, CdkDragEnd, CdkDropList } from '@angular/cdk/drag-drop';
 import { ComponentConfig } from 'ngx-puzzle/core/interfaces';
 import { mainTypes } from 'ngx-puzzle/core/types';
@@ -39,7 +39,6 @@ export class NgxPuzzlePanelComponent implements OnInit, AfterViewInit {
   public textList = TEXT_TYPE_OPTIONS;
 
   public controlList = CONTROL_TYPE_OPTIONS;
-
 
   ngOnInit() {}
 

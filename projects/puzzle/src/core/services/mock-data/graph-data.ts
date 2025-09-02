@@ -1,7 +1,10 @@
 /**
  * Graph mock data: node list for series.data; links remain in options.
  */
-export interface GraphNode { name: string; value: number }
+export interface GraphNode {
+  name: string;
+  value: number;
+}
 export const graphNodes: GraphNode[] = [
   { name: 'Node1', value: 10 },
   { name: 'Node2', value: 20 },

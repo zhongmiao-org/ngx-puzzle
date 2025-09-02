@@ -12,7 +12,7 @@ export const CONTROL_BIND_FIELDS: EditorBaseField = {
       path: 'controlIds',
       schemaType: 'multiSelect',
       options: ENABLE_OPTIONS,
-      defaultValue: [],
-    },
+      defaultValue: []
+    }
   ]
-}
+};

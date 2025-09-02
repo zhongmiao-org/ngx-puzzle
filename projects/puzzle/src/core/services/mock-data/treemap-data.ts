@@ -1,5 +1,9 @@
 // Treemap mock hierarchical data (flat for treemap data prop)
-export interface TreemapNode { name: string; value?: number; children?: TreemapNode[] }
+export interface TreemapNode {
+  name: string;
+  value?: number;
+  children?: TreemapNode[];
+}
 export const treemapData: TreemapNode[] = [
   {
     name: 'Category A',

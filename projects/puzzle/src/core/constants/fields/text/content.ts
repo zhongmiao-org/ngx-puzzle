@@ -10,7 +10,7 @@ export const TEXT_CONTENT_FIELDS: EditorBaseField = {
       label: '文本内容',
       key: 'content',
       path: 'content',
-      schemaType: 'textarea',
-    },
-  ],
+      schemaType: 'textarea'
+    }
+  ]
 };

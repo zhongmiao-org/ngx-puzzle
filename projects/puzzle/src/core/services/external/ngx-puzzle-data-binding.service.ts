@@ -52,8 +52,8 @@ export class NgxPuzzleDataBindingService {
    */
   responseBinding(response: NgxPuzzleDataBindingResponse): void {
     console.log('[NgxPuzzle数据绑定] 完成绑定响应:', response);
-    const {componentId, dataRequest} = response;
-    this.mediator.updateDataRequest(componentId, dataRequest)
+    const { componentId, dataRequest } = response;
+    this.mediator.updateDataRequest(componentId, dataRequest);
 
     this.componentDataRequests.set(componentId, dataRequest);
 

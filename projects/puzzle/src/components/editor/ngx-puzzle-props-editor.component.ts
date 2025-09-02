@@ -34,9 +34,7 @@ import { PuzzleCanvasMediatorService } from 'ngx-puzzle/core';
 import { NgxPuzzleRefreshEditorComponent } from 'ngx-puzzle/components/editor/dynamic-editor/refresh-editor/ngx-puzzle-refresh-editor.component';
 import { NgxPuzzleTextEditorComponent } from 'ngx-puzzle/components/editor/dynamic-editor/text-editor/ngx-puzzle-text-editor.component';
 import { NgxPuzzleTableEditorComponent } from 'ngx-puzzle/components/editor/dynamic-editor/table-editor/ngx-puzzle-table-editor.component';
-import {
-  NgxPuzzleControlEditorComponent
-} from 'ngx-puzzle/components/editor/dynamic-editor/control-editor/ngx-puzzle-control-editor.component';
+import { NgxPuzzleControlEditorComponent } from 'ngx-puzzle/components/editor/dynamic-editor/control-editor/ngx-puzzle-control-editor.component';
 
 @Component({
   selector: 'ngx-puzzle-props-editor, puzzle-props-editor',

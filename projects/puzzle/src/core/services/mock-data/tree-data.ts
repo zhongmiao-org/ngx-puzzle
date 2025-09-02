@@ -1,7 +1,10 @@
 /**
  * Tree mock data: hierarchical structure
  */
-export interface TreeNode { name: string; children?: TreeNode[] }
+export interface TreeNode {
+  name: string;
+  children?: TreeNode[];
+}
 
 export const treeData: TreeNode[] = [
   {

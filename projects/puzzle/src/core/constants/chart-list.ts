@@ -24,59 +24,62 @@ export const CHART_SERIES_TYPE_OPTIONS: BaseSelectOption<ChartTypesEnum>[] = [
   { label: '主题河流图', val: ChartTypesEnum.themeRiver },
   { label: '树图', val: ChartTypesEnum.tree },
   { label: '仪表盘', val: ChartTypesEnum.gauge },
-  { label: '关系图', val: ChartTypesEnum.graph },
+  { label: '关系图', val: ChartTypesEnum.graph }
 ];
 
-export const CHART_SERIES_TYPE_OPTIONS_BY_KEY: { [key in ChartTypesEnum]: BaseSelectOption<ChartTypesEnum> } = keyBy(CHART_SERIES_TYPE_OPTIONS, 'val') as {
-	[key in ChartTypesEnum]: BaseSelectOption<ChartTypesEnum>;
+export const CHART_SERIES_TYPE_OPTIONS_BY_KEY: { [key in ChartTypesEnum]: BaseSelectOption<ChartTypesEnum> } = keyBy(
+  CHART_SERIES_TYPE_OPTIONS,
+  'val'
+) as {
+  [key in ChartTypesEnum]: BaseSelectOption<ChartTypesEnum>;
 };
 
 export const CHART_AXES_TYPE_OPTIONS: ChartAxesTypeOption[] = [
-	{
-		label: '序数时间轴',
-		val: ChartAxesTypesEnum.ordinalTime,
-	},
-	{
-		label: '数值轴',
-		val: ChartAxesTypesEnum.number,
-	},
-	{
-		label: '对数轴',
-		val: ChartAxesTypesEnum.log,
-	},
-	{
-		label: '分类轴',
-		val: ChartAxesTypesEnum.category,
-	},
-	{
-		label: '分组分类轴',
-		val: ChartAxesTypesEnum.groupedCategory,
-	},
-	{
-		label: '时间轴',
-		val: ChartAxesTypesEnum.time,
-	},
-	{
-		label: '极坐标角度轴（分类）',
-		val: ChartAxesTypesEnum.angleCategory,
-	},
-	{
-		label: '极坐标角度轴（数值）',
-		val: ChartAxesTypesEnum.angleNumber,
-	},
-	{
-		label: '极坐标半径轴（分类）',
-		val: ChartAxesTypesEnum.radiusCategory,
-	},
-	{
-		label: '极坐标半径轴（数值）',
-		val: ChartAxesTypesEnum.radiusNumber,
-	},
+  {
+    label: '序数时间轴',
+    val: ChartAxesTypesEnum.ordinalTime
+  },
+  {
+    label: '数值轴',
+    val: ChartAxesTypesEnum.number
+  },
+  {
+    label: '对数轴',
+    val: ChartAxesTypesEnum.log
+  },
+  {
+    label: '分类轴',
+    val: ChartAxesTypesEnum.category
+  },
+  {
+    label: '分组分类轴',
+    val: ChartAxesTypesEnum.groupedCategory
+  },
+  {
+    label: '时间轴',
+    val: ChartAxesTypesEnum.time
+  },
+  {
+    label: '极坐标角度轴（分类）',
+    val: ChartAxesTypesEnum.angleCategory
+  },
+  {
+    label: '极坐标角度轴（数值）',
+    val: ChartAxesTypesEnum.angleNumber
+  },
+  {
+    label: '极坐标半径轴（分类）',
+    val: ChartAxesTypesEnum.radiusCategory
+  },
+  {
+    label: '极坐标半径轴（数值）',
+    val: ChartAxesTypesEnum.radiusNumber
+  }
 ];
 
 export const CHART_AXES_TYPE_OPTIONS_BY_KEY: { [key in ChartAxesTypesEnum]: ChartAxesTypeOption } = keyBy(
-	CHART_AXES_TYPE_OPTIONS,
-	'val',
+  CHART_AXES_TYPE_OPTIONS,
+  'val'
 ) as {
-	[key in ChartAxesTypesEnum]: ChartAxesTypeOption;
+  [key in ChartAxesTypesEnum]: ChartAxesTypeOption;
 };

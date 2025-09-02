@@ -8,7 +8,6 @@ import { mainTypes, PuzzleCanvasMediatorService, ZoomScaleService } from 'ngx-pu
 import { Subject, takeUntil } from 'rxjs';
 import { ThyIcon } from 'ngx-tethys/icon';
 
-
 @Component({
   selector: 'puzzle-drag-wrapper',
   standalone: true,

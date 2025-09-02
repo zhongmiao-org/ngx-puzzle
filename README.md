@@ -15,6 +15,7 @@ Drag-and-drop dashboard builder for Angular applications. Think of it like a puz
 Suitable for rapid prototyping, internal BI dashboards, and data visualization portals.
 
 ## Features
+
 - Drag-and-drop editor with snapping layout
 - Rich built-in components: chart, table, text, control
 - Architecture-first Angular library (standalone, signals, OnPush)
@@ -22,6 +23,7 @@ Suitable for rapid prototyping, internal BI dashboards, and data visualization p
 - Preview/save via external service hooks
 
 ## Installation
+
 ```bash
 npm install @zhongmiao/ngx-puzzle
 # peer deps
@@ -29,6 +31,7 @@ npm install @zhongmiao/ngx-puzzle
 ```
 
 ## Compatibility
+
 - Angular: 18+
 - RxJS: 7.8+
 - ngx-tethys: 18.x (UI dialogs, layout in examples)
@@ -37,6 +40,7 @@ npm install @zhongmiao/ngx-puzzle
 See package.json for exact versions.
 
 ## Quick Start (standalone)
+
 Use the editor component directly in a standalone host component. Below is a minimal yet practical example adapted from the example app.
 
 ```ts
@@ -72,9 +76,7 @@ export class AppPuzzleComponent implements OnInit, OnDestroy {
   private dialog = inject(ThyDialog);
 
   ngOnInit() {
-    this.dataBindingService.bindingRequest$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((request) => this.handleDataBindingRequest(request));
+    this.dataBindingService.bindingRequest$.pipe(takeUntil(this.destroy$)).subscribe((request) => this.handleDataBindingRequest(request));
 
     this.dataBindingService.controlChange$
       .pipe(takeUntil(this.destroy$))
@@ -108,18 +110,21 @@ export class AppPuzzleComponent implements OnInit, OnDestroy {
       }
     });
 
-    ref.afterClosed().pipe(takeUntil(this.destroy$)).subscribe((result: any) => {
-      if (!result) return;
-      const apiSource = this.createApiSourceFromDialog(result);
-      const existed = this.dataBindingService.getComponentDataRequest(request.componentId) || { apiSources: [] };
-      const streams = existed.apiSources ? [...existed.apiSources] : [];
-      if (apiSource) streams[request.seriesIndex] = apiSource;
+    ref
+      .afterClosed()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((result: any) => {
+        if (!result) return;
+        const apiSource = this.createApiSourceFromDialog(result);
+        const existed = this.dataBindingService.getComponentDataRequest(request.componentId) || { apiSources: [] };
+        const streams = existed.apiSources ? [...existed.apiSources] : [];
+        if (apiSource) streams[request.seriesIndex] = apiSource;
 
-      this.dataBindingService.responseBinding({
-        componentId: request.componentId,
-        dataRequest: { ...existed, apiSources: streams }
+        this.dataBindingService.responseBinding({
+          componentId: request.componentId,
+          dataRequest: { ...existed, apiSources: streams }
+        });
       });
-    });
   }
 
   private handleControlChange(notification: NgxPuzzleControlChangeNotification) {
@@ -134,9 +139,11 @@ export class AppPuzzleComponent implements OnInit, OnDestroy {
     });
   }
 
-  private createApiSourceFromDialog(result: { type: 'GET' | 'POST'; url: string; body?: string }):
-    | { url: string; method: string; params?: Record<string, unknown> }
-    | undefined {
+  private createApiSourceFromDialog(result: {
+    type: 'GET' | 'POST';
+    url: string;
+    body?: string;
+  }): { url: string; method: string; params?: Record<string, unknown> } | undefined {
     if (result?.url && result.url.trim()) {
       const url = result.url.trim();
       if (result.type === 'POST') {
@@ -157,12 +164,17 @@ export class AppPuzzleComponent implements OnInit, OnDestroy {
     return { filters };
   }
 
-  save() { this.puzzleService.getAllConfigs(); }
-  preview() { this.puzzleService.generatePreviewId(); }
+  save() {
+    this.puzzleService.getAllConfigs();
+  }
+  preview() {
+    this.puzzleService.generatePreviewId();
+  }
 }
 ```
 
 ### Data source dialog used above
+
 ```ts
 import { Component, inject, input, OnInit, signal } from '@angular/core';
 import { ThyDialog, ThyDialogBody, ThyDialogFooter, ThyDialogHeader } from 'ngx-tethys/dialog';
@@ -192,12 +204,17 @@ export class ExampleDataSourceDialogComponent implements OnInit {
     this.url.set(this.inputUrl() ?? '');
     this.body.set(this.inputBody() ?? '');
   }
-  confirm() { this.dialog.close({ type: this.type(), url: this.url(), body: this.body() }); }
-  close() { this.dialog.close(); }
+  confirm() {
+    this.dialog.close({ type: this.type(), url: this.url(), body: this.body() });
+  }
+  close() {
+    this.dialog.close();
+  }
 }
 ```
 
 ## Architecture Overview
+
 - Standalone components only (no NgModules). Use Angular signals for local state and computed() for derived state.
 - OnPush change detection for performance.
 - External data binding via NgxPuzzleDataBindingService:
@@ -207,12 +224,14 @@ export class ExampleDataSourceDialogComponent implements OnInit {
 - NgxPuzzleExternalService: retrieve/save editor configs and generate preview id.
 
 ## Usage Notes and Best Practices
+
 - Prefer signals over mutable state; use set/update, avoid mutate.
 - Keep templates simple; use Angular built-in control flow (@if/@for).
 - Use host bindings in the decorator's host field, not HostBinding/HostListener decorators.
 - Use NgOptimizedImage for static images.
 
 ## Run the example
+
 ```bash
 npm install
 npm start
@@ -220,15 +239,18 @@ npm start
 ```
 
 ## Contributing
+
 See CONTRIBUTING.md (and CONTRIBUTING.zh-CN.md for Chinese).
 
 ## Acknowledgements
+
 - ngx-tethys (UI components, dialogs, layout used in examples): https://github.com/atinc/ngx-tethys
 - Apache ECharts (chart rendering for built-in chart components): https://echarts.apache.org/ and https://github.com/apache/echarts
 
 ## License
+
 MIT. See LICENSE.
 
 ## Contributors
-- ark65 (liuwufangzhou@gmail.com, liuwufangzhou@qq.vip.com)
 
+- ark65 (liuwufangzhou@gmail.com, liuwufangzhou@qq.vip.com)

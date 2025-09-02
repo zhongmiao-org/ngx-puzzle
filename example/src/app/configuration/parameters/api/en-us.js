@@ -94,7 +94,8 @@ module.exports = [
       },
       {
         name: 'initializeComponent(configs)',
-        description: 'Initialize components from given configs. Accepts single or array. When type===\'canvas\', updates canvas config and selects it.',
+        description:
+          "Initialize components from given configs. Accepts single or array. When type==='canvas', updates canvas config and selects it.",
         type: '(configs: ComponentConfig | ComponentConfig[]) => void'
       },
       {

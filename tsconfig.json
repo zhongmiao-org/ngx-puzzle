@@ -19,7 +19,7 @@
     "moduleResolution": "bundler",
     "paths": {
       "ngx-puzzle": ["projects/puzzle/src/public-api.ts"],
-      "ngx-puzzle/*": ["projects/puzzle/src/*"],
+      "ngx-puzzle/*": ["projects/puzzle/src/*"]
     },
     "importHelpers": true,
     "target": "ES2022",

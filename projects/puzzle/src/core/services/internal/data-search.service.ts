@@ -6,52 +6,51 @@ import { SafeAny } from 'ngx-puzzle/core';
 // import { Search } from 'imm-element-ui';
 
 @Injectable({
-	providedIn: 'root',
+  providedIn: 'root'
 })
 export class DataSearchService {
-	private http: HttpClient = inject(HttpClient);
+  private http: HttpClient = inject(HttpClient);
 
-	private orgCache = new Map<number, string>();
+  private orgCache = new Map<number, string>();
 
-	webSearchMap(params: SafeAny): Observable<any> {
-		return this.http.post('searchMap', params).pipe(
-			map((response: any) => {
-				return response;
-			}),
-		);
-	}
+  webSearchMap(params: SafeAny): Observable<any> {
+    return this.http.post('searchMap', params).pipe(
+      map((response: any) => {
+        return response;
+      })
+    );
+  }
 
-	rfd(orgId: number): Observable<string> {
-		// 先检查缓存
-		if (this.orgCache.has(orgId)) {
-			return of(this.orgCache.get(orgId)!);
-		}
+  rfd(orgId: number): Observable<string> {
+    // 先检查缓存
+    if (this.orgCache.has(orgId)) {
+      return of(this.orgCache.get(orgId)!);
+    }
 
-		const rfdParams = {
-			modelName: 'pmOrg',
-			labelField: 'orgName',
-			valueField: 'id',
-			type: '=',
-			fiter: orgId,
-			whereField: 'id',
-		};
+    const rfdParams = {
+      modelName: 'pmOrg',
+      labelField: 'orgName',
+      valueField: 'id',
+      type: '=',
+      fiter: orgId,
+      whereField: 'id'
+    };
 
-		// 创建请求，提取 label 并缓存
-		return this.http.post('RFD', rfdParams).pipe(
-			map((response: any) => {
-				const orgName = response[0]?.label || '';
-				this.orgCache.set(orgId, orgName);
-				return orgName;
-			}),
-			shareReplay(1)
-		);
-	}
+    // 创建请求，提取 label 并缓存
+    return this.http.post('RFD', rfdParams).pipe(
+      map((response: any) => {
+        const orgName = response[0]?.label || '';
+        this.orgCache.set(orgId, orgName);
+        return orgName;
+      }),
+      shareReplay(1)
+    );
+  }
 
-
-	/**
-	 * 清空组织缓存
-	 */
-	clearOrgCache() {
-		this.orgCache.clear();
-	}
+  /**
+   * 清空组织缓存
+   */
+  clearOrgCache() {
+    this.orgCache.clear();
+  }
 }
