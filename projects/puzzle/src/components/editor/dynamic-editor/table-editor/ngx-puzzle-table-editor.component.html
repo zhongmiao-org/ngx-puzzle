@@ -9,7 +9,7 @@
                 <label class="block mb-1 text-sm">
                   {{ field.label }}
                   @if (field?.description) {
-                    <i [thyTooltip]="field?.description!" thyPlacement="top" class="field-label-icon pi pi-question-circle"></i>
+                    <i [thyTooltip]="field?.description!" thyTooltipPlacement="top" class="field-label-icon pi pi-question-circle"></i>
                   }
                 </label>
                 @switch (field.schemaType) {
@@ -49,7 +49,7 @@
         }
         @if (section.headerSetting && section.headerSetting.length > 0) {
           <div [thyCol]="24" class="mb-2"></div>
-          <table thyTable>
+          <thy-table>
             <thead>
               <tr>
                 @for (head of section.headerSetting; let i = $index; track i) {
@@ -69,15 +69,15 @@
                             thyInput
                             type="text"
                             [(ngModel)]="row[head.field]"
-                            (blur)="editTableComplete(row['field'], head.field)"
-                            (keydown.enter)="editTableComplete(row['field'], head.field)"
+                            (blur)="editTableComplete(row['field'])"
+                            (keydown.enter)="editTableComplete(row['field'])"
                           />
                         }
                         @case ('select') {
                           <thy-select
                             class="editor-select"
                             [(ngModel)]="row[head.field]"
-                            (ngModelChange)="editTableComplete(row['field'], head.field)"
+                            (ngModelChange)="editTableComplete(row['field'])"
                           >
                             @for (opt of head.options; track opt.val) {
                               <thy-option [thyValue]="opt.val">{{ opt.label }}</thy-option>
@@ -90,7 +90,7 @@
                 </tr>
               }
             </tbody>
-          </table>
+          </thy-table>
         }
       </thy-collapse-item>
     }

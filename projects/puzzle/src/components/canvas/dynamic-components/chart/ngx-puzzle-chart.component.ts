@@ -19,7 +19,7 @@ import { NgxPuzzleHttpService } from 'ngx-puzzle/core';
   templateUrl: './ngx-puzzle-chart.component.html',
   styleUrl: './ngx-puzzle-chart.component.scss'
 })
-export class NgxPuzzleChartComponent extends NgxPuzzleCanvasBaseComponent implements OnDestroy<ComponentChartProps, ChartTypesEnum> {
+export class NgxPuzzleChartComponent extends NgxPuzzleCanvasBaseComponent<ComponentChartProps, ChartTypesEnum> implements OnDestroy {
   dataKey: mainTypes = 'chart';
 
   private mockService = inject(MockService);
