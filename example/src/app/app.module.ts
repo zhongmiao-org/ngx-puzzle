@@ -15,34 +15,32 @@ import { DocgeniTemplateModule } from '@docgeni/template';
 import { AppRoutingModule } from './app-routing.module';
 import { NgxPuzzleModule } from 'ngx-puzzle';
 import { AppComponent } from './app.component';
-import { DOCGENI_SITE_PROVIDERS } from './content/index';
+import { DOCGENI_SITE_PROVIDERS } from './content';
 import { AppExampleComponentsComponent } from './components/components.component';
 
 @NgModule({
-    declarations: [AppComponent, AppExampleComponentsComponent],
-    imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
-        CommonModule,
-        DocgeniTemplateModule,
-        NgxPuzzleModule,
-        AppRoutingModule,
-        RouterModule.forRoot([]),
-        ThyButtonModule,
-        ThyNavModule,
-        ThyLayoutModule,
-        ThyCheckboxModule,
-        ThyNotifyModule,
-        ThySwitchModule,
-        ThyDatePickerModule
-    ],
-    providers: [
-        ...DOCGENI_SITE_PROVIDERS
-    ],
-    bootstrap: [AppComponent]
+  declarations: [AppComponent, AppExampleComponentsComponent],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    CommonModule,
+    DocgeniTemplateModule,
+    NgxPuzzleModule,
+    AppRoutingModule,
+    RouterModule.forRoot([]),
+    ThyButtonModule,
+    ThyNavModule,
+    ThyLayoutModule,
+    ThyCheckboxModule,
+    ThyNotifyModule,
+    ThySwitchModule,
+    ThyDatePickerModule
+  ],
+  providers: [...DOCGENI_SITE_PROVIDERS],
+  bootstrap: [AppComponent]
 })
 export class AppModule {
-    constructor() {
-        setPrintErrorWhenIconNotFound(false);
-    }
+  constructor() {
+    setPrintErrorWhenIconNotFound(false);
+  }
 }

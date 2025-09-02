@@ -1,5 +1,8 @@
 // Pie chart mock data
-export interface PieItem { name: string; value: number }
+export interface PieItem {
+  name: string;
+  value: number;
+}
 export const pieData: PieItem[] = [
   { name: 'Direct', value: 335 },
   { name: 'Email', value: 310 },

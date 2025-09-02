@@ -70,7 +70,6 @@ export class AppPuzzleComponent implements OnInit, OnDestroy {
       }
     });
 
-
     // ngx-tethys ThyDialogRef exposes an afterClosed observable instead of a Promise result
     ref
       .afterClosed()
@@ -168,21 +167,6 @@ export class AppPuzzleComponent implements OnInit, OnDestroy {
 
     console.log('无有效配置，返回 undefined 使用默认 Mock');
     return undefined;
-  }
-
-  private processChartData(rawData: any): any {
-    // 在外部处理所有数据转换逻辑
-    // 例如：数据聚合、过滤、格式化等
-    console.log('处理图表数据:', rawData);
-
-    if (Array.isArray(rawData)) {
-      const processed = rawData.slice(0, 10); // 示例：只取前10项
-      console.log('数组数据处理结果:', processed);
-      return processed;
-    }
-
-    console.log('原样返回数据:', rawData);
-    return rawData;
   }
 
   private buildParamsFromFilters(filters: any): any {

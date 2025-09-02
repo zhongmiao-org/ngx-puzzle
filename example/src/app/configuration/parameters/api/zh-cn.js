@@ -94,7 +94,7 @@ module.exports = [
       },
       {
         name: 'initializeComponent(configs)',
-        description: '根据传入配置初始化组件。支持传入单个或数组；包含 type===\'canvas\' 时将更新画布配置并选中画布。',
+        description: "根据传入配置初始化组件。支持传入单个或数组；包含 type==='canvas' 时将更新画布配置并选中画布。",
         type: '(configs: ComponentConfig | ComponentConfig[]) => void'
       },
       {

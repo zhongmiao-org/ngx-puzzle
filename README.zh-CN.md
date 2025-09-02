@@ -15,6 +15,7 @@
 适合快速原型、企业内部 BI 看板、数据可视化门户。
 
 ## 特性
+
 - 拖拽编辑器，吸附布局
 - 内置组件：图表、表格、文本、控件
 - 以架构为先：standalone、signals、OnPush
@@ -22,12 +23,14 @@
 - 通过外部服务提供预览/保存等能力
 
 ## 安装
+
 ```bash
 npm install @zhongmiao/ngx-puzzle
 # 依赖环境：Angular 18+、RxJS 7.8+、ngx-tethys 18.x、echarts 6.x
 ```
 
 ## 兼容性
+
 - Angular：18+
 - RxJS：7.8+
 - ngx-tethys：18.x（示例中用于对话框与布局）
@@ -36,6 +39,7 @@ npm install @zhongmiao/ngx-puzzle
 具体版本参见 package.json。
 
 ## 快速开始（standalone）
+
 在独立组件中直接使用编辑器组件。以下示例取自示例应用并做了精简：
 
 ```ts
@@ -71,9 +75,7 @@ export class AppPuzzleComponent implements OnInit, OnDestroy {
   private dialog = inject(ThyDialog);
 
   ngOnInit() {
-    this.dataBindingService.bindingRequest$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((request) => this.handleDataBindingRequest(request));
+    this.dataBindingService.bindingRequest$.pipe(takeUntil(this.destroy$)).subscribe((request) => this.handleDataBindingRequest(request));
 
     this.dataBindingService.controlChange$
       .pipe(takeUntil(this.destroy$))
@@ -91,7 +93,11 @@ export class AppPuzzleComponent implements OnInit, OnDestroy {
       initialData.type = request.apiSource.method as 'GET' | 'POST';
       initialData.url = request.apiSource.url;
       if (request.apiSource.method === 'POST' && request.apiSource.params) {
-        try { initialData.body = JSON.stringify(request.apiSource.params, null, 2); } catch { initialData.body = ''; }
+        try {
+          initialData.body = JSON.stringify(request.apiSource.params, null, 2);
+        } catch {
+          initialData.body = '';
+        }
       }
     }
 
@@ -103,18 +109,21 @@ export class AppPuzzleComponent implements OnInit, OnDestroy {
       }
     });
 
-    ref.afterClosed().pipe(takeUntil(this.destroy$)).subscribe((result: any) => {
-      if (!result) return;
-      const apiSource = this.createApiSourceFromDialog(result);
-      const existed = this.dataBindingService.getComponentDataRequest(request.componentId) || { apiSources: [] };
-      const streams = existed.apiSources ? [...existed.apiSources] : [];
-      if (apiSource) streams[request.seriesIndex] = apiSource;
+    ref
+      .afterClosed()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((result: any) => {
+        if (!result) return;
+        const apiSource = this.createApiSourceFromDialog(result);
+        const existed = this.dataBindingService.getComponentDataRequest(request.componentId) || { apiSources: [] };
+        const streams = existed.apiSources ? [...existed.apiSources] : [];
+        if (apiSource) streams[request.seriesIndex] = apiSource;
 
-      this.dataBindingService.responseBinding({
-        componentId: request.componentId,
-        dataRequest: { ...existed, apiSources: streams }
+        this.dataBindingService.responseBinding({
+          componentId: request.componentId,
+          dataRequest: { ...existed, apiSources: streams }
+        });
       });
-    });
   }
 
   private handleControlChange(notification: NgxPuzzleControlChangeNotification) {
@@ -129,14 +138,20 @@ export class AppPuzzleComponent implements OnInit, OnDestroy {
     });
   }
 
-  private createApiSourceFromDialog(result: { type: 'GET' | 'POST'; url: string; body?: string }):
-    | { url: string; method: string; params?: Record<string, unknown> }
-    | undefined {
+  private createApiSourceFromDialog(result: {
+    type: 'GET' | 'POST';
+    url: string;
+    body?: string;
+  }): { url: string; method: string; params?: Record<string, unknown> } | undefined {
     if (result?.url && result.url.trim()) {
       const url = result.url.trim();
       if (result.type === 'POST') {
         let payload: unknown;
-        try { payload = result.body ? JSON.parse(result.body) : {}; } catch { payload = {}; }
+        try {
+          payload = result.body ? JSON.parse(result.body) : {};
+        } catch {
+          payload = {};
+        }
         return { url, method: 'POST', params: payload as Record<string, unknown> };
       }
       return { url, method: 'GET' };
@@ -144,13 +159,20 @@ export class AppPuzzleComponent implements OnInit, OnDestroy {
     return undefined; // 走组件内部的 Mock
   }
 
-  private buildParamsFromFilters(filters: unknown) { return { filters }; }
-  save() { this.puzzleService.getAllConfigs(); }
-  preview() { this.puzzleService.generatePreviewId(); }
+  private buildParamsFromFilters(filters: unknown) {
+    return { filters };
+  }
+  save() {
+    this.puzzleService.getAllConfigs();
+  }
+  preview() {
+    this.puzzleService.generatePreviewId();
+  }
 }
 ```
 
 ### 上例中的数据源配置对话框
+
 ```ts
 import { Component, inject, input, OnInit, signal } from '@angular/core';
 import { ThyDialog, ThyDialogBody, ThyDialogFooter, ThyDialogHeader } from 'ngx-tethys/dialog';
@@ -180,12 +202,17 @@ export class ExampleDataSourceDialogComponent implements OnInit {
     this.url.set(this.inputUrl() ?? '');
     this.body.set(this.inputBody() ?? '');
   }
-  confirm() { this.dialog.close({ type: this.type(), url: this.url(), body: this.body() }); }
-  close() { this.dialog.close(); }
+  confirm() {
+    this.dialog.close({ type: this.type(), url: this.url(), body: this.body() });
+  }
+  close() {
+    this.dialog.close();
+  }
 }
 ```
 
 ## 架构与数据绑定
+
 - 仅使用独立组件（standalone）；局部状态用 signals，派生状态用 computed。
 - OnPush 变更检测。
 - 通过 NgxPuzzleDataBindingService 实现外部数据绑定：
@@ -195,12 +222,14 @@ export class ExampleDataSourceDialogComponent implements OnInit {
 - NgxPuzzleExternalService：用于获取/保存编辑器配置、生成预览 ID。
 
 ## 使用建议
+
 - 优先使用 signals（set/update），避免 mutate。
 - 模板保持简洁，使用内置控制流（@if/@for）。
 - 不使用 @HostBinding/@HostListener；改用装饰器的 host 配置。
 - 静态图片使用 NgOptimizedImage。
 
 ## 运行示例
+
 ```bash
 npm install
 npm start
@@ -208,14 +237,18 @@ npm start
 ```
 
 ## 贡献
+
 请阅读 CONTRIBUTING.md（中文参见 CONTRIBUTING.zh-CN.md）。
 
 ## 致谢
+
 - ngx-tethys（示例中的 UI 组件、对话框与布局）：https://github.com/atinc/ngx-tethys
 - Apache ECharts（内置图表组件的渲染引擎）：https://echarts.apache.org/ 及 https://github.com/apache/echarts
 
 ## 许可证
+
 MIT，详见 LICENSE。
 
 ## 贡献者
+
 - ark65 (liuwufangzhou@gmail.com, liuwufangzhou@qq.vip.com)

@@ -325,7 +325,7 @@ export class NgxPuzzlePreviewComponent implements AfterViewInit, OnDestroy {
   private enterFullscreen() {
     try {
       // 使用组件宿主元素作为全屏目标，这样控制按钮也在全屏范围内可见
-      const el = (this.ele?.nativeElement || document.documentElement) as any;
+      const el = this.ele?.nativeElement || document.documentElement;
       if (el?.requestFullscreen) {
         el.requestFullscreen();
       } else if (el?.webkitRequestFullscreen) {

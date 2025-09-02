@@ -64,7 +64,6 @@ export enum ChartTypesEnum {
    */
   chord = 'chord',
 
-
   /**
    * 涟漪散点图 - 带动态涟漪效果的散点数据可视化
    */

@@ -10,10 +10,12 @@ order: 2
 ng-puzzle 是一个基于 Angular 的拖拽式可视化拼图库，提供编辑器容器与预览容器，帮助你快速搭建可视化看板。
 
 # 环境要求
+
 - Angular 17+（支持 Angular 原生信号与独立组件）
 - Node.js 18+ / npm 9+（或 pnpm / yarn）
 
 # 安装
+
 ```bash
 # 使用 npm
 npm i @zhongmiao/ngx-puzzle --save
@@ -26,13 +28,16 @@ yarn add @zhongmiao/ngx-puzzle
 ```
 
 # 基本使用
+
 ng-puzzle 提供两个主要组件：
+
 - 编辑器容器：ngx-puzzle-editor（编辑模式）
 - 预览容器：ngx-puzzle-preview（仅预览/运行）
 
 文档中的示例均基于独立组件（standalone component）。
 
 ## 在页面中使用编辑器容器
+
 ```ts
 import { Component } from '@angular/core';
 import { NgxPuzzleEditorComponent } from '@zhongmiao/ngx-puzzle';
@@ -41,15 +46,15 @@ import { NgxPuzzleEditorComponent } from '@zhongmiao/ngx-puzzle';
   selector: 'app-editor-page',
   standalone: true,
   imports: [NgxPuzzleEditorComponent],
-  template: `
-    <ngx-puzzle-editor />
-  `
+  template: ` <ngx-puzzle-editor /> `
 })
 export class EditorPageComponent {}
 ```
 
 ## 在页面中使用预览容器（普通模式）
+
 传入静态组件配置进行渲染：
+
 ```ts
 import { Component } from '@angular/core';
 import { NgxPuzzlePreviewComponent } from '@zhongmiao/ngx-puzzle';
@@ -64,13 +69,7 @@ const demoConfigs: ComponentConfig[] = [
   selector: 'app-preview-page',
   standalone: true,
   imports: [NgxPuzzlePreviewComponent],
-  template: `
-    <ngx-puzzle-preview
-      [passedConfig]="configs"
-      [enableZoomBtn]="true"
-      [enableFullscreenBtn]="true"
-    />
-  `
+  template: ` <ngx-puzzle-preview [passedConfig]="configs" [enableZoomBtn]="true" [enableFullscreenBtn]="true" /> `
 })
 export class PreviewPageComponent {
   configs = demoConfigs;
@@ -78,7 +77,9 @@ export class PreviewPageComponent {
 ```
 
 ## 使用预览容器（编辑联动模式）
+
 当你在编辑器中生成临时配置时，可通过 NgxPuzzleExternalService 生成 previewId，并在预览页面以 edit 模式加载：
+
 ```ts
 // 编辑器页（生成预览 ID）
 import { Component, inject } from '@angular/core';
@@ -113,13 +114,7 @@ import { NgxPuzzlePreviewComponent } from '@zhongmiao/ngx-puzzle';
   selector: 'app-live-preview',
   standalone: true,
   imports: [NgxPuzzlePreviewComponent],
-  template: `
-    <ngx-puzzle-preview
-      [previewMode]="'edit'"
-      [previewId]="previewId"
-      [enableZoom]="true"
-    />
-  `
+  template: ` <ngx-puzzle-preview [previewMode]="'edit'" [previewId]="previewId" [enableZoom]="true" /> `
 })
 export class LivePreviewComponent {
   // 从路由或父组件传入
@@ -128,6 +123,7 @@ export class LivePreviewComponent {
 ```
 
 # 常用属性速览（预览组件）
+
 - enableZoom: 是否启用缩放，支持双向绑定（默认 true）
 - enableZoomBtn: 是否启用缩放按钮（默认 false）
 - enableFullscreenBtn: 是否启用全屏按钮（默认 true）
@@ -136,11 +132,13 @@ export class LivePreviewComponent {
 - passedConfig: 在 normal 模式下传入的组件配置数组
 
 # 提示与最佳实践
+
 - 组件为独立组件（standalone），无需 NgModule，直接在 imports 中引入即可。
 - 使用 Angular Signals 管理本地状态；避免使用 mutate，使用 set/update。
 - 预览组件的缩放能力仅在 enableZoom 为 true 时生效；窗口尺寸变化会自动适配。
 
 # 下一步
+
 - 阅读「介绍」了解核心能力：/zh-cn/guides/intro
 - 查看 API 参数说明（示例站点 example/ 中的参数页面）
 - 结合 NgxPuzzleDataBindingService 对接数据源，实现实时数据看板

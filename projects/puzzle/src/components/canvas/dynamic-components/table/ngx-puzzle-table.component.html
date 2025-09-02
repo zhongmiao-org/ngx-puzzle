@@ -1,10 +1,11 @@
 <puzzle-drag-wrapper
-	[isEdit]="isEdit"
-	[size]="config.size"
-	[position]="config.position"
-	[componentId]="config.id"
-	[styles]="config.props.styles">
-	@if (!!this.config.props) {
+  [isEdit]="isEdit"
+  [size]="config.size"
+  [position]="config.position"
+  [componentId]="config.id"
+  [styles]="config.props.styles"
+>
+  @if (!!this.config.props) {
     <thy-table [thyModel]="data" thyRowKey="id">
       <thy-table-column thyTitle="Id" thyModelKey="id"></thy-table-column>
       <thy-table-column thyTitle="Name" thyModelKey="name" thyWidth="15%"></thy-table-column>
@@ -12,5 +13,5 @@
       <thy-table-column thyTitle="Job" thyModelKey="job"> </thy-table-column>
       <thy-table-column thyTitle="Address" thyModelKey="address" thySecondary="true"></thy-table-column>
     </thy-table>
-	}
+  }
 </puzzle-drag-wrapper>

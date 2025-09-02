@@ -19,5 +19,5 @@ export const CHART_DEFAULT_MOCKS_MAP: Partial<{ [key in ChartTypesEnum]: string[
   [ChartTypesEnum.themeRiver]: ['themeRiverData'],
   [ChartTypesEnum.tree]: ['treeData'],
   [ChartTypesEnum.gauge]: ['gaugeData'],
-  [ChartTypesEnum.graph]: ['graphNodes'],
+  [ChartTypesEnum.graph]: ['graphNodes']
 };

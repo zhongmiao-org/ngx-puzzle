@@ -11,7 +11,7 @@ export const TABLE_DATA: EditorTableField = {
       label: '数据源设置',
       key: 'data',
       path: 'data',
-      schemaType: 'button',
-    },
-  ],
+      schemaType: 'button'
+    }
+  ]
 };

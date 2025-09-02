@@ -9,37 +9,37 @@ export const TABLE_COLUMN: EditorTableField = {
     {
       field: 'field',
       headerName: '映射字段',
-      schemaType: 'text',
+      schemaType: 'text'
     },
     {
       field: 'header',
       headerName: '表头名称',
-      schemaType: 'text',
+      schemaType: 'text'
     },
     {
       field: 'rowGroup',
       headerName: '分组',
       schemaType: 'select',
-      options: ENABLE_OPTIONS,
+      options: ENABLE_OPTIONS
     },
     {
       field: 'enableRowGroup',
       headerName: '拖拽分组',
       schemaType: 'select',
-      options: ENABLE_OPTIONS,
+      options: ENABLE_OPTIONS
     },
     {
       field: 'pivot',
       headerName: '数据透视',
       schemaType: 'select',
-      options: ENABLE_OPTIONS,
+      options: ENABLE_OPTIONS
     },
     {
       field: 'enablePivot',
       headerName: '拖拽透视',
       schemaType: 'select',
-      options: ENABLE_OPTIONS,
-    },
+      options: ENABLE_OPTIONS
+    }
   ],
-  rowData: [],
+  rowData: []
 };

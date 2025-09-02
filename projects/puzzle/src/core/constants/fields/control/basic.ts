@@ -12,14 +12,14 @@ export const CONTROL_BASIC_FIELDS: EditorBaseField = {
       key: 'alias',
       path: 'alias',
       schemaType: 'text',
-      defaultValue: '测试时间选择器',
+      defaultValue: '测试时间选择器'
     },
     {
       label: '绑定字段',
       key: 'bindField',
       path: 'bindField',
       schemaType: 'text',
-      defaultValue: 'testField',
+      defaultValue: 'testField'
     },
     {
       label: '启用控件',
@@ -27,7 +27,7 @@ export const CONTROL_BASIC_FIELDS: EditorBaseField = {
       path: 'isActive',
       schemaType: 'select',
       defaultValue: true,
-      options: ENABLE_OPTIONS,
-    },
-  ],
+      options: ENABLE_OPTIONS
+    }
+  ]
 };

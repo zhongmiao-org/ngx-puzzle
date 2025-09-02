@@ -1,59 +1,47 @@
 <div class="puzzle-canvas-wrapper">
-	<div class="puzzle-ruler-horizontal-wrapper">
-		<div
-			#rulerHorizontal
-			class="puzzle-ruler-horizontal">
-			@for (tick of hTicks(); track tick.label) {
-				<div
-					class="puzzle-tick"
-					[style.left.px]="tick.position">
-					<span>
+  <div class="puzzle-ruler-horizontal-wrapper">
+    <div #rulerHorizontal class="puzzle-ruler-horizontal">
+      @for (tick of hTicks(); track tick.label) {
+        <div class="puzzle-tick" [style.left.px]="tick.position">
+          <span>
             {{ tick.label }}
           </span>
-				</div>
-			}
+        </div>
+      }
       @if (showGuideSignal()) {
-        <div
-          [ngStyle]="horizontalCursorStyle()"
-          class="puzzle-cursor puzzle-horizontal-cursor">
+        <div [ngStyle]="horizontalCursorStyle()" class="puzzle-cursor puzzle-horizontal-cursor">
           <span class="puzzle-left">{{ horizontalLabels().left }}</span>
           <span class="puzzle-right">{{ horizontalLabels().right }}</span>
         </div>
       }
-		</div>
-	</div>
-	<div class="puzzle-ruler-vertical-wrapper">
-		<div
-			#rulerVertical
-			class="puzzle-ruler-vertical">
-			@for (tick of vTicks(); track tick.label) {
-				<div
-					class="puzzle-tick"
-					[style.top.px]="tick.position">
-					<span>
+    </div>
+  </div>
+  <div class="puzzle-ruler-vertical-wrapper">
+    <div #rulerVertical class="puzzle-ruler-vertical">
+      @for (tick of vTicks(); track tick.label) {
+        <div class="puzzle-tick" [style.top.px]="tick.position">
+          <span>
             {{ tick.label }}
           </span>
-				</div>
-			}
+        </div>
+      }
       @if (showGuideSignal()) {
-        <div
-          [ngStyle]="verticalCursorStyle()"
-          class="puzzle-cursor puzzle-vertical-cursor">
+        <div [ngStyle]="verticalCursorStyle()" class="puzzle-cursor puzzle-vertical-cursor">
           <span class="puzzle-top">{{ verticalLabels().top }}</span>
           <span class="puzzle-bottom">{{ verticalLabels().bottom }}</span>
         </div>
       }
-		</div>
-	</div>
-	<div #canvasContainer id="canvas-container" class="puzzle-canvas-container">
-		<div
+    </div>
+  </div>
+  <div #canvasContainer id="canvas-container" class="puzzle-canvas-container">
+    <div
       (mousedown)="canvasHandleSelect($event)"
       class="puzzle-canvas-content-wrapper"
-			[style.width.px]="config.size.width"
-			[style.height.px]="config.size.height"
+      [style.width.px]="config.size.width"
+      [style.height.px]="config.size.height"
       [ngStyle]="config.props['styles'] | stylesFormat"
     >
       <ng-template #canvasContent></ng-template>
     </div>
-	</div>
+  </div>
 </div>

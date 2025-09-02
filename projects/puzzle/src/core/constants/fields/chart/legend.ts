@@ -11,7 +11,7 @@ export const CHART_LEGEND: EditorChartField = {
       key: 'legendShow',
       path: 'legend.show',
       schemaType: 'select',
-      options: ENABLE_OPTIONS,
+      options: ENABLE_OPTIONS
     },
     {
       label: '布局方向',
@@ -65,7 +65,7 @@ export const CHART_LEGEND: EditorChartField = {
       schemaType: 'number',
       min: 0,
       step: 1,
-      description: '距离右侧的像素值',
+      description: '距离右侧的像素值'
     },
     {
       label: '底部距离',
@@ -74,7 +74,7 @@ export const CHART_LEGEND: EditorChartField = {
       schemaType: 'number',
       min: 0,
       step: 1,
-      description: '距离底部的像素值',
+      description: '距离底部的像素值'
     },
     {
       label: '图例宽度',
@@ -83,7 +83,7 @@ export const CHART_LEGEND: EditorChartField = {
       schemaType: 'number',
       min: 0,
       step: 1,
-      description: '图例组件的宽度',
+      description: '图例组件的宽度'
     },
     {
       label: '图例高度',
@@ -92,19 +92,19 @@ export const CHART_LEGEND: EditorChartField = {
       schemaType: 'number',
       min: 0,
       step: 1,
-      description: '图例组件的高度',
+      description: '图例组件的高度'
     },
     {
       label: '背景颜色',
       key: 'legendBackgroundColor',
       path: 'legend.backgroundColor',
-      schemaType: 'color',
+      schemaType: 'color'
     },
     {
       label: '边框颜色',
       key: 'legendBorderColor',
       path: 'legend.borderColor',
-      schemaType: 'color',
+      schemaType: 'color'
     },
     {
       label: '边框宽度',
@@ -112,7 +112,7 @@ export const CHART_LEGEND: EditorChartField = {
       path: 'legend.borderWidth',
       schemaType: 'number',
       min: 0,
-      step: 1,
+      step: 1
     },
     {
       label: '边框圆角',
@@ -121,7 +121,7 @@ export const CHART_LEGEND: EditorChartField = {
       schemaType: 'number',
       min: 0,
       step: 1,
-      description: '背景边框的圆角半径',
+      description: '背景边框的圆角半径'
     },
     {
       label: '内边距',
@@ -130,7 +130,7 @@ export const CHART_LEGEND: EditorChartField = {
       schemaType: 'number',
       min: 0,
       step: 1,
-      description: '图例内边距，也可设置为数组 [上, 右, 下, 左]',
+      description: '图例内边距，也可设置为数组 [上, 右, 下, 左]'
     },
     {
       label: '图例项间距',
@@ -139,7 +139,7 @@ export const CHART_LEGEND: EditorChartField = {
       schemaType: 'number',
       min: 0,
       step: 1,
-      description: '各个图例项之间的间距',
+      description: '各个图例项之间的间距'
     },
     {
       label: '图例标记宽度',
@@ -148,7 +148,7 @@ export const CHART_LEGEND: EditorChartField = {
       schemaType: 'number',
       min: 0,
       step: 1,
-      description: '图例标记的图形宽度',
+      description: '图例标记的图形宽度'
     },
     {
       label: '图例标记高度',
@@ -157,7 +157,7 @@ export const CHART_LEGEND: EditorChartField = {
       schemaType: 'number',
       min: 0,
       step: 1,
-      description: '图例标记的图形高度',
+      description: '图例标记的图形高度'
     },
     {
       label: '选择模式',
@@ -170,7 +170,7 @@ export const CHART_LEGEND: EditorChartField = {
         { label: '单选', val: 'single' },
         { label: '多选', val: 'multiple' }
       ],
-      description: '图例选择的模式',
+      description: '图例选择的模式'
     },
     {
       label: '显示选择器',
@@ -181,7 +181,7 @@ export const CHART_LEGEND: EditorChartField = {
         { label: '不显示', val: false },
         { label: '显示', val: true }
       ],
-      description: '是否显示全选/反选按钮',
+      description: '是否显示全选/反选按钮'
     },
     {
       label: '选择器位置',
@@ -193,7 +193,7 @@ export const CHART_LEGEND: EditorChartField = {
         { label: '开始', val: 'start' },
         { label: '结束', val: 'end' }
       ],
-      description: '选择器按钮的位置',
+      description: '选择器按钮的位置'
     },
     {
       label: '选择器按钮间距',
@@ -202,7 +202,7 @@ export const CHART_LEGEND: EditorChartField = {
       schemaType: 'number',
       min: 0,
       step: 1,
-      description: '选择器按钮之间的间距',
+      description: '选择器按钮之间的间距'
     },
     {
       label: '选择器与图例间距',
@@ -211,7 +211,7 @@ export const CHART_LEGEND: EditorChartField = {
       schemaType: 'number',
       min: 0,
       step: 1,
-      description: '选择器按钮组与图例项之间的间距',
+      description: '选择器按钮组与图例项之间的间距'
     },
     {
       label: '触发事件',
@@ -219,14 +219,14 @@ export const CHART_LEGEND: EditorChartField = {
       path: 'legend.triggerEvent',
       schemaType: 'select',
       options: ENABLE_OPTIONS,
-      description: '是否触发鼠标或触摸事件',
+      description: '是否触发鼠标或触摸事件'
     },
     // 图例文字样式设置
     {
       label: '图例文字颜色',
       key: 'legendTextStyleColor',
       path: 'legend.textStyle.color',
-      schemaType: 'color',
+      schemaType: 'color'
     },
     {
       label: '图例文字大小',
@@ -242,7 +242,7 @@ export const CHART_LEGEND: EditorChartField = {
       key: 'legendTextStyleFontWeight',
       path: 'legend.textStyle.fontWeight',
       schemaType: 'select',
-      options: FONT_WEIGHT_OPTIONS,
+      options: FONT_WEIGHT_OPTIONS
     },
     {
       label: '图例文字样式',
@@ -260,7 +260,7 @@ export const CHART_LEGEND: EditorChartField = {
       key: 'legendTextStyleFontFamily',
       path: 'legend.textStyle.fontFamily',
       schemaType: 'text',
-      description: '字体系列，如 "Microsoft YaHei", Arial, sans-serif',
+      description: '字体系列，如 "Microsoft YaHei", Arial, sans-serif'
     },
     {
       label: '图例文字行高',
@@ -268,14 +268,14 @@ export const CHART_LEGEND: EditorChartField = {
       path: 'legend.textStyle.lineHeight',
       schemaType: 'number',
       min: 0,
-      step: 0.1,
+      step: 0.1
     },
     // 选择器标签样式设置
     {
       label: '选择器文字颜色',
       key: 'legendSelectorLabelColor',
       path: 'legend.selectorLabel.color',
-      schemaType: 'color',
+      schemaType: 'color'
     },
     {
       label: '选择器文字大小',
@@ -291,21 +291,21 @@ export const CHART_LEGEND: EditorChartField = {
       key: 'legendSelectorLabelFontWeight',
       path: 'legend.selectorLabel.fontWeight',
       schemaType: 'select',
-      options: FONT_WEIGHT_OPTIONS,
+      options: FONT_WEIGHT_OPTIONS
     },
     {
       label: '选择器文字字体',
       key: 'legendSelectorLabelFontFamily',
       path: 'legend.selectorLabel.fontFamily',
       schemaType: 'text',
-      description: '选择器按钮的字体系列',
+      description: '选择器按钮的字体系列'
     },
     // 选择器高亮状态样式
     {
       label: '选择器高亮文字颜色',
       key: 'legendEmphasisSelectorLabelColor',
       path: 'legend.emphasis.selectorLabel.color',
-      schemaType: 'color',
+      schemaType: 'color'
     },
     {
       label: '选择器高亮文字大小',
@@ -321,7 +321,7 @@ export const CHART_LEGEND: EditorChartField = {
       key: 'legendEmphasisSelectorLabelFontWeight',
       path: 'legend.emphasis.selectorLabel.fontWeight',
       schemaType: 'select',
-      options: FONT_WEIGHT_OPTIONS,
+      options: FONT_WEIGHT_OPTIONS
     },
     // 可滚动图例特有配置
     {
@@ -331,7 +331,7 @@ export const CHART_LEGEND: EditorChartField = {
       schemaType: 'number',
       min: 0,
       step: 1,
-      description: '图例当前最左上显示项的 dataIndex',
+      description: '图例当前最左上显示项的 dataIndex'
     },
     {
       label: '翻页按钮间距',
@@ -340,7 +340,7 @@ export const CHART_LEGEND: EditorChartField = {
       schemaType: 'number',
       min: 0,
       step: 1,
-      description: '各个翻页按钮之间的间距',
+      description: '各个翻页按钮之间的间距'
     },
     {
       label: '翻页按钮与图例间距',
@@ -349,7 +349,7 @@ export const CHART_LEGEND: EditorChartField = {
       schemaType: 'number',
       min: 0,
       step: 1,
-      description: '翻页按钮组与图例项之间的间距',
+      description: '翻页按钮组与图例项之间的间距'
     },
     {
       label: '翻页按钮位置',
@@ -360,28 +360,28 @@ export const CHART_LEGEND: EditorChartField = {
         { label: '开始', val: 'start' },
         { label: '结束', val: 'end' }
       ],
-      description: '翻页按钮的位置',
+      description: '翻页按钮的位置'
     },
     {
       label: '页面格式化器',
       key: 'legendPageFormatter',
       path: 'legend.pageFormatter',
       schemaType: 'text',
-      description: '页面格式化函数，支持 {current} 和 {total} 变量',
+      description: '页面格式化函数，支持 {current} 和 {total} 变量'
     },
     {
       label: '翻页图标颜色',
       key: 'legendPageIconColor',
       path: 'legend.pageIconColor',
       schemaType: 'color',
-      description: '翻页按钮的颜色',
+      description: '翻页按钮的颜色'
     },
     {
       label: '翻页图标禁用颜色',
       key: 'legendPageIconInactiveColor',
       path: 'legend.pageIconInactiveColor',
       schemaType: 'color',
-      description: '翻页按钮不激活时（即翻页到头时）的颜色',
+      description: '翻页按钮不激活时（即翻页到头时）的颜色'
     },
     {
       label: '翻页图标大小',
@@ -391,14 +391,14 @@ export const CHART_LEGEND: EditorChartField = {
       min: 8,
       max: 50,
       step: 1,
-      description: '翻页按钮的大小',
+      description: '翻页按钮的大小'
     },
     {
       label: '翻页文字颜色',
       key: 'legendPageTextStyleColor',
       path: 'legend.pageTextStyle.color',
       schemaType: 'color',
-      description: '翻页信息的文字样式',
+      description: '翻页信息的文字样式'
     },
     {
       label: '翻页文字大小',
@@ -407,14 +407,14 @@ export const CHART_LEGEND: EditorChartField = {
       schemaType: 'number',
       min: 8,
       max: 100,
-      step: 1,
+      step: 1
     },
     {
       label: '翻页文字粗细',
       key: 'legendPageTextStyleFontWeight',
       path: 'legend.pageTextStyle.fontWeight',
       schemaType: 'select',
-      options: FONT_WEIGHT_OPTIONS,
+      options: FONT_WEIGHT_OPTIONS
     },
     {
       label: '翻页动画时长',
@@ -423,8 +423,7 @@ export const CHART_LEGEND: EditorChartField = {
       schemaType: 'number',
       min: 0,
       step: 100,
-      description: '翻页时的动画时长',
+      description: '翻页时的动画时长'
     }
-  ],
+  ]
 };
-

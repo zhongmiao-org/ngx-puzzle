@@ -1,118 +1,118 @@
 :host {
-	.drag-wrapper-component {
-		padding: 10px;
-		flex: 1;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		position: absolute;
-		border: 2px solid transparent;
-		background-size: 100% 100%;
-		background-repeat: no-repeat;
+  .drag-wrapper-component {
+    padding: 10px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    border: 2px solid transparent;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
 
     &.edit {
       border-style: dashed;
       border-color: rgba(66, 135, 245, 0.31);
     }
 
-		.resize-handle {
-			position: absolute;
-			width: 9px;
-			height: 9px;
-			background-color: #4287f5;
-			z-index: 999;
-			border-radius: 50%;
-			display: none;
-		}
-		.top-left {
-			top: -5px;
-			left: -5px;
-			cursor: nwse-resize;
-		}
-		.top {
-			top: -5px;
-			left: 50%;
-			transform: translateX(-50%);
-			cursor: ns-resize;
-		}
-		.top-right {
-			top: -5px;
-			right: -5px;
-			cursor: nesw-resize;
-		}
-		.right {
-			right: -5px;
-			top: 50%;
-			transform: translateY(-50%);
-			cursor: ew-resize;
-		}
-		.bottom-right {
-			bottom: -5px;
-			right: -5px;
-			cursor: nwse-resize;
-		}
-		.bottom {
-			bottom: -5px;
-			left: 50%;
-			transform: translateX(-50%);
-			cursor: ns-resize;
-		}
-		.bottom-left {
-			bottom: -5px;
-			left: -5px;
-			cursor: nesw-resize;
-		}
-		.left {
-			left: -5px;
-			top: 50%;
-			transform: translateY(-50%);
-			cursor: ew-resize;
-		}
+    .resize-handle {
+      position: absolute;
+      width: 9px;
+      height: 9px;
+      background-color: #4287f5;
+      z-index: 999;
+      border-radius: 50%;
+      display: none;
+    }
+    .top-left {
+      top: -5px;
+      left: -5px;
+      cursor: nwse-resize;
+    }
+    .top {
+      top: -5px;
+      left: 50%;
+      transform: translateX(-50%);
+      cursor: ns-resize;
+    }
+    .top-right {
+      top: -5px;
+      right: -5px;
+      cursor: nesw-resize;
+    }
+    .right {
+      right: -5px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: ew-resize;
+    }
+    .bottom-right {
+      bottom: -5px;
+      right: -5px;
+      cursor: nwse-resize;
+    }
+    .bottom {
+      bottom: -5px;
+      left: 50%;
+      transform: translateX(-50%);
+      cursor: ns-resize;
+    }
+    .bottom-left {
+      bottom: -5px;
+      left: -5px;
+      cursor: nesw-resize;
+    }
+    .left {
+      left: -5px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: ew-resize;
+    }
 
-		.drag-wrapper-container {
-			position: relative;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			overflow: hidden;
-		}
+    .drag-wrapper-container {
+      position: relative;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
 
-		.mask {
-			position: absolute;
-			top: 0;
-			left: 0;
-			z-index: 99;
-			width: 100%;
-			height: 100%;
-			cursor: move;
+    .mask {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 99;
+      width: 100%;
+      height: 100%;
+      cursor: move;
 
-			.close-btn {
-				position: absolute;
-				top: 5px;
-				right: 5px;
-				cursor: pointer;
-			}
-		}
+      .close-btn {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        cursor: pointer;
+      }
+    }
 
-		&.selected {
-			border-color: #007bff;
-			border-style: solid !important;
-		}
+    &.selected {
+      border-color: #007bff;
+      border-style: solid !important;
+    }
 
-		&:hover .resize-handle {
-			display: block;
-		}
+    &:hover .resize-handle {
+      display: block;
+    }
 
-		&:hover {
-			border-style: dashed;
-			border-color: #007bff;
-			z-index: 999;
-		}
+    &:hover {
+      border-style: dashed;
+      border-color: #007bff;
+      z-index: 999;
+    }
 
-		&.disabled:hover {
-			border-color: transparent;
-		}
-	}
+    &.disabled:hover {
+      border-color: transparent;
+    }
+  }
 }

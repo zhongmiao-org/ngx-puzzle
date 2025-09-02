@@ -1,5 +1,9 @@
 // Sunburst mock hierarchical data
-export interface SunburstNode { name: string; value?: number; children?: SunburstNode[] }
+export interface SunburstNode {
+  name: string;
+  value?: number;
+  children?: SunburstNode[];
+}
 export const sunburstData: SunburstNode[] = [
   {
     name: 'Grand',

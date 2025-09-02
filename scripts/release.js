@@ -318,11 +318,11 @@ function tryGitPush(branch, retries = 3) {
       try {
         const tags = execSync('git tag --sort=-version:refname', { encoding: 'utf8' }).trim().split('\n');
         // Filter out empty strings and find the latest tag that's not the current version we're releasing
-        const validTags = tags.filter(tag => tag.trim() && tag.startsWith('v'));
+        const validTags = tags.filter((tag) => tag.trim() && tag.startsWith('v'));
 
         // Don't include the current version tag if it already exists
         const currentVersionTag = `v${nextVersion}`;
-        latestTag = validTags.find(tag => tag !== currentVersionTag) || '';
+        latestTag = validTags.find((tag) => tag !== currentVersionTag) || '';
 
         console.log(`Debug: All tags: ${validTags.slice(0, 5).join(', ')}`);
         console.log(`Debug: Current version tag: ${currentVersionTag}`);
@@ -359,20 +359,19 @@ function tryGitPush(branch, retries = 3) {
         const commits = execSync(`git log ${latestTag}..HEAD --pretty=format:"%h %s" --no-merges`, { encoding: 'utf8' })
           .trim()
           .split('\n')
-          .filter(line => line.trim())
-          .filter(line => {
+          .filter((line) => line.trim())
+          .filter((line) => {
             const message = line.toLowerCase();
-            return !message.includes('release: v') &&
-              !message.includes('release v') &&
-              !message.match(/^[a-f0-9]+\s+release\s+v\d+\.\d+\.\d+/i);
+            return (
+              !message.includes('release: v') && !message.includes('release v') && !message.match(/^[a-f0-9]+\s+release\s+v\d+\.\d+\.\d+/i)
+            );
           });
-
 
         if (commits.length > 0) {
           const today = new Date().toISOString().split('T')[0];
           const versionHeader = `## <small>${nextVersion} (${today})</small>`;
 
-          const changelogCommits = commits.map(commit => {
+          const changelogCommits = commits.map((commit) => {
             const [hash, ...messageParts] = commit.split(' ');
             const message = messageParts.join(' ');
             return `* ${message} ([${hash}](https://github.com/zhongmiao-org/ngx-puzzle/commit/${hash}))`;

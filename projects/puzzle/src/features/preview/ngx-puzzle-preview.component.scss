@@ -1,156 +1,156 @@
 .bi-preview-container {
-	width: 100%;
-	height: calc(100vh - 40px);
-	position: relative;
-	box-sizing: border-box;
-	margin: 0;
-	padding: 0;
-	user-select: none;
+  width: 100%;
+  height: calc(100vh - 40px);
+  position: relative;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
 
-	&.enable-zoom {
-		overflow-x: hidden;
-		overflow-y: auto;
-		display: flex;
-		justify-content: center;
+  &.enable-zoom {
+    overflow-x: hidden;
+    overflow-y: auto;
+    display: flex;
+    justify-content: center;
 
-		.bi-preview-component {
-			transition: zoom 0.3s ease-in-out;
-			display: inline-block;
-			position: relative;
-			margin: 0;
-			padding: 0;
-			width: fit-content;
-			height: fit-content;
-		}
-	}
+    .bi-preview-component {
+      transition: zoom 0.3s ease-in-out;
+      display: inline-block;
+      position: relative;
+      margin: 0;
+      padding: 0;
+      width: fit-content;
+      height: fit-content;
+    }
+  }
 
-	&.enable-scroll {
-		overflow: auto;
+  &.enable-scroll {
+    overflow: auto;
 
-		.bi-preview-component {
-			margin: 0 auto;
-			display: block;
-			position: relative;
-			width: fit-content;
-		}
-	}
+    .bi-preview-component {
+      margin: 0 auto;
+      display: block;
+      position: relative;
+      width: fit-content;
+    }
+  }
 
-	.canvas-content-wrapper {
-		position: relative;
-		overflow: hidden;
-		background: #ffffff;
-		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-		border-radius: 4px;
-		// 移除所有边距
-		margin: 2px 4px;
-	}
+  .canvas-content-wrapper {
+    position: relative;
+    overflow: hidden;
+    background: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    // 移除所有边距
+    margin: 2px 4px;
+  }
 
-	// 缩放模式切换按钮
-	.zoom-toggle-btn {
-		position: fixed;
-		top: 50px;
-		right: 20px;
-		z-index: 1000;
-		display: flex;
-		gap: 8px;
+  // 缩放模式切换按钮
+  .zoom-toggle-btn {
+    position: fixed;
+    top: 50px;
+    right: 20px;
+    z-index: 1000;
+    display: flex;
+    gap: 8px;
 
-		.toggle-button {
-			display: flex;
-			align-items: center;
-			gap: 6px;
-			padding: 8px 12px;
-			background: rgba(255, 255, 255, 0.95);
-			border: 1px solid #ddd;
-			border-radius: 6px;
-			cursor: pointer;
-			font-size: 12px;
-			color: #666;
-			box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-			transition: all 0.2s ease;
-			backdrop-filter: blur(5px);
+    .toggle-button {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 12px;
+      color: #666;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      transition: all 0.2s ease;
+      backdrop-filter: blur(5px);
 
-			&:hover {
-				background: rgba(255, 255, 255, 1);
-				box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-				transform: translateY(-1px);
-			}
+      &:hover {
+        background: rgba(255, 255, 255, 1);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        transform: translateY(-1px);
+      }
 
-			&:active {
-				transform: translateY(0);
-			}
+      &:active {
+        transform: translateY(0);
+      }
 
-			.icon {
-				font-size: 14px;
-			}
+      .icon {
+        font-size: 14px;
+      }
 
-			.text {
-				font-weight: 500;
-			}
-		}
-	}
+      .text {
+        font-weight: 500;
+      }
+    }
+  }
 
-	&.fullscreen {
-		height: 100vh;
-		.zoom-toggle-btn {
-			pointer-events: auto;
-			top: 10px;
-		}
+  &.fullscreen {
+    height: 100vh;
+    .zoom-toggle-btn {
+      pointer-events: auto;
+      top: 10px;
+    }
 
-		.fullscreen-hidden {
-			opacity: 0;
-			transition: opacity 0.2s ease;
-		}
+    .fullscreen-hidden {
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
 
-		.fullscreen-hidden:hover {
-			opacity: 1;
-		}
-	}
+    .fullscreen-hidden:hover {
+      opacity: 1;
+    }
+  }
 }
 
 // 自定义滚动条样式
 .bi-preview-container {
-	&::-webkit-scrollbar {
-		width: 8px;
-		height: 8px;
-	}
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
 
-	&::-webkit-scrollbar-track {
-		background: #f1f1f1;
-		border-radius: 4px;
-	}
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+  }
 
-	&::-webkit-scrollbar-thumb {
-		background: #c1c1c1;
-		border-radius: 4px;
+  &::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
 
-		&:hover {
-			background: #a8a8a8;
-		}
-	}
+    &:hover {
+      background: #a8a8a8;
+    }
+  }
 
-	&::-webkit-scrollbar-corner {
-		background: #f1f1f1;
-	}
+  &::-webkit-scrollbar-corner {
+    background: #f1f1f1;
+  }
 }
 
 @media (max-width: 768px) {
-	.bi-preview-container {
-		.bi-preview-component {
-			margin: 0;
-		}
+  .bi-preview-container {
+    .bi-preview-component {
+      margin: 0;
+    }
 
-		.zoom-toggle-btn {
-			top: 10px;
-			right: 10px;
+    .zoom-toggle-btn {
+      top: 10px;
+      right: 10px;
 
-			.toggle-button {
-				padding: 6px 10px;
-				font-size: 11px;
+      .toggle-button {
+        padding: 6px 10px;
+        font-size: 11px;
 
-				.icon {
-					font-size: 12px;
-				}
-			}
-		}
-	}
+        .icon {
+          font-size: 12px;
+        }
+      }
+    }
+  }
 }

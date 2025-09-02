@@ -46,7 +46,7 @@ import { convertDateToString } from 'ngx-puzzle/core/utils/controls.util';
 export class NgxPuzzleControlEditorComponent extends EditorBaseComponent<ControlConfig, ControlTypesEnum> {
   protected setFields(subType?: ControlTypesEnum): void {
     if (!subType) return;
-    this.sections = CONTROL_COMPONENT_FIELDS[subType] as any;
+    this.sections = CONTROL_COMPONENT_FIELDS[subType];
   }
 
   protected getComponentType(): string {

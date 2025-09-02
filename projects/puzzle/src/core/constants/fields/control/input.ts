@@ -12,7 +12,7 @@ export const CONTROL_INPUT_FIELDS: EditorBaseField = {
       key: 'placeholder',
       path: 'props.placeholder',
       schemaType: 'text',
-      defaultValue: '请输入内容',
-    },
-  ],
+      defaultValue: '请输入内容'
+    }
+  ]
 };

@@ -12,7 +12,7 @@ export const REFRESH_FIELDS: EditorBaseField = {
       path: 'enabled',
       schemaType: 'select',
       options: ENABLE_OPTIONS,
-      defaultValue: false,
+      defaultValue: false
     },
     {
       label: '刷新间隔',
@@ -22,7 +22,7 @@ export const REFRESH_FIELDS: EditorBaseField = {
       min: 1,
       max: 9999,
       step: 1,
-      defaultValue: 30,
+      defaultValue: 30
     },
     {
       label: '时间单位',
@@ -30,7 +30,7 @@ export const REFRESH_FIELDS: EditorBaseField = {
       path: 'intervalUnit',
       schemaType: 'select',
       defaultValue: 'minutes',
-      options: INTERVAL_UNIT_OPTIONS,
+      options: INTERVAL_UNIT_OPTIONS
     },
     {
       label: '最大刷新次数',
@@ -40,7 +40,7 @@ export const REFRESH_FIELDS: EditorBaseField = {
       min: 1,
       max: 10000,
       step: 1,
-      description: '达到此次数后停止自动刷新，留空则无限制',
-    },
-  ],
-}
+      description: '达到此次数后停止自动刷新，留空则无限制'
+    }
+  ]
+};

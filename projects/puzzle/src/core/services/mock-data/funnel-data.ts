@@ -1,5 +1,8 @@
 // Funnel mock data
-export interface FunnelItem { name: string; value: number }
+export interface FunnelItem {
+  name: string;
+  value: number;
+}
 export const funnelData: FunnelItem[] = [
   { name: 'Visit', value: 100 },
   { name: 'Click', value: 80 },

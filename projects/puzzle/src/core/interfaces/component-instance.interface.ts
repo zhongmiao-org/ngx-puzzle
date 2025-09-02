@@ -1,7 +1,7 @@
 import { Type } from '@angular/core';
-import { ComponentConfig } from './component-config.interface';
+import { ComponentConfig } from 'ngx-puzzle/core';
 
 export interface ComponentInstance {
-	component: Type<any>;
-	config: ComponentConfig;
+  component: Type<any>;
+  config: ComponentConfig;
 }

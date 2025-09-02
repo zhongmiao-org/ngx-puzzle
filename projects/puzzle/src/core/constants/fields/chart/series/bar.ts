@@ -24,7 +24,16 @@ export const CHART_BAR_SERIES: EditorChartField = {
     { label: '柱体圆角', key: 'itemBorderRadius', path: 'itemStyle.borderRadius', schemaType: 'number', min: 0, max: 2000, step: 1 },
 
     // 数值标签（基础）
-    { label: '显示数值标签', key: 'labelShow', path: 'label.show', schemaType: 'select', options: [{ label: '禁用', val: false }, { label: '启用', val: true }] },
+    {
+      label: '显示数值标签',
+      key: 'labelShow',
+      path: 'label.show',
+      schemaType: 'select',
+      options: [
+        { label: '禁用', val: false },
+        { label: '启用', val: true }
+      ]
+    },
     {
       label: '数值标签位置',
       key: 'labelPosition',

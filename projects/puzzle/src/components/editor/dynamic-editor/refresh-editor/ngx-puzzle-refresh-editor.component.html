@@ -38,12 +38,7 @@
                     ></thy-date-picker>
                   }
                   @default {
-                    <input
-                      thyInput
-                      type="text"
-                      [(ngModel)]="formData[field.key]"
-                      (ngModelChange)="onFormFieldChange(field.key, $event)"
-                    />
+                    <input thyInput type="text" [(ngModel)]="formData[field.key]" (ngModelChange)="onFormFieldChange(field.key, $event)" />
                   }
                 }
               </div>

@@ -29,14 +29,8 @@ export default [
     rules: {
       ...angular.configs.recommended.rules,
       ...tsPlugin.configs['recommended-type-checked'].rules,
-      '@angular-eslint/directive-selector': [
-        'error',
-        { type: 'attribute', prefix: 'pzl', style: 'camelCase' }
-      ],
-      '@angular-eslint/component-selector': [
-        'error',
-        { type: 'element', prefix: 'pzl', style: 'kebab-case' }
-      ]
+      '@angular-eslint/directive-selector': ['error', { type: 'attribute', prefix: 'pzl', style: 'camelCase' }],
+      '@angular-eslint/component-selector': ['error', { type: 'element', prefix: 'pzl', style: 'kebab-case' }]
     }
   },
   {

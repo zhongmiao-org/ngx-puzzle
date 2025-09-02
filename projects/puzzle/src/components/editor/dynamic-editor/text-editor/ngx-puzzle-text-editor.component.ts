@@ -39,7 +39,7 @@ import { TextTypesEnum } from 'ngx-puzzle/core/enums/text-types.enum';
 export class NgxPuzzleTextEditorComponent extends EditorBaseComponent<TextConfig, TextTypesEnum> {
   protected setFields(type?: TextTypesEnum): void {
     if (!type) return;
-    this.sections = TEXT_FIELDS_MAP[type] as any;
+    this.sections = TEXT_FIELDS_MAP[type];
   }
 
   protected getComponentType(): string {

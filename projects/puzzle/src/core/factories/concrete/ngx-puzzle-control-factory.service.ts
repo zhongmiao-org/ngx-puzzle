@@ -5,10 +5,10 @@ import { NgxPuzzleControlComponent } from 'ngx-puzzle/components/canvas/dynamic-
 
 @Injectable({ providedIn: 'root' })
 export class NgxPuzzleControlFactoryService extends AbstractComponentFactory {
-	create(config: ComponentConfig): ComponentInstance {
-		return {
-			component: NgxPuzzleControlComponent,
-			config
-		};
-	}
+  create(config: ComponentConfig): ComponentInstance {
+    return {
+      component: NgxPuzzleControlComponent,
+      config
+    };
+  }
 }

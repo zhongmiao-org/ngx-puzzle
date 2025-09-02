@@ -15,14 +15,14 @@ export const CHART_Y_AXIS: EditorChartField = {
         { label: '类目轴', val: 'category' },
         { label: '时间轴', val: 'time' },
         { label: '对数轴', val: 'log' }
-      ],
+      ]
     },
     {
       label: '显示Y轴',
       key: 'yAxisShow',
       path: 'yAxis.show',
       schemaType: 'select',
-      options: ENABLE_OPTIONS,
+      options: ENABLE_OPTIONS
     },
     {
       label: '反向坐标轴',
@@ -30,14 +30,14 @@ export const CHART_Y_AXIS: EditorChartField = {
       path: 'yAxis.inverse',
       schemaType: 'select',
       options: ENABLE_OPTIONS,
-      description: '是否反向坐标轴',
+      description: '是否反向坐标轴'
     },
     {
       label: '轴名称',
       key: 'yAxisName',
       path: 'yAxis.name',
       schemaType: 'text',
-      description: '坐标轴名称',
+      description: '坐标轴名称'
     },
     {
       label: '轴名称位置',
@@ -50,7 +50,7 @@ export const CHART_Y_AXIS: EditorChartField = {
         { label: '居中', val: 'center' },
         { label: '结束', val: 'end' }
       ],
-      description: '坐标轴名称显示位置',
+      description: '坐标轴名称显示位置'
     },
     {
       label: '轴名称旋转角度',
@@ -60,7 +60,7 @@ export const CHART_Y_AXIS: EditorChartField = {
       min: -360,
       max: 360,
       step: 1,
-      description: '坐标轴名称旋转角度',
+      description: '坐标轴名称旋转角度'
     },
     {
       label: '轴名称间距',
@@ -69,7 +69,7 @@ export const CHART_Y_AXIS: EditorChartField = {
       schemaType: 'number',
       min: 0,
       step: 1,
-      description: '坐标轴名称与轴线之间的距离',
+      description: '坐标轴名称与轴线之间的距离'
     },
     {
       label: '轴名称避让',
@@ -81,7 +81,7 @@ export const CHART_Y_AXIS: EditorChartField = {
         { label: '启用', val: true },
         { label: '禁用', val: false }
       ],
-      description: '是否自动移动轴名称避免与标签重叠',
+      description: '是否自动移动轴名称避免与标签重叠'
     },
     {
       label: '轴名称截断最大宽度',
@@ -90,42 +90,42 @@ export const CHART_Y_AXIS: EditorChartField = {
       schemaType: 'number',
       min: 0,
       step: 1,
-      description: '轴名称截断的最大宽度',
+      description: '轴名称截断的最大宽度'
     },
     {
       label: '轴名称截断省略符',
       key: 'yAxisNameTruncateEllipsis',
       path: 'yAxis.nameTruncate.ellipsis',
       schemaType: 'text',
-      description: '轴名称截断时的省略符号',
+      description: '轴名称截断时的省略符号'
     },
     {
       label: '轴名称截断占位符',
       key: 'yAxisNameTruncatePlaceholder',
       path: 'yAxis.nameTruncate.placeholder',
       schemaType: 'text',
-      description: '轴名称截断时的占位符',
+      description: '轴名称截断时的占位符'
     },
     {
       label: '最小值',
       key: 'yAxisMin',
       path: 'yAxis.min',
       schemaType: 'text',
-      description: '坐标轴刻度最小值，支持数字或 "dataMin"',
+      description: '坐标轴刻度最小值，支持数字或 "dataMin"'
     },
     {
       label: '最大值',
       key: 'yAxisMax',
       path: 'yAxis.max',
       schemaType: 'text',
-      description: '坐标轴刻度最大值，支持数字或 "dataMax"',
+      description: '坐标轴刻度最大值，支持数字或 "dataMax"'
     },
     {
       label: '起始值',
       key: 'yAxisStartValue',
       path: 'yAxis.startValue',
       schemaType: 'number',
-      description: '坐标轴起始值',
+      description: '坐标轴起始值'
     },
     {
       label: '静默模式',
@@ -133,7 +133,7 @@ export const CHART_Y_AXIS: EditorChartField = {
       path: 'yAxis.silent',
       schemaType: 'select',
       options: ENABLE_OPTIONS,
-      description: '坐标轴是否是静默的，不响应鼠标事件',
+      description: '坐标轴是否是静默的，不响应鼠标事件'
     },
     {
       label: '抖动',
@@ -142,7 +142,7 @@ export const CHART_Y_AXIS: EditorChartField = {
       schemaType: 'number',
       min: 0,
       step: 0.1,
-      description: '轴标签抖动量',
+      description: '轴标签抖动量'
     },
     {
       label: '抖动重叠处理',
@@ -150,7 +150,7 @@ export const CHART_Y_AXIS: EditorChartField = {
       path: 'yAxis.jitterOverlap',
       schemaType: 'select',
       options: ENABLE_OPTIONS,
-      description: '是否处理抖动标签的重叠',
+      description: '是否处理抖动标签的重叠'
     },
     {
       label: '抖动边距',
@@ -159,14 +159,14 @@ export const CHART_Y_AXIS: EditorChartField = {
       schemaType: 'number',
       min: 0,
       step: 1,
-      description: '抖动标签的边距',
+      description: '抖动标签的边距'
     },
     // 轴名称文字样式
     {
       label: '轴名称文字颜色',
       key: 'yAxisNameTextStyleColor',
       path: 'yAxis.nameTextStyle.color',
-      schemaType: 'color',
+      schemaType: 'color'
     },
     {
       label: '轴名称文字大小',
@@ -175,14 +175,14 @@ export const CHART_Y_AXIS: EditorChartField = {
       schemaType: 'number',
       min: 8,
       max: 100,
-      step: 1,
+      step: 1
     },
     {
       label: '轴名称文字粗细',
       key: 'yAxisNameTextStyleFontWeight',
       path: 'yAxis.nameTextStyle.fontWeight',
       schemaType: 'select',
-      options: FONT_WEIGHT_OPTIONS,
+      options: FONT_WEIGHT_OPTIONS
     },
     {
       label: '轴名称文字样式',
@@ -193,13 +193,13 @@ export const CHART_Y_AXIS: EditorChartField = {
         { label: '正常', val: 'normal' },
         { label: '斜体', val: 'italic' },
         { label: '倾斜', val: 'oblique' }
-      ],
+      ]
     },
     {
       label: '轴名称字体系列',
       key: 'yAxisNameTextStyleFontFamily',
       path: 'yAxis.nameTextStyle.fontFamily',
-      schemaType: 'text',
+      schemaType: 'text'
     },
     {
       label: '轴名称行高',
@@ -207,13 +207,13 @@ export const CHART_Y_AXIS: EditorChartField = {
       path: 'yAxis.nameTextStyle.lineHeight',
       schemaType: 'number',
       min: 0,
-      step: 0.1,
+      step: 0.1
     },
     {
       label: '轴名称描边颜色',
       key: 'yAxisNameTextStyleTextBorderColor',
       path: 'yAxis.nameTextStyle.textBorderColor',
-      schemaType: 'color',
+      schemaType: 'color'
     },
     {
       label: '轴名称描边宽度',
@@ -221,13 +221,13 @@ export const CHART_Y_AXIS: EditorChartField = {
       path: 'yAxis.nameTextStyle.textBorderWidth',
       schemaType: 'number',
       min: 0,
-      step: 0.5,
+      step: 0.5
     },
     {
       label: '轴名称阴影颜色',
       key: 'yAxisNameTextStyleTextShadowColor',
       path: 'yAxis.nameTextStyle.textShadowColor',
-      schemaType: 'color',
+      schemaType: 'color'
     },
     {
       label: '轴名称阴影模糊',
@@ -235,21 +235,21 @@ export const CHART_Y_AXIS: EditorChartField = {
       path: 'yAxis.nameTextStyle.textShadowBlur',
       schemaType: 'number',
       min: 0,
-      step: 1,
+      step: 1
     },
     {
       label: '轴名称阴影偏移X',
       key: 'yAxisNameTextStyleTextShadowOffsetX',
       path: 'yAxis.nameTextStyle.textShadowOffsetX',
       schemaType: 'number',
-      step: 1,
+      step: 1
     },
     {
       label: '轴名称阴影偏移Y',
       key: 'yAxisNameTextStyleTextShadowOffsetY',
       path: 'yAxis.nameTextStyle.textShadowOffsetY',
       schemaType: 'number',
-      step: 1,
+      step: 1
     },
     // 轴标签样式
     {
@@ -257,7 +257,7 @@ export const CHART_Y_AXIS: EditorChartField = {
       key: 'yAxisAxisLabelShow',
       path: 'yAxis.axisLabel.show',
       schemaType: 'select',
-      options: ENABLE_OPTIONS,
+      options: ENABLE_OPTIONS
     },
     {
       label: '标签间隔',
@@ -266,7 +266,7 @@ export const CHART_Y_AXIS: EditorChartField = {
       schemaType: 'number',
       min: 0,
       step: 1,
-      description: '坐标轴刻度标签的显示间隔，0表示显示所有标签',
+      description: '坐标轴刻度标签的显示间隔，0表示显示所有标签'
     },
     {
       label: '标签旋转角度',
@@ -275,7 +275,7 @@ export const CHART_Y_AXIS: EditorChartField = {
       schemaType: 'number',
       min: -90,
       max: 90,
-      step: 1,
+      step: 1
     },
     {
       label: '标签内边距',
@@ -284,13 +284,13 @@ export const CHART_Y_AXIS: EditorChartField = {
       schemaType: 'number',
       min: 0,
       step: 1,
-      description: '刻度标签与轴线之间的距离',
+      description: '刻度标签与轴线之间的距离'
     },
     {
       label: '标签文字颜色',
       key: 'yAxisAxisLabelColor',
       path: 'yAxis.axisLabel.color',
-      schemaType: 'color',
+      schemaType: 'color'
     },
     {
       label: '标签文字大小',
@@ -299,20 +299,20 @@ export const CHART_Y_AXIS: EditorChartField = {
       schemaType: 'number',
       min: 8,
       max: 100,
-      step: 1,
+      step: 1
     },
     {
       label: '标签文字粗细',
       key: 'yAxisAxisLabelFontWeight',
       path: 'yAxis.axisLabel.fontWeight',
       schemaType: 'select',
-      options: FONT_WEIGHT_OPTIONS,
+      options: FONT_WEIGHT_OPTIONS
     },
     {
       label: '标签字体系列',
       key: 'yAxisAxisLabelFontFamily',
       path: 'yAxis.axisLabel.fontFamily',
-      schemaType: 'text',
+      schemaType: 'text'
     },
     // 轴线样式
     {
@@ -320,13 +320,13 @@ export const CHART_Y_AXIS: EditorChartField = {
       key: 'yAxisAxisLineShow',
       path: 'yAxis.axisLine.show',
       schemaType: 'select',
-      options: ENABLE_OPTIONS,
+      options: ENABLE_OPTIONS
     },
     {
       label: '轴线颜色',
       key: 'yAxisAxisLineLineStyleColor',
       path: 'yAxis.axisLine.lineStyle.color',
-      schemaType: 'color',
+      schemaType: 'color'
     },
     {
       label: '轴线宽度',
@@ -334,7 +334,7 @@ export const CHART_Y_AXIS: EditorChartField = {
       path: 'yAxis.axisLine.lineStyle.width',
       schemaType: 'number',
       min: 0,
-      step: 0.5,
+      step: 0.5
     },
     {
       label: '轴线类型',
@@ -345,7 +345,7 @@ export const CHART_Y_AXIS: EditorChartField = {
         { label: '实线', val: 'solid' },
         { label: '虚线', val: 'dashed' },
         { label: '点线', val: 'dotted' }
-      ],
+      ]
     },
     // 轴刻度样式
     {
@@ -353,7 +353,7 @@ export const CHART_Y_AXIS: EditorChartField = {
       key: 'yAxisAxisTickShow',
       path: 'yAxis.axisTick.show',
       schemaType: 'select',
-      options: ENABLE_OPTIONS,
+      options: ENABLE_OPTIONS
     },
     {
       label: '刻度长度',
@@ -361,13 +361,13 @@ export const CHART_Y_AXIS: EditorChartField = {
       path: 'yAxis.axisTick.length',
       schemaType: 'number',
       min: 0,
-      step: 1,
+      step: 1
     },
     {
       label: '刻度线颜色',
       key: 'yAxisAxisTickLineStyleColor',
       path: 'yAxis.axisTick.lineStyle.color',
-      schemaType: 'color',
+      schemaType: 'color'
     },
     {
       label: '刻度线宽度',
@@ -375,7 +375,7 @@ export const CHART_Y_AXIS: EditorChartField = {
       path: 'yAxis.axisTick.lineStyle.width',
       schemaType: 'number',
       min: 0,
-      step: 0.5,
+      step: 0.5
     },
     // 次要刻度样式
     {
@@ -383,7 +383,7 @@ export const CHART_Y_AXIS: EditorChartField = {
       key: 'yAxisMinorTickShow',
       path: 'yAxis.minorTick.show',
       schemaType: 'select',
-      options: ENABLE_OPTIONS,
+      options: ENABLE_OPTIONS
     },
     {
       label: '次要刻度长度',
@@ -391,7 +391,7 @@ export const CHART_Y_AXIS: EditorChartField = {
       path: 'yAxis.minorTick.length',
       schemaType: 'number',
       min: 0,
-      step: 1,
+      step: 1
     },
     {
       label: '次要刻度分割数',
@@ -400,7 +400,7 @@ export const CHART_Y_AXIS: EditorChartField = {
       schemaType: 'number',
       min: 1,
       step: 1,
-      description: '次刻度的分割段数',
+      description: '次刻度的分割段数'
     },
     // 分割线样式
     {
@@ -408,13 +408,13 @@ export const CHART_Y_AXIS: EditorChartField = {
       key: 'yAxisSplitLineShow',
       path: 'yAxis.splitLine.show',
       schemaType: 'select',
-      options: ENABLE_OPTIONS,
+      options: ENABLE_OPTIONS
     },
     {
       label: '分割线颜色',
       key: 'yAxisSplitLineLineStyleColor',
       path: 'yAxis.splitLine.lineStyle.color',
-      schemaType: 'color',
+      schemaType: 'color'
     },
     {
       label: '分割线宽度',
@@ -422,7 +422,7 @@ export const CHART_Y_AXIS: EditorChartField = {
       path: 'yAxis.splitLine.lineStyle.width',
       schemaType: 'number',
       min: 0,
-      step: 0.5,
+      step: 0.5
     },
     {
       label: '分割线类型',
@@ -433,7 +433,7 @@ export const CHART_Y_AXIS: EditorChartField = {
         { label: '实线', val: 'solid' },
         { label: '虚线', val: 'dashed' },
         { label: '点线', val: 'dotted' }
-      ],
+      ]
     },
     // 次要分割线样式
     {
@@ -441,13 +441,13 @@ export const CHART_Y_AXIS: EditorChartField = {
       key: 'yAxisMinorSplitLineShow',
       path: 'yAxis.minorSplitLine.show',
       schemaType: 'select',
-      options: ENABLE_OPTIONS,
+      options: ENABLE_OPTIONS
     },
     {
       label: '次要分割线颜色',
       key: 'yAxisMinorSplitLineLineStyleColor',
       path: 'yAxis.minorSplitLine.lineStyle.color',
-      schemaType: 'color',
+      schemaType: 'color'
     },
     {
       label: '次要分割线宽度',
@@ -455,7 +455,7 @@ export const CHART_Y_AXIS: EditorChartField = {
       path: 'yAxis.minorSplitLine.lineStyle.width',
       schemaType: 'number',
       min: 0,
-      step: 0.5,
+      step: 0.5
     },
     // 分割区域样式
     {
@@ -463,7 +463,7 @@ export const CHART_Y_AXIS: EditorChartField = {
       key: 'yAxisSplitAreaShow',
       path: 'yAxis.splitArea.show',
       schemaType: 'select',
-      options: ENABLE_OPTIONS,
+      options: ENABLE_OPTIONS
     },
     // 轴间断设置
     {
@@ -472,7 +472,7 @@ export const CHART_Y_AXIS: EditorChartField = {
       path: 'yAxis.breakArea.show',
       schemaType: 'select',
       options: ENABLE_OPTIONS,
-      description: '是否显示轴线间断区域',
+      description: '是否显示轴线间断区域'
     },
     {
       label: '间断区域锯齿幅度',
@@ -481,7 +481,7 @@ export const CHART_Y_AXIS: EditorChartField = {
       schemaType: 'number',
       min: 0,
       step: 1,
-      description: '间断区域锯齿线的振幅大小',
+      description: '间断区域锯齿线的振幅大小'
     },
     {
       label: '间断区域最小跨度',
@@ -490,7 +490,7 @@ export const CHART_Y_AXIS: EditorChartField = {
       schemaType: 'number',
       min: 0,
       step: 1,
-      description: '间断区域锯齿线的最小跨度',
+      description: '间断区域锯齿线的最小跨度'
     },
     {
       label: '间断区域最大跨度',
@@ -499,7 +499,7 @@ export const CHART_Y_AXIS: EditorChartField = {
       schemaType: 'number',
       min: 0,
       step: 1,
-      description: '间断区域锯齿线的最大跨度',
+      description: '间断区域锯齿线的最大跨度'
     },
     {
       label: '间断区域点击展开',
@@ -507,7 +507,7 @@ export const CHART_Y_AXIS: EditorChartField = {
       path: 'yAxis.breakArea.expandOnClick',
       schemaType: 'select',
       options: ENABLE_OPTIONS,
-      description: '是否支持点击展开间断区域',
+      description: '是否支持点击展开间断区域'
     },
     {
       label: '间断标签重叠处理',
@@ -519,7 +519,7 @@ export const CHART_Y_AXIS: EditorChartField = {
         { label: '启用', val: true },
         { label: '禁用', val: false }
       ],
-      description: '间断标签的重叠处理方式',
+      description: '间断标签的重叠处理方式'
     }
-  ],
+  ]
 };
