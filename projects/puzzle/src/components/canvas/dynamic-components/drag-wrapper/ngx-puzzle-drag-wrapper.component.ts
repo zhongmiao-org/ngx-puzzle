@@ -47,7 +47,7 @@ export class NgxPuzzleDragWrapperComponent<TConfigProps extends ComponentBasePro
   private startLeft = 0;
   private startTop = 0;
 
-  public isSelected = false;
+  public isSelected = signal<boolean>(false);
 
   public directions = [
     { className: 'top-left', direction: 'nw' },
@@ -74,23 +74,6 @@ export class NgxPuzzleDragWrapperComponent<TConfigProps extends ComponentBasePro
       'text-wrapper': this.mainType() === 'text',
       'control-wrapper': this.mainType() === 'control'
     };
-  }
-
-  // 计算实际显示尺寸的方法
-  get actualWidth(): number {
-    return this.size().width * this.forwardScale();
-  }
-
-  get actualHeight(): number {
-    return this.size().height * this.forwardScale();
-  }
-
-  get actualLeft(): number {
-    return this.position().x * this.forwardScale();
-  }
-
-  get actualTop(): number {
-    return this.position().y * this.forwardScale();
   }
 
   constructor() {
@@ -128,11 +111,7 @@ export class NgxPuzzleDragWrapperComponent<TConfigProps extends ComponentBasePro
     });
 
     this.mediator.componentSelect$.pipe(takeUntil(this.destroy$)).subscribe((config: ComponentConfig<TConfigProps, TSubType>) => {
-      // this.isSelected = config.id === this.componentId();
-      const newIsSelected = config.id === this.componentId();
-      if (this.isSelected !== newIsSelected) {
-        this.isSelected = newIsSelected;
-      }
+      this.isSelected.set(config.id === this.componentId());
     });
   }
 

@@ -6,7 +6,7 @@
     (cdkDragMoved)="componentHandleDrag()"
     (cdkDragEnded)="componentHandleDragEnd()"
     class="drag-wrapper-component edit"
-    [class]="isSelected ? 'selected' : ''"
+    [class]="isSelected() ? 'selected' : ''"
     [cdkDragFreeDragPosition]="position()"
     [ngStyle]="styles() | stylesFormat"
     [style.width.px]="size().width"

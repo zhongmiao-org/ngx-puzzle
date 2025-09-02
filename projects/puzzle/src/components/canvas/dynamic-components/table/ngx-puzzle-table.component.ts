@@ -31,6 +31,12 @@ import {
 export class NgxPuzzleTableComponent extends NgxPuzzleCanvasBaseComponent<ComponentTableProps, TableTypesEnum> implements OnDestroy {
 	dataKey: mainTypes = 'table';
 
+  data = [
+    { id: 1, name: 'Peter', age: 25, job: 'Engineer', address: 'Beijing Dong Sheng Technology' },
+    { id: 2, name: 'James', age: 26, job: 'Designer', address: 'Xian Economic Development Zone' },
+    { id: 3, name: 'Tom', age: 30, job: 'Engineer', address: 'New Industrial Park, Shushan, Hefei, Anhui' }
+  ];
+
 	private httpService = inject(NgxPuzzleHttpService);
 	private _tableData$!: Observable<SafeAny>;
 	private isInit = false;
