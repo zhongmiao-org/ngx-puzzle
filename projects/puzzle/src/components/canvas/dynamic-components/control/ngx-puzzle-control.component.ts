@@ -22,7 +22,7 @@ import { ThySelectModule } from 'ngx-tethys/select';
 import { ThyDatePickerModule } from 'ngx-tethys/date-picker';
 import { ThyInputModule } from 'ngx-tethys/input';
 import { ThyTooltipModule } from 'ngx-tethys/tooltip';
-import { NgxPuzzleDatetimeComponent } from 'ngx-puzzle/components/primitives/datetime/ngx-puzzle-datetime.component';
+import { PuzzleDatetimeComponent } from 'ngx-puzzle/components/primitives/puzzle-datetime/puzzle-datetime.component';
 
 @Component({
   selector: 'puzzle-control',
@@ -37,7 +37,7 @@ import { NgxPuzzleDatetimeComponent } from 'ngx-puzzle/components/primitives/dat
     NgTemplateOutlet,
     ThySelectModule,
     ThyInputModule,
-    NgxPuzzleDatetimeComponent
+    PuzzleDatetimeComponent
   ],
   templateUrl: './ngx-puzzle-control.component.html',
   styleUrls: ['./ngx-puzzle-control.component.scss'],

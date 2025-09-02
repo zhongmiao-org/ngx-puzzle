@@ -8,14 +8,14 @@ import { CHART_DATA_OPTIONS, CHART_DEFAULT_MOCKS_MAP } from 'ngx-puzzle/core/con
 import { SafeAny } from 'ngx-tethys/types';
 import { takeUntil } from 'rxjs/operators';
 import { MockService, PuzzleCanvasMediatorService } from 'ngx-puzzle/core';
-import { NgxPuzzleChartsComponent } from 'ngx-puzzle/components/primitives/ngx-puzzle-charts/ngx-puzzle-charts.component';
+import { PuzzleChartsComponent } from 'ngx-puzzle/components/primitives/puzzle-charts/puzzle-charts.component';
 import { Subscription } from 'rxjs';
 import { NgxPuzzleHttpService } from 'ngx-puzzle/core';
 
 @Component({
   selector: 'puzzle-chart',
   standalone: true,
-  imports: [NgxPuzzleDragWrapperComponent, NgxPuzzleChartsComponent],
+  imports: [NgxPuzzleDragWrapperComponent, PuzzleChartsComponent],
   templateUrl: './ngx-puzzle-chart.component.html',
   styleUrl: './ngx-puzzle-chart.component.scss'
 })

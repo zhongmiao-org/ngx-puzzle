@@ -31,11 +31,11 @@ const DEFAULTS: DateTimeConfig = {
   selector: 'ngx-puzzle-datetime, puzzle-datetime',
   standalone: true,
   imports: [NgStyle, StylesFormatPipe],
-  templateUrl: './ngx-puzzle-datetime.component.html',
-  styleUrls: ['./ngx-puzzle-datetime.component.css'],
+  templateUrl: './puzzle-datetime.component.html',
+  styleUrls: ['./puzzle-datetime.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NgxPuzzleDatetimeComponent implements OnDestroy {
+export class PuzzleDatetimeComponent implements OnDestroy {
   // Split first-level inputs (undefined by default; when provided, override defaults)
   year = input<DateTimeConfig['year'] | undefined>();
   month = input<DateTimeConfig['month'] | undefined>();
