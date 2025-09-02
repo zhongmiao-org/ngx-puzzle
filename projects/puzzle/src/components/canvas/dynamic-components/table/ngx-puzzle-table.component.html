@@ -5,23 +5,12 @@
 	[componentId]="config.id"
 	[styles]="config.props.styles">
 	@if (!!this.config.props) {
-		<table thyTable style="width: 100%; height: 100%">
-			<thead>
-				<tr>
-					@for (col of columnDefs; track col.field) {
-						<th>{{ col.field }}</th>
-					}
-				</tr>
-			</thead>
-			<tbody>
-				@for (row of rowData; track row) {
-					<tr>
-						@for (col of columnDefs; track col.field) {
-							<td>{{ row[col.field] }}</td>
-						}
-					</tr>
-				}
-			</tbody>
-		</table>
+    <thy-table [thyModel]="data" thyRowKey="id">
+      <thy-table-column thyTitle="Id" thyModelKey="id"></thy-table-column>
+      <thy-table-column thyTitle="Name" thyModelKey="name" thyWidth="15%"></thy-table-column>
+      <thy-table-column thyTitle="Age" thyModelKey="age"></thy-table-column>
+      <thy-table-column thyTitle="Job" thyModelKey="job"> </thy-table-column>
+      <thy-table-column thyTitle="Address" thyModelKey="address" thySecondary="true"></thy-table-column>
+    </thy-table>
 	}
 </puzzle-drag-wrapper>
