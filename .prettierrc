@@ -1,24 +1,10 @@
 {
-  "eslintIntegration": true,
-  "stylelintIntegration": true,
   "tabWidth": 2,
+  "useTabs": false,
   "semi": true,
+  "singleQuote": true,
   "printWidth": 140,
   "proseWrap": "preserve",
   "trailingComma": "none",
-  "singleQuote": true,
-  "overrides": [
-    {
-      "files": "*.js",
-      "options": {
-        "tabWidth": 2
-      }
-    },
-    {
-      "files": "*.ts",
-      "options": {
-        "tabWidth": 2
-      }
-    }
-  ]
+  "endOfLine": "lf"
 }

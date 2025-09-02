@@ -105,6 +105,14 @@
     "karma-jasmine-html-reporter": "~2.1.0",
     "ng-packagr": "^18.2.0",
     "prettier": "^3.6.2",
-    "typescript": "~5.5.2"
+    "typescript": "~5.5.2",
+    "eslint": "^9.9.0",
+    "@angular-eslint/builder": "^18.3.1",
+    "@angular-eslint/eslint-plugin": "^18.3.1",
+    "@angular-eslint/eslint-plugin-template": "^18.3.1",
+    "@angular-eslint/template-parser": "^18.3.1",
+    "@typescript-eslint/parser": "^8.8.1",
+    "@typescript-eslint/eslint-plugin": "^8.8.1",
+    "eslint-config-prettier": "^9.1.0"
   }
 }
