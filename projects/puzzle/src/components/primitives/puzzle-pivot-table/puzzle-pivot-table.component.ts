@@ -13,10 +13,10 @@ export class PuzzlePivotTableComponent implements AfterViewInit, OnDestroy {
 
   private localization = 'https://cdn.webdatarocks.com/loc/zh.json';
 
-  toolbar = input<boolean>(true);
+  toolbar = input<boolean>(false);
   width = input<string | number>('100%');
   height = input<string | number>('100%');
-  report = input<Report | string | undefined>(undefined);
+  report = input<Report>();
   global = input<Report | undefined>({
     localization: this.localization
   });
