@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, computed, effect, inject, input, output, type EffectRef } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, computed, effect, inject, input, output } from '@angular/core';
 import WebDataRocks, { CellBuilder, CellData, Params, Pivot, Report } from '@webdatarocks/webdatarocks';
 
 @Component({

@@ -1,9 +1,6 @@
-
-import { Component, input, output, computed, ChangeDetectionStrategy } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgTemplateOutlet } from '@angular/common';
-import {
-} from 'ngx-tethys';
+import { NgStyle, NgTemplateOutlet } from '@angular/common';
 import { EditorBaseField, SafeAny, BaseSelectOption } from 'ngx-puzzle/core';
 import { ThyCollapseModule } from 'ngx-tethys/collapse';
 import { ThyInputDirective, ThyInputModule } from 'ngx-tethys/input';
@@ -38,7 +35,8 @@ import { ThyDatePickerModule } from 'ngx-tethys/date-picker';
     ThyGridModule,
     ThyLayoutModule,
     ThyColorPickerDirective,
-    ThyDatePickerModule
+    ThyDatePickerModule,
+    NgStyle
   ]
 })
 export class PuzzleFormRendererComponent {
@@ -85,7 +83,6 @@ export class PuzzleFormRendererComponent {
     field: EditorBaseField;
     data: SafeAny;
   }>();
-
 
   /**
    * 日期变化事件（特殊处理）

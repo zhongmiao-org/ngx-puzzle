@@ -29,15 +29,13 @@ export const CHART_X_AXIS: EditorChartField = {
       key: 'xAxisInverse',
       path: 'xAxis.inverse',
       schemaType: 'select',
-      options: ENABLE_OPTIONS,
-      description: '是否反向坐标轴'
+      options: ENABLE_OPTIONS
     },
     {
       label: '轴名称',
       key: 'xAxisName',
       path: 'xAxis.name',
-      schemaType: 'text',
-      description: '坐标轴名称'
+      schemaType: 'text'
     },
     {
       label: '轴名称位置',
@@ -49,18 +47,7 @@ export const CHART_X_AXIS: EditorChartField = {
         { label: '中间', val: 'middle' },
         { label: '居中', val: 'center' },
         { label: '结束', val: 'end' }
-      ],
-      description: '坐标轴名称显示位置'
-    },
-    {
-      label: '轴名称旋转角度',
-      key: 'xAxisNameRotate',
-      path: 'xAxis.nameRotate',
-      schemaType: 'number',
-      min: -360,
-      max: 360,
-      step: 1,
-      description: '坐标轴名称旋转角度'
+      ]
     },
     {
       label: '轴名称间距',
@@ -68,74 +55,21 @@ export const CHART_X_AXIS: EditorChartField = {
       path: 'xAxis.nameGap',
       schemaType: 'number',
       min: 0,
-      step: 1,
-      description: '坐标轴名称与轴线之间的距离'
-    },
-    {
-      label: '轴名称避让',
-      key: 'xAxisNameMoveOverlap',
-      path: 'xAxis.nameMoveOverlap',
-      schemaType: 'select',
-      options: [
-        { label: '自动', val: 'auto' },
-        { label: '启用', val: true },
-        { label: '禁用', val: false }
-      ],
-      description: '是否自动移动轴名称避免与标签重叠'
-    },
-    {
-      label: '轴名称截断最大宽度',
-      key: 'xAxisNameTruncateMaxWidth',
-      path: 'xAxis.nameTruncate.maxWidth',
-      schemaType: 'number',
-      min: 0,
-      step: 1,
-      description: '轴名称截断的最大宽度'
-    },
-    {
-      label: '轴名称截断省略符',
-      key: 'xAxisNameTruncateEllipsis',
-      path: 'xAxis.nameTruncate.ellipsis',
-      schemaType: 'text',
-      description: '轴名称截断时的省略符号'
-    },
-    {
-      label: '轴名称截断占位符',
-      key: 'xAxisNameTruncatePlaceholder',
-      path: 'xAxis.nameTruncate.placeholder',
-      schemaType: 'text',
-      description: '轴名称截断时的占位符'
+      step: 1
     },
     {
       label: '最小值',
       key: 'xAxisMin',
       path: 'xAxis.min',
-      schemaType: 'text',
-      description: '坐标轴刻度最小值，支持数字或 "dataMin"'
+      schemaType: 'text'
     },
     {
       label: '最大值',
       key: 'xAxisMax',
       path: 'xAxis.max',
-      schemaType: 'text',
-      description: '坐标轴刻度最大值，支持数字或 "dataMax"'
+      schemaType: 'text'
     },
-    {
-      label: '起始值',
-      key: 'xAxisStartValue',
-      path: 'xAxis.startValue',
-      schemaType: 'number',
-      description: '坐标轴起始值'
-    },
-    {
-      label: '静默模式',
-      key: 'xAxisSilent',
-      path: 'xAxis.silent',
-      schemaType: 'select',
-      options: ENABLE_OPTIONS,
-      description: '坐标轴是否是静默的，不响应鼠标事件'
-    },
-    // 轴名称文字样式
+    // 轴名称文字样式（基础）
     {
       label: '轴名称文字颜色',
       key: 'xAxisNameTextStyleColor',
@@ -158,89 +92,13 @@ export const CHART_X_AXIS: EditorChartField = {
       schemaType: 'select',
       options: FONT_WEIGHT_OPTIONS
     },
-    {
-      label: '轴名称文字样式',
-      key: 'xAxisNameTextStyleFontStyle',
-      path: 'xAxis.nameTextStyle.fontStyle',
-      schemaType: 'select',
-      options: [
-        { label: '正常', val: 'normal' },
-        { label: '斜体', val: 'italic' },
-        { label: '倾斜', val: 'oblique' }
-      ]
-    },
-    {
-      label: '轴名称字体系列',
-      key: 'xAxisNameTextStyleFontFamily',
-      path: 'xAxis.nameTextStyle.fontFamily',
-      schemaType: 'text'
-    },
-    {
-      label: '轴名称行高',
-      key: 'xAxisNameTextStyleLineHeight',
-      path: 'xAxis.nameTextStyle.lineHeight',
-      schemaType: 'number',
-      min: 0,
-      step: 0.1
-    },
-    {
-      label: '轴名称描边颜色',
-      key: 'xAxisNameTextStyleTextBorderColor',
-      path: 'xAxis.nameTextStyle.textBorderColor',
-      schemaType: 'color'
-    },
-    {
-      label: '轴名称描边宽度',
-      key: 'xAxisNameTextStyleTextBorderWidth',
-      path: 'xAxis.nameTextStyle.textBorderWidth',
-      schemaType: 'number',
-      min: 0,
-      step: 0.5
-    },
-    {
-      label: '轴名称阴影颜色',
-      key: 'xAxisNameTextStyleTextShadowColor',
-      path: 'xAxis.nameTextStyle.textShadowColor',
-      schemaType: 'color'
-    },
-    {
-      label: '轴名称阴影模糊',
-      key: 'xAxisNameTextStyleTextShadowBlur',
-      path: 'xAxis.nameTextStyle.textShadowBlur',
-      schemaType: 'number',
-      min: 0,
-      step: 1
-    },
-    {
-      label: '轴名称阴影偏移X',
-      key: 'xAxisNameTextStyleTextShadowOffsetX',
-      path: 'xAxis.nameTextStyle.textShadowOffsetX',
-      schemaType: 'number',
-      step: 1
-    },
-    {
-      label: '轴名称阴影偏移Y',
-      key: 'xAxisNameTextStyleTextShadowOffsetY',
-      path: 'xAxis.nameTextStyle.textShadowOffsetY',
-      schemaType: 'number',
-      step: 1
-    },
-    // 轴标签样式
+    // 轴标签样式（常用）
     {
       label: '显示轴标签',
       key: 'xAxisAxisLabelShow',
       path: 'xAxis.axisLabel.show',
       schemaType: 'select',
       options: ENABLE_OPTIONS
-    },
-    {
-      label: '标签间隔',
-      key: 'xAxisAxisLabelInterval',
-      path: 'xAxis.axisLabel.interval',
-      schemaType: 'number',
-      min: 0,
-      step: 1,
-      description: '坐标轴刻度标签的显示间隔，0表示显示所有标签'
     },
     {
       label: '标签旋转角度',
@@ -257,8 +115,7 @@ export const CHART_X_AXIS: EditorChartField = {
       path: 'xAxis.axisLabel.margin',
       schemaType: 'number',
       min: 0,
-      step: 1,
-      description: '刻度标签与轴线之间的距离'
+      step: 1
     },
     {
       label: '标签文字颜色',
@@ -282,13 +139,7 @@ export const CHART_X_AXIS: EditorChartField = {
       schemaType: 'select',
       options: FONT_WEIGHT_OPTIONS
     },
-    {
-      label: '标签字体系列',
-      key: 'xAxisAxisLabelFontFamily',
-      path: 'xAxis.axisLabel.fontFamily',
-      schemaType: 'text'
-    },
-    // 轴线样式
+    // 轴线样式（基础）
     {
       label: '显示轴线',
       key: 'xAxisAxisLineShow',
@@ -321,37 +172,7 @@ export const CHART_X_AXIS: EditorChartField = {
         { label: '点线', val: 'dotted' }
       ]
     },
-    // 轴刻度样式
-    {
-      label: '显示刻度',
-      key: 'xAxisAxisTickShow',
-      path: 'xAxis.axisTick.show',
-      schemaType: 'select',
-      options: ENABLE_OPTIONS
-    },
-    {
-      label: '刻度长度',
-      key: 'xAxisAxisTickLength',
-      path: 'xAxis.axisTick.length',
-      schemaType: 'number',
-      min: 0,
-      step: 1
-    },
-    {
-      label: '刻度线颜色',
-      key: 'xAxisAxisTickLineStyleColor',
-      path: 'xAxis.axisTick.lineStyle.color',
-      schemaType: 'color'
-    },
-    {
-      label: '刻度线宽度',
-      key: 'xAxisAxisTickLineStyleWidth',
-      path: 'xAxis.axisTick.lineStyle.width',
-      schemaType: 'number',
-      min: 0,
-      step: 0.5
-    },
-    // 分割线样式
+    // 分割线样式（基础）
     {
       label: '显示分割线',
       key: 'xAxisSplitLineShow',
@@ -383,16 +204,7 @@ export const CHART_X_AXIS: EditorChartField = {
         { label: '虚线', val: 'dashed' },
         { label: '点线', val: 'dotted' }
       ]
-    },
-    // 分割区域样式
-    {
-      label: '显示分割区域',
-      key: 'xAxisSplitAreaShow',
-      path: 'xAxis.splitArea.show',
-      schemaType: 'select',
-      options: ENABLE_OPTIONS
     }
   ]
 };
 
-// ... 现有代码 ...

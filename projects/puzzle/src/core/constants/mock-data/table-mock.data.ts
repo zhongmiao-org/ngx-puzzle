@@ -1,4 +1,4 @@
-import { Is, TableTypesEnum } from '../enums';
+import { Is, TableTypesEnum } from '../../enums';
 
 export const TABLE_DATA_OPTIONS: Partial<{ [key in TableTypesEnum]: object }> = {
   [TableTypesEnum.default]: {

@@ -1,4 +1,4 @@
-import { ControlTypesEnum } from '../enums';
+import { ControlTypesEnum } from '../../enums';
 import {
   CONTROL_BASIC_FIELDS,
   CONTROL_DATEPICKER_FIELDS,
@@ -12,8 +12,8 @@ import {
   CONTROL_DATETIME_FIELDS_FORMAT,
   CONTROL_DATETIME_FIELDS_UPDATE_TZ,
   CONTROL_DATETIME_FIELDS_STYLES
-} from './fields';
-import { SafeAny } from '../types';
+} from '../fields';
+import { SafeAny } from '../../types';
 
 export const CONTROL_COMPONENT_FIELDS: Partial<Record<ControlTypesEnum, SafeAny>> = {
   [ControlTypesEnum.datePick]: [CONTROL_BASIC_FIELDS, CONTROL_LABEL_FIELDS, CONTROL_DATEPICKER_FIELDS],

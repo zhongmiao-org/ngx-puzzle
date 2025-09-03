@@ -1,5 +1,5 @@
-import { ControlTypesEnum } from '../enums';
-import { ControlConfig } from '../interfaces';
+import { ControlTypesEnum } from '../../enums';
+import { ControlConfig } from '../../interfaces';
 
 export const CONTROL_MOCK_DATA: Partial<{ [key in ControlTypesEnum]: ControlConfig }> = {
   [ControlTypesEnum.datePick]: {

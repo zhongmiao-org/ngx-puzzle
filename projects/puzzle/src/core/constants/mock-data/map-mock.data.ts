@@ -1,4 +1,4 @@
-import { GeoJSONFeatureCollection } from '../interfaces';
+import { GeoJSONFeatureCollection } from '../../interfaces';
 
 export const ALL_CITIES = [
   {
