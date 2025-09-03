@@ -1,3 +1,9 @@
+## 18.3.1 (2025-09-03)
+
+* feat(scripts): improve version tag formatting and update release script ([ae49dfe](https://github.com/zhongmiao-org/ngx-puzzle/commit/ae49dfe))
+* feat(components): remove toolbar configuration from `PuzzlePivotTableComponent` and adjust input types (#51) ([84cb97c](https://github.com/zhongmiao-org/ngx-puzzle/commit/84cb97c))
+
+
 ## 18.3.0 (2025-09-03)
 
 - feat(components): add `PuzzlePivotTableComponent` and integrate WebDataRocks pivot table (#49) ([41c3da6](https://github.com/zhongmiao-org/ngx-puzzle/commit/41c3da6))
