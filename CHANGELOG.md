@@ -1,4 +1,4 @@
-## <small>18.3.0 (2025-09-03)</small>
+## 18.3.0 (2025-09-03)
 
 - feat(components): add `PuzzlePivotTableComponent` and integrate WebDataRocks pivot table (#49) ([41c3da6](https://github.com/zhongmiao-org/ngx-puzzle/commit/41c3da6))
 - chore:  update configurations for Prettier, EditorConfig, and ESLint & code lint ([6dc637c](https://github.com/zhongmiao-org/ngx-puzzle/commit/6dc637c))

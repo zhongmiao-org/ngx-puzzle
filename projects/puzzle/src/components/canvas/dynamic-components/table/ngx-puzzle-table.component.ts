@@ -10,7 +10,7 @@ import {
   PuzzleCanvasMediatorService,
   TABLE_DATA_OPTIONS,
   ApiSource,
-  NgxPuzzleHttpService
+  NgxPuzzleHttpService,
 } from 'ngx-puzzle/core';
 import { tableMockRows } from 'ngx-puzzle/core/services/mock-data/table-data';
 import { CommonModule } from '@angular/common';
