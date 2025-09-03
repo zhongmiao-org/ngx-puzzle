@@ -6,12 +6,6 @@
   [styles]="config.props.styles"
 >
   @if (!!this.config.props) {
-    <thy-table [thyModel]="data" thyRowKey="id">
-      <thy-table-column thyTitle="Id" thyModelKey="id"></thy-table-column>
-      <thy-table-column thyTitle="Name" thyModelKey="name" thyWidth="15%"></thy-table-column>
-      <thy-table-column thyTitle="Age" thyModelKey="age"></thy-table-column>
-      <thy-table-column thyTitle="Job" thyModelKey="job"> </thy-table-column>
-      <thy-table-column thyTitle="Address" thyModelKey="address" thySecondary="true"></thy-table-column>
-    </thy-table>
+    <puzzle-pivot-table [toolbar]="true" [report]="config.props.table"></puzzle-pivot-table>
   }
 </puzzle-drag-wrapper>

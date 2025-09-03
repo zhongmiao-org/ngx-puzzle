@@ -1,0 +1,409 @@
+<div class="dynamic-form-renderer">
+  <thy-collapse>
+    @for (section of sections(); track section.label) {
+      <thy-collapse-item [thyTitle]="section.label">
+        @if (section?.children && section.children!.length > 0) {
+          <ng-container
+            [ngTemplateOutlet]="fieldRenderer"
+            [ngTemplateOutletContext]="{
+              fields: section.children,
+              formData: formData(),
+              parentKey: '',
+              level: 0
+            }"
+          >
+          </ng-container>
+        }
+      </thy-collapse-item>
+    }
+  </thy-collapse>
+</div>
+
+<!-- 递归字段渲染器模板 -->
+<ng-template #fieldRenderer let-fields="fields" let-formData="formData" let-parentKey="parentKey" let-level="level">
+  <div thyRow [thyGutter]="16" [style.margin-left.px]="level * 16">
+    @for (field of fields; track field.key) {
+      @if (isFieldVisible(field)) {
+        @switch (field.schemaType) {
+          @case ('group') {
+            <div [thyCol]="24" class="group-field mb-3">
+              <div class="group-header mb-2">
+                <h6 class="mb-1">{{ field.label }}</h6>
+                @if (field?.description) {
+                  <i [thyTooltip]="field?.description!" thyTooltipPlacement="top" class="field-label-icon pi pi-question-circle"></i>
+                }
+              </div>
+              @if (field.children) {
+                <ng-container
+                  [ngTemplateOutlet]="fieldRenderer"
+                  [ngTemplateOutletContext]="{
+                    fields: field.children,
+                    formData: formData,
+                    parentKey: parentKey,
+                    level: level + 1
+                  }"
+                >
+                </ng-container>
+              }
+            </div>
+          }
+
+          @case ('array') {
+            <div [thyCol]="24" class="array-field mb-3">
+              <div class="array-header d-flex justify-content-between align-items-center mb-2">
+                <label class="mb-0">
+                  {{ field.label }}
+                  @if (field?.description) {
+                    <i [thyTooltip]="field?.description!" thyTooltipPlacement="top" class="field-label-icon pi pi-question-circle"></i>
+                  }
+                </label>
+                <thy-button thySize="sm" thyIcon="plus" (click)="onAddArrayItem(field.key, field.children || [])"> 添加 </thy-button>
+              </div>
+
+              @for (item of formData[field.key] || []; track $index) {
+                <div class="array-item border rounded p-3 mb-2">
+                  <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span class="text-muted">{{ field.label }} #{{ $index + 1 }}</span>
+                    <thy-button thySize="sm" thyIcon="trash" [thyType]="'danger'" (click)="onRemoveArrayItem(field.key, $index)">
+                      删除
+                    </thy-button>
+                  </div>
+
+                  @if (field.children) {
+                    <ng-container
+                      [ngTemplateOutlet]="arrayItemRenderer"
+                      [ngTemplateOutletContext]="{
+                        fields: field.children,
+                        itemData: item,
+                        parentKey: field.key,
+                        index: $index
+                      }"
+                    >
+                    </ng-container>
+                  }
+                </div>
+              }
+            </div>
+          }
+
+          @default {
+            <div [thyCol]="field.schemaType === 'textarea' || field.schemaType === 'code' ? 24 : 12" class="input-item">
+              <label class="block mb-1 text-sm">
+                {{ field.label }}
+                @if (field?.description) {
+                  <i [thyTooltip]="field?.description!" thyTooltipPlacement="top" class="field-label-icon pi pi-question-circle"></i>
+                }
+              </label>
+
+              @switch (field.schemaType) {
+                @case ('text') {
+                  <input
+                    thyInput
+                    [attr.id]="field.key"
+                    type="text"
+                    thySize="sm"
+                    [(ngModel)]="formData[field.key]"
+                    (ngModelChange)="onFormFieldChange(field.key, $event, parentKey)"
+                    [class]="field.className?.join(' ')"
+                  />
+                }
+
+                @case ('textarea') {
+                  <textarea
+                    thyInput
+                    thySize="sm"
+                    [attr.id]="field.key"
+                    [(ngModel)]="formData[field.key]"
+                    (ngModelChange)="onFormFieldChange(field.key, $event, parentKey)"
+                    [class]="field.className?.join(' ')"
+                    rows="4"
+                  >
+                  </textarea>
+                }
+
+                @case ('select') {
+                  <thy-select
+                    [(ngModel)]="formData[field.key]"
+                    thySize="sm"
+                    (ngModelChange)="onFormFieldChange(field.key, $event, parentKey)"
+                    [class]="field.className?.join(' ')"
+                  >
+                    @for (opt of getFieldOptions(field); track opt.val) {
+                      <thy-option [thyValue]="opt.val" [thyLabelText]="opt.label"></thy-option>
+                    }
+                  </thy-select>
+                }
+
+                @case ('multiSelect') {
+                  <thy-select
+                    thyMode="multiple"
+                    thySize="sm"
+                    [(ngModel)]="formData[field.key]"
+                    (ngModelChange)="onFormFieldChange(field.key, $event, parentKey)"
+                    [class]="field.className?.join(' ')"
+                  >
+                    @for (opt of getFieldOptions(field); track opt.val) {
+                      <thy-option [thyValue]="opt.val" [thyLabelText]="opt.label">
+                      </thy-option>
+                    }
+                  </thy-select>
+                }
+
+                @case ('multiColorSelect') {
+                  <thy-select
+                    thyMode="multiple"
+                    thySize="sm"
+                    [(ngModel)]="formData[field.key]"
+                    (ngModelChange)="onFormFieldChange(field.key, $event, parentKey)"
+                    [class]="field.className?.join(' ')"
+                  >
+                    @for (opt of getFieldOptions(field); track opt.val) {
+                      <thy-option [thyValue]="opt.val">
+                        <span class="color-option">
+                          <span class="color-dot" [style.background-color]="opt.val"></span>
+                          {{ opt.label }}
+                        </span>
+                      </thy-option>
+                    }
+                  </thy-select>
+                }
+
+                @case ('color') {
+                  <div
+                    class="color-picker-box"
+                    [ngStyle]="{ background: formData[field.key] }"
+                    thyColorPicker
+                    [thyOffset]="10"
+                    [attr.id]="field.key"
+                    [(ngModel)]="formData[field.key]"
+                    (ngModelChange)="onFormFieldChange(field.key, $event, parentKey)"
+                    [class]="field.className?.join(' ')"
+                  ></div>
+                }
+
+                @case ('number') {
+                  <thy-input-number
+                    [(ngModel)]="formData[field.key]"
+                    (ngModelChange)="onFormFieldChange(field.key, $event, parentKey)"
+                    [thyMin]="field?.min || 0"
+                    [thyMax]="field?.max || 999999"
+                    [thyStep]="field?.step || 1"
+                    [thySize]="'sm'"
+                    [thySuffix]="field?.suffix || ''"
+                    [class]="field.className?.join(' ')"
+                  ></thy-input-number>
+                }
+
+                @case ('date') {
+                  <thy-date-picker
+                    [(ngModel)]="formData[field.key]"
+                    (ngModelChange)="onDateChange(field.key, $event)"
+                    [class]="field.className?.join(' ')"
+                  ></thy-date-picker>
+                }
+
+                @case ('button') {
+                  <thy-button thySize="sm" (click)="onButtonClick(field, formData)" [class]="field.className?.join(' ')">
+                    {{ field.label }}
+                  </thy-button>
+                }
+
+                @case ('select-image') {
+                  <!-- 图片选择器组件 - 可以根据需要实现 -->
+                  <div class="select-image-placeholder">
+                    <thy-button thySize="sm" (click)="onButtonClick(field, formData)"> 选择图片 </thy-button>
+                    @if (formData[field.key]) {
+                      <img [src]="formData[field.key]" alt="选中的图片" class="selected-image" />
+                    }
+                  </div>
+                }
+
+                @case ('cascade-select') {
+                  <!-- 级联选择器 - 可以根据需要实现 -->
+                  <thy-select
+                    [(ngModel)]="formData[field.key]"
+                    thySize="sm"
+                    (ngModelChange)="onFormFieldChange(field.key, $event, parentKey)"
+                    [class]="field.className?.join(' ')"
+                  >
+                    @for (opt of getFieldOptions(field); track opt.val) {
+                      <thy-option [thyValue]="opt.val" [thyLabelText]="opt.label"></thy-option>
+                    }
+                  </thy-select>
+                }
+
+                @case ('code') {
+                  <textarea
+                    thyInput
+                    [attr.id]="field.key"
+                    [(ngModel)]="formData[field.key]"
+                    (ngModelChange)="onFormFieldChange(field.key, $event, parentKey)"
+                    class="code-editor"
+                    [class]="field.className?.join(' ')"
+                    rows="8"
+                    placeholder="请输入代码..."
+                    style="font-family: 'Monaco', 'Menlo', monospace"
+                  >
+                  </textarea>
+                }
+
+                @case ('options-editor') {
+                  <div class="options-editor">
+                    @for (option of formData[field.key] || []; track $index) {
+                      <div class="option-item d-flex align-items-center mb-2">
+                        <input
+                          thyInput
+                          placeholder="标签"
+                          [(ngModel)]="option.label"
+                          (ngModelChange)="onFormFieldChange(field.key, formData[field.key], parentKey)"
+                          class="me-2"
+                        />
+                        <input
+                          thyInput
+                          placeholder="值"
+                          [(ngModel)]="option.value"
+                          (ngModelChange)="onFormFieldChange(field.key, formData[field.key], parentKey)"
+                          class="me-2"
+                        />
+                        <thy-button thySize="sm" thyIcon="delete" [thyType]="'danger'" (click)="onRemoveOption(field.key, $index)">
+                        </thy-button>
+                      </div>
+                    }
+                    <thy-button thySize="sm" thyIcon="plus" (click)="onAddOption(field.key)"> 添加选项 </thy-button>
+                  </div>
+                }
+              }
+            </div>
+          }
+        }
+      }
+    }
+  </div>
+</ng-template>
+
+<!-- 数组项渲染器模板 -->
+<ng-template #arrayItemRenderer let-fields="fields" let-itemData="itemData" let-parentKey="parentKey" let-index="index">
+  <div thyRow [thyGutter]="8">
+    @for (field of fields; track field.key) {
+      @if (isFieldVisible(field)) {
+        @switch (field.schemaType) {
+          @case ('group') {
+            <div [thyCol]="24" class="group-field-in-array mb-2">
+              <div class="group-header-small mb-1">
+                <strong>{{ field.label }}</strong>
+                @if (field?.description) {
+                  <i [thyTooltip]="field?.description!" thyTooltipPlacement="top" class="field-label-icon pi pi-question-circle"></i>
+                }
+              </div>
+              @if (field.children) {
+                <ng-container
+                  [ngTemplateOutlet]="arrayItemRenderer"
+                  [ngTemplateOutletContext]="{
+                    fields: field.children,
+                    itemData: itemData,
+                    parentKey: parentKey,
+                    index: index
+                  }"
+                >
+                </ng-container>
+              }
+            </div>
+          }
+
+          @default {
+            <div [thyCol]="field.schemaType === 'textarea' || field.schemaType === 'code' ? 24 : 12" class="input-item-small">
+              <label class="block mb-1 text-xs text-muted">{{ field.label }}</label>
+
+              @switch (field.schemaType) {
+                @case ('text') {
+                  <input
+                    thyInput
+                    thySize="sm"
+                    type="text"
+                    [(ngModel)]="itemData[field.key]"
+                    (ngModelChange)="onFormFieldChange(field.key, $event, parentKey, index)"
+                    [class]="field.className?.join(' ')"
+                  />
+                }
+
+                @case ('textarea') {
+                  <textarea
+                    thyInput
+                    thySize="sm"
+                    [(ngModel)]="itemData[field.key]"
+                    (ngModelChange)="onFormFieldChange(field.key, $event, parentKey, index)"
+                    [class]="field.className?.join(' ')"
+                    rows="3"
+                  >
+                  </textarea>
+                }
+
+                @case ('select') {
+                  <thy-select
+                    [(ngModel)]="itemData[field.key]"
+                    (ngModelChange)="onFormFieldChange(field.key, $event, parentKey, index)"
+                    thySize="sm"
+                    [class]="field.className?.join(' ')"
+                  >
+                    @for (opt of getFieldOptions(field); track opt.val) {
+                      <thy-option [thyValue]="opt.val" [thyLabelText]="opt.label"></thy-option>
+                    }
+                  </thy-select>
+                }
+
+                @case ('multiSelect') {
+                  <thy-select
+                    thyMode="multiple"
+                    [(ngModel)]="itemData[field.key]"
+                    (ngModelChange)="onFormFieldChange(field.key, $event, parentKey, index)"
+                    thySize="sm"
+                    [class]="field.className?.join(' ')"
+                  >
+                    @for (opt of getFieldOptions(field); track opt.val) {
+                      <thy-option [thyValue]="opt.val" [thyLabelText]="opt.label">
+                      </thy-option>
+                    }
+                  </thy-select>
+                }
+
+                @case ('color') {
+                  <div
+                    class="color-picker-box"
+                    [ngStyle]="{ background: itemData[field.key] }"
+                    thyColorPicker
+                    [thyOffset]="10"
+                    [(ngModel)]="itemData[field.key]"
+                    (ngModelChange)="onFormFieldChange(field.key, $event, parentKey, index)"
+                    [class]="field.className?.join(' ')"
+                  ></div>
+                }
+
+                @case ('number') {
+                  <thy-input-number
+                    [(ngModel)]="itemData[field.key]"
+                    (ngModelChange)="onFormFieldChange(field.key, $event, parentKey, index)"
+                    [thyMin]="field?.min || 0"
+                    [thyMax]="field?.max || 999999"
+                    [thyStep]="field?.step || 1"
+                    [thySize]="'sm'"
+                    [thySuffix]="field?.suffix || ''"
+                    [class]="field.className?.join(' ')"
+                  ></thy-input-number>
+                }
+
+                @case ('date') {
+                  <thy-date-picker
+                    [(ngModel)]="itemData[field.key]"
+                    (ngModelChange)="onDateChange(field.key, $event)"
+                    thySize="sm"
+                    [class]="field.className?.join(' ')"
+                  ></thy-date-picker>
+                }
+              }
+            </div>
+          }
+        }
+      }
+    }
+  </div>
+</ng-template>

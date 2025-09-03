@@ -1,5 +1,5 @@
-import { TextTypesEnum } from '../enums';
-import { TextConfig } from '../interfaces';
+import { TextTypesEnum } from '../../enums';
+import { TextConfig } from '../../interfaces';
 
 export const TEXT_DATA_OPTIONS: Partial<{ [key in TextTypesEnum]: TextConfig }> = {
   [TextTypesEnum.headTitle]: {

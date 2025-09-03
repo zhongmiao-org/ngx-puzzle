@@ -1,4 +1,4 @@
-import { ChartTypesEnum } from '../enums';
+import { ChartTypesEnum } from '../../enums';
 
 export const CHART_DATA_OPTIONS: Partial<{ [key in ChartTypesEnum]: object }> = {
   [ChartTypesEnum.bar]: {

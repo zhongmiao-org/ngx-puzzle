@@ -12,7 +12,7 @@ import { ThyGridModule } from 'ngx-tethys/grid';
 import { ThyLayoutModule } from 'ngx-tethys/layout';
 
 import { EditorBaseComponent } from 'ngx-puzzle/components/editor/dynamic-editor/base/editor-base.component';
-import { TEXT_FIELDS_MAP } from 'ngx-puzzle/core/constants/text-editor-fields-config';
+import { TEXT_FIELDS_MAP } from 'ngx-puzzle/core/constants/field-configs/text-editor-fields-config';
 import { TextConfig } from 'ngx-puzzle/core/interfaces/text-config.interface';
 import { TextTypesEnum } from 'ngx-puzzle/core/enums/text-types.enum';
 

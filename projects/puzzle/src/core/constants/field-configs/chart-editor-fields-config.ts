@@ -1,4 +1,4 @@
-import { ChartTypesEnum } from '../enums';
+import { ChartTypesEnum } from '../../enums';
 import {
   CHART_TITLE,
   CHART_LEGEND,
@@ -30,7 +30,7 @@ import {
   CHART_TREE_SERIES,
   CHART_TREEMAP_SERIES,
   CHART_RADAR_SERIES
-} from './fields';
+} from '../fields';
 import { EditorChartField } from 'ngx-puzzle/core';
 
 export const CHART_FIELDS_MAP: Record<ChartTypesEnum, EditorChartField[]> = {

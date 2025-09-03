@@ -3,13 +3,13 @@ import * as echarts from 'echarts';
 import { EChartsType, EChartsOption } from 'echarts';
 
 @Component({
-  selector: 'bi-ngx-puzzle-charts',
+  selector: 'ngx-puzzle-charts,puzzle-charts',
   standalone: true,
   imports: [],
-  templateUrl: './ngx-puzzle-charts.component.html',
-  styleUrl: './ngx-puzzle-charts.component.scss'
+  templateUrl: './puzzle-charts.component.html',
+  styleUrl: './puzzle-charts.component.scss'
 })
-export class NgxPuzzleChartsComponent implements AfterViewInit, OnDestroy {
+export class PuzzleChartsComponent implements AfterViewInit, OnDestroy {
   private el = inject(ElementRef);
   private chartInstance!: EChartsType;
   private resizeObserver?: ResizeObserver;

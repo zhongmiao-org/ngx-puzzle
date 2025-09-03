@@ -1,6 +1,6 @@
 import { EditorFields, EditorStyleField, EditorTab } from '../interfaces';
 import { mainTypes } from '../types';
-import { getCanvasBackgroundOptions, getDataBackgroundOptions, getHeaderBackgroundOptions } from 'ngx-puzzle/core';
+import { getCanvasBackgroundOptions, getDataBackgroundOptions, getHeaderBackgroundOptions } from './background-images';
 
 // 通用样式设置
 const BASE_STYLE_FIELDS: EditorStyleField[] = [

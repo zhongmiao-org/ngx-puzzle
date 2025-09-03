@@ -1,19 +1,15 @@
 import { Component, HostBinding } from '@angular/core';
-import { DataRequestConfig, EditorChartArraySchema, EditorChartField } from 'ngx-puzzle/core/interfaces';
+import { EditorChartField } from 'ngx-puzzle/core/interfaces';
 import { ChartTypesEnum } from 'ngx-puzzle/core/enums';
 import { ThyCollapseModule } from 'ngx-tethys/collapse';
 import { ThyCardModule } from 'ngx-tethys/card';
 import { ThyButtonModule } from 'ngx-tethys/button';
-import { ThyColDirective, ThyRowDirective } from 'ngx-tethys/grid';
-import { NgStyle } from '@angular/common';
-import { ThyInputNumber } from 'ngx-tethys/input-number';
 import { FormsModule } from '@angular/forms';
-import { ThyInputDirective } from 'ngx-tethys/input';
-import { ThyColorPickerDirective } from 'ngx-tethys/color-picker';
-import { ThyOption } from 'ngx-tethys/shared';
-import { ThySelect } from 'ngx-tethys/select';
 import { EditorBaseComponent } from 'ngx-puzzle/components/editor/dynamic-editor/base/editor-base.component';
 import { CHART_FIELDS_MAP, SafeAny } from 'ngx-puzzle/core';
+import {
+  PuzzleFormRendererComponent
+} from 'ngx-puzzle/components/primitives/puzzle-form-renderer/puzzle-form-renderer.component';
 
 @Component({
   selector: 'ngx-puzzle-chart-editor',
@@ -22,15 +18,8 @@ import { CHART_FIELDS_MAP, SafeAny } from 'ngx-puzzle/core';
     ThyCollapseModule,
     ThyCardModule,
     ThyButtonModule,
-    ThyRowDirective,
-    ThyColDirective,
-    ThyInputNumber,
     FormsModule,
-    ThyInputDirective,
-    ThyColorPickerDirective,
-    NgStyle,
-    ThyOption,
-    ThySelect
+    PuzzleFormRendererComponent
   ],
   templateUrl: './ngx-puzzle-chart-editor.component.html',
   styleUrl: './ngx-puzzle-chart-editor.component.scss'
@@ -50,17 +39,47 @@ export class NgxPuzzleChartEditorComponent extends EditorBaseComponent<SafeAny, 
     return 'chart';
   }
 
-  // 移除聚合函数相关的代码，简化编辑器
-  protected override afterConfigUpdate(opts?: SafeAny, requestOptions?: DataRequestConfig): void {
-    // 简化后不需要处理聚合函数
+  /**
+   * 处理表单字段变化
+   */
+  onFieldChange(event: { key: string; value: SafeAny; parentKey?: string; index?: number }): void {
+    this.onFormFieldChange(event.key, event.value, event.parentKey, event.index);
   }
 
-  addArrayItem(key: string, schema: EditorChartArraySchema[]) {
+  /**
+   * 处理数组项添加
+   */
+  onArrayItemAdd(event: { fieldKey: string; children: any[] }): void {
+    this.addArrayItem(event.fieldKey, event.children);
+  }
+
+  /**
+   * 处理数组项删除
+   */
+  onArrayItemRemove(event: { fieldKey: string; index: number }): void {
+    this.removeArrayItem(event.fieldKey, event.index);
+  }
+
+  addArrayItem(key: string, schema: any[]) {
+    if (!this.formData[key]) {
+      this.formData[key] = [];
+    }
+
     const defaultType = schema[0]?.options?.[0].val as string;
     const item: any = {};
     for (const field of schema) {
-      item[field.key] = '';
+      item[field.key] = field.defaultValue || '';
     }
     item['type'] = defaultType;
+
+    this.formData[key].push(item);
+    this.onFormFieldChange(key, this.formData[key]);
   }
+
+  // removeArrayItem(key: string, index: number) {
+  //   if (this.formData[key] && Array.isArray(this.formData[key])) {
+  //     this.formData[key].splice(index, 1);
+  //     this.onFormFieldChange(key, this.formData[key]);
+  //   }
+  // }
 }

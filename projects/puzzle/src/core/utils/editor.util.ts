@@ -114,6 +114,12 @@ export function setOptionValue(options: any, path: string, value: any): void {
 }
 
 export function getOptionValue(path: string, options: any, defaultValue?: any): any {
+  // 添加安全检查
+  if (!path) {
+    console.warn('getOptionValue: path is invalid', path);
+    return defaultValue;
+  }
+
   let value = path.split('.').reduce((o, p) => o?.[p], options);
   if (defaultValue !== undefined) {
     value = value ?? defaultValue;
