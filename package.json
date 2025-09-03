@@ -58,7 +58,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "release": "wpm release --release-branch-format release-auto-v{{version}}",
-    "release:select": "node scripts/release.js",
+    "release:select": "node scripts/release.js -y",
     "prerelease": "npm run build",
     "changelog": "conventional-changelog -p conventionalcommits -r 1 -i CHANGELOG.md -s",
     "changelog:all": "conventional-changelog -p conventionalcommits -i CHANGELOG.md -s -r 0",

@@ -369,7 +369,12 @@ function tryGitPush(branch, retries = 3) {
 
         if (commits.length > 0) {
           const today = new Date().toISOString().split('T')[0];
-          const versionHeader = `## <small>${nextVersion} (${today})</small>`;
+
+          // 判断是否为 0.0.x 版本，决定使用哪种标签格式
+          const isSmallVersion = /^0\.0\.\d+$/.test(nextVersion);
+          const versionHeader = isSmallVersion
+            ? `## <small>${nextVersion} (${today})</small>`
+            : `## ${nextVersion} (${today})`;
 
           const changelogCommits = commits.map((commit) => {
             const [hash, ...messageParts] = commit.split(' ');
@@ -398,6 +403,7 @@ function tryGitPush(branch, retries = 3) {
           fs.writeFileSync(changelogPath, lines.join('\n'));
 
           console.log(`✅ Added ${commits.length} commits to changelog (filtered out release commits)`);
+          console.log(`✅ Used ${isSmallVersion ? 'small' : 'normal'} tag format for version ${nextVersion}`);
         }
       }
     } else {
