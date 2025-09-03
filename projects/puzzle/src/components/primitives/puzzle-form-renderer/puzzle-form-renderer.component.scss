@@ -1,0 +1,129 @@
+.dynamic-form-renderer {
+  .group-field {
+    .group-header {
+      border-bottom: 1px solid #e9ecef;
+      padding-bottom: 8px;
+
+      h6 {
+        color: #495057;
+        font-weight: 600;
+      }
+    }
+  }
+
+  .group-field-in-array {
+    .group-header-small {
+      border-bottom: 1px solid #dee2e6;
+      padding-bottom: 4px;
+
+      strong {
+        font-size: 0.875rem;
+        color: #6c757d;
+      }
+    }
+  }
+
+  .array-field {
+    .array-header {
+      border-bottom: 1px solid #e9ecef;
+      padding-bottom: 8px;
+
+      label {
+        font-weight: 500;
+        color: #495057;
+      }
+    }
+
+    .array-item {
+      background-color: #f8f9fa;
+      border: 1px solid #dee2e6;
+      transition: box-shadow 0.2s ease;
+
+      &:hover {
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+    }
+  }
+
+  .input-item {
+    label {
+      font-weight: 500;
+      color: #495057;
+    }
+  }
+
+  .input-item-small {
+    label {
+      font-size: 0.75rem;
+      color: #6c757d;
+    }
+  }
+
+  .field-label-icon {
+    color: #6c757d;
+    margin-left: 4px;
+    cursor: help;
+  }
+
+  .number-suffix {
+    margin-left: 8px;
+    color: #6c757d;
+    font-size: 0.875rem;
+  }
+
+  .color-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    .color-dot {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 1px solid #dee2e6;
+      display: inline-block;
+    }
+  }
+
+  .select-image-placeholder {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    .selected-image {
+      max-width: 100px;
+      max-height: 100px;
+      object-fit: cover;
+      border-radius: 4px;
+      border: 1px solid #dee2e6;
+    }
+  }
+
+  .table-editor-placeholder {
+    padding: 16px;
+    border: 1px dashed #dee2e6;
+    border-radius: 4px;
+    text-align: center;
+    background-color: #f8f9fa;
+  }
+
+  .code-editor {
+    font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
+    font-size: 0.875rem;
+    line-height: 1.4;
+    background-color: #f8f9fa;
+  }
+
+  .options-editor {
+    .option-item {
+      padding: 8px;
+      background-color: #f8f9fa;
+      border-radius: 4px;
+      border: 1px solid #dee2e6;
+
+      input {
+        flex: 1;
+      }
+    }
+  }
+}

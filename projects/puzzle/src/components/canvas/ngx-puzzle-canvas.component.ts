@@ -19,11 +19,14 @@ import { StylesFormatPipe } from 'ngx-puzzle/pipes/styles-format.pipe';
 import { INIT_SETTINGS_CONFIG } from 'ngx-puzzle/core/constants';
 import { ComponentBaseProps, ComponentConfig, Position, Size, Tick, TooltipPosition } from 'ngx-puzzle/core/interfaces';
 import { ComponentInjectorService, ComponentRegistryService, PuzzleCanvasMediatorService } from 'ngx-puzzle/core';
+import {
+  PuzzleFormRendererComponent
+} from 'ngx-puzzle/components/primitives/puzzle-form-renderer/puzzle-form-renderer.component';
 
 @Component({
   selector: 'ngx-puzzle-canvas, puzzle-canvas',
   standalone: true,
-  imports: [NgStyle, StylesFormatPipe],
+  imports: [NgStyle, StylesFormatPipe, PuzzleFormRendererComponent],
   templateUrl: './ngx-puzzle-canvas.component.html',
   styleUrl: './ngx-puzzle-canvas.component.scss'
 })
@@ -95,8 +98,7 @@ export class NgxPuzzleCanvasComponent implements OnInit, AfterViewInit, OnDestro
   hTicks: WritableSignal<Tick[]> = signal<Tick[]>([]);
   vTicks: WritableSignal<Tick[]> = signal<Tick[]>([]);
 
-  constructor() // private renderer: Renderer2 // private mediator: CanvasMediatorService, // private registry: ComponentRegistryService, // private injector: ComponentInjectorService,
-  {}
+  constructor() {} // private renderer: Renderer2 // private mediator: CanvasMediatorService, // private registry: ComponentRegistryService, // private injector: ComponentInjectorService,
 
   ngOnInit() {}
 

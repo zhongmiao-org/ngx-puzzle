@@ -1,8 +1,66 @@
 .table-editor {
-  .input-item {
-    margin-bottom: 8px;
+  .group-field {
+    border: 1px solid #e8e8e8;
+    border-radius: 4px;
+    padding: 12px;
+    background-color: #fafafa;
+
+    .group-header {
+      h6 {
+        color: #1890ff;
+        font-weight: 600;
+      }
+    }
   }
-  .editor-input {
-    width: 100%;
+
+  .array-field {
+    border: 1px solid #d9d9d9;
+    border-radius: 6px;
+    padding: 16px;
+    background-color: #f9f9f9;
+
+    .array-header {
+      border-bottom: 1px solid #e8e8e8;
+      padding-bottom: 8px;
+      margin-bottom: 12px;
+    }
+
+    .array-item {
+      background-color: white;
+      border: 1px solid #e8e8e8;
+
+      &:hover {
+        border-color: #1890ff;
+      }
+    }
+  }
+
+  .group-field-in-array {
+    border: 1px solid #f0f0f0;
+    border-radius: 4px;
+    padding: 8px;
+    background-color: #fafafa;
+
+    .group-header-small {
+      strong {
+        font-size: 12px;
+        color: #666;
+      }
+    }
+  }
+
+  .input-item-small {
+    margin-bottom: 8px;
+
+    label {
+      font-size: 11px;
+      color: #999;
+    }
+  }
+
+  .field-label-icon {
+    margin-left: 4px;
+    cursor: help;
+    color: #999;
   }
 }

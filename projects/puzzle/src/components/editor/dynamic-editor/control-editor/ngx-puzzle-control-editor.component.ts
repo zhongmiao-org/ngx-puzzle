@@ -20,6 +20,9 @@ import { ControlConfig } from 'ngx-puzzle/core/interfaces/control-config.interfa
 import { ControlTypesEnum } from 'ngx-puzzle/core/enums/control-types.enum';
 import { SafeAny } from 'ngx-puzzle/core/types';
 import { convertDateToString } from 'ngx-puzzle/core/utils/controls.util';
+import {
+  PuzzleFormRendererComponent
+} from 'ngx-puzzle/components/primitives/puzzle-form-renderer/puzzle-form-renderer.component';
 
 @Component({
   selector: 'ngx-puzzle-control-editor, puzzle-control-editor',
@@ -38,7 +41,8 @@ import { convertDateToString } from 'ngx-puzzle/core/utils/controls.util';
     ThyTooltipModule,
     NgStyle,
     ThyGridModule,
-    ThyLayoutModule
+    ThyLayoutModule,
+    PuzzleFormRendererComponent
   ],
   templateUrl: './ngx-puzzle-control-editor.component.html',
   styleUrl: './ngx-puzzlecontrol-editor.component.scss'
@@ -51,6 +55,41 @@ export class NgxPuzzleControlEditorComponent extends EditorBaseComponent<Control
 
   protected getComponentType(): string {
     return 'control';
+  }
+
+  /**
+   * 处理表单字段变化
+   */
+  onFieldChange(event: { key: string; value: SafeAny; parentKey?: string; index?: number }): void {
+    this.onFormFieldChange(event.key, event.value, event.parentKey, event.index);
+  }
+
+  /**
+   * 处理日期变化
+   */
+  onDateChange(event: { key: string; value: SafeAny }): void {
+    this.dateChange(event.key, event.value);
+  }
+
+  /**
+   * 处理选项添加
+   */
+  onOptionAdd(event: { fieldKey: string }): void {
+    this.addOption(event.fieldKey);
+  }
+
+  /**
+   * 处理选项删除
+   */
+  onOptionRemove(event: { fieldKey: string; index: number }): void {
+    this.removeOption(event.fieldKey, event.index);
+  }
+
+  /**
+   * 处理表格编辑完成
+   */
+  onTableEditComplete(event: { fieldKey: string }): void {
+    this.tableEditComplete(event.fieldKey);
   }
 
   public dateChange(key: string, value: SafeAny) {

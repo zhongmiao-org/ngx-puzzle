@@ -17,9 +17,7 @@ import { CommonModule } from '@angular/common';
 import { Observable, takeUntil } from 'rxjs';
 import { ThyTableModule } from 'ngx-tethys/table';
 import { NgxPuzzleDragWrapperComponent } from 'ngx-puzzle/components/canvas/dynamic-components/drag-wrapper/ngx-puzzle-drag-wrapper.component';
-import {
-  PuzzlePivotTableComponent
-} from 'ngx-puzzle/components/primitives/puzzle-pivot-table/puzzle-pivot-table.component';
+import { PuzzlePivotTableComponent } from 'ngx-puzzle/components/primitives/puzzle-pivot-table/puzzle-pivot-table.component';
 
 @Component({
   selector: 'puzzle-table',
@@ -32,12 +30,6 @@ import {
 export class NgxPuzzleTableComponent extends NgxPuzzleCanvasBaseComponent<ComponentTableProps, TableTypesEnum> implements OnDestroy {
   dataKey: mainTypes = 'table';
 
-  data = [
-    { id: 1, name: 'Peter', age: 25, job: 'Engineer', address: 'Beijing Dong Sheng Technology' },
-    { id: 2, name: 'James', age: 26, job: 'Designer', address: 'Xian Economic Development Zone' },
-    { id: 3, name: 'Tom', age: 30, job: 'Engineer', address: 'New Industrial Park, Shushan, Hefei, Anhui' }
-  ];
-
   private httpService = inject(NgxPuzzleHttpService);
   private _tableData$!: Observable<SafeAny>;
   private isInit = false;
@@ -49,7 +41,7 @@ export class NgxPuzzleTableComponent extends NgxPuzzleCanvasBaseComponent<Compon
     this.initConfig(config);
   }
 
-  get config() {
+  get config(): ComponentConfig<ComponentTableProps, TableTypesEnum> {
     return this._config;
   }
 

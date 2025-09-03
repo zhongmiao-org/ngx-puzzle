@@ -13,7 +13,6 @@ import {
   Position,
   RefreshConfig,
   Size,
-  TableConfig,
   TextConfig,
   ControlConfig
 } from 'ngx-puzzle/core/interfaces';
@@ -35,6 +34,7 @@ import { NgxPuzzleRefreshEditorComponent } from 'ngx-puzzle/components/editor/dy
 import { NgxPuzzleTextEditorComponent } from 'ngx-puzzle/components/editor/dynamic-editor/text-editor/ngx-puzzle-text-editor.component';
 import { NgxPuzzleTableEditorComponent } from 'ngx-puzzle/components/editor/dynamic-editor/table-editor/ngx-puzzle-table-editor.component';
 import { NgxPuzzleControlEditorComponent } from 'ngx-puzzle/components/editor/dynamic-editor/control-editor/ngx-puzzle-control-editor.component';
+import { Report } from '@webdatarocks/webdatarocks';
 
 @Component({
   selector: 'ngx-puzzle-props-editor, puzzle-props-editor',
@@ -54,7 +54,7 @@ import { NgxPuzzleControlEditorComponent } from 'ngx-puzzle/components/editor/dy
     NgxPuzzleControlEditorComponent,
     NgxPuzzleRefreshEditorComponent,
     NgxPuzzleTextEditorComponent,
-    NgxPuzzleTableEditorComponent
+    NgxPuzzleTableEditorComponent,
   ],
   templateUrl: './ngx-puzzle-props-editor.component.html',
   styleUrl: './ngx-puzzle-props-editor.component.scss',
@@ -261,7 +261,7 @@ export class NgxPuzzlePropsEditorComponent implements AfterViewInit, OnDestroy {
   }
 
   // 更新 props
-  updateOptions(options: SafeAny | TableConfig | TextConfig | ControlConfig, type: mainTypes): void {
+  updateOptions(options: SafeAny | Report | TextConfig | ControlConfig, type: mainTypes): void {
     const optionsCopy = cloneDeep(options);
 
     switch (type) {

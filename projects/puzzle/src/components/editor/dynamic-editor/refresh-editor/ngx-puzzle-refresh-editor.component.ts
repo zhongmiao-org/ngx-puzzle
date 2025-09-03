@@ -14,7 +14,10 @@ import { ThyLayoutModule } from 'ngx-tethys/layout';
 import { EditorBaseComponent } from 'ngx-puzzle/components/editor/dynamic-editor/base/editor-base.component';
 import { REFRESH_CONFIG } from 'ngx-puzzle/core/constants/refresh-fields-config';
 import { RefreshConfig } from 'ngx-puzzle/core/interfaces/refresh.interface';
-import { CONTROL_BIND_FIELDS, updateFieldChildrenStream } from 'ngx-puzzle/core';
+import { CONTROL_BIND_FIELDS, SafeAny, updateFieldChildrenStream } from 'ngx-puzzle/core';
+import {
+  PuzzleFormRendererComponent
+} from 'ngx-puzzle/components/primitives/puzzle-form-renderer/puzzle-form-renderer.component';
 
 @Component({
   selector: 'ngx-puzzle-refresh-editor, puzzle-refresh-editor',
@@ -30,7 +33,8 @@ import { CONTROL_BIND_FIELDS, updateFieldChildrenStream } from 'ngx-puzzle/core'
     ThyDatePickerModule,
     ThyTooltipModule,
     ThyGridModule,
-    ThyLayoutModule
+    ThyLayoutModule,
+    PuzzleFormRendererComponent
   ],
   templateUrl: './ngx-puzzle-refresh-editor.component.html',
   styleUrl: './ngx-puzzle-refresh-editor.component.scss'
@@ -47,5 +51,12 @@ export class NgxPuzzleRefreshEditorComponent extends EditorBaseComponent<Refresh
 
   protected getComponentType(): string {
     return 'refresh';
+  }
+
+  /**
+   * 处理表单字段变化
+   */
+  onFieldChange(event: { key: string; value: SafeAny; parentKey?: string; index?: number }): void {
+    this.onFormFieldChange(event.key, event.value, event.parentKey, event.index);
   }
 }
