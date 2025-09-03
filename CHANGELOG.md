@@ -1,3 +1,25 @@
+## <small>18.3.0 (2025-09-03)</small>
+
+- feat(components): add `PuzzlePivotTableComponent` and integrate WebDataRocks pivot table (#49) ([41c3da6](https://github.com/zhongmiao-org/ngx-puzzle/commit/41c3da6))
+- chore:  update configurations for Prettier, EditorConfig, and ESLint & code lint ([6dc637c](https://github.com/zhongmiao-org/ngx-puzzle/commit/6dc637c))
+- refactor(components): replace table implementation with thy-table and refactor drag-wrapper logic (#47) ([20f6785](https://github.com/zhongmiao-org/ngx-puzzle/commit/20f6785))
+- docs: update npm badge and GIF paths in README ([a466492](https://github.com/zhongmiao-org/ngx-puzzle/commit/a466492))
+- docs: add usage GIF to README files ([c5f90e1](https://github.com/zhongmiao-org/ngx-puzzle/commit/c5f90e1))
+- fix(components): add tab change event handler to props editor tabs (#43) ([65fcccf](https://github.com/zhongmiao-org/ngx-puzzle/commit/65fcccf))
+- feat(table): integrate pivot table configuration with form renderer
+- Added `TABLE_SLICE` configuration for pivot tables.
+- Replaced dynamic editors with `puzzle-form-renderer`.
+- Updated `TableTypesEnum` to include `pivotTable`.
+- Enhanced table mock data to support pivot tables.
+- Adjusted styling and logic for table editors.
+- refactor(fields): consolidate chart series configurations into grouped schema
+- Updated data bindings and structure for improved maintainability.
+- feat(table): add core table field configurations
+- Introduced `TABLE_CONDITIONS` for conditional formatting.
+- Added `TABLE_DATA_SOURCE` for configuring data source options.
+- Implemented `TABLE_FORMATS` for defining data display formats.
+- Created `TABLE_OPTIONS` for customizing table display and behavior.
+
 ## <small>18.2.8 (2025-09-01)</small>
 
 - refactor(services): remove unused chart-map.service export ([5a67f33](https://github.com/zhongmiao-org/ngx-puzzle/commit/5a67f33))
