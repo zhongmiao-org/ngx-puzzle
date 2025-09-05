@@ -33,7 +33,7 @@ import {
     PuzzleFormRendererComponent
   ],
   templateUrl: './ngx-puzzle-control-editor.component.html',
-  styleUrl: './ngx-puzzlecontrol-editor.component.scss'
+  styleUrl: './ngx-puzzle-control-editor.component.scss'
 })
 export class NgxPuzzleControlEditorComponent extends EditorBaseComponent<ControlConfig, ControlTypesEnum> {
   protected setFields(subType?: ControlTypesEnum): void {
