@@ -39,7 +39,12 @@ export function convertFormDataToOptions<TOptions, TEditorField extends EditorBa
           }
           return item;
         });
-        setOptionValue(options, field.path, arrayValue);
+        // 添加 path 检查
+        if (field.path) {
+          setOptionValue(options, field.path, arrayValue);
+        } else {
+          console.warn('convertFormDataToOptions: field.path is missing for array field', field);
+        }
       } else {
         const value = formData[field.key];
         if (
@@ -49,7 +54,12 @@ export function convertFormDataToOptions<TOptions, TEditorField extends EditorBa
         ) {
           continue;
         }
-        setOptionValue(options, field.path, value);
+        // 添加 path 检查
+        if (field.path) {
+          setOptionValue(options, field.path, value);
+        } else {
+          console.warn('convertFormDataToOptions: field.path is missing for field', field);
+        }
       }
     }
   };
@@ -59,6 +69,7 @@ export function convertFormDataToOptions<TOptions, TEditorField extends EditorBa
 
   return newOptions;
 }
+
 
 export function convertOptionsToFormData<TOptions, TEditorField extends EditorBaseField>(
   options: TOptions | null | undefined,
@@ -104,6 +115,12 @@ export function convertOptionsToFormData<TOptions, TEditorField extends EditorBa
 }
 
 export function setOptionValue(options: any, path: string, value: any): void {
+  // 添加安全检查
+  if (!path) {
+    console.warn('setOptionValue: path is invalid', path);
+    return;
+  }
+
   const keys = path.split('.');
   let obj = options;
   for (let i = 0; i < keys.length - 1; i++) {
