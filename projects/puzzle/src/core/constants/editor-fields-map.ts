@@ -1,22 +1,14 @@
-import { EditorFields, EditorStyleField, EditorTab } from '../interfaces';
+import { EditorTab } from '../interfaces';
 import { mainTypes } from '../types';
-import { getCanvasBackgroundOptions, getDataBackgroundOptions, getHeaderBackgroundOptions } from './background-images';
 
 // 通用样式设置
-const BASE_STYLE_FIELDS: EditorStyleField[] = [
-  { label: '背景图片X轴偏移', key: 'backgroundPositionX', schemaType: 'number', suffix: '%' },
-  { label: '背景图片Y轴偏移', key: 'backgroundPositionY', schemaType: 'number', suffix: '%' },
-  { label: '背景图片缩放比例', key: 'backgroundSize', schemaType: 'number', suffix: '%' },
-  { label: '上内边距', key: 'paddingTop', schemaType: 'number' },
-  { label: '下内边距', key: 'paddingBottom', schemaType: 'number' },
-  { label: '左内边距', key: 'paddingLeft', schemaType: 'number' },
-  { label: '右内边距', key: 'paddingRight', schemaType: 'number' }
-];
 
+
+/**
 export const EDITOR_FIELDS_MAP: {
   [key in mainTypes]: {
-    fields: EditorFields[]; // 通用字段
-    styles: EditorStyleField[]; // 样式字段
+    fields: EditorBaseField[]; // 通用字段
+    styles: EditorBaseField[]; // 样式字段
   };
 } = {
   canvas: {
@@ -105,7 +97,7 @@ export const EDITOR_FIELDS_MAP: {
     ]
   }
 };
-
+**/
 export const BASE_TAB: EditorTab = { title: '外观', value: 'appearance', icon: 'pi-sliders-h' };
 
 export const DATA_TAB: EditorTab = { title: '数据', value: 'advanced', icon: 'pi-paperclip' };

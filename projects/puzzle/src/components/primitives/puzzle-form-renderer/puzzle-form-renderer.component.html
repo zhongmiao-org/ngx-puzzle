@@ -88,7 +88,7 @@
 
           @default {
             <div [thyCol]="field.schemaType === 'textarea' || field.schemaType === 'code' ? 24 : 12" class="input-item">
-              <label class="block mb-1 text-sm">
+              <label class="block mb-1 mt-1 font-size-sm">
                 {{ field.label }}
                 @if (field?.description) {
                   <i [thyTooltip]="field?.description!" thyTooltipPlacement="top" class="field-label-icon pi pi-question-circle"></i>

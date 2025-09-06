@@ -1,3 +1,4 @@
+export * from './canvas'
 export * from './chart';
 export * from './table';
 export * from './control';

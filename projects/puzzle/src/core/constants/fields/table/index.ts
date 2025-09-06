@@ -4,3 +4,5 @@ export * from './options';
 export * from './conditions';
 export * from './formats';
 export * from './table-sizes';
+export * from './base';
+export * from './style';
