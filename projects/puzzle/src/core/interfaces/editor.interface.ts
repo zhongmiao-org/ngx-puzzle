@@ -1,4 +1,4 @@
-import { basicTypes, fieldComponentTypes, editorTabTypes, SafeAny } from '../types';
+import { fieldComponentTypes, editorTabTypes, SafeAny } from '../types';
 import { ChartAxesTypesEnum } from '../enums';
 import { Observable } from 'rxjs';
 
@@ -26,10 +26,6 @@ export interface EditorBaseField<TEditorField extends EditorBaseField = SafeAny>
   [key: string]: SafeAny;
 }
 
-export interface EditorFields extends EditorBaseField {
-  key: basicTypes;
-}
-
 // 图表组件字段
 export interface EditorChartField extends EditorBaseField {
   // itemSchema?: EditorChartArraySchema[]; // 用于数组项字段
@@ -50,12 +46,6 @@ export interface EditorChartArraySchema extends EditorBaseField {
 export interface ControlEditorField extends EditorBaseField {
   styles?: Record<string, SafeAny>;
   children?: ControlEditorField[];
-  options?: BaseSelectOption[];
-}
-
-// 其他样式字段
-export interface EditorStyleField extends EditorBaseField {
-  key: string;
   options?: BaseSelectOption[];
 }
 

@@ -1,24 +1,22 @@
 import { AfterViewInit, Component, inject, OnDestroy, signal } from '@angular/core';
-import { NgStyle } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
   BaseSelectOption,
   ComponentBaseProps,
   ComponentConfig,
   DataRequestConfig,
-  EditorFields,
   EditorFormData,
-  EditorStyleField,
   EditorTab,
   Position,
   RefreshConfig,
   Size,
   TextConfig,
-  ControlConfig
+  ControlConfig,
+  EditorBaseField
 } from 'ngx-puzzle/core/interfaces';
 import { basicTypes, editorTabTypes, mainTypes, SafeAny } from 'ngx-puzzle/core/types';
 import { Subject, takeUntil } from 'rxjs';
-import { BASE_TAB, EDITOR_FIELDS_MAP, EDITOR_TAB_MAP } from 'ngx-puzzle/core/constants';
+import { BASE_TAB, EDITOR_TAB_MAP } from 'ngx-puzzle/core/constants';
 import { ThyTabsModule } from 'ngx-tethys/tabs';
 import { ThyIcon } from 'ngx-tethys/icon';
 import { cloneDeep, isEqual } from 'lodash';
@@ -35,6 +33,8 @@ import { NgxPuzzleTextEditorComponent } from 'ngx-puzzle/components/editor/dynam
 import { NgxPuzzleTableEditorComponent } from 'ngx-puzzle/components/editor/dynamic-editor/table-editor/ngx-puzzle-table-editor.component';
 import { NgxPuzzleControlEditorComponent } from 'ngx-puzzle/components/editor/dynamic-editor/control-editor/ngx-puzzle-control-editor.component';
 import { Report } from '@webdatarocks/webdatarocks';
+import { PuzzleFormRendererComponent } from 'ngx-puzzle/components/primitives/puzzle-form-renderer/puzzle-form-renderer.component';
+import { NgStyle } from '@angular/common';
 
 @Component({
   selector: 'ngx-puzzle-props-editor, puzzle-props-editor',
@@ -48,13 +48,13 @@ import { Report } from '@webdatarocks/webdatarocks';
     ThyInputNumberModule,
     ThyColorPickerModule,
     ThyInputModule,
-    NgStyle,
     ThySelectModule,
     NgxPuzzleChartEditorComponent,
     NgxPuzzleControlEditorComponent,
     NgxPuzzleRefreshEditorComponent,
     NgxPuzzleTextEditorComponent,
     NgxPuzzleTableEditorComponent,
+    NgStyle
   ],
   templateUrl: './ngx-puzzle-props-editor.component.html',
   styleUrl: './ngx-puzzle-props-editor.component.scss',
@@ -69,9 +69,11 @@ export class NgxPuzzlePropsEditorComponent implements AfterViewInit, OnDestroy {
 
   public config!: ComponentConfig;
 
-  public fields: EditorFields[] = [];
+  public fields: EditorBaseField[] = [];
   // 样式字段
-  public styleFields: EditorStyleField[] = [];
+  public styleFields: EditorBaseField[] = [];
+
+  public sections: EditorBaseField[] = [];
 
   public formData: EditorFormData = {
     width: 0,
@@ -176,6 +178,8 @@ export class NgxPuzzlePropsEditorComponent implements AfterViewInit, OnDestroy {
         ...config.props.styles
       }
     };
+
+    console.log(this.formData);
   }
 
   private updateProps<TConfigProps extends ComponentBaseProps>(props: TConfigProps): void {
@@ -305,6 +309,24 @@ export class NgxPuzzlePropsEditorComponent implements AfterViewInit, OnDestroy {
 
   requestChange(dateRequest: DataRequestConfig): void {
     this.mediator.updateDataRequest(this.config.id, dateRequest);
+  }
+
+  // 统一表单渲染回调
+  onFieldChange(event: { key: string; value: SafeAny; parentKey?: string; index?: number }): void {
+    const basicKeys: basicTypes[] = ['width', 'height', 'positionX', 'positionY'];
+    if ((basicKeys as string[]).includes(event.key)) {
+      this.basicDataChange(event.value as number | string, event.key as basicTypes);
+    } else {
+      this.styleDataChange(event.value as number | string | BaseSelectOption, event.key);
+    }
+  }
+
+  onArrayItemAdd(_event: { fieldKey: string; children: EditorBaseField[] }): void {
+    // appearance 面板目前没有数组类型，预留实现
+  }
+
+  onArrayItemRemove(_event: { fieldKey: string; index: number }): void {
+    // appearance 面板目前没有数组类型，预留实现
   }
 
   ngOnDestroy(): void {
