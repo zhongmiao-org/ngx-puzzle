@@ -16,6 +16,24 @@ ng-puzzle 是一个基于 Angular 的拖拽式可视化拼图库，提供编辑�
 
 # 安装
 
+推荐使用 ng add（Angular CLI 18.4.1+ 将自动追加静态资源配置）。也可手动安装依赖。
+
+## 方式一：使用 ng add（推荐）
+
+```bash
+# 创建 Angular 18 项目
+npx @angular/cli@18 new my-angular18-app
+cd my-angular18-app
+
+# 一键接入（会尝试自动追加 assets 配置，需 CLI ≥ 18.4.1）
+ng add @zhongmiao/ngx-puzzle
+```
+
+- 说明：仅 Angular CLI 18.4.1 及以上版本支持在 ng add 时自动更新 angular.json 的 assets 静态资源配置。
+- 如果你的 CLI 版本较低，或自动追加失败，请按下文“手动配置静态资源”进行补充。
+
+## 方式二：包管理器安装
+
 ```bash
 # 使用 npm
 npm i @zhongmiao/ngx-puzzle --save
@@ -27,14 +45,26 @@ pnpm add @zhongmiao/ngx-puzzle
 yarn add @zhongmiao/ngx-puzzle
 ```
 
-推荐使用 ng add ,因为会自动追加静态配置文件
-```bash
-npx @angular/cli@18 new my-angular18-app
+### 手动配置静态资源（当 ng add 未自动追加时）
+将以下条目添加到你的应用项目在 angular.json 中的 assets 列表（注意是你的应用项目，而非本仓库 example 项目）：
 
-cd my-angular18-app
-
-ng add @zhongmiao/ngx-puzzle
+```json
+[
+  {
+    "glob": "**/*",
+    "input": "./node_modules/@tethys/icons",
+    "output": "/assets/icons/"
+  },
+  {
+    "glob": "**/*",
+    "input": "./projects/puzzle/src/assets",
+    "output": "/assets/"
+  }
+]
 ```
+
+- @tethys/icons -> /assets/icons：用于 Tethys 组件库的图标资源。
+- projects/puzzle/src/assets -> /assets：用于暴露本库内置的静态资源（如编辑器背景等）。
 
 # 基本使用
 

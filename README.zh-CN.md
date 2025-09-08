@@ -24,6 +24,21 @@
 
 ## 安装
 
+优先推荐使用 ng add（Angular CLI 18.4.1+ 将在安装时自动追加静态资源配置）。也可手动安装。
+
+### 方式一：ng add（推荐）
+
+```bash
+npx @angular/cli@18 new my-angular18-app
+cd my-angular18-app
+ng add @zhongmiao/ngx-puzzle
+```
+
+- 说明：仅 Angular CLI 18.4.1 及以上版本支持在 ng add 时自动更新 angular.json 的 assets 静态资源配置。
+- 若 CLI 版本较低或自动追加失败，请参考下述“手动配置静态资源”。
+
+### 方式二：包管理器安装
+
 ```bash
 npm install @zhongmiao/ngx-puzzle
 # 依赖环境：Angular 18+、RxJS 7.8+、ngx-tethys 18.x、echarts 6.x
@@ -241,20 +256,22 @@ npm start
 示例应用在 angular.json 中配置了静态资源，确保图标与库内置资源在运行时可用。请在 example 项目的 build options 下添加如下 assets 配置：
 
 ```json
-"assets": [
-  "example/src/favicon.ico",
-  "example/src/assets",
-  {
-    "glob": "**/*",
-    "input": "./node_modules/@tethys/icons",
-    "output": "/assets/icons/"
-  },
-  {
-    "glob": "**/*",
-    "input": "./projects/puzzle/src/assets",
-    "output": "/assets/"
-  }
-]
+{
+  "assets": [
+    "example/src/favicon.ico",
+    "example/src/assets",
+    {
+      "glob": "**/*",
+      "input": "./node_modules/@tethys/icons",
+      "output": "/assets/icons/"
+    },
+    {
+      "glob": "**/*",
+      "input": "./projects/puzzle/src/assets",
+      "output": "/assets/"
+    }
+  ]
+}
 ```
 
 各项含义：

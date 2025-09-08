@@ -24,6 +24,21 @@ Suitable for rapid prototyping, internal BI dashboards, and data visualization p
 
 ## Installation
 
+Prefer ng add (Angular CLI 18.4.1+ will auto-append static assets config). Manual install is also supported.
+
+### Option 1: ng add (recommended)
+
+```bash
+npx @angular/cli@18 new my-angular18-app
+cd my-angular18-app
+ng add @zhongmiao/ngx-puzzle
+```
+
+- Note: Only Angular CLI 18.4.1 and above can automatically update the assets section in angular.json during ng add.
+- If your CLI is older or auto-append fails, use the manual assets configuration below.
+
+### Option 2: Install via package manager
+
 ```bash
 npm install @zhongmiao/ngx-puzzle
 # peer deps
@@ -243,20 +258,22 @@ npm start
 The example application configures static assets to ensure icons and library assets are available at runtime. If you run or adapt the example, make sure your angular.json contains the following assets section under example:build options:
 
 ```json
-"assets": [
-  "example/src/favicon.ico",
-  "example/src/assets",
-  {
-    "glob": "**/*",
-    "input": "./node_modules/@tethys/icons",
-    "output": "/assets/icons/"
-  },
-  {
-    "glob": "**/*",
-    "input": "./projects/puzzle/src/assets",
-    "output": "/assets/"
-  }
-]
+{
+  "assets": [
+    "example/src/favicon.ico",
+    "example/src/assets",
+    {
+      "glob": "**/*",
+      "input": "./node_modules/@tethys/icons",
+      "output": "/assets/icons/"
+    },
+    {
+      "glob": "**/*",
+      "input": "./projects/puzzle/src/assets",
+      "output": "/assets/"
+    }
+  ]
+}
 ```
 
 What each entry does:
