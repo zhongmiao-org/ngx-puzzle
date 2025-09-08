@@ -1,3 +1,5 @@
+中文 | [English](CONTRIBUTING.md)
+
 ## Contribution Guidelines
 
 Welcome and thank you for your interest in contributing to the `ng-puzzle` project! Below are the guidelines to help you get started and make the most of your contributions.

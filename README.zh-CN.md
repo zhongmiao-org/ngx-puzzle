@@ -236,6 +236,35 @@ npm start
 # 打开 http://localhost:4200 查看示例
 ```
 
+## 静态资源（angular.json）
+
+示例应用在 angular.json 中配置了静态资源，确保图标与库内置资源在运行时可用。请在 example 项目的 build options 下添加如下 assets 配置：
+
+```json
+"assets": [
+  "example/src/favicon.ico",
+  "example/src/assets",
+  {
+    "glob": "**/*",
+    "input": "./node_modules/@tethys/icons",
+    "output": "/assets/icons/"
+  },
+  {
+    "glob": "**/*",
+    "input": "./projects/puzzle/src/assets",
+    "output": "/assets/"
+  }
+]
+```
+
+各项含义：
+- example/src/favicon.ico：示例应用的站点图标。
+- example/src/assets：示例页面用到的自有静态资源目录。
+- node_modules/@tethys/icons -> /assets/icons：暴露 Tethys 图标资源，供 UI 组件按需加载。
+- projects/puzzle/src/assets -> /assets：暴露库内置资源（如编辑器背景等）给示例应用使用。
+
+如果你在自己的应用中使用 @zhongmiao/ngx-puzzle，并且需要这些资源（图标或库资源），可在应用的 angular.json 中为对应项目添加类似的 assets 配置。
+
 ## 贡献
 
 请阅读 CONTRIBUTING.md（中文参见 CONTRIBUTING.zh-CN.md）。

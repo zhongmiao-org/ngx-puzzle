@@ -238,6 +238,35 @@ npm start
 # open http://localhost:4200 and navigate to the example page
 ```
 
+## Static assets (angular.json)
+
+The example application configures static assets to ensure icons and library assets are available at runtime. If you run or adapt the example, make sure your angular.json contains the following assets section under example:build options:
+
+```json
+"assets": [
+  "example/src/favicon.ico",
+  "example/src/assets",
+  {
+    "glob": "**/*",
+    "input": "./node_modules/@tethys/icons",
+    "output": "/assets/icons/"
+  },
+  {
+    "glob": "**/*",
+    "input": "./projects/puzzle/src/assets",
+    "output": "/assets/"
+  }
+]
+```
+
+What each entry does:
+- example/src/favicon.ico: favicon for the example app.
+- example/src/assets: your own static assets used by the example pages.
+- node_modules/@tethys/icons -> /assets/icons: exposes Tethys icon assets so UI components can load them.
+- projects/puzzle/src/assets -> /assets: exposes library-provided assets (e.g., editor backgrounds) to the example app.
+
+If you consume @zhongmiao/ngx-puzzle in your own application and need these assets (icons or library assets), add similar entries to your app project's assets list in angular.json.
+
 ## Contributing
 
 See CONTRIBUTING.md (and CONTRIBUTING.zh-CN.md for Chinese).

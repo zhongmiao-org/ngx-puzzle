@@ -1,3 +1,5 @@
+English | [中文文档](CONTRIBUTING.zh-CN.md)
+
 ## 贡献指南
 
 欢迎并感谢您对 `ng-puzzle` 项目的贡献！以下是贡献指南，帮助您更好地参与到项目中来。
