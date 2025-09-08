@@ -1,4 +1,5 @@
 import { EditorBaseField } from 'ngx-puzzle/core';
+import { BASE_POSITION_FIELDS, BASE_WIDTH_FIELDS } from '../base-style-fields';
 
 export const TEXT_EDITOR_BASE_FIELD: EditorBaseField = {
   label: '基础属性',
@@ -6,9 +7,7 @@ export const TEXT_EDITOR_BASE_FIELD: EditorBaseField = {
   path: 'base',
   schemaType: 'group',
   children: [
-    { label: '宽度', key: 'width', schemaType: 'number' },
-    { label: '高度', key: 'height', schemaType: 'number' },
-    { label: 'X', key: 'positionX', schemaType: 'number' },
-    { label: 'Y', key: 'positionY', schemaType: 'number' }
+    ...BASE_POSITION_FIELDS,
+    ...BASE_WIDTH_FIELDS
   ]
 }

@@ -8,83 +8,7 @@
         </ng-template>
         @switch (tab.value) {
           @case ('appearance') {
-            <div thyLayout>
-              <h5 class="font-size-md font-weight-normal mt-2">基础属性</h5>
-              <div thyRow [thyGutter]="16" class="mb-4">
-                @for (field of fields; track field.key) {
-                  <div [thyCol]="12" class="mt-2">
-                    <label class="form-label">
-                      {{ field.label }}
-                    </label>
-                    <div>
-                      <thy-input-number
-                        [(ngModel)]="formData[field.key]"
-                        [thyMin]="field?.min || 0"
-                        [thyMax]="field?.max || 9999"
-                        [thyStep]="field?.step || 1"
-                        [thySize]="'sm'"
-                        [thySuffix]="field?.suffix || ''"
-                        (ngModelChange)="basicDataChange($event, field.key)"
-                      />
-                    </div>
-                  </div>
-                }
-              </div>
-              <h5 class="font-size-md font-weight-normal mt-4">其他外观</h5>
-              <div thyRow [thyGutter]="16">
-                @for (field of styleFields; let i = $index; track field.key) {
-                  <div [thyCol]="12" class="mt-2">
-                    <label class="form-label" [for]="field.key + i">
-                      {{ field.label }}
-                    </label>
-                    <div>
-                      @switch (field.schemaType) {
-                        @case ('number') {
-                          <thy-input-number
-                            [name]="field.key + i"
-                            [(ngModel)]="formData.styles[field.key]"
-                            [thyMin]="field?.min || 0"
-                            [thyMax]="field?.max || 9999"
-                            [thyStep]="field?.step || 1"
-                            [thySize]="'sm'"
-                            [thySuffix]="field?.suffix || ''"
-                            (ngModelChange)="styleDataChange($event, field.key)"
-                          />
-                        }
-                        @case ('color') {
-                          <div
-                            class="color-picker-box"
-                            [ngStyle]="{ backgroundColor: formData.styles[field.key] }"
-                            thyColorPicker
-                            [thyOffset]="10"
-                            [(ngModel)]="formData.styles[field.key]"
-                            (ngModelChange)="styleDataChange($event, field.key)"
-                          ></div>
-                        }
-                        @case ('select-image') {
-                          <thy-select
-                            thyAllowClear
-                            [(ngModel)]="formData.styles[field.key]"
-                            [thySize]="'sm'"
-                            (ngModelChange)="styleDataChange($event, field.key)"
-                            thyPlaceHolder="选择背景图片"
-                          >
-                            @for (option of field.options; track option.val) {
-                              <thy-option [thyRawValue]="option" [thyValue]="option.val" [thyShowOptionCustom]="true">
-                                <div class="option-item-image" [style.background-image]="option.val"></div>
-                              </thy-option>
-                            }
-                            <ng-template #selectedDisplay let-value>
-                              <div class="selected-image-item" [style.background-image]="formData.styles[field.key]"></div>
-                            </ng-template>
-                          </thy-select>
-                        }
-                      }
-                    </div>
-                  </div>
-                }
-              </div>
-            </div>
+            <puzzle-form-renderer [sections]="sections" [formData]="formData" (fieldChange)="onFieldChange($event)" />
           }
           @case ('advanced') {
             @if (config.type === 'chart' && config.props['chart']) {
@@ -128,52 +52,6 @@
               (onChange)="updateRefreshOptions($event)"
             ></ngx-puzzle-refresh-editor>
           }
-          <!--          @case ('advanced') {-->
-          <!--            <p-tabpanel [value]="tab.value">-->
-          <!--              @if (config.type === 'chart' && config.props['chart']) {-->
-          <!--                <imm-bi-chart-editor-->
-          <!--                  [componentId]="config.id"-->
-          <!--                  [options]="config.props['chart']"-->
-          <!--                  [subType]="config.subType"-->
-          <!--                  [requestOptions]="config.dataRequest!"-->
-          <!--                  (onChange)="updateOptions($event, 'chart')"-->
-          <!--                  (requestOptionsChange)="requestChange($event)"></imm-bi-chart-editor>-->
-          <!--              } @else if (config.type === 'table') {-->
-          <!--                <imm-bi-table-editor-->
-          <!--                  [componentId]="config.id"-->
-          <!--                  [options]="config.props['table']"-->
-          <!--                  [subType]="config.subType"-->
-          <!--                  [requestOptions]="config.dataRequest!"-->
-          <!--                  (onChange)="updateOptions($event, 'table')"-->
-          <!--                  (requestOptionsChange)="requestChange($event)"></imm-bi-table-editor>-->
-          <!--              }-->
-          <!--            </p-tabpanel>-->
-          <!--          }-->
-          <!--          @case ('styles') {-->
-          <!--            <p-tabpanel [value]="tab.value">-->
-          <!--              @if (config.type === 'text') {-->
-          <!--                <imm-bi-text-editor-->
-          <!--                  [options]="config.props['text']"-->
-          <!--                  [subType]="config.subType"-->
-          <!--                  (onChange)="updateOptions($event, 'text')"></imm-bi-text-editor>-->
-          <!--              }-->
-          <!--            </p-tabpanel>-->
-          <!--          }-->
-          <!--          @case ('control') {-->
-          <!--            <p-tabpanel [value]="tab.value">-->
-          <!--              <imm-bi-control-editor-->
-          <!--                [options]="config.props['control']"-->
-          <!--                [subType]="config.subType"-->
-          <!--                (onChange)="updateOptions($event, 'control')"></imm-bi-control-editor>-->
-          <!--            </p-tabpanel>-->
-          <!--          }-->
-          <!--          @case ('refresh') {-->
-          <!--            <p-tabpanel [value]="tab.value">-->
-          <!--              <imm-bi-refresh-editor-->
-          <!--                [(options)]="config.refreshConfig"-->
-          <!--                (onChange)="updateRefreshOptions($event)"></imm-bi-refresh-editor>-->
-          <!--            </p-tabpanel>-->
-          <!--          }-->
         }
       </thy-tab>
     }
