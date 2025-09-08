@@ -50,6 +50,8 @@ export class PuzzleFormRendererComponent {
    */
   formData = input.required<SafeAny>();
 
+  accordion = input<boolean>(true);
+
   /**
    * 表单字段值变化事件
    */

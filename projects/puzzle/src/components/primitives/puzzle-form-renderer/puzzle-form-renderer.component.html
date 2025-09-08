@@ -1,7 +1,7 @@
 <div class="dynamic-form-renderer">
-  <thy-collapse>
-    @for (section of sections(); track section.label) {
-      <thy-collapse-item [thyTitle]="section.label">
+  <thy-collapse [thyAccordion]="accordion()">
+    @for (section of sections();let i = $index; track section.label) {
+      <thy-collapse-item [thyTitle]="section.label" [thyActive]="i === 0">
         @if (section?.children && section.children!.length > 0) {
           <ng-container
             [ngTemplateOutlet]="fieldRenderer"
