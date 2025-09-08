@@ -1,3 +1,8 @@
+## 18.4.2 (2025-09-08)
+
+* chore(puzzle): add schematics configuration to package.json ([9deddcb](https://github.com/zhongmiao-org/ngx-puzzle/commit/9deddcb))
+
+
 ## 18.4.1 (2025-09-08)
 
 * feat(schematics): add `build-schematics` script and improve schematics configuration ([14d4e22](https://github.com/zhongmiao-org/ngx-puzzle/commit/14d4e22))
