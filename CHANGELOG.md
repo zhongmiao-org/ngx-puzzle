@@ -1,3 +1,8 @@
+## 18.4.1 (2025-09-08)
+
+* feat(schematics): add `build-schematics` script and improve schematics configuration ([14d4e22](https://github.com/zhongmiao-org/ngx-puzzle/commit/14d4e22))
+
+
 ## 18.4.0 (2025-09-08)
 
 * feat(schematics): add `ng-add` schematic for asset configuration ([f4fb1e2](https://github.com/zhongmiao-org/ngx-puzzle/commit/f4fb1e2))
