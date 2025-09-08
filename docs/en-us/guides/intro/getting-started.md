@@ -16,7 +16,7 @@ ng-puzzle is an Angular-based drag-and-drop visualization library. It provides a
 
 # Installation
 
-Prefer ng add (Angular CLI 18.4.1+ will auto-append static assets config). Manual install is also supported.
+Prefer ng add. Manual install is also supported.
 
 ## Option 1: ng add (recommended)
 
@@ -25,7 +25,7 @@ Prefer ng add (Angular CLI 18.4.1+ will auto-append static assets config). Manua
 npx @angular/cli@18 new my-angular18-app
 cd my-angular18-app
 
-# One-step integration (will try to auto-append assets; requires CLI ≥ 18.4.1)
+# One-step integration
 ng add @zhongmiao/ngx-puzzle
 ```
 
@@ -52,13 +52,13 @@ Add the following entries to your application project’s assets list in angular
 [
   {
     "glob": "**/*",
-    "input": "./node_modules/@tethys/icons",
-    "output": "/assets/icons/"
+    "input": "./node_modules/@tethys/icons/assets",
+    "output": "/assets/icons"
   },
   {
     "glob": "**/*",
-    "input": "./projects/puzzle/src/assets",
-    "output": "/assets/"
+    "input": "./node_modules/ngx-puzzle/assets",
+    "output": "/assets/puzzle"
   }
 ]
 ```
