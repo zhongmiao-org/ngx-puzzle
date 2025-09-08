@@ -16,7 +16,7 @@ ng-puzzle 是一个基于 Angular 的拖拽式可视化拼图库，提供编辑�
 
 # 安装
 
-推荐使用 ng add（Angular CLI 18.4.1+ 将自动追加静态资源配置）。也可手动安装依赖。
+推荐使用 ng add。也可手动安装依赖。
 
 ## 方式一：使用 ng add（推荐）
 
@@ -25,7 +25,7 @@ ng-puzzle 是一个基于 Angular 的拖拽式可视化拼图库，提供编辑�
 npx @angular/cli@18 new my-angular18-app
 cd my-angular18-app
 
-# 一键接入（会尝试自动追加 assets 配置，需 CLI ≥ 18.4.1）
+# 一键接入（会尝试自动追加 assets 配置）
 ng add @zhongmiao/ngx-puzzle
 ```
 
