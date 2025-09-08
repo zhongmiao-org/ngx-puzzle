@@ -1,3 +1,11 @@
+## 18.4.5 (2025-09-08)
+
+* chore(package.json): update package.jso ([eb6785e](https://github.com/zhongmiao-org/ngx-puzzle/commit/eb6785e))
+* chore(package.json): update package.jso ([13e56a5](https://github.com/zhongmiao-org/ngx-puzzle/commit/13e56a5))
+* chore(package.json): simplify configuration by removing unused dependencies and scripts, and restructure exports and scripts for schematics (#71) ([fe4df54](https://github.com/zhongmiao-org/ngx-puzzle/commit/fe4df54))
+* chore(package.json): simplify configuration by removing unused dependencies and scripts, and restructure exports and scripts for schematics (#70) ([944f63d](https://github.com/zhongmiao-org/ngx-puzzle/commit/944f63d))
+
+
 ## 18.4.4 (2025-09-08)
 
 * fix(schematics): update asset path and correct schema key in `ng-add` ([f74bb8d](https://github.com/zhongmiao-org/ngx-puzzle/commit/f74bb8d))
