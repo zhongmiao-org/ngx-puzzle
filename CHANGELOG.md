@@ -1,3 +1,8 @@
+## 18.4.6 (2025-09-08)
+
+* chore(package.json): update package.json ([1aa3944](https://github.com/zhongmiao-org/ngx-puzzle/commit/1aa3944))
+
+
 ## 18.4.5 (2025-09-08)
 
 * chore(package.json): update package.jso ([eb6785e](https://github.com/zhongmiao-org/ngx-puzzle/commit/eb6785e))
