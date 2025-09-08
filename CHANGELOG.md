@@ -1,3 +1,9 @@
+## 18.3.2 (2025-09-08)
+
+* feat(fields): add base and style field configurations for editor components ([731ff59](https://github.com/zhongmiao-org/ngx-puzzle/commit/731ff59))
+* fix(editor.utils): add path validation in `convertFormDataToOptions` and setOptionValue ([e3ea38b](https://github.com/zhongmiao-org/ngx-puzzle/commit/e3ea38b))
+
+
 ## 18.3.1 (2025-09-03)
 
 * feat(scripts): improve version tag formatting and update release script ([ae49dfe](https://github.com/zhongmiao-org/ngx-puzzle/commit/ae49dfe))
