@@ -71,5 +71,6 @@
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
-  }
+  },
+  "schematics": "./schematics/collection.json"
 }
