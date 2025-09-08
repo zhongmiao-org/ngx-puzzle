@@ -1,24 +1,20 @@
 import { AfterViewInit, Component, inject, OnDestroy, signal } from '@angular/core';
-import { NgStyle } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
-  BaseSelectOption,
   ComponentBaseProps,
   ComponentConfig,
   DataRequestConfig,
-  EditorFields,
-  EditorFormData,
-  EditorStyleField,
   EditorTab,
   Position,
   RefreshConfig,
   Size,
   TextConfig,
-  ControlConfig
+  ControlConfig,
+  EditorBaseField
 } from 'ngx-puzzle/core/interfaces';
 import { basicTypes, editorTabTypes, mainTypes, SafeAny } from 'ngx-puzzle/core/types';
 import { Subject, takeUntil } from 'rxjs';
-import { BASE_TAB, EDITOR_FIELDS_MAP, EDITOR_TAB_MAP } from 'ngx-puzzle/core/constants';
+import { BASE_TAB, EDITOR_TAB_MAP } from 'ngx-puzzle/core/constants';
 import { ThyTabsModule } from 'ngx-tethys/tabs';
 import { ThyIcon } from 'ngx-tethys/icon';
 import { cloneDeep, isEqual } from 'lodash';
@@ -29,12 +25,14 @@ import { ThyInputNumberModule } from 'ngx-tethys/input-number';
 import { ThyColorPickerModule } from 'ngx-tethys/color-picker';
 import { ThySelectModule } from 'ngx-tethys/select';
 import { NgxPuzzleChartEditorComponent } from 'ngx-puzzle/components/editor/dynamic-editor/chart-editor/ngx-puzzle-chart-editor.component';
-import { PuzzleCanvasMediatorService } from 'ngx-puzzle/core';
+import { convertFormDataToOptions, convertOptionsToFormData, PuzzleCanvasMediatorService, updateFormData } from 'ngx-puzzle/core';
 import { NgxPuzzleRefreshEditorComponent } from 'ngx-puzzle/components/editor/dynamic-editor/refresh-editor/ngx-puzzle-refresh-editor.component';
 import { NgxPuzzleTextEditorComponent } from 'ngx-puzzle/components/editor/dynamic-editor/text-editor/ngx-puzzle-text-editor.component';
 import { NgxPuzzleTableEditorComponent } from 'ngx-puzzle/components/editor/dynamic-editor/table-editor/ngx-puzzle-table-editor.component';
 import { NgxPuzzleControlEditorComponent } from 'ngx-puzzle/components/editor/dynamic-editor/control-editor/ngx-puzzle-control-editor.component';
 import { Report } from '@webdatarocks/webdatarocks';
+import { PuzzleFormRendererComponent } from 'ngx-puzzle/components/primitives/puzzle-form-renderer/puzzle-form-renderer.component';
+import { EDITOR_BASE_FIELDS } from 'ngx-puzzle/core/constants/field-configs/base-editor';
 
 @Component({
   selector: 'ngx-puzzle-props-editor, puzzle-props-editor',
@@ -48,13 +46,13 @@ import { Report } from '@webdatarocks/webdatarocks';
     ThyInputNumberModule,
     ThyColorPickerModule,
     ThyInputModule,
-    NgStyle,
     ThySelectModule,
     NgxPuzzleChartEditorComponent,
     NgxPuzzleControlEditorComponent,
     NgxPuzzleRefreshEditorComponent,
     NgxPuzzleTextEditorComponent,
     NgxPuzzleTableEditorComponent,
+    PuzzleFormRendererComponent
   ],
   templateUrl: './ngx-puzzle-props-editor.component.html',
   styleUrl: './ngx-puzzle-props-editor.component.scss',
@@ -69,17 +67,13 @@ export class NgxPuzzlePropsEditorComponent implements AfterViewInit, OnDestroy {
 
   public config!: ComponentConfig;
 
-  public fields: EditorFields[] = [];
+  public fields: EditorBaseField[] = [];
   // 样式字段
-  public styleFields: EditorStyleField[] = [];
+  public styleFields: EditorBaseField[] = [];
 
-  public formData: EditorFormData = {
-    width: 0,
-    height: 0,
-    positionX: 0,
-    positionY: 0,
-    styles: {}
-  };
+  public sections: EditorBaseField[] = [];
+
+  public formData: Record<string, SafeAny> = {};
 
   public tabs = signal<EditorTab[]>([]);
 
@@ -155,27 +149,13 @@ export class NgxPuzzlePropsEditorComponent implements AfterViewInit, OnDestroy {
 
   private updateAllConfig(config: ComponentConfig): void {
     const configCopy = cloneDeep(config);
-
+    console.log(`updateAllConfig`, configCopy);
     this.config = {
       ...this.config,
       ...configCopy
     };
-    const typeFields = EDITOR_FIELDS_MAP[config.type];
-    this.fields = typeFields?.fields || [];
-    this.styleFields = typeFields?.styles || [];
-
-    // 初始化基础数据
-    this.formData = {
-      ...this.formData,
-      width: config.size.width,
-      height: config.size.height,
-      positionX: config.position.x,
-      positionY: config.position.y,
-      styles: {
-        ...this.formData.styles,
-        ...config.props.styles
-      }
-    };
+    this.sections = EDITOR_BASE_FIELDS[config.type];
+    this.formData = convertOptionsToFormData(this.config, this.sections);
   }
 
   private updateProps<TConfigProps extends ComponentBaseProps>(props: TConfigProps): void {
@@ -184,13 +164,7 @@ export class NgxPuzzlePropsEditorComponent implements AfterViewInit, OnDestroy {
       ...props
     };
 
-    this.formData = {
-      ...this.formData,
-      styles: {
-        ...this.formData.styles,
-        ...props.styles
-      }
-    };
+    this.formData = convertOptionsToFormData(this.config, this.sections);
   }
 
   private updatePosition(position: Position) {
@@ -198,8 +172,7 @@ export class NgxPuzzlePropsEditorComponent implements AfterViewInit, OnDestroy {
       ...this.config,
       position
     };
-    this.formData.positionX = position.x;
-    this.formData.positionY = position.y;
+    this.formData = convertOptionsToFormData(this.config, this.sections);
   }
 
   private updateSize(size: Size) {
@@ -207,8 +180,7 @@ export class NgxPuzzlePropsEditorComponent implements AfterViewInit, OnDestroy {
       ...this.config,
       size
     };
-    this.formData.width = size.width;
-    this.formData.height = size.height;
+    this.formData = convertOptionsToFormData(this.config, this.sections);
   }
 
   basicDataChange(val: number | string, field: basicTypes): void {
@@ -218,40 +190,21 @@ export class NgxPuzzlePropsEditorComponent implements AfterViewInit, OnDestroy {
 
     switch (field) {
       case 'width':
-        this.config.size.width = +val;
-        actionType = 'resize';
-        break;
       case 'height':
-        this.config.size.height = +val;
         actionType = 'resize';
         break;
       case 'positionX':
-        this.config.position.x = +val;
-        actionType = 'move';
-        break;
       case 'positionY':
-        this.config.position.y = +val;
         actionType = 'move';
         break;
     }
 
     if (actionType) {
+      console.log(actionType, this.config);
       this.mediator.recordHistory(configForHistory, actionType);
       const { id, size, position } = this.config;
       actionType === 'resize' ? this.mediator.resizeComponent(id, size, position) : this.mediator.movingComponent(id, position);
     }
-  }
-
-  styleDataChange(val: number | string | BaseSelectOption, field: string): void {
-    this.config.props.styles = {
-      ...this.config.props.styles,
-      [field]: val
-    };
-    this.formData.styles = {
-      ...this.formData.styles,
-      [field]: val
-    };
-    this.emitUpdateProps(this.config.props);
   }
 
   // 更新刷新评率
@@ -305,6 +258,18 @@ export class NgxPuzzlePropsEditorComponent implements AfterViewInit, OnDestroy {
 
   requestChange(dateRequest: DataRequestConfig): void {
     this.mediator.updateDataRequest(this.config.id, dateRequest);
+  }
+
+  onFieldChange(event: { key: string; value: SafeAny; parentKey?: string; index?: number }): void {
+    this.formData = updateFormData(this.formData, event.key, event.value, event?.parentKey, event?.index);
+    const updated = convertFormDataToOptions(this.formData, this.config, this.sections);
+
+    const basicKeys: basicTypes[] = ['width', 'height', 'positionX', 'positionY'];
+    if ((basicKeys as string[]).includes(event.key)) {
+      this.basicDataChange(event.value as number | string, event.key as basicTypes);
+    } else {
+      this.mediator.updateComponentProps(this.config.id, updated.props);
+    }
   }
 
   ngOnDestroy(): void {

@@ -1,3 +1,4 @@
+export * from './base-editor';
 export * from './chart-editor-fields-config';
 export * from './control-editor-fields-config';
 export * from './refresh-fields-config';
