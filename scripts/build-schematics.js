@@ -36,7 +36,7 @@ try {
 const pkgPath = path.join(distLib, 'package.json');
 try {
   const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf-8'));
-  pkg.schematics = 'schematics/collection.json';
+  pkg.schematics = './schematics/collection.json';
   fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2));
   console.log('Updated dist package.json with schematics field.');
 } catch (e) {
