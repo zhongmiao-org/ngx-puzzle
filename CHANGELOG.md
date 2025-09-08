@@ -1,3 +1,10 @@
+## 18.4.0 (2025-09-08)
+
+* feat(schematics): add `ng-add` schematic for asset configuration ([f4fb1e2](https://github.com/zhongmiao-org/ngx-puzzle/commit/f4fb1e2))
+* docs: add bilingual links and static asset configuration details (#58) ([39f4025](https://github.com/zhongmiao-org/ngx-puzzle/commit/39f4025))
+* feat(renderer): add accordion support and update padding field units (#57) ([739a223](https://github.com/zhongmiao-org/ngx-puzzle/commit/739a223))
+
+
 ## 18.3.2 (2025-09-08)
 
 * feat(fields): add base and style field configurations for editor components ([731ff59](https://github.com/zhongmiao-org/ngx-puzzle/commit/731ff59))
