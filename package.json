@@ -46,7 +46,7 @@
     "ng": "ng",
     "build:docs": "docgeni build",
     "start": "ng serve",
-    "build": "npm run build:lib && npm run build:styles && npm run build:pkgdocs",
+    "build": "npm run build:lib && node scripts/build-schematics.js && npm run build:styles && npm run build:pkgdocs",
     "build:lib": "ng build puzzle --configuration production",
     "build:styles": "cpx \"./projects/puzzle/src/**/*.scss\" dist/puzzle",
     "build:pkgdocs": "cpx \"CHANGELOG.md README.md LICENSE\" dist/puzzle",

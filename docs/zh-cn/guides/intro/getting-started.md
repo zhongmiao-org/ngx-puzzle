@@ -27,6 +27,15 @@ pnpm add @zhongmiao/ngx-puzzle
 yarn add @zhongmiao/ngx-puzzle
 ```
 
+推荐使用 ng add ,因为会自动追加静态配置文件
+```bash
+npx @angular/cli@18 new my-angular18-app
+
+cd my-angular18-app
+
+ng add @zhongmiao/ngx-puzzle
+```
+
 # 基本使用
 
 ng-puzzle 提供两个主要组件：
