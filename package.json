@@ -1,5 +1,7 @@
 {
   "name": "@zhongmiao/ngx-puzzle",
+  "version": "18.4.4",
+  "private": false,
   "author": "ark65<liuwufangzhou@gmail.com>,<liuwufangzhou@qq.vip.com>",
   "license": "MIT",
   "keywords": [
@@ -36,44 +38,9 @@
     "文本",
     "控件"
   ],
-  "peerDependencies": {
-    "@angular/animations": "^18.2.0",
-    "@angular/cdk": "^18.2.14",
-    "@angular/common": "^18.2.0",
-    "@angular/core": "^18.2.0",
-    "@angular/forms": "^18.2.0",
-    "@angular/platform-browser": "^18.2.0",
-    "@angular/platform-browser-dynamic": "^18.2.0",
-    "@angular/router": "^18.2.0",
-    "rxjs": "~7.8.0",
-    "zone.js": "~0.14.10"
-  },
-  "dependencies": {
-    "@date-fns/tz": "^1.2.0",
-    "@tethys/icons": "1.4.50",
-    "@webdatarocks/webdatarocks": "1.4.19",
-    "date-fns": "^4.1.0",
-    "echarts": "6.0.0",
-    "lodash": "4.17.21",
-    "ngx-tethys": "^18.2.17",
-    "tslib": "^2.3.0"
-  },
-  "devDependencies": {
-    "@types/lodash": "4.17.20"
-  },
-  "exports": {
-    ".": {
-      "sass": "./styles/index.scss"
-    },
-    "./styles/variables": {
-      "sass": "./styles/variables.scss"
-    },
-    "./styles/index": {
-      "sass": "./styles/index.scss"
-    },
-    "./styles/*": {
-      "sass": "./styles/*"
-    }
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   },
   "scripts": {
     "ng": "ng",
@@ -97,11 +64,58 @@
     "changelog:all": "conventional-changelog -p conventionalcommits -i CHANGELOG.md -s -r 0",
     "postrelease": "npm run changelog && git add CHANGELOG.md && git commit -m \"docs(changelog): update changelog\" || echo 'no changelog changes' && git push",
     "publish:dist": "cd dist/puzzle && npm publish --access public",
-    "postinstall": "husky install"
   },
-  "sideEffects": false,
-  "publishConfig": {
-    "access": "public",
-    "registry": "https://registry.npmjs.org/"
+  "dependencies": {
+    "@angular/animations": "^18.2.0",
+    "@angular/cdk": "^18.2.14",
+    "@angular/common": "^18.2.0",
+    "@angular/compiler": "^18.2.0",
+    "@angular/core": "^18.2.0",
+    "@angular/forms": "^18.2.0",
+    "@angular/platform-browser": "^18.2.0",
+    "@angular/platform-browser-dynamic": "^18.2.0",
+    "@angular/router": "^18.2.0",
+    "@date-fns/tz": "^1.2.0",
+    "@tethys/icons": "1.4.50",
+    "@webdatarocks/webdatarocks": "1.4.19",
+    "date-fns": "^4.1.0",
+    "echarts": "6.0.0",
+    "lodash": "4.17.21",
+    "ngx-tethys": "^18.2.17",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0",
+    "zone.js": "~0.14.10"
+  },
+  "schematics": "projects/puzzle/schematics/collection.json",
+  "devDependencies": {
+    "husky": "^7.0.4",
+    "@angular-devkit/build-angular": "^18.2.20",
+    "@angular-eslint/builder": "^18.3.1",
+    "@angular-eslint/eslint-plugin": "^18.3.1",
+    "@angular-eslint/eslint-plugin-template": "^18.3.1",
+    "@angular-eslint/template-parser": "^18.3.1",
+    "@angular/cli": "^18.2.20",
+    "@angular/compiler-cli": "^18.2.0",
+    "@commitlint/cli": "^19.5.0",
+    "@commitlint/config-conventional": "^19.5.0",
+    "@docgeni/cli": "^2.5.0",
+    "@docgeni/template": "2.5.0",
+    "@types/jasmine": "~5.1.0",
+    "@typescript-eslint/eslint-plugin": "^8.8.1",
+    "@typescript-eslint/parser": "^8.8.1",
+    "conventional-changelog-cli": "^5.0.0",
+    "@types/lodash": "4.17.20",
+    "cpx": "^1.5.0",
+    "eslint": "^9.9.0",
+    "eslint-config-prettier": "^9.1.0",
+    "jasmine-core": "~5.2.0",
+    "karma": "~6.4.0",
+    "karma-chrome-launcher": "~3.2.0",
+    "karma-coverage": "~2.2.0",
+    "karma-jasmine": "~5.1.0",
+    "karma-jasmine-html-reporter": "~2.1.0",
+    "ng-packagr": "^18.2.0",
+    "prettier": "^3.6.2",
+    "typescript": "~5.5.2"
   }
 }
