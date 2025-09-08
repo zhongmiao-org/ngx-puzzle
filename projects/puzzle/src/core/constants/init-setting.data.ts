@@ -74,25 +74,3 @@ export const INIT_SETTINGS_CONFIG: { [key in mainTypes]: ComponentConfig } = {
     }
   }
 };
-
-// controls: {
-// 	datePick: {
-// 		enabled: false,
-// 		type: 'datePick',
-// 		props: {
-// 			selectionMode: 'range',
-// 			dateFormat: 'yy-mm-dd',
-// 			showTime: false,
-// 			placeholder: '请选择时间范围',
-// 			size: 'normal'
-// 		},
-// 		styles: {
-// 			width: 200,
-// 			height: 40,
-// 			top: 10,
-// 			left: 20,
-// 		},
-// 		bindField: 'timeRange',
-// 		defaultValue: null
-// 	}
-// },
