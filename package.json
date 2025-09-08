@@ -1,7 +1,5 @@
 {
   "name": "@zhongmiao/ngx-puzzle",
-  "version": "18.4.4",
-  "private": false,
   "author": "ark65<liuwufangzhou@gmail.com>,<liuwufangzhou@qq.vip.com>",
   "license": "MIT",
   "keywords": [
@@ -38,85 +36,55 @@
     "文本",
     "控件"
   ],
-  "publishConfig": {
-    "access": "public",
-    "registry": "https://registry.npmjs.org/"
-  },
-  "scripts": {
-    "ng": "ng",
-    "build:docs": "docgeni build",
-    "start": "ng serve",
-    "build": "npm run build:lib && node scripts/build-schematics.js && npm run build:styles && npm run build:pkgdocs",
-    "build:lib": "ng build puzzle --configuration production",
-    "build:styles": "cpx \"./projects/puzzle/src/**/*.scss\" dist/puzzle",
-    "build:pkgdocs": "cpx \"CHANGELOG.md README.md LICENSE\" dist/puzzle",
-    "start:docs": "docgeni serve --port 4600",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test",
-    "lint": "ng lint",
-    "lint:fix": "ng lint --fix",
-    "format": "prettier --write .",
-    "format:check": "prettier --check .",
-    "release": "wpm release --release-branch-format release-auto-v{{version}}",
-    "release:select": "node scripts/release.js -y",
-    "prerelease": "npm run build",
-    "changelog": "conventional-changelog -p conventionalcommits -r 1 -i CHANGELOG.md -s",
-    "changelog:all": "conventional-changelog -p conventionalcommits -i CHANGELOG.md -s -r 0",
-    "postrelease": "npm run changelog && git add CHANGELOG.md && git commit -m \"docs(changelog): update changelog\" || echo 'no changelog changes' && git push",
-    "publish:dist": "cd dist/puzzle && npm publish --access public",
-    "postinstall": "husky install"
-  },
-  "dependencies": {
+  "peerDependencies": {
     "@angular/animations": "^18.2.0",
     "@angular/cdk": "^18.2.14",
     "@angular/common": "^18.2.0",
-    "@angular/compiler": "^18.2.0",
     "@angular/core": "^18.2.0",
     "@angular/forms": "^18.2.0",
     "@angular/platform-browser": "^18.2.0",
     "@angular/platform-browser-dynamic": "^18.2.0",
     "@angular/router": "^18.2.0",
-    "@date-fns/tz": "^1.2.0",
-    "@tethys/icons": "1.4.50",
-    "@types/lodash": "4.17.20",
-    "@webdatarocks/webdatarocks": "1.4.19",
-    "cpx": "^1.5.0",
-    "date-fns": "^4.1.0",
-    "echarts": "6.0.0",
-    "husky": "^7.0.4",
-    "lodash": "4.17.21",
-    "ngx-tethys": "^18.2.17",
     "rxjs": "~7.8.0",
-    "tslib": "^2.3.0",
     "zone.js": "~0.14.10"
   },
-  "schematics": "projects/puzzle/schematics/collection.json",
+  "dependencies": {
+    "@date-fns/tz": "^1.2.0",
+    "@tethys/icons": "1.4.50",
+    "@webdatarocks/webdatarocks": "1.4.19",
+    "date-fns": "^4.1.0",
+    "echarts": "6.0.0",
+    "lodash": "4.17.21",
+    "ngx-tethys": "^18.2.17",
+    "tslib": "^2.3.0"
+  },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^18.2.20",
-    "@angular-eslint/builder": "^18.3.1",
-    "@angular-eslint/eslint-plugin": "^18.3.1",
-    "@angular-eslint/eslint-plugin-template": "^18.3.1",
-    "@angular-eslint/template-parser": "^18.3.1",
-    "@angular/cli": "^18.2.20",
-    "@angular/compiler-cli": "^18.2.0",
-    "@commitlint/cli": "^19.5.0",
-    "@commitlint/config-conventional": "^19.5.0",
-    "@docgeni/cli": "^2.5.0",
-    "@docgeni/template": "2.5.0",
-    "@types/jasmine": "~5.1.0",
-    "@typescript-eslint/eslint-plugin": "^8.8.1",
-    "@typescript-eslint/parser": "^8.8.1",
-    "conventional-changelog-cli": "^5.0.0",
-    "eslint": "^9.9.0",
-    "eslint-config-prettier": "^9.1.0",
-    "jasmine-core": "~5.2.0",
-    "karma": "~6.4.0",
-    "karma-chrome-launcher": "~3.2.0",
-    "karma-coverage": "~2.2.0",
-    "karma-jasmine": "~5.1.0",
-    "karma-jasmine-html-reporter": "~2.1.0",
-    "ng-packagr": "^18.2.0",
-    "prettier": "^3.6.2",
-    "typescript": "~5.5.2"
+    "@types/lodash": "4.17.20"
+  },
+  "exports": {
+    ".": {
+      "sass": "./styles/index.scss"
+    },
+    "./styles/variables": {
+      "sass": "./styles/variables.scss"
+    },
+    "./styles/index": {
+      "sass": "./styles/index.scss"
+    },
+    "./styles/*": {
+      "sass": "./styles/*"
+    }
+  },
+  "scripts": {
+    "build": "../../node_modules/.bin/tsc -p tsconfig.schematics.json",
+    "copy:schemas": "cp --parents schematics/*/schema.json ../../dist/puzzle/",
+    "copy:files": "cp --parents -p schematics/*/files/** ../../dist/puzzle/",
+    "copy:collection": "cp schematics/collection.json ../../dist/puzzle/schematics/collection.json",
+    "postbuild": "npm run copy:schemas && npm run copy:files && npm run copy:collection"
+  },
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   }
 }
