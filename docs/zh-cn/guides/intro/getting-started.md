@@ -52,13 +52,13 @@ yarn add @zhongmiao/ngx-puzzle
 [
   {
     "glob": "**/*",
-    "input": "./node_modules/@tethys/icons",
-    "output": "/assets/icons/"
+    "input": "./node_modules/@tethys/icons/assets",
+    "output": "/assets/icons"
   },
   {
     "glob": "**/*",
-    "input": "./projects/puzzle/src/assets",
-    "output": "/assets/"
+    "input": "./node_modules/ngx-puzzle/assets",
+    "output": "/assets/puzzle"
   }
 ]
 ```
