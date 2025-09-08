@@ -19,10 +19,11 @@ const ICON_ASSETS: AssetPatternObject[] = [
   },
   {
     glob: '**/*',
-    input: './projects/puzzle/src/assets',
+    input: './node_modules/@zhongmiao/ngx-puzzle/assets',
     output: '/assets/'
   }
 ];
+
 
 function ensureAssetEntry(assets: any[]): any[] {
   const result = [...assets];
