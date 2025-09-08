@@ -1,24 +1,33 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { SafeAny } from 'ngx-puzzle/core/types';
+import { SafeAny } from 'ngx-puzzle/core';
 
 @Pipe({
   name: 'stylesFormat',
-  standalone: true
+  standalone: true,
+  pure: false
 })
 export class StylesFormatPipe implements PipeTransform {
+  private cache = new Map<string, { [key: string]: any }>();
+
   transform(styles?: Record<string, SafeAny>): { [key: string]: any } {
     if (!styles) return {};
+
+    const cacheKey = JSON.stringify(styles);
+
+    if (this.cache.has(cacheKey)) {
+      return this.cache.get(cacheKey)!;
+    }
+
     let newStyles: { [key: string]: SafeAny } = {};
+
     for (const styleName in styles) {
       switch (styleName) {
-        // case 'backgroundImage':
-        //   console.log(`styles[styleName]`,styles, styleName, styles[styleName])
-        // 	newStyles[styleName] = styles[styleName] !== null ? (styles[styleName] as { val: string }).val : null;
-        // 	break;
+        case 'backgroundImage':
+          newStyles[styleName] = styles[styleName];
+          break;
         case 'backgroundPositionX':
         case 'backgroundPositionY':
         case 'backgroundSize':
-          console.log(styleName, styles[styleName], styles[styleName] ? 0 : `${styles[styleName]}%`);
           newStyles[styleName] = `${styles[styleName]}%`;
           break;
         default:
@@ -27,7 +36,14 @@ export class StylesFormatPipe implements PipeTransform {
           break;
       }
     }
-    console.log(`newStyles`, newStyles);
+
+    if (this.cache.size > 50) {
+      const firstKey = this.cache.keys().next().value;
+      this.cache.delete(firstKey);
+    }
+    this.cache.set(cacheKey, newStyles);
+
+    console.log(`StylesFormatPipe 转换结果:`, newStyles);
     return newStyles;
   }
 }

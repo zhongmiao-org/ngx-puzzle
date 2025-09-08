@@ -1,7 +1,7 @@
 <div class="dynamic-form-renderer">
-  <thy-collapse>
-    @for (section of sections(); track section.label) {
-      <thy-collapse-item [thyTitle]="section.label">
+  <thy-collapse [thyAccordion]="accordion()">
+    @for (section of sections();let i = $index; track section.label) {
+      <thy-collapse-item [thyTitle]="section.label" [thyActive]="i === 0">
         @if (section?.children && section.children!.length > 0) {
           <ng-container
             [ngTemplateOutlet]="fieldRenderer"
@@ -125,6 +125,7 @@
                   <thy-select
                     [(ngModel)]="formData[field.key]"
                     thySize="sm"
+                    [thyPlaceHolder]="field?.placeholder || ''"
                     (ngModelChange)="onFormFieldChange(field.key, $event, parentKey)"
                     [class]="field.className?.join(' ')"
                   >
@@ -138,6 +139,7 @@
                   <thy-select
                     thyMode="multiple"
                     thySize="sm"
+                    [thyPlaceHolder]="field?.placeholder || ''"
                     [(ngModel)]="formData[field.key]"
                     (ngModelChange)="onFormFieldChange(field.key, $event, parentKey)"
                     [class]="field.className?.join(' ')"
@@ -209,13 +211,29 @@
                 }
 
                 @case ('select-image') {
-                  <!-- 图片选择器组件 - 可以根据需要实现 -->
-                  <div class="select-image-placeholder">
-                    <thy-button thySize="sm" (click)="onButtonClick(field, formData)"> 选择图片 </thy-button>
-                    @if (formData[field.key]) {
-                      <img [src]="formData[field.key]" alt="选中的图片" class="selected-image" />
+                  <thy-select
+                    thyPlaceHolder="请选择"
+                    [(ngModel)]="formData[field.key]"
+                    [thyAllowClear]="true"
+                    (ngModelChange)="onFormFieldChange(field.key, $event, parentKey)"
+                    [class]="field.className?.join(' ')"
+                  >
+                    @for (opt of getFieldOptions(field); track opt.val) {
+                      <thy-option [thyValue]="opt.val" [thyShowOptionCustom]="true">
+                        <div class="option-image" [style.background-image]="opt.val"></div>
+                      </thy-option>
                     }
-                  </div>
+                    <ng-template #selectedDisplay let-value>
+                      @if (!value) {
+                        <span class="empty-placeholder">请选择图片</span>
+                      } @else {
+                        <div class="selected-image-display">
+                          <div class="selected-option-image" [style.background-image]="value"></div>
+                        </div>
+                      }
+                    </ng-template>
+                  </thy-select>
+
                 }
 
                 @case ('cascade-select') {

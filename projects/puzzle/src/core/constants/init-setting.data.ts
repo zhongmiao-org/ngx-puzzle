@@ -19,7 +19,7 @@ const BASIC_STYLES: Record<string, SafeAny> = {
 export const INIT_SETTINGS_CONFIG: { [key in mainTypes]: ComponentConfig } = {
   canvas: {
     id: 'canvas',
-    size: { width: 2000, height: 2000 },
+    size: { width: 1920, height: 1080 },
     type: 'canvas',
     subType: '',
     position: { x: 0, y: 0 },

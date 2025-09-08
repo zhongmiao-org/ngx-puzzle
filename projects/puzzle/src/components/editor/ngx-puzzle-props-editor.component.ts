@@ -198,9 +198,7 @@ export class NgxPuzzlePropsEditorComponent implements AfterViewInit, OnDestroy {
         actionType = 'move';
         break;
     }
-
     if (actionType) {
-      console.log(actionType, this.config);
       this.mediator.recordHistory(configForHistory, actionType);
       const { id, size, position } = this.config;
       actionType === 'resize' ? this.mediator.resizeComponent(id, size, position) : this.mediator.movingComponent(id, position);
@@ -263,11 +261,15 @@ export class NgxPuzzlePropsEditorComponent implements AfterViewInit, OnDestroy {
   onFieldChange(event: { key: string; value: SafeAny; parentKey?: string; index?: number }): void {
     this.formData = updateFormData(this.formData, event.key, event.value, event?.parentKey, event?.index);
     const updated = convertFormDataToOptions(this.formData, this.config, this.sections);
-
+    this.config = {
+      ...this.config,
+      ...updated
+    }
     const basicKeys: basicTypes[] = ['width', 'height', 'positionX', 'positionY'];
     if ((basicKeys as string[]).includes(event.key)) {
       this.basicDataChange(event.value as number | string, event.key as basicTypes);
     } else {
+      console.log(updated.props)
       this.mediator.updateComponentProps(this.config.id, updated.props);
     }
   }

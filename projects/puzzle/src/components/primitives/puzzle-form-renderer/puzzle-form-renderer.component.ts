@@ -36,7 +36,7 @@ import { ThyDatePickerModule } from 'ngx-tethys/date-picker';
     ThyLayoutModule,
     ThyColorPickerDirective,
     ThyDatePickerModule,
-    NgStyle
+    NgStyle,
   ]
 })
 export class PuzzleFormRendererComponent {
@@ -49,6 +49,8 @@ export class PuzzleFormRendererComponent {
    * 表单数据对象
    */
   formData = input.required<SafeAny>();
+
+  accordion = input<boolean>(true);
 
   /**
    * 表单字段值变化事件

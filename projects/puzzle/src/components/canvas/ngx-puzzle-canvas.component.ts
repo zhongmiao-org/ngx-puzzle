@@ -19,14 +19,11 @@ import { StylesFormatPipe } from 'ngx-puzzle/pipes/styles-format.pipe';
 import { INIT_SETTINGS_CONFIG } from 'ngx-puzzle/core/constants';
 import { ComponentBaseProps, ComponentConfig, Position, Size, Tick, TooltipPosition } from 'ngx-puzzle/core/interfaces';
 import { ComponentInjectorService, ComponentRegistryService, PuzzleCanvasMediatorService } from 'ngx-puzzle/core';
-import {
-  PuzzleFormRendererComponent
-} from 'ngx-puzzle/components/primitives/puzzle-form-renderer/puzzle-form-renderer.component';
 
 @Component({
   selector: 'ngx-puzzle-canvas, puzzle-canvas',
   standalone: true,
-  imports: [NgStyle, StylesFormatPipe, PuzzleFormRendererComponent],
+  imports: [NgStyle, StylesFormatPipe],
   templateUrl: './ngx-puzzle-canvas.component.html',
   styleUrl: './ngx-puzzle-canvas.component.scss'
 })
@@ -44,21 +41,7 @@ export class NgxPuzzleCanvasComponent implements OnInit, AfterViewInit, OnDestro
   private mediator = inject(PuzzleCanvasMediatorService<ComponentBaseProps, string>);
   private renderer = inject(Renderer2);
 
-  set size(size: Size) {
-    this._config = {
-      ...this._config,
-      size
-    };
-    this.updateRulers();
-  }
-
-  set config(value: ComponentConfig) {
-    this._config = value;
-  }
-
-  get config(): ComponentConfig {
-    return this._config;
-  }
+  props = signal<ComponentBaseProps>(this._config.props);
 
   positionSignal: WritableSignal<TooltipPosition> = signal({ x: 0, y: 0, left: 0, top: 0, width: 0, height: 0 });
 
@@ -95,8 +78,26 @@ export class NgxPuzzleCanvasComponent implements OnInit, AfterViewInit, OnDestro
   });
 
   showGuideSignal: WritableSignal<boolean> = signal(false);
+
   hTicks: WritableSignal<Tick[]> = signal<Tick[]>([]);
+
   vTicks: WritableSignal<Tick[]> = signal<Tick[]>([]);
+
+  set size(size: Size) {
+    this._config = {
+      ...this._config,
+      size
+    };
+    this.updateRulers();
+  }
+
+  set config(value: ComponentConfig) {
+    this._config = value;
+  }
+
+  get config(): ComponentConfig {
+    return this._config;
+  }
 
   constructor() {} // private renderer: Renderer2 // private mediator: CanvasMediatorService, // private registry: ComponentRegistryService, // private injector: ComponentInjectorService,
 
@@ -156,10 +157,7 @@ export class NgxPuzzleCanvasComponent implements OnInit, AfterViewInit, OnDestro
     // 更新
     this.mediator.componentUpdateProps$.pipe(takeUntil(this.destroy$)).subscribe((config) => {
       if (config.id === this.config.id) {
-        this.config.props = {
-          ...this.config.props,
-          ...config.props
-        };
+        this.props.set(config.props);
       }
     });
 
