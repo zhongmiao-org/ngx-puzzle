@@ -1,3 +1,9 @@
+## 18.4.3 (2025-09-08)
+
+* fix(schematics): package.json ([61f55a9](https://github.com/zhongmiao-org/ngx-puzzle/commit/61f55a9))
+* fix(schematics): correct schematics path in `build-schematics.js` and remove redundant field from package.json (#65) ([872025d](https://github.com/zhongmiao-org/ngx-puzzle/commit/872025d))
+
+
 ## 18.4.2 (2025-09-08)
 
 * chore(puzzle): add schematics configuration to package.json ([9deddcb](https://github.com/zhongmiao-org/ngx-puzzle/commit/9deddcb))
