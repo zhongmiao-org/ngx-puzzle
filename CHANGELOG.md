@@ -1,3 +1,8 @@
+## 18.4.4 (2025-09-08)
+
+* fix(schematics): update asset path and correct schema key in `ng-add` ([f74bb8d](https://github.com/zhongmiao-org/ngx-puzzle/commit/f74bb8d))
+
+
 ## 18.4.3 (2025-09-08)
 
 * fix(schematics): package.json ([61f55a9](https://github.com/zhongmiao-org/ngx-puzzle/commit/61f55a9))
