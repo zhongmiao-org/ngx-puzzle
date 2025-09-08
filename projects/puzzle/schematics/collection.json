@@ -3,7 +3,7 @@
   "schematics": {
     "ng-add": {
       "description": "Add @zhongmiao/ngx-puzzle assets configuration to angular.json",
-      "factory": "./ng-add/index",
+      "factory": "./index",
       "schema": "./ng-add/schema.json"
     }
   }

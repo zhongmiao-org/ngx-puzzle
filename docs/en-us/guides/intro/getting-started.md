@@ -16,6 +16,24 @@ ng-puzzle is an Angular-based drag-and-drop visualization library. It provides a
 
 # Installation
 
+Prefer ng add (Angular CLI 18.4.1+ will auto-append static assets config). Manual install is also supported.
+
+## Option 1: ng add (recommended)
+
+```bash
+# Create an Angular 18 app
+npx @angular/cli@18 new my-angular18-app
+cd my-angular18-app
+
+# One-step integration (will try to auto-append assets; requires CLI ≥ 18.4.1)
+ng add @zhongmiao/ngx-puzzle
+```
+
+- Note: Only Angular CLI 18.4.1 and above can automatically update the assets section in angular.json during ng add.
+- If your CLI is older or the auto-append fails, follow the "Manual static assets" section below.
+
+## Option 2: Install via package manager
+
 ```bash
 # with npm
 npm i @zhongmiao/ngx-puzzle --save
@@ -26,6 +44,27 @@ pnpm add @zhongmiao/ngx-puzzle
 # or yarn
 yarn add @zhongmiao/ngx-puzzle
 ```
+
+### Manual static assets (when ng add didn’t auto-append)
+Add the following entries to your application project’s assets list in angular.json (note: your app project, not this repo’s example app):
+
+```json
+[
+  {
+    "glob": "**/*",
+    "input": "./node_modules/@tethys/icons",
+    "output": "/assets/icons/"
+  },
+  {
+    "glob": "**/*",
+    "input": "./projects/puzzle/src/assets",
+    "output": "/assets/"
+  }
+]
+```
+
+- @tethys/icons -> /assets/icons: exposes icon assets used by Tethys UI components.
+- projects/puzzle/src/assets -> /assets: exposes library-provided assets (e.g., editor backgrounds).
 
 # Basic usage
 

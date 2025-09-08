@@ -1,12 +1,14 @@
 {
-  "extends": "../../../tsconfig.json",
   "compilerOptions": {
-    "outDir": "../../../dist/schematics",
+    "outDir": "../../../dist/puzzle/schematics",
     "declaration": false,
     "types": ["node"],
     "module": "commonjs",
+    "moduleResolution": "node",
     "target": "ES2019",
-    "strict": true
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true
   },
   "include": [
     "./**/*.ts"
