@@ -1,4 +1,4 @@
-English | [中文文档](CONTRIBUTING.zh-CN.md)
+中文文档 | [English](CONTRIBUTING.md)
 
 ## 贡献指南
 
