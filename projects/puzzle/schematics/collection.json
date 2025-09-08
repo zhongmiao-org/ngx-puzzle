@@ -1,0 +1,10 @@
+{
+  "$schema": "http://json.schemastore.org/schematics",
+  "schematics": {
+    "ng-add": {
+      "description": "Add @zhongmiao/ngx-puzzle assets configuration to angular.json",
+      "factory": "./ng-add/index",
+      "schema": "./ng-add/schema.json"
+    }
+  }
+}
