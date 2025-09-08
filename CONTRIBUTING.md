@@ -110,7 +110,7 @@ Use the interactive release helper to cut a release end-to-end (branch → valid
   - minor: new features, backward-compatible
   - patch: bug fixes and optimizations, no breaking changes
 - The script performs:
-  1. Creates a branch `release-v<nextVersion>`
+  1. Creates a branch `release: <nextVersion>`
   2. Validates environment and runs a pre-bump build (`npm run build`)
   3. Updates version in root and library package.json to `<nextVersion>`
   4. Generates/updates CHANGELOG.md using Conventional Commits

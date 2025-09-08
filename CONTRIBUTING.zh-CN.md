@@ -110,7 +110,7 @@ chore: 更新依赖
   - minor：新增功能，向后兼容
   - patch：修复和优化，不引入破坏性变更
 - 脚本执行的步骤：
-  1. 创建分支 `release-v<nextVersion>`
+  1. 创建分支 `release: <nextVersion>`
   2. 校验环境并执行发版前构建（`npm run build`）
   3. 将根目录与库的 package.json 版本更新为 `<nextVersion>`
   4. 基于 Conventional Commits 生成/更新 CHANGELOG.md
