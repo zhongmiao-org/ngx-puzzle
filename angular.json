@@ -69,8 +69,8 @@
               },
               {
                 "glob": "**/*",
-                "input": "./projects/puzzle/src/assets/icons",
-                "output": "/assets/icons/"
+                "input": "./projects/puzzle/src/assets",
+                "output": "/assets/"
               }
             ],
             "styles": ["example/src/styles.scss"],

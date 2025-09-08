@@ -39,7 +39,7 @@
       class="puzzle-canvas-content-wrapper"
       [style.width.px]="config.size.width"
       [style.height.px]="config.size.height"
-      [ngStyle]="config.props['styles'] | stylesFormat"
+      [ngStyle]="props().styles | stylesFormat"
     >
       <ng-template #canvasContent></ng-template>
     </div>

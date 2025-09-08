@@ -19,6 +19,7 @@ export interface EditorBaseField<TEditorField extends EditorBaseField = SafeAny>
   max?: number;
   limit?: number;
   suffix?: string;
+  placeholder?: string;
 
   skipConversion?: boolean;
   visibleWhen?: (values: any) => boolean; // 显隐条件

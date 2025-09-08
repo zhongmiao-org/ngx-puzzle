@@ -134,4 +134,188 @@
     cursor: pointer;
     border: 1px solid #dee2e6;
   }
+
+  // 选中显示区域的样式
+  .selected-image-display {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+
+    .selected-option-image {
+      width: 90px;
+      height: 24px;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      border-radius: 4px;
+      border: 1px solid #d9d9d9;
+      background-color: #f5f5f5;
+      flex-shrink: 0;
+
+      // 没有背景图片时显示占位符
+      &:not([style*='background-image']),
+      &[style*='background-image: none'],
+      &[style*='background-image: url("none")'] {
+        &::before {
+          content: '🖼️';
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          font-size: 12px;
+          opacity: 0.5;
+        }
+      }
+    }
+
+    .selected-label {
+      font-size: 12px;
+      color: #666;
+      font-weight: 500;
+    }
+  }
+
+  .empty-placeholder {
+    color: #999;
+    font-style: italic;
+    font-size: 14px;
+  }
+}
+
+// 使用 ::ng-deep 确保样式能够穿透到组件内部
+::ng-deep {
+  // 主要的下拉选项样式
+  .thy-select-dropdown {
+    .thy-option {
+      // 所有自定义选项的通用样式
+      &[thy-show-option-custom="true"] {
+        padding: 6px 12px !important;
+        min-height: 40px !important;
+        display: flex !important;
+        align-items: center !important;
+
+        // 直接针对 div 元素（无论是否有 class）
+        div {
+          width: 100% !important;
+          height: 32px !important;
+          background-size: cover !important;
+          background-position: center !important;
+          background-repeat: no-repeat !important;
+          border-radius: 4px !important;
+          border: 1px solid #e8e8e8 !important;
+          background-color: #f5f5f5 !important;
+          position: relative !important;
+          transition: all 0.2s ease !important;
+          min-width: 120px !important;
+
+          // 没有背景图片时显示占位符
+          &:not([style*='background-image']),
+          &[style*='background-image: none'],
+          &[style*='background-image: url("none")'] {
+            &::before {
+              content: '🖼️' !important;
+              position: absolute !important;
+              top: 50% !important;
+              left: 50% !important;
+              transform: translate(-50%, -50%) !important;
+              font-size: 16px !important;
+              opacity: 0.5 !important;
+            }
+          }
+        }
+
+        // 悬停状态
+        &:hover {
+          background-color: #f5f5f5 !important;
+
+          div {
+            border-color: #007bff !important;
+            box-shadow: 0 2px 4px rgba(0, 123, 255, 0.15) !important;
+          }
+        }
+
+        // 选中状态
+        &.thy-option-selected {
+          background-color: #e3f2fd !important;
+
+          div {
+            border-color: #1976d2 !important;
+            box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.2) !important;
+          }
+        }
+      }
+    }
+  }
+
+  // 选中值在输入框中的显示样式
+  .thy-select-selection {
+    .thy-select-selection__rendered {
+      // 确保自定义显示内容有合适的样式
+      .selected-image-display {
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+        width: 100% !important;
+
+        .selected-option-image {
+          width: 20px !important;
+          height: 20px !important;
+          background-size: cover !important;
+          background-position: center !important;
+          background-repeat: no-repeat !important;
+          border-radius: 2px !important;
+          border: 1px solid #d9d9d9 !important;
+          background-color: #f5f5f5 !important;
+          flex-shrink: 0 !important;
+          position: relative !important;
+
+          &::before {
+            font-size: 10px !important;
+          }
+        }
+
+        .selected-label {
+          font-size: 12px !important;
+          color: #666 !important;
+        }
+      }
+
+      .empty-placeholder {
+        color: #999 !important;
+        font-style: italic !important;
+      }
+    }
+  }
+
+  // 备用选择器：如果上面的不生效，用更具体的选择器
+  .thy-option-item {
+    .option-image {
+      width: 100% !important;
+      height: 32px !important;
+      background-size: cover !important;
+      background-position: center !important;
+      background-repeat: no-repeat !important;
+      border-radius: 4px !important;
+      border: 1px solid #e8e8e8 !important;
+      background-color: #f5f5f5 !important;
+      position: relative !important;
+      transition: all 0.2s ease !important;
+      min-width: 120px !important;
+
+      &:not([style*='background-image']),
+      &[style*='background-image: none'],
+      &[style*='background-image: url("none")'] {
+        &::before {
+          content: '🖼️' !important;
+          position: absolute !important;
+          top: 50% !important;
+          left: 50% !important;
+          transform: translate(-50%, -50%) !important;
+          font-size: 16px !important;
+          opacity: 0.5 !important;
+        }
+      }
+    }
+  }
 }

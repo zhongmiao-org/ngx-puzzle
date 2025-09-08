@@ -36,7 +36,7 @@ import { ThyDatePickerModule } from 'ngx-tethys/date-picker';
     ThyLayoutModule,
     ThyColorPickerDirective,
     ThyDatePickerModule,
-    NgStyle
+    NgStyle,
   ]
 })
 export class PuzzleFormRendererComponent {
