@@ -1,3 +1,9 @@
+## 18.4.7 (2025-09-09)
+
+* fix: node ([35d7e3e](https://github.com/zhongmiao-org/ngx-puzzle/commit/35d7e3e))
+* docs: update docs ([76b4679](https://github.com/zhongmiao-org/ngx-puzzle/commit/76b4679))
+
+
 ## 18.4.6 (2025-09-08)
 
 * chore(package.json): update package.json ([1aa3944](https://github.com/zhongmiao-org/ngx-puzzle/commit/1aa3944))
