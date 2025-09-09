@@ -149,13 +149,10 @@ function ngAdd(): Rule {
       context.logger.info('No changes in assets. Required entries already present.');
     }
 
-    context.addTask(
-      new NodePackageInstallTask({
-        packageManager: 'npm',
-        allowScripts: false
-      })
-    );
-    context.logger.info('Scheduled package installation task');
+    context.logger.info('✅ Configuration updated successfully!');
+    context.logger.info('📦 New dependencies have been added to package.json');
+    context.logger.info('🚀 Please run the following command to install dependencies:');
+    context.logger.info('   npm install');
 
     return tree;
   };
