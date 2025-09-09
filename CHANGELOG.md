@@ -1,3 +1,8 @@
+## 18.4.8 (2025-09-09)
+
+* chore(schematics): update ng-add to improve logging and clarify dependency installation steps ([a32819b](https://github.com/zhongmiao-org/ngx-puzzle/commit/a32819b))
+
+
 ## 18.4.7 (2025-09-09)
 
 * fix: node ([35d7e3e](https://github.com/zhongmiao-org/ngx-puzzle/commit/35d7e3e))
