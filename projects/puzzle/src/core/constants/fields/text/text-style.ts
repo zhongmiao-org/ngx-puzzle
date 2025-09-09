@@ -1,11 +1,12 @@
+import { EditorBaseField } from '../../../interfaces';
+
 import {
-  EditorBaseField,
   TEXT_ALIGN_OPTIONS,
   TEXT_DECORATIONS_OPTIONS,
   TEXT_FONT_STYLE_OPTIONS,
   TEXT_FONT_WEIGHT_OPTIONS,
   TEXT_WHITE_SPACE_OPTIONS
-} from 'ngx-puzzle/core';
+} from '../../select-options.const';
 
 export const TEXT_STYLE_FIELDS: EditorBaseField = {
   label: '基本样式',

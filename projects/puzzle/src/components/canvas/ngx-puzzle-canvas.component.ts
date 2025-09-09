@@ -2,9 +2,7 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
-  inject,
   OnDestroy,
-  OnInit,
   Renderer2,
   signal,
   ViewChild,
@@ -15,10 +13,19 @@ import {
 
 import { NgStyle } from '@angular/common';
 import { fromEvent, Subject, takeUntil } from 'rxjs';
-import { StylesFormatPipe } from 'ngx-puzzle/pipes/styles-format.pipe';
-import { INIT_SETTINGS_CONFIG } from 'ngx-puzzle/core/constants';
-import { ComponentBaseProps, ComponentConfig, Position, Size, Tick, TooltipPosition } from 'ngx-puzzle/core/interfaces';
-import { ComponentInjectorService, ComponentRegistryService, PuzzleCanvasMediatorService } from 'ngx-puzzle/core';
+import { StylesFormatPipe } from '../../pipes';
+import {
+  INIT_SETTINGS_CONFIG,
+  ComponentBaseProps,
+  ComponentConfig,
+  Position,
+  Size,
+  Tick,
+  TooltipPosition,
+  ComponentInjectorService,
+  ComponentRegistryService,
+  PuzzleCanvasMediatorService
+} from '../../core';
 
 @Component({
   selector: 'ngx-puzzle-canvas, puzzle-canvas',
@@ -27,7 +34,7 @@ import { ComponentInjectorService, ComponentRegistryService, PuzzleCanvasMediato
   templateUrl: './ngx-puzzle-canvas.component.html',
   styleUrl: './ngx-puzzle-canvas.component.scss'
 })
-export class NgxPuzzleCanvasComponent implements OnInit, AfterViewInit, OnDestroy {
+export class NgxPuzzleCanvasComponent implements AfterViewInit, OnDestroy {
   @ViewChild('rulerHorizontal', { static: true }) hRuler!: ElementRef<HTMLElement>;
   @ViewChild('rulerVertical', { static: true }) vRuler!: ElementRef<HTMLElement>;
   @ViewChild('canvasContent', { read: ViewContainerRef, static: true }) canvasContent!: ViewContainerRef;
@@ -36,10 +43,6 @@ export class NgxPuzzleCanvasComponent implements OnInit, AfterViewInit, OnDestro
   private destroy$ = new Subject<void>();
   private _config: ComponentConfig = INIT_SETTINGS_CONFIG['canvas'];
   private selectedId: string = 'canvas';
-  private injector = inject(ComponentInjectorService);
-  private registry = inject(ComponentRegistryService);
-  private mediator = inject(PuzzleCanvasMediatorService<ComponentBaseProps, string>);
-  private renderer = inject(Renderer2);
 
   props = signal<ComponentBaseProps>(this._config.props);
 
@@ -99,9 +102,12 @@ export class NgxPuzzleCanvasComponent implements OnInit, AfterViewInit, OnDestro
     return this._config;
   }
 
-  constructor() {} // private renderer: Renderer2 // private mediator: CanvasMediatorService, // private registry: ComponentRegistryService, // private injector: ComponentInjectorService,
-
-  ngOnInit() {}
+  constructor(
+    private injector: ComponentInjectorService,
+    private registry: ComponentRegistryService,
+    private mediator: PuzzleCanvasMediatorService,
+    private renderer: Renderer2
+  ) {}
 
   ngAfterViewInit(): void {
     this.injector.setContainerRef(this.canvasContent);

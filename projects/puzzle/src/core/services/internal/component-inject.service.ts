@@ -1,5 +1,5 @@
 import { Injectable, ViewContainerRef, ComponentRef, EnvironmentInjector } from '@angular/core';
-import { ComponentInstance } from 'ngx-puzzle/core';
+import { ComponentInstance } from '../../interfaces';
 
 @Injectable({ providedIn: 'root' })
 export class ComponentInjectorService {

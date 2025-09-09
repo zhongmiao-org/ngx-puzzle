@@ -1,5 +1,5 @@
 // Input 组件属性配置
-import { EditorBaseField } from 'ngx-puzzle/core';
+import { EditorBaseField } from '../../../interfaces';
 
 export const CONTROL_INPUT_FIELDS: EditorBaseField = {
   label: '控件属性',

@@ -1,9 +1,7 @@
-import { Injectable, inject } from '@angular/core';
-import { ComponentConfig } from 'ngx-puzzle/core';
+import { Injectable } from '@angular/core';
+import { ComponentConfig } from '../../interfaces';
 import { ComponentRegistryService, SessionIndexedDbService, ComponentInjectorService, PuzzleCanvasMediatorService } from '../internal';
-import { generateUUID } from 'ngx-puzzle/utils';
-// import { generateUniqueId } from 'imm-element-ui';
-// import { parseDate } from '../../../shared';
+import { generateUUID } from '../../utils';
 
 /**
  * 向其他模块暴露BI功能的外部服务
@@ -12,10 +10,12 @@ import { generateUUID } from 'ngx-puzzle/utils';
   providedIn: 'root'
 })
 export class NgxPuzzleExternalService {
-  private registry = inject(ComponentRegistryService);
-  private sessionService = inject(SessionIndexedDbService);
-  private injector = inject(ComponentInjectorService);
-  private mediator = inject(PuzzleCanvasMediatorService);
+  constructor(
+    private sessionService: SessionIndexedDbService,
+    private injector: ComponentInjectorService,
+    private registry: ComponentRegistryService,
+    private mediator: PuzzleCanvasMediatorService
+  ) {}
 
   /**
    * 获取所有当前组件配置

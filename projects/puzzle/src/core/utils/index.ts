@@ -5,3 +5,4 @@ export * from './debounce.util';
 export * from './throttle.util';
 export * from './html-document.util';
 export * from './controls.util';
+export * from './util';

@@ -1,4 +1,5 @@
-import { EditorChartField, ENABLE_OPTIONS } from 'ngx-puzzle/core';
+import { EditorChartField } from '../../../interfaces';
+import { ENABLE_OPTIONS } from '../../select-options.const';
 
 export const CHART_GRID: EditorChartField = {
   label: '网格设置',

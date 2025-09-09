@@ -1,7 +1,7 @@
 import { Component, input, output } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgStyle, NgTemplateOutlet } from '@angular/common';
-import { EditorBaseField, SafeAny, BaseSelectOption } from 'ngx-puzzle/core';
+import { EditorBaseField, SafeAny, BaseSelectOption } from '../../../core';
 import { ThyCollapseModule } from 'ngx-tethys/collapse';
 import { ThyInputDirective, ThyInputModule } from 'ngx-tethys/input';
 import { ThyInputNumber } from 'ngx-tethys/input-number';

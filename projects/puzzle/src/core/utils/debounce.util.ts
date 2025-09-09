@@ -1,4 +1,5 @@
-import { OperationHistoryEnum, SafeAny } from '../../core';
+import { OperationHistoryEnum } from '../enums';
+import { SafeAny } from '../types';
 
 /**
  * 防抖工具类

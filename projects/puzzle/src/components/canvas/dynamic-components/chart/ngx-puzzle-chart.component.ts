@@ -1,16 +1,23 @@
-import { NgxPuzzleDragWrapperComponent } from '../drag-wrapper/ngx-puzzle-drag-wrapper.component';
 import { Component, inject, OnDestroy } from '@angular/core';
-import { NgxPuzzleCanvasBaseComponent } from '../base/ngx-puzzle-canvas-base.component';
-import { ComponentChartProps, ComponentConfig, DataRequestConfig, ApiSource } from 'ngx-puzzle/core/interfaces';
-import { mainTypes } from 'ngx-puzzle/core/types';
-import { ChartTypesEnum } from 'ngx-puzzle/core/enums';
-import { CHART_DATA_OPTIONS, CHART_DEFAULT_MOCKS_MAP } from 'ngx-puzzle/core/constants';
+import {
+  NgxPuzzleHttpService,
+  mainTypes,
+  ComponentChartProps,
+  ComponentConfig,
+  DataRequestConfig,
+  ApiSource,
+  MockService,
+  PuzzleCanvasMediatorService,
+  CHART_DATA_OPTIONS,
+  CHART_DEFAULT_MOCKS_MAP,
+  ChartTypesEnum
+} from '../../../../core';
 import { SafeAny } from 'ngx-tethys/types';
 import { takeUntil } from 'rxjs/operators';
-import { MockService, PuzzleCanvasMediatorService } from 'ngx-puzzle/core';
-import { PuzzleChartsComponent } from 'ngx-puzzle/components/primitives/puzzle-charts/puzzle-charts.component';
 import { Subscription } from 'rxjs';
-import { NgxPuzzleHttpService } from 'ngx-puzzle/core';
+import { NgxPuzzleDragWrapperComponent } from '../drag-wrapper/ngx-puzzle-drag-wrapper.component';
+import { NgxPuzzleCanvasBaseComponent } from '../base/ngx-puzzle-canvas-base.component';
+import { PuzzleChartsComponent } from '../../../primitives/puzzle-charts/puzzle-charts.component';
 
 @Component({
   selector: 'puzzle-chart',

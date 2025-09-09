@@ -2,8 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, shareReplay } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { SafeAny } from 'ngx-puzzle/core';
-// import { Search } from 'imm-element-ui';
+import { SafeAny } from '../../types';
 
 @Injectable({
   providedIn: 'root'

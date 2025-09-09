@@ -1,8 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, effect, input, OnDestroy, signal } from '@angular/core';
 import { NgStyle } from '@angular/common';
-// import { StylesFormatPipe } from '../../pipes/styles-format.pipe';
-import { DateTimeConfig } from '../../../core';
-import { StylesFormatPipe } from 'ngx-puzzle/pipes/styles-format.pipe';
+import { DateTimeConfig, SafeAny } from '../../../core';
+import { StylesFormatPipe } from '../../../pipes';
 
 const DEFAULTS: DateTimeConfig = {
   layout: 'single',
@@ -108,7 +107,7 @@ export class PuzzleDatetimeComponent implements OnDestroy {
 
   // Internal state as signals
   private now = signal<Date>(new Date());
-  private timerId: any = null;
+  private timerId: SafeAny = null;
 
   // Build effective config by merging DEFAULTS <- individual inputs (no aggregate config)
   private effectiveConfig = computed<DateTimeConfig>(() => {

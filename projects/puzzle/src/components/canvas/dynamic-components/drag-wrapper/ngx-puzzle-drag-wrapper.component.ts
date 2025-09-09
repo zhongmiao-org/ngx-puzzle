@@ -1,10 +1,17 @@
 import { AfterViewInit, Component, effect, inject, input, model, OnDestroy, signal, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { StylesFormatPipe } from 'ngx-puzzle/pipes/styles-format.pipe';
+import { StylesFormatPipe } from '../../../../pipes';
 import { CdkDrag } from '@angular/cdk/drag-drop';
-import { ComponentBaseProps, ComponentConfig, Position, Size } from 'ngx-puzzle/core/interfaces';
+import {
+  ComponentBaseProps,
+  ComponentConfig,
+  Position,
+  Size,
+  mainTypes,
+  PuzzleCanvasMediatorService,
+  ZoomScaleService
+} from '../../../../core';
 import { SafeAny } from 'ngx-tethys/types';
-import { mainTypes, PuzzleCanvasMediatorService, ZoomScaleService } from 'ngx-puzzle/core';
 import { Subject, takeUntil } from 'rxjs';
 import { ThyIcon } from 'ngx-tethys/icon';
 

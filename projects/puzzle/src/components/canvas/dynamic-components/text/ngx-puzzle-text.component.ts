@@ -1,13 +1,17 @@
 import { Component } from '@angular/core';
 import { NgxPuzzleCanvasBaseComponent } from '../base/ngx-puzzle-canvas-base.component';
-import { ComponentConfig, ComponentTextProps, DataRequestConfig } from 'ngx-puzzle/core/interfaces';
 import { CommonModule } from '@angular/common';
-import { TextTypesEnum } from 'ngx-puzzle/core/enums';
-import { mainTypes } from 'ngx-puzzle/core/types';
+import {
+  TextTypesEnum,
+  ComponentConfig,
+  ComponentTextProps,
+  DataRequestConfig,
+  mainTypes,
+  TEXT_DATA_OPTIONS,
+  PuzzleCanvasMediatorService
+} from '../../../../core';
 import { NgxPuzzleDragWrapperComponent } from '../drag-wrapper/ngx-puzzle-drag-wrapper.component';
-import { TEXT_DATA_OPTIONS } from 'ngx-puzzle/core/constants';
-import { StylesFormatPipe } from 'ngx-puzzle/pipes/styles-format.pipe';
-import { PuzzleCanvasMediatorService } from 'ngx-puzzle/core';
+import { StylesFormatPipe } from '../../../../pipes';
 
 @Component({
   selector: 'puzzle-text',

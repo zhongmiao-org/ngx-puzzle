@@ -1,5 +1,6 @@
 // 标签配置
-import { EditorBaseField, ENABLE_OPTIONS, FONT_WEIGHT_CSS_OPTIONS } from 'ngx-puzzle/core';
+import { EditorBaseField } from '../../../interfaces';
+import {ENABLE_OPTIONS, FONT_WEIGHT_CSS_OPTIONS} from '../../select-options.const';
 
 export const CONTROL_LABEL_FIELDS: EditorBaseField = {
   label: '标签配置',

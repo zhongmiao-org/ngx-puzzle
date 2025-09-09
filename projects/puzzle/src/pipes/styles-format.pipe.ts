@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { SafeAny } from 'ngx-puzzle/core';
+import { SafeAny } from '../core';
 
 @Pipe({
   name: 'stylesFormat',

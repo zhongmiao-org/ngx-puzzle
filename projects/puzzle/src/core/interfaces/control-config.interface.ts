@@ -1,4 +1,4 @@
-import { ComponentBaseProps } from 'ngx-puzzle/core';
+import { ComponentBaseProps } from './component-config.interface';
 import { SafeAny } from '../types';
 import { ControlTypesEnum } from '../enums';
 

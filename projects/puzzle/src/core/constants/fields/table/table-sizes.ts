@@ -1,4 +1,4 @@
-import { EditorTableField } from 'ngx-puzzle/core';
+import { EditorTableField } from '../../../interfaces';
 
 export const TABLE_SIZES: EditorTableField = {
   label: '表格尺寸配置',

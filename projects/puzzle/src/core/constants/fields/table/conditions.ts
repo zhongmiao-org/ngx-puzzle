@@ -1,4 +1,4 @@
-import { EditorTableField } from 'ngx-puzzle/core';
+import { EditorTableField } from '../../../interfaces';
 
 export const TABLE_CONDITIONS: EditorTableField = {
   label: '条件格式配置',

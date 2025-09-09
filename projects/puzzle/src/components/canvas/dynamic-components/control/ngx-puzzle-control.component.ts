@@ -13,16 +13,16 @@ import {
   ControlsService,
   Debounce,
   convertStringToDate
-} from 'ngx-puzzle/core';
-import { NgxPuzzleDragWrapperComponent } from 'ngx-puzzle/components/canvas/dynamic-components/drag-wrapper/ngx-puzzle-drag-wrapper.component';
+} from '../../../../core';
+import { NgxPuzzleDragWrapperComponent } from '../drag-wrapper/ngx-puzzle-drag-wrapper.component';
 import { NgStyle, NgTemplateOutlet } from '@angular/common';
-import { StylesFormatPipe } from 'ngx-puzzle/pipes/styles-format.pipe';
+import { StylesFormatPipe } from '../../../../pipes';
 import { FormsModule } from '@angular/forms';
 import { ThySelectModule } from 'ngx-tethys/select';
 import { ThyDatePickerModule } from 'ngx-tethys/date-picker';
 import { ThyInputModule } from 'ngx-tethys/input';
 import { ThyTooltipModule } from 'ngx-tethys/tooltip';
-import { PuzzleDatetimeComponent } from 'ngx-puzzle/components/primitives/puzzle-datetime/puzzle-datetime.component';
+import { PuzzleDatetimeComponent } from '../../../primitives/puzzle-datetime/puzzle-datetime.component';
 
 @Component({
   selector: 'puzzle-control',

@@ -1,5 +1,6 @@
-import { fieldComponentTypes, SafeAny } from '../types';
-import { BaseSelectOption, EditorBaseField, ComponentBaseProps } from 'ngx-puzzle/core';
+import { fieldComponentTypes } from '../types';
+import { ComponentBaseProps } from './component-config.interface';
+import { BaseSelectOption, EditorBaseField } from './editor.interface';
 import { Report } from '@webdatarocks/webdatarocks';
 
 export interface ComponentTableProps extends ComponentBaseProps {

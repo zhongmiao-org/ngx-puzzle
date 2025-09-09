@@ -5,8 +5,8 @@ import {
   NgxPuzzleTableFactoryService,
   NgxPuzzleTextFactoryService,
   NgxPuzzleChartFactoryService
-} from 'ngx-puzzle/core/factories';
-import { ComponentBaseProps, ComponentConfig, DataRequestConfig, Position, Size } from 'ngx-puzzle/core';
+} from '../../factories';
+import { ComponentBaseProps, ComponentConfig, DataRequestConfig, Position, Size } from '../../interfaces';
 
 import { mainTypes } from '../../types';
 import { INIT_SETTINGS_CONFIG } from '../../constants';
@@ -100,16 +100,6 @@ export class ComponentRegistryService<TConfigProps extends ComponentBaseProps = 
     };
     this.components.set(id, structuredClone(updated));
   }
-
-  // updateControls(id: string, controls: Record<controlType, ControlConfig>): void {
-  // 	const existing = this.components.get(id);
-  // 	if (!existing) return;
-  // 	const updated: ComponentConfig<TConfigProps, TSubType> = {
-  // 		...existing,
-  // 		controls,
-  // 	};
-  // 	this.components.set(id, structuredClone(updated));
-  // }
 
   getAll(): ComponentConfig<TConfigProps, TSubType>[] {
     return Array.from(this.components.values());

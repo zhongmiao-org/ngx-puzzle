@@ -1,4 +1,5 @@
-import { EditorTableField, ENABLE_OPTIONS } from 'ngx-puzzle/core';
+import { EditorTableField } from '../../../interfaces';
+import { ENABLE_OPTIONS } from '../../select-options.const';
 
 export const TABLE_SLICE: EditorTableField = {
   label: '切片',

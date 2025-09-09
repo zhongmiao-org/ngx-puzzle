@@ -1,4 +1,4 @@
-import { EditorBaseField } from 'ngx-puzzle/core';
+import { EditorBaseField } from '../../../interfaces';
 import { BASE_POSITION_FIELDS, BASE_WIDTH_FIELDS } from '../base-style-fields';
 
 export const CONTROL_EDITOR_BASE_FIELD: EditorBaseField = {

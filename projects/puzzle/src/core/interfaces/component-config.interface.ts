@@ -1,5 +1,5 @@
 import { mainTypes, SafeAny } from '../types';
-import { RefreshConfig } from 'ngx-puzzle/core';
+import { RefreshConfig } from './refresh.interface';
 import { DataRequestConfig } from './data-request';
 
 export interface ComponentConfig<TConfigProps extends ComponentBaseProps = ComponentBaseProps, TSubType = string> {

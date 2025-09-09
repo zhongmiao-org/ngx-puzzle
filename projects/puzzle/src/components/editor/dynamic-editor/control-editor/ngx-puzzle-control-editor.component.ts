@@ -8,15 +8,11 @@ import { ThyTooltipModule } from 'ngx-tethys/tooltip';
 import { ThyGridModule } from 'ngx-tethys/grid';
 import { ThyLayoutModule } from 'ngx-tethys/layout';
 
-import { EditorBaseComponent } from 'ngx-puzzle/components/editor/dynamic-editor/base/editor-base.component';
-import { CONTROL_COMPONENT_FIELDS } from 'ngx-puzzle/core/constants/field-configs/control-editor-fields-config';
-import { ControlConfig } from 'ngx-puzzle/core/interfaces/control-config.interface';
-import { ControlTypesEnum } from 'ngx-puzzle/core/enums/control-types.enum';
-import { SafeAny } from 'ngx-puzzle/core/types';
-import { convertDateToString } from 'ngx-puzzle/core/utils/controls.util';
+import { EditorBaseComponent } from '../base/editor-base.component';
+import { CONTROL_COMPONENT_FIELDS,ControlConfig,ControlTypesEnum,SafeAny,convertDateToString } from '../../../../core';
 import {
   PuzzleFormRendererComponent
-} from 'ngx-puzzle/components/primitives/puzzle-form-renderer/puzzle-form-renderer.component';
+} from '../../../primitives/puzzle-form-renderer/puzzle-form-renderer.component';
 
 @Component({
   selector: 'ngx-puzzle-control-editor, puzzle-control-editor',

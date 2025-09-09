@@ -1,4 +1,5 @@
-import { EditorBaseField, getCanvasBackgroundOptions } from 'ngx-puzzle/core';
+import { EditorBaseField } from '../../../interfaces';
+import { getCanvasBackgroundOptions } from '../../background-images';
 
 export const CANVAS_EDITOR_STYLE_FIELD: EditorBaseField = {
   label: '样式外观',
@@ -7,7 +8,15 @@ export const CANVAS_EDITOR_STYLE_FIELD: EditorBaseField = {
   schemaType: 'group',
   children: [
     { label: '背景颜色', key: 'backgroundColor', schemaType: 'color', path: 'props.styles.backgroundColor' },
-    { label: '背景颜色透明度', key: 'backgroundColorAlpha', schemaType: 'number', path: 'props.styles.backgroundColorAlpha', step: 0.1, min: 0, max: 1 },
+    {
+      label: '背景颜色透明度',
+      key: 'backgroundColorAlpha',
+      schemaType: 'number',
+      path: 'props.styles.backgroundColorAlpha',
+      step: 0.1,
+      min: 0,
+      max: 1
+    },
     {
       label: '背景图片',
       key: 'backgroundImage',

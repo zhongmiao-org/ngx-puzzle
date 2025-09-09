@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { BaseSelectOption, ControlConfig, ControlFilterCondition } from 'ngx-puzzle/core';
+import { BaseSelectOption, ControlConfig, ControlFilterCondition } from '../../interfaces';
 import { BehaviorSubject, Observable, shareReplay, Subject } from 'rxjs';
 import { SafeAny } from '../../types';
 import { map } from 'rxjs/operators';
-import { convertControlsToFilters } from 'ngx-puzzle/core/utils';
+import { convertControlsToFilters } from '../../utils';
 
 @Injectable({
   providedIn: 'root'

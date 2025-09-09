@@ -1,5 +1,5 @@
-import { EditorBaseField, ENABLE_OPTIONS, INTERVAL_UNIT_OPTIONS } from 'ngx-puzzle/core';
-
+import { EditorBaseField } from '../../../interfaces';
+import { ENABLE_OPTIONS, INTERVAL_UNIT_OPTIONS } from '../../select-options.const';
 export const REFRESH_FIELDS: EditorBaseField = {
   label: '定时刷新设置',
   key: 'refreshConfig',

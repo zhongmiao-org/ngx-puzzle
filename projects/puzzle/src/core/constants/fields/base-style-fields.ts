@@ -1,4 +1,4 @@
-import { EditorBaseField } from 'ngx-puzzle/core';
+import { EditorBaseField } from '../../interfaces';
 
 export const BASE_STYLE_FIELDS: EditorBaseField[] = [
   { label: '背景图片X轴偏移', key: 'backgroundPositionX', schemaType: 'number', path: 'props.styles.backgroundPositionX', suffix: '%' },

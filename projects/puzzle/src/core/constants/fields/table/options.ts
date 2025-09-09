@@ -1,4 +1,4 @@
-import { EditorTableField } from 'ngx-puzzle/core';
+import { EditorTableField } from '../../../interfaces';
 
 export const TABLE_OPTIONS: EditorTableField = {
   label: '表格选项配置',

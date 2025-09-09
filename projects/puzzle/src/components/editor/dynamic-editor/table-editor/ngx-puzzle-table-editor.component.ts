@@ -1,14 +1,10 @@
 import { Component } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { EditorBaseComponent } from 'ngx-puzzle/components/editor/dynamic-editor/base/editor-base.component';
-import { EditorTableField } from 'ngx-puzzle/core/interfaces/table-config.interface';
-import { TableTypesEnum } from 'ngx-puzzle/core/enums';
-import { TABLE_FIELDS_MAP } from 'ngx-puzzle/core/constants/field-configs/table-editor-fields-config';
-import { SafeAny } from 'ngx-puzzle/core/types';
+import { EditorBaseComponent } from '../base/editor-base.component';
+import { EditorTableField,TableTypesEnum,TABLE_FIELDS_MAP,SafeAny,convertFormDataToOptions } from '../../../../core';
 import { Report } from '@webdatarocks/webdatarocks';
-import { convertFormDataToOptions } from 'ngx-puzzle/core';
-import { PuzzleFormRendererComponent } from 'ngx-puzzle/components/primitives/puzzle-form-renderer/puzzle-form-renderer.component';
+import { PuzzleFormRendererComponent } from '../../../primitives/puzzle-form-renderer/puzzle-form-renderer.component';
 
 @Component({
   selector: 'ngx-puzzle-table-editor, puzzle-table-editor',

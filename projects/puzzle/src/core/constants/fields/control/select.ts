@@ -1,4 +1,5 @@
-import { EditorBaseField, ENABLE_OPTIONS } from 'ngx-puzzle/core';
+import { EditorBaseField } from '../../../interfaces';
+import { ENABLE_OPTIONS } from '../../select-options.const';
 
 export const CONTROL_SELECT_FIELDS: EditorBaseField = {
   label: '控件属性',

@@ -1,5 +1,5 @@
 import { actionTypes } from '../types';
-import { ComponentBaseProps, ComponentConfig } from 'ngx-puzzle/core';
+import { ComponentConfig,ComponentBaseProps } from './component-config.interface';
 
 export interface HistoryActionStack<TConfigProps extends ComponentBaseProps = ComponentBaseProps, TSubType = string> {
   type: actionTypes;

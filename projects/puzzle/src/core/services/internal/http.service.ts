@@ -1,8 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, catchError, throwError } from 'rxjs';
-import { ApiSource } from 'ngx-puzzle/core';
-import { SafeAny } from 'ngx-puzzle/core';
+import { ApiSource } from '../../interfaces';
+import { SafeAny } from '../../types';
 
 @Injectable({ providedIn: 'root' })
 export class NgxPuzzleHttpService {
@@ -20,7 +20,7 @@ export class NgxPuzzleHttpService {
     switch (method) {
       case 'POST':
         return this.http.post<T>(url, params).pipe(
-          catchError((err) => {
+          catchError((err: SafeAny) => {
             console.warn('[NgxPuzzleHttpService] POST error', { url, err });
             return throwError(() => err);
           })
