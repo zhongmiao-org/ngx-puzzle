@@ -1,3 +1,8 @@
+## 18.4.9 (2025-09-09)
+
+* fix: path ([659e5d6](https://github.com/zhongmiao-org/ngx-puzzle/commit/659e5d6))
+
+
 ## 18.4.8 (2025-09-09)
 
 * chore(schematics): update ng-add to improve logging and clarify dependency installation steps ([a32819b](https://github.com/zhongmiao-org/ngx-puzzle/commit/a32819b))
