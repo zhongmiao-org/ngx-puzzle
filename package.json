@@ -46,7 +46,7 @@
     "ng": "ng",
     "build:docs": "docgeni build",
     "start": "ng serve",
-    "build": "npm run build:lib && node scripts/build-schematics.js && npm run build:styles && npm run build:pkgdocs",
+    "build": "npm run build:lib && node scripts/build-schematics.js && npm run build:styles && npm run build:pkgdocs && npm run copy:icons",
     "build:lib": "ng build puzzle --configuration production",
     "build:styles": "cpx \"./projects/puzzle/src/**/*.scss\" dist/puzzle",
     "build:pkgdocs": "cpx \"CHANGELOG.md README.md LICENSE\" dist/puzzle",
@@ -64,7 +64,8 @@
     "changelog:all": "conventional-changelog -p conventionalcommits -i CHANGELOG.md -s -r 0",
     "postrelease": "npm run changelog && git add CHANGELOG.md && git commit -m \"docs(changelog): update changelog\" || echo 'no changelog changes' && git push",
     "publish:dist": "cd dist/puzzle && npm publish --access public",
-    "postinstall": "husky install"
+    "postinstall": "husky install",
+    "copy:icons": "cp -r ./node_modules/@tethys/icons/defs ./dist/puzzle/assets/icons"
   },
   "dependencies": {
     "@angular/animations": "^18.2.0",
