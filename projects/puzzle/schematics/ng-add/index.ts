@@ -20,14 +20,9 @@ function updateProjectAssets(project: any, context: SchematicContext): boolean {
   // Assets to add
   const assetsToAdd = [
     {
-      glob: '**/*',
-      input: './node_modules/@tethys/icons/assets',
-      output: '/assets/icons'
-    },
-    {
-      glob: '**/*',
-      input: './node_modules/ngx-puzzle/assets',
-      output: '/assets/puzzle'
+      glob: "**/*",
+      input: "./node_modules/@zhongmiao/ngx-puzzle/assets",
+      output: "/assets"
     }
   ];
 
@@ -69,14 +64,13 @@ function addDependenciesToPackageJson(tree: Tree, context: SchematicContext): vo
 
   // 定义需要安装的依赖项
   const dependenciesToAdd = {
-    '@tethys/icons': '1.4.50',
-    '@webdatarocks/webdatarocks': '1.4.19',
-    echarts: '6.0.0',
-    lodash: '4.17.21',
-    'ngx-tethys': '^18.2.17',
-    rxjs: '~7.8.0',
-    tslib: '^2.3.0',
-    'zone.js': '~0.14.10'
+    "@angular/cdk": "^18.2.14",
+    "@tethys/icons": "1.4.50",
+    "@webdatarocks/webdatarocks": "1.4.19",
+    "@zhongmiao/ngx-puzzle": "^18.4.13",
+    "echarts": "6.0.0",
+    "lodash": "4.17.21",
+    "ngx-tethys": "^18.2.17",
   };
 
   // 确保 dependencies 对象存在
@@ -99,6 +93,46 @@ function addDependenciesToPackageJson(tree: Tree, context: SchematicContext): vo
   if (packagesAdded) {
     tree.overwrite(packageJsonPath, JSON.stringify(packageJson, null, 2) + '\n');
   }
+}
+
+function appendStylesImports(tree: Tree, context: SchematicContext, project: any): boolean {
+  // Try to locate styles.scss under project source root
+  const sourceRoot: string | undefined = project?.sourceRoot || project?.root && `${project.root}/src`;
+  const stylesPaths = [
+    `${sourceRoot ?? 'src'}/styles.scss`,
+    `${sourceRoot ?? 'src'}/styles.sass`,
+    `${sourceRoot ?? 'src'}/styles.css`
+  ];
+  const importLinesScss = [
+    `@import "@zhongmiao/ngx-puzzle/styles/index.scss";`,
+    `@import 'ngx-tethys/styles/index.scss';`
+  ];
+  let modified = false;
+  for (const p of stylesPaths) {
+    if (tree.exists(p)) {
+      const buf = tree.read(p);
+      if (!buf) continue;
+      let content = buf.toString('utf-8');
+      // Only handle scss/sass; for css we skip because scss imports may not work
+      if (p.endsWith('.scss') || p.endsWith('.sass')) {
+        for (const line of importLinesScss) {
+          if (!content.includes(line)) {
+            content = `${line}\n` + content;
+            modified = true;
+            context.logger.info(`Prepended style import to ${p}: ${line}`);
+          }
+        }
+        tree.overwrite(p, content);
+      } else {
+        context.logger.warn(`Found ${p}, but skipping automatic SCSS import for CSS file. Please convert to SCSS or add imports manually.`);
+      }
+      break; // update only the first existing styles file
+    }
+  }
+  if (!modified) {
+    context.logger.warn('Did not find styles.scss/sass to update. Please add the following to your global styles:\n  @import "@zhongmiao/ngx-puzzle/styles/index.scss";\n  @import "ngx-tethys/styles/index.scss";');
+  }
+  return modified;
 }
 
 function ngAdd(): Rule {
@@ -131,18 +165,20 @@ function ngAdd(): Rule {
 
     if (defaultProject) {
       modified = updateProjectAssets(projects[defaultProject], context) || modified;
+      modified = appendStylesImports(tree, context, projects[defaultProject]) || modified;
     }
 
     // Also try to update all application projects to be safe
     for (const [name, project] of Object.entries(projects)) {
       if (project?.projectType === 'application') {
         modified = updateProjectAssets(project, context) || modified;
+        modified = appendStylesImports(tree, context, project) || modified;
       }
     }
 
     if (modified) {
       tree.overwrite(path, JSON.stringify(json, null, 2) + '\n');
-      context.logger.info('Updated assets configuration to include @tethys/icons and library assets.');
+      context.logger.info('Updated assets configuration to include library assets.');
     } else {
       context.logger.info('No changes in assets. Required entries already present.');
     }

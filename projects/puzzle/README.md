@@ -17,6 +17,21 @@ A drag-and-drop dashboard builder library for Angular. It provides a canvas, a c
 npm install @zhongmiao/ngx-puzzle echarts ngx-tethys lodash 
 ```
 
+#### Dependencies added by ng add
+If you integrate via `ng add @zhongmiao/ngx-puzzle`, the schematic will add/ensure these deps:
+
+```json
+{
+  "@angular/cdk": "^18.2.14",
+  "@tethys/icons": "1.4.50",
+  "@webdatarocks/webdatarocks": "1.4.19",
+  "@zhongmiao/ngx-puzzle": "^18.4.13",
+  "echarts": "6.0.0",
+  "lodash": "4.17.21",
+  "ngx-tethys": "^18.2.17"
+}
+```
+
 Peer Angular v18+ is required. See package.json for exact peer versions used in this repo.
 
 ## Quick Start
@@ -39,7 +54,10 @@ class AppComponent {}
 import { providePuzzleLib } from '@zhongmiao/ngx-puzzle';
 
 bootstrapApplication(AppComponent, {
-  providers: [providePuzzleLib()]
+  providers: [
+    // Animations are provided by default (BrowserAnimations). To disable, use { animations: 'noop' }.
+    providePuzzleLib({ animations: 'browser' })
+  ]
 });
 ```
 
@@ -101,6 +119,12 @@ Panel drag-end creates a ComponentConfig with id, type/subType, position and def
 
 ## Styling
 
+- Import base styles in your app's global stylesheet (e.g., src/styles.scss):
+  
+  ```scss
+  @import "@zhongmiao/ngx-puzzle/styles/index.scss";
+  @import "ngx-tethys/styles/index.scss";
+  ```
 - The library ships SCSS for internal components. You can override styles by adding more specific selectors in your app.
 - Layout is CSS-based; ensure the host container provides an explicit height for the canvas area.
 
@@ -119,6 +143,11 @@ Panel drag-end creates a ComponentConfig with id, type/subType, position and def
   - Run example docs site: `npm run start:docs` (see example/ and docs/)
   - Build library: `npm run build` (equivalent to ng build puzzle + assets copy)
   - Run tests: `npm test`
+
+## Animations and icons in consumer apps
+
+- Animations: ngx-puzzle uses animated components (e.g., collapse). Starting from this version, providePuzzleLib includes BrowserAnimations by default. If your app prefers NoopAnimations, call `providePuzzleLib({ animations: 'noop' })`.
+- Icons: The library expects Tethys icons under `/assets/icons`. Either copy them via your app's angular.json assets entries or configure custom paths when bootstrapping (see README earlier versions).
 
 ## Build
 

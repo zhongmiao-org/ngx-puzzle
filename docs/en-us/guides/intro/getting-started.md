@@ -45,6 +45,21 @@ pnpm add @zhongmiao/ngx-puzzle
 yarn add @zhongmiao/ngx-puzzle
 ```
 
+#### Dependencies added by ng add
+The schematic will add/ensure the following deps and versions:
+
+```json
+{
+  "@angular/cdk": "^18.2.14",
+  "@tethys/icons": "1.4.50",
+  "@webdatarocks/webdatarocks": "1.4.19",
+  "@zhongmiao/ngx-puzzle": "^18.4.13",
+  "echarts": "6.0.0",
+  "lodash": "4.17.21",
+  "ngx-tethys": "^18.2.17"
+}
+```
+
 ### Manual static assets (when ng add didn’t auto-append)
 Add the following entries to your application project’s assets list in angular.json (note: your app project, not this repo’s example app):
 
@@ -58,7 +73,7 @@ Add the following entries to your application project’s assets list in angular
   {
     "glob": "**/*",
     "input": "./node_modules/ngx-puzzle/assets",
-    "output": "/assets/puzzle"
+    "output": "/assets"
   }
 ]
 ```
