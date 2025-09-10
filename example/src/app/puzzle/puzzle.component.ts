@@ -5,18 +5,17 @@ import {
   NgxPuzzleDataBindingRequest,
   NgxPuzzleDataBindingService,
   NgxPuzzleExternalService,
-  NgxPuzzleModule,
   NgxPuzzleEditorComponent
 } from '@zhongmiao/ngx-puzzle';
 import { Subject, takeUntil } from 'rxjs';
-import { ThyDialog } from 'ngx-tethys/dialog';
+import { ThyDialog, ThyDialogModule } from 'ngx-tethys/dialog';
 import { ExampleDataSourceDialogComponent } from './data-source-dialog.component';
 
 @Component({
   selector: 'example-puzzle',
   standalone: true,
   templateUrl: './puzzle.component.html',
-  imports: [ThyLayout, ThyContent, NgxPuzzleModule, NgxPuzzleEditorComponent],
+  imports: [ThyLayout, ThyContent, NgxPuzzleEditorComponent, ThyDialogModule],
   styleUrl: './puzzle.component.scss'
 })
 export class AppPuzzleComponent implements OnInit, OnDestroy {

@@ -14,7 +14,7 @@ A drag-and-drop dashboard builder library for Angular. It provides a canvas, a c
 ## Installation
 
 ```bash
-npm install @zhongmiao/ngx-puzzle echarts ngx-tethys lodash date-fns
+npm install @zhongmiao/ngx-puzzle echarts ngx-tethys lodash 
 ```
 
 Peer Angular v18+ is required. See package.json for exact peer versions used in this repo.
@@ -151,7 +151,7 @@ npm publish
 ## 安装
 
 ```bash
-npm i @zhongmiao/ngx-puzzle echarts ngx-tethys lodash date-fns
+npm i @zhongmiao/ngx-puzzle echarts ngx-tethys lodash 
 ```
 
 ## 快速开始

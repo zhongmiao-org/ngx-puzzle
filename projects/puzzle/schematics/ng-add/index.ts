@@ -69,10 +69,8 @@ function addDependenciesToPackageJson(tree: Tree, context: SchematicContext): vo
 
   // 定义需要安装的依赖项
   const dependenciesToAdd = {
-    '@date-fns/tz': '^1.2.0',
     '@tethys/icons': '1.4.50',
     '@webdatarocks/webdatarocks': '1.4.19',
-    'date-fns': '^4.1.0',
     echarts: '6.0.0',
     lodash: '4.17.21',
     'ngx-tethys': '^18.2.17',

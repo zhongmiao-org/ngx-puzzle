@@ -2,13 +2,10 @@ import {  Component, HostBinding, signal } from '@angular/core';
 import { ThySlideModule } from 'ngx-tethys/slide';
 import { ThyIconModule } from 'ngx-tethys/icon';
 import { ThyButtonModule } from 'ngx-tethys/button';
-import { NgxPuzzlePanelComponent } from '../../components/panel/ngx-puzzle-panel.component';
-import { NgxPuzzlePropsEditorComponent } from '../../components/editor/ngx-puzzle-props-editor.component';
-import { NgxPuzzleCanvasComponent } from '../../components/canvas/ngx-puzzle-canvas.component';
+import { NgxPuzzlePanelComponent,NgxPuzzlePropsEditorComponent,NgxPuzzleCanvasComponent } from '../../components';
 
 @Component({
   selector: 'ngx-puzzle-editor, puzzle-editor',
-  standalone: true,
   imports: [
     ThySlideModule,
     ThyButtonModule,
@@ -18,9 +15,10 @@ import { NgxPuzzleCanvasComponent } from '../../components/canvas/ngx-puzzle-can
     NgxPuzzleCanvasComponent
   ],
   templateUrl: './ngx-puzzle-editor.component.html',
-  styleUrl: './ngx-puzzle-editor.component.scss'
+  styleUrls: ['./ngx-puzzle-editor.component.scss'],
+  standalone: true,
 })
-export class NgxPuzzleEditorComponent  {
+export class NgxPuzzleEditorComponent {
   @HostBinding() className = 'ngx-puzzle-component';
 
   protected readonly MIN_WIDTH = 100;
@@ -34,6 +32,4 @@ export class NgxPuzzleEditorComponent  {
   rightCollapsed = signal<boolean>(false);
 
   constructor() {}
-
-
 }

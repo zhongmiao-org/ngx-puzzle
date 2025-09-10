@@ -33,12 +33,14 @@ import { ThyInputModule } from 'ngx-tethys/input';
 import { ThyInputNumberModule } from 'ngx-tethys/input-number';
 import { ThyColorPickerModule } from 'ngx-tethys/color-picker';
 import { ThySelectModule } from 'ngx-tethys/select';
-import { NgxPuzzleChartEditorComponent } from './dynamic-editor/chart-editor/ngx-puzzle-chart-editor.component';
-import { NgxPuzzleRefreshEditorComponent } from './dynamic-editor/refresh-editor/ngx-puzzle-refresh-editor.component';
-import { NgxPuzzleTextEditorComponent } from './dynamic-editor/text-editor/ngx-puzzle-text-editor.component';
-import { NgxPuzzleTableEditorComponent } from './dynamic-editor/table-editor/ngx-puzzle-table-editor.component';
-import { NgxPuzzleControlEditorComponent } from './dynamic-editor/control-editor/ngx-puzzle-control-editor.component';
-import { PuzzleFormRendererComponent } from '../primitives/puzzle-form-renderer/puzzle-form-renderer.component';
+import {
+  NgxPuzzleChartEditorComponent,
+  NgxPuzzleRefreshEditorComponent,
+  NgxPuzzleTextEditorComponent,
+  NgxPuzzleTableEditorComponent,
+  NgxPuzzleControlEditorComponent
+} from './dynamic-editor/';
+import { PuzzleFormRendererComponent } from '../primitives';
 import { Report } from '@webdatarocks/webdatarocks';
 
 @Component({
