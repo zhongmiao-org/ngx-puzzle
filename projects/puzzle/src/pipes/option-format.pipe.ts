@@ -1,6 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { ChartAxesTypesEnum, ChartTypesEnum } from 'ngx-puzzle/core/enums';
-import { SafeAny } from 'ngx-puzzle/core';
+import { ChartAxesTypesEnum, ChartTypesEnum, SafeAny } from '../core';
 
 @Pipe({
   name: 'optionFormat',

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, inject, OnDestroy, signal } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   ComponentBaseProps,
@@ -10,11 +10,20 @@ import {
   Size,
   TextConfig,
   ControlConfig,
-  EditorBaseField
-} from 'ngx-puzzle/core/interfaces';
-import { basicTypes, editorTabTypes, mainTypes, SafeAny } from 'ngx-puzzle/core/types';
+  EditorBaseField,
+  basicTypes,
+  editorTabTypes,
+  mainTypes,
+  SafeAny,
+  BASE_TAB,
+  EDITOR_TAB_MAP,
+  EDITOR_BASE_FIELDS,
+  convertFormDataToOptions,
+  convertOptionsToFormData,
+  PuzzleCanvasMediatorService,
+  updateFormData
+} from '../../core';
 import { Subject, takeUntil } from 'rxjs';
-import { BASE_TAB, EDITOR_TAB_MAP } from 'ngx-puzzle/core/constants';
 import { ThyTabsModule } from 'ngx-tethys/tabs';
 import { ThyIcon } from 'ngx-tethys/icon';
 import { cloneDeep, isEqual } from 'lodash';
@@ -24,15 +33,13 @@ import { ThyInputModule } from 'ngx-tethys/input';
 import { ThyInputNumberModule } from 'ngx-tethys/input-number';
 import { ThyColorPickerModule } from 'ngx-tethys/color-picker';
 import { ThySelectModule } from 'ngx-tethys/select';
-import { NgxPuzzleChartEditorComponent } from 'ngx-puzzle/components/editor/dynamic-editor/chart-editor/ngx-puzzle-chart-editor.component';
-import { convertFormDataToOptions, convertOptionsToFormData, PuzzleCanvasMediatorService, updateFormData } from 'ngx-puzzle/core';
-import { NgxPuzzleRefreshEditorComponent } from 'ngx-puzzle/components/editor/dynamic-editor/refresh-editor/ngx-puzzle-refresh-editor.component';
-import { NgxPuzzleTextEditorComponent } from 'ngx-puzzle/components/editor/dynamic-editor/text-editor/ngx-puzzle-text-editor.component';
-import { NgxPuzzleTableEditorComponent } from 'ngx-puzzle/components/editor/dynamic-editor/table-editor/ngx-puzzle-table-editor.component';
-import { NgxPuzzleControlEditorComponent } from 'ngx-puzzle/components/editor/dynamic-editor/control-editor/ngx-puzzle-control-editor.component';
+import { NgxPuzzleChartEditorComponent } from './dynamic-editor/chart-editor/ngx-puzzle-chart-editor.component';
+import { NgxPuzzleRefreshEditorComponent } from './dynamic-editor/refresh-editor/ngx-puzzle-refresh-editor.component';
+import { NgxPuzzleTextEditorComponent } from './dynamic-editor/text-editor/ngx-puzzle-text-editor.component';
+import { NgxPuzzleTableEditorComponent } from './dynamic-editor/table-editor/ngx-puzzle-table-editor.component';
+import { NgxPuzzleControlEditorComponent } from './dynamic-editor/control-editor/ngx-puzzle-control-editor.component';
+import { PuzzleFormRendererComponent } from '../primitives/puzzle-form-renderer/puzzle-form-renderer.component';
 import { Report } from '@webdatarocks/webdatarocks';
-import { PuzzleFormRendererComponent } from 'ngx-puzzle/components/primitives/puzzle-form-renderer/puzzle-form-renderer.component';
-import { EDITOR_BASE_FIELDS } from 'ngx-puzzle/core/constants/field-configs/base-editor';
 
 @Component({
   selector: 'ngx-puzzle-props-editor, puzzle-props-editor',
@@ -61,8 +68,6 @@ import { EDITOR_BASE_FIELDS } from 'ngx-puzzle/core/constants/field-configs/base
   }
 })
 export class NgxPuzzlePropsEditorComponent implements AfterViewInit, OnDestroy {
-  private readonly mediator = inject(PuzzleCanvasMediatorService<ComponentBaseProps, string>);
-
   private destroy$: Subject<void> = new Subject<void>();
 
   public config!: ComponentConfig;
@@ -78,6 +83,8 @@ export class NgxPuzzlePropsEditorComponent implements AfterViewInit, OnDestroy {
   public tabs = signal<EditorTab[]>([]);
 
   public activeTab: editorTabTypes = 'appearance';
+
+  constructor(private mediator: PuzzleCanvasMediatorService) {}
 
   ngAfterViewInit(): void {
     const config = this.mediator.getCurrentSelect();
@@ -264,12 +271,12 @@ export class NgxPuzzlePropsEditorComponent implements AfterViewInit, OnDestroy {
     this.config = {
       ...this.config,
       ...updated
-    }
+    };
     const basicKeys: basicTypes[] = ['width', 'height', 'positionX', 'positionY'];
     if ((basicKeys as string[]).includes(event.key)) {
       this.basicDataChange(event.value as number | string, event.key as basicTypes);
     } else {
-      console.log(updated.props)
+      console.log(updated.props);
       this.mediator.updateComponentProps(this.config.id, updated.props);
     }
   }

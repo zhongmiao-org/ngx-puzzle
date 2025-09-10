@@ -1,5 +1,6 @@
-import { EditorBaseField, getDataBackgroundOptions } from 'ngx-puzzle/core';
+import { EditorBaseField } from '../../../interfaces';
 import { BASE_STYLE_FIELDS } from '../base-style-fields';
+import { getDataBackgroundOptions } from '../../background-images';
 
 export const CONTROL_EDITOR_STYLE_FIELD: EditorBaseField = {
   label: '样式外观',

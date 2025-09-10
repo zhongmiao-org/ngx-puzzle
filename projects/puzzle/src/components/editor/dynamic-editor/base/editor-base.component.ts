@@ -7,11 +7,11 @@ import {
   NgxPuzzleDataBindingRequest,
   convertFormDataToOptions,
   convertOptionsToFormData,
-  updateFormData
-} from 'ngx-puzzle/core';
+  updateFormData,
+  ControlsService,
+  NgxPuzzleDataBindingService
+} from '../../../../core';
 import { isEqual } from 'lodash';
-import { ControlsService } from 'ngx-puzzle/core/services/internal/controls.service';
-import { NgxPuzzleDataBindingService } from 'ngx-puzzle/core/services/external/ngx-puzzle-data-binding.service';
 
 /**
  * 编辑器基类，提供通用的编辑器功能

@@ -1,4 +1,4 @@
-import { SafeAny } from 'ngx-puzzle/core';
+import { SafeAny } from '../types';
 
 export interface DataRequestConfig {
   // 数据流数组 - 每个流对应一个系列

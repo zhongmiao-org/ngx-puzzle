@@ -31,7 +31,7 @@ import {
   CHART_TREEMAP_SERIES,
   CHART_RADAR_SERIES
 } from '../fields';
-import { EditorChartField } from 'ngx-puzzle/core';
+import { EditorChartField } from '../../interfaces';
 
 export const CHART_FIELDS_MAP: Record<ChartTypesEnum, EditorChartField[]> = {
   [ChartTypesEnum.bar]: [CHART_TITLE, CHART_BAR_SERIES, CHART_LEGEND, CHART_X_AXIS, CHART_Y_AXIS, CHART_GRID, CHART_TOOLTIP],

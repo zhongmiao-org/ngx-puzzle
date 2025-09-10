@@ -1,4 +1,4 @@
-import { SafeAny } from '../../core';
+import { SafeAny } from '../types';
 
 /**
  * 节流工具类

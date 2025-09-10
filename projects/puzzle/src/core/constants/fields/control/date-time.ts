@@ -1,4 +1,5 @@
-import { EditorBaseField, ENABLE_OPTIONS, FONT_WEIGHT_CSS_OPTIONS } from 'ngx-puzzle/core';
+import { EditorBaseField } from '../../../interfaces';
+import { ENABLE_OPTIONS, FONT_WEIGHT_CSS_OPTIONS } from '../../select-options.const';
 
 export const CONTROL_DATETIME_FIELDS_DISPLAY: EditorBaseField = {
   label: '显示与顺序',

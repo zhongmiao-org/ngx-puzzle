@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
   CanvasMediator,
   ComponentBaseProps,
@@ -8,21 +8,19 @@ import {
   HistoryActionStack,
   Position,
   Size
-} from 'ngx-puzzle/core';
-import { ComponentRegistryService } from 'ngx-puzzle/core';
+} from '../../interfaces';
+import { ComponentRegistryService } from './component-registry.service';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { isEqual } from 'lodash';
 import { actionTypes, controlType } from '../../types';
 import { INIT_SETTINGS_CONFIG } from '../../constants';
 import { OperationHistoryEnum } from '../../enums';
-import { DebounceUtil, isTargetInputElement } from 'ngx-puzzle/core/utils';
+import { DebounceUtil, isTargetInputElement } from '../../utils';
 
 @Injectable({ providedIn: 'root' })
 export class PuzzleCanvasMediatorService<TConfigProps extends ComponentBaseProps = ComponentBaseProps, TSubType = string>
   implements CanvasMediator<TConfigProps, TSubType>
 {
-  private registry = inject(ComponentRegistryService<TConfigProps, TSubType>);
-
   private actionSnapshot: ComponentConfig<TConfigProps, TSubType> | null = null;
 
   // 操作记录
@@ -78,7 +76,7 @@ export class PuzzleCanvasMediatorService<TConfigProps extends ComponentBaseProps
 
   private _currentSelectId!: string;
 
-  constructor() {}
+  constructor(private registry: ComponentRegistryService<TConfigProps, TSubType>) {}
 
   /**
    * 刷新指定操作类型的防抖历史记录

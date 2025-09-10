@@ -1,4 +1,4 @@
-import { EditorBaseField } from '../../core';
+import { EditorBaseField } from '../interfaces';
 import { isEqual } from 'lodash';
 
 export function convertFormDataToOptions<TOptions, TEditorField extends EditorBaseField>(

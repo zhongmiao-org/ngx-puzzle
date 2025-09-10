@@ -11,10 +11,8 @@ import { ThyColorPickerDirective } from 'ngx-tethys/color-picker';
 import { ThyGridModule } from 'ngx-tethys/grid';
 import { ThyLayoutModule } from 'ngx-tethys/layout';
 
-import { EditorBaseComponent } from 'ngx-puzzle/components/editor/dynamic-editor/base/editor-base.component';
-import { TEXT_FIELDS_MAP } from 'ngx-puzzle/core/constants/field-configs/text-editor-fields-config';
-import { TextConfig } from 'ngx-puzzle/core/interfaces/text-config.interface';
-import { TextTypesEnum } from 'ngx-puzzle/core/enums/text-types.enum';
+import { EditorBaseComponent } from '../base/editor-base.component';
+import { TEXT_FIELDS_MAP,TextConfig,TextTypesEnum } from '../../../../core';
 
 @Component({
   selector: 'ngx-puzzle-text-editor, puzzle-text-editor',

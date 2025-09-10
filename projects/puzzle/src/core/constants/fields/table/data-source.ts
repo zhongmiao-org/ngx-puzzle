@@ -1,4 +1,4 @@
-import { EditorTableField } from 'ngx-puzzle/core';
+import { EditorTableField } from '../../../interfaces';
 
 export const TABLE_DATA_SOURCE: EditorTableField = {
   label: '数据源配置',

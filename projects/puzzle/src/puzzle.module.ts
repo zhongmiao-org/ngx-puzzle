@@ -1,7 +1,7 @@
-import { inject, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { ThyIconRegistry } from 'ngx-tethys/icon';
 import { DomSanitizer } from '@angular/platform-browser';
-import { ChartTypesEnum, ControlTypesEnum, TableTypesEnum, TabTypesEnum, TextTypesEnum } from 'ngx-puzzle/core/enums';
+import { ChartTypesEnum, ControlTypesEnum, TableTypesEnum, TabTypesEnum, TextTypesEnum,SafeAny } from './core';
 import { NgxPuzzleEditorComponent, NgxPuzzlePreviewComponent } from './features';
 
 @NgModule({
@@ -9,9 +9,10 @@ import { NgxPuzzleEditorComponent, NgxPuzzlePreviewComponent } from './features'
   exports: [NgxPuzzleEditorComponent, NgxPuzzlePreviewComponent]
 })
 export class NgxPuzzleModule {
-  private readonly iconRegistry = inject(ThyIconRegistry);
-  private readonly sanitizer = inject(DomSanitizer);
-  constructor() {
+  constructor(
+    private iconRegistry: ThyIconRegistry,
+    private sanitizer: DomSanitizer
+  ) {
     this.registerIcons();
   }
 
@@ -25,7 +26,7 @@ export class NgxPuzzleModule {
     this.registerIconsForType('editor', TabTypesEnum, 'editor');
     this.registerIconsForType('control', ControlTypesEnum, 'controls');
   }
-  private registerIconsForType(namespace: string, enumType: any, iconPath: string) {
+  private registerIconsForType(namespace: string, enumType: SafeAny, iconPath: string) {
     for (const key in enumType) {
       if (enumType.hasOwnProperty(key)) {
         const enumValue = enumType[key];

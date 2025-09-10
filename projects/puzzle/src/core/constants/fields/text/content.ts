@@ -1,4 +1,4 @@
-import { EditorBaseField } from 'ngx-puzzle/core';
+import { EditorBaseField } from '../../../interfaces';
 
 export const TEXT_CONTENT_FIELDS: EditorBaseField = {
   label: '文本内容',

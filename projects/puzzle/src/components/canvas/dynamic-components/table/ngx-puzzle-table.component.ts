@@ -11,13 +11,13 @@ import {
   TABLE_DATA_OPTIONS,
   ApiSource,
   NgxPuzzleHttpService,
-} from 'ngx-puzzle/core';
-import { tableMockRows } from 'ngx-puzzle/core/services/mock-data/table-data';
+  tableMockRows
+} from '../../../../core';
 import { CommonModule } from '@angular/common';
 import { Observable, takeUntil } from 'rxjs';
 import { ThyTableModule } from 'ngx-tethys/table';
-import { NgxPuzzleDragWrapperComponent } from 'ngx-puzzle/components/canvas/dynamic-components/drag-wrapper/ngx-puzzle-drag-wrapper.component';
-import { PuzzlePivotTableComponent } from 'ngx-puzzle/components/primitives/puzzle-pivot-table/puzzle-pivot-table.component';
+import { NgxPuzzleDragWrapperComponent } from '../drag-wrapper/ngx-puzzle-drag-wrapper.component';
+import { PuzzlePivotTableComponent } from '../../../primitives/puzzle-pivot-table/puzzle-pivot-table.component';
 
 @Component({
   selector: 'puzzle-table',

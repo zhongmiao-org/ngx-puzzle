@@ -1,7 +1,6 @@
 import {
   AfterViewInit,
   Component,
-  inject,
   signal,
   ViewChild,
   ViewContainerRef,
@@ -25,7 +24,7 @@ import {
   ZoomScaleService
 } from '../../core';
 import { isEqual } from 'lodash';
-import { StylesFormatPipe } from 'ngx-puzzle/pipes/styles-format.pipe';
+import { StylesFormatPipe } from '../../pipes';
 
 @Component({
   selector: 'ngx-puzzle-preview, puzzle-preview',
@@ -37,14 +36,6 @@ import { StylesFormatPipe } from 'ngx-puzzle/pipes/styles-format.pipe';
 export class NgxPuzzlePreviewComponent implements AfterViewInit, OnDestroy {
   @ViewChild('canvasContent', { read: ViewContainerRef, static: true }) canvasContent!: ViewContainerRef;
   @ViewChild('canvasWrapper', { static: true }) canvasWrapperRef!: ElementRef<HTMLElement>;
-
-  private zoom = inject(ZoomScaleService);
-
-  private ele = inject(ElementRef);
-  private injector = inject(ComponentInjectorService);
-  private registry = inject(ComponentRegistryService);
-  private sessionService = inject(SessionIndexedDbService);
-  private cdr = inject(ChangeDetectorRef);
 
   /**
    * 控制是否启用缩放功能的输入信号
@@ -94,7 +85,15 @@ export class NgxPuzzlePreviewComponent implements AfterViewInit, OnDestroy {
   private containerRefReady = false; // 标记容器是否已准备好
   private fullscreenActive = false;
 
-  constructor() {
+  constructor(
+    private zoom: ZoomScaleService,
+    private ele: ElementRef,
+    private injector: ComponentInjectorService,
+    private registry: ComponentRegistryService,
+    private sessionService: SessionIndexedDbService,
+    private cdr: ChangeDetectorRef
+  )
+  {
     // 监听配置变化，并在容器准备好后生成画布
     effect(() => {
       const configs = this.allConfigs();

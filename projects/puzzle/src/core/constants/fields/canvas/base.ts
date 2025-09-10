@@ -1,5 +1,5 @@
-import { EditorBaseField } from 'ngx-puzzle/core';
-import { BASE_WIDTH_FIELDS } from 'ngx-puzzle/core/constants/fields/base-style-fields';
+import { EditorBaseField } from '../../../interfaces';
+import { BASE_WIDTH_FIELDS } from '../base-style-fields';
 
 export const CANVAS_EDITOR_BASE_FIELD: EditorBaseField = {
   label: '基础属性',

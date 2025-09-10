@@ -1,4 +1,4 @@
-import { GeoJSONFeatureCollection, OutputPoint } from '../../core';
+import { GeoJSONFeatureCollection, OutputPoint } from '../interfaces';
 
 /**
  * 将 GeoJSON FeatureCollection 转换为目标格式的点数组

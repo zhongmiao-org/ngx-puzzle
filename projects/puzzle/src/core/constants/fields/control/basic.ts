@@ -1,5 +1,6 @@
 // 基本配置
-import { EditorBaseField, ENABLE_OPTIONS } from 'ngx-puzzle/core';
+import { EditorBaseField } from '../../../interfaces';
+import { ENABLE_OPTIONS } from '../../select-options.const';
 
 export const CONTROL_BASIC_FIELDS: EditorBaseField = {
   label: '基本配置',

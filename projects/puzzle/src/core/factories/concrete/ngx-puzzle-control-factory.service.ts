@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { AbstractComponentFactory } from 'ngx-puzzle/core/factories/abstract-component-factory';
-import { ComponentConfig, ComponentInstance } from 'ngx-puzzle/core/interfaces';
-import { NgxPuzzleControlComponent } from 'ngx-puzzle/components/canvas/dynamic-components/control/ngx-puzzle-control.component';
+import { AbstractComponentFactory } from '../abstract-component-factory';
+import { ComponentConfig, ComponentInstance } from '../../interfaces';
+import { NgxPuzzleControlComponent } from '../../../components/canvas/dynamic-components/control/ngx-puzzle-control.component';
 
 @Injectable({ providedIn: 'root' })
 export class NgxPuzzleControlFactoryService extends AbstractComponentFactory {

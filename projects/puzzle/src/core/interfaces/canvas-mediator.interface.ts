@@ -1,4 +1,5 @@
-import { ComponentBaseProps, ComponentConfig, DataRequestConfig, Position, Size } from './index';
+import { ComponentBaseProps, ComponentConfig, Position, Size } from './component-config.interface';
+import { DataRequestConfig } from './data-request';
 import { actionTypes } from '../types';
 
 export interface CanvasMediator<TConfigProps extends ComponentBaseProps = ComponentBaseProps, TSubType = string> {

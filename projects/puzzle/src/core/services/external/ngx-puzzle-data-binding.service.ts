@@ -1,20 +1,18 @@
-import { inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Observable, Subject, BehaviorSubject } from 'rxjs';
 import {
   DataRequestConfig,
   NgxPuzzleControlChangeNotification,
   NgxPuzzleDataBindingRequest,
   NgxPuzzleDataBindingResponse
-} from 'ngx-puzzle/core/interfaces';
+} from '../../interfaces';
 import { SafeAny } from 'ngx-tethys/types';
-import { PuzzleCanvasMediatorService } from 'ngx-puzzle/core';
+import { PuzzleCanvasMediatorService } from '../internal';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NgxPuzzleDataBindingService {
-  private mediator = inject(PuzzleCanvasMediatorService);
-
   // 数据绑定请求流
   private bindingRequestSubject = new Subject<NgxPuzzleDataBindingRequest>();
   public readonly bindingRequest$ = this.bindingRequestSubject.asObservable();
@@ -37,6 +35,8 @@ export class NgxPuzzleDataBindingService {
   // 数据绑定删除通知流
   private bindingDeleteSubject = new Subject<{ componentId: string; seriesIndex: number }>();
   public readonly bindingDelete$ = this.bindingDeleteSubject.asObservable();
+
+  constructor(private mediator: PuzzleCanvasMediatorService) {}
 
   /**
    * 请求数据绑定

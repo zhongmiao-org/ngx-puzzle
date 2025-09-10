@@ -1,5 +1,6 @@
 // 日期选择器属性配置
-import { DATE_PICKER_SELECTION_MODE_OPTIONS, EditorBaseField, ENABLE_OPTIONS, SIZE_OPTIONS } from 'ngx-puzzle/core';
+import { EditorBaseField } from '../../../interfaces';
+import { ENABLE_OPTIONS, SIZE_OPTIONS, DATE_PICKER_SELECTION_MODE_OPTIONS } from '../../select-options.const';
 
 export const CONTROL_DATEPICKER_FIELDS: EditorBaseField = {
   label: '控件属性',

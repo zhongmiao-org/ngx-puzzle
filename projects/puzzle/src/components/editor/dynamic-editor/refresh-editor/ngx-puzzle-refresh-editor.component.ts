@@ -5,10 +5,10 @@ import { ThyDatePickerModule } from 'ngx-tethys/date-picker';
 import { ThyTooltipModule } from 'ngx-tethys/tooltip';
 import { ThyGridModule } from 'ngx-tethys/grid';
 import { ThyLayoutModule } from 'ngx-tethys/layout';
+import { CONTROL_BIND_FIELDS, SafeAny, updateFieldChildrenStream, REFRESH_CONFIG, RefreshConfig } from '../../../../core';
 
-import { EditorBaseComponent } from 'ngx-puzzle/components/editor/dynamic-editor/base/editor-base.component';
-import { CONTROL_BIND_FIELDS, SafeAny, updateFieldChildrenStream,REFRESH_CONFIG,RefreshConfig } from 'ngx-puzzle/core';
-import { PuzzleFormRendererComponent } from 'ngx-puzzle/components/primitives/puzzle-form-renderer/puzzle-form-renderer.component';
+import { EditorBaseComponent } from '../base/editor-base.component';
+import { PuzzleFormRendererComponent } from '../../../primitives/puzzle-form-renderer/puzzle-form-renderer.component';
 
 @Component({
   selector: 'ngx-puzzle-refresh-editor, puzzle-refresh-editor',

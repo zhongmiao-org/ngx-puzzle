@@ -1,5 +1,5 @@
 import { BaseSelectOption } from '../interfaces';
-import { TableTypesEnum } from 'ngx-puzzle/core';
+import { TableTypesEnum } from '../enums';
 
 export const TABLE_TYPE_OPTIONS: BaseSelectOption<TableTypesEnum>[] = [
   { label: '普通表格', val: TableTypesEnum.default },

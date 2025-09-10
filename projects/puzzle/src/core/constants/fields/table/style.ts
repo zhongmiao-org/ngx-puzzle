@@ -1,5 +1,6 @@
-import { EditorBaseField, getHeaderBackgroundOptions } from 'ngx-puzzle/core';
+import { EditorBaseField } from '../../../interfaces';
 import { BASE_STYLE_FIELDS } from '../base-style-fields';
+import { getHeaderBackgroundOptions } from '../../background-images';
 
 export const TABLE_EDITOR_STYLE_FIELD: EditorBaseField = {
   label: '样式外观',

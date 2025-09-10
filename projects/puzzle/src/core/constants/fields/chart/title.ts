@@ -1,4 +1,5 @@
-import { EditorChartField, ENABLE_OPTIONS, FONT_WEIGHT_OPTIONS } from 'ngx-puzzle/core';
+import { EditorChartField } from '../../../interfaces';
+import { ENABLE_OPTIONS, FONT_WEIGHT_OPTIONS } from '../../select-options.const';
 
 // 标题设置 - 轻量化: 仅保留常用选项
 export const CHART_TITLE: EditorChartField = {

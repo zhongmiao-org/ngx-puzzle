@@ -1,5 +1,5 @@
 // 自动生成的背景图片常量文件
-import { BaseSelectOption } from '../interfaces/editor.interface';
+import { BaseSelectOption } from '../interfaces';
 
 // 原始图片数据
 export const BACKGROUND_IMAGES = {

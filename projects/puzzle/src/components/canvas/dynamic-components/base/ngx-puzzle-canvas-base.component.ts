@@ -1,18 +1,20 @@
+import { Component, inject, OnDestroy } from '@angular/core';
 import {
   ComponentBaseProps,
   ComponentConfig,
   ControlFilterCondition,
   DataRequestConfig,
-  NgxPuzzleDataBindingResponse
-} from 'ngx-puzzle/core/interfaces';
-import { Component, inject, OnDestroy } from '@angular/core';
-import { mainTypes } from 'ngx-puzzle/core/types';
-import { SafeAny } from 'ngx-tethys/types';
+  NgxPuzzleDataBindingResponse,
+  mainTypes,
+  ControlsService,
+  DEFAULT_INTERVAL_MULTIPLIERS,
+  PuzzleCanvasMediatorService,
+  RefreshIntervalUnitEnum,
+  NgxPuzzleDataBindingService,
+  SafeAny
+} from '../../../../core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { ControlsService } from 'ngx-puzzle/core/services/internal/controls.service';
-import { DEFAULT_INTERVAL_MULTIPLIERS, PuzzleCanvasMediatorService, RefreshIntervalUnitEnum } from 'ngx-puzzle/core';
-import { NgxPuzzleDataBindingService } from 'ngx-puzzle/core/services/external/ngx-puzzle-data-binding.service';
 
 @Component({
   template: ``

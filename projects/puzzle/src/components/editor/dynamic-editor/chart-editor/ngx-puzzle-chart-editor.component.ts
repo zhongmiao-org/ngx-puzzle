@@ -1,26 +1,16 @@
 import { Component, HostBinding } from '@angular/core';
-import { EditorChartField } from 'ngx-puzzle/core/interfaces';
-import { ChartTypesEnum } from 'ngx-puzzle/core/enums';
+import { EditorChartField, ChartTypesEnum, CHART_FIELDS_MAP, SafeAny } from '../../../../core';
 import { ThyCollapseModule } from 'ngx-tethys/collapse';
 import { ThyCardModule } from 'ngx-tethys/card';
 import { ThyButtonModule } from 'ngx-tethys/button';
 import { FormsModule } from '@angular/forms';
-import { EditorBaseComponent } from 'ngx-puzzle/components/editor/dynamic-editor/base/editor-base.component';
-import { CHART_FIELDS_MAP, SafeAny } from 'ngx-puzzle/core';
-import {
-  PuzzleFormRendererComponent
-} from 'ngx-puzzle/components/primitives/puzzle-form-renderer/puzzle-form-renderer.component';
+import { EditorBaseComponent } from '../base/editor-base.component';
+import { PuzzleFormRendererComponent } from '../../../primitives/puzzle-form-renderer/puzzle-form-renderer.component';
 
 @Component({
   selector: 'ngx-puzzle-chart-editor',
   standalone: true,
-  imports: [
-    ThyCollapseModule,
-    ThyCardModule,
-    ThyButtonModule,
-    FormsModule,
-    PuzzleFormRendererComponent
-  ],
+  imports: [ThyCollapseModule, ThyCardModule, ThyButtonModule, FormsModule, PuzzleFormRendererComponent],
   templateUrl: './ngx-puzzle-chart-editor.component.html',
   styleUrl: './ngx-puzzle-chart-editor.component.scss'
 })

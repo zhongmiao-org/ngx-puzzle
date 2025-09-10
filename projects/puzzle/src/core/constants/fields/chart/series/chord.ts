@@ -1,4 +1,4 @@
-import { EditorChartField } from 'ngx-puzzle/core';
+import { EditorChartField } from '../../../../interfaces';
 
 export const CHART_CHORD_SERIES: EditorChartField = {
   label: '数据系列配置',

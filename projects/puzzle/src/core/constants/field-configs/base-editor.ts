@@ -5,13 +5,14 @@ import {
   CHART_EDITOR_STYLE_FIELD,
   CONTROL_EDITOR_BASE_FIELD,
   CONTROL_EDITOR_STYLE_FIELD,
-  EditorBaseField,
-  mainTypes,
   TABLE_EDITOR_BASE_FIELD,
   TABLE_EDITOR_STYLE_FIELD,
   TEXT_EDITOR_BASE_FIELD,
   TEXT_EDITOR_STYLE_FIELD
-} from 'ngx-puzzle/core';
+} from '../fields';
+import { mainTypes } from '../../types';
+import { EditorBaseField } from '../../interfaces';
+
 
 export const EDITOR_BASE_FIELDS: Record<mainTypes, EditorBaseField[]> = {
   canvas: [CANVAS_EDITOR_BASE_FIELD, CANVAS_EDITOR_STYLE_FIELD],

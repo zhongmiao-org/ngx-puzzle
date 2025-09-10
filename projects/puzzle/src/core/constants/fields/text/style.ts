@@ -1,4 +1,4 @@
-import { EditorBaseField } from 'ngx-puzzle/core';
+import { EditorBaseField } from '../../../interfaces';
 
 export const TEXT_EDITOR_STYLE_FIELD: EditorBaseField = {
   label: '样式外观',
