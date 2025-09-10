@@ -1,3 +1,8 @@
+## 18.4.11 (2025-09-10)
+
+* fix: build ([db8d2cc](https://github.com/zhongmiao-org/ngx-puzzle/commit/db8d2cc))
+
+
 ## 18.4.10 (2025-09-10)
 
 * fix: path ([cf87380](https://github.com/zhongmiao-org/ngx-puzzle/commit/cf87380))
