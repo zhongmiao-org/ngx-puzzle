@@ -1,3 +1,8 @@
+## 18.4.12 (2025-09-10)
+
+* fix: angular DI ([78b254f](https://github.com/zhongmiao-org/ngx-puzzle/commit/78b254f))
+
+
 ## 18.4.11 (2025-09-10)
 
 * fix: build ([db8d2cc](https://github.com/zhongmiao-org/ngx-puzzle/commit/db8d2cc))
