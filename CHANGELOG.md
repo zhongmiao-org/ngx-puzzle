@@ -1,3 +1,8 @@
+## 18.4.10 (2025-09-10)
+
+* fix: path ([cf87380](https://github.com/zhongmiao-org/ngx-puzzle/commit/cf87380))
+
+
 ## 18.4.9 (2025-09-09)
 
 * fix: path ([659e5d6](https://github.com/zhongmiao-org/ngx-puzzle/commit/659e5d6))
