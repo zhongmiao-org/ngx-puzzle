@@ -44,6 +44,21 @@ npm install @zhongmiao/ngx-puzzle
 # Angular 18+, RxJS 7.8+, ngx-tethys 18.x, echarts 6.x
 ```
 
+#### Dependencies added by ng add
+If you use `ng add @zhongmiao/ngx-puzzle`, the schematic will add the following dependencies to your package.json (or ensure they exist) with these versions:
+
+```json
+{
+  "@angular/cdk": "^18.2.14",
+  "@tethys/icons": "1.4.50",
+  "@webdatarocks/webdatarocks": "1.4.19",
+  "@zhongmiao/ngx-puzzle": "^18.4.13",
+  "echarts": "6.0.0",
+  "lodash": "4.17.21",
+  "ngx-tethys": "^18.2.17"
+}
+```
+
 ## Compatibility
 
 - Angular: 18+
@@ -252,22 +267,24 @@ npm start
 # open http://localhost:4200 and navigate to the example page
 ```
 
-## Static assets (angular.json)
+## Global styles and static assets
 
-The example application configures static assets to ensure icons and library assets are available at runtime. If you run or adapt the example, make sure your angular.json contains the following assets section under example:build options:
+Add global style imports in your app's src/styles.scss:
+
+```scss
+@import "@zhongmiao/ngx-puzzle/styles/index.scss";
+@import "ngx-tethys/styles/index.scss";
+```
+
+Configure static assets in angular.json to ensure icons and library assets are served:
 
 ```json
 {
   "assets": [
     {
       "glob": "**/*",
-      "input": "./node_modules/@tethys/icons/assets",
-      "output": "/assets/icons"
-    },
-    {
-      "glob": "**/*",
-      "input": "./node_modules/ngx-puzzle/assets",
-      "output": "/assets/puzzle"
+      "input": "./node_modules/@zhongmiao/ngx-puzzle/assets",
+      "output": "/assets"
     }
   ]
 }

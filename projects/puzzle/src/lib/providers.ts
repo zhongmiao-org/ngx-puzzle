@@ -2,14 +2,16 @@ import { APP_INITIALIZER, EnvironmentProviders, importProvidersFrom, makeEnviron
 import { ThyTooltipModule, THY_TOOLTIP_DEFAULT_CONFIG_TOKEN, thyTooltipDefaultConfig } from 'ngx-tethys/tooltip';
 import { ThyIconModule, ThyIconRegistry } from 'ngx-tethys/icon';
 import { DomSanitizer } from '@angular/platform-browser';
+import { provideAnimations, provideNoopAnimations } from '@angular/platform-browser/animations';
 import { ChartTypesEnum, ControlTypesEnum, TableTypesEnum, TextTypesEnum, TabTypesEnum } from '../core';
 
 export interface PuzzleLibConfig {
   tooltip?: Partial<typeof thyTooltipDefaultConfig>;
+  animations?: 'browser' | 'noop';
 }
 
 function registerIcons(iconRegistry: ThyIconRegistry, sanitizer: DomSanitizer) {
-  const iconSvgUrl = `assets/icons/defs/svg/sprite.defs.svg`;
+  const iconSvgUrl = `/assets/icons/defs/svg/sprite.defs.svg`;
   iconRegistry.addSvgIconSet(sanitizer.bypassSecurityTrustResourceUrl(iconSvgUrl));
 
   const registerIconsForType = (namespace: string, enumType: any, iconPath: string) => {
@@ -19,7 +21,7 @@ function registerIcons(iconRegistry: ThyIconRegistry, sanitizer: DomSanitizer) {
         iconRegistry.addSvgIconInNamespace(
           namespace,
           `${enumValue}`,
-          sanitizer.bypassSecurityTrustResourceUrl(`assets/icons/${iconPath}/${enumValue}.svg`)
+          sanitizer.bypassSecurityTrustResourceUrl(`/assets/icons/${iconPath}/${enumValue}.svg`)
         );
       }
     }
@@ -38,6 +40,7 @@ function registerIcons(iconRegistry: ThyIconRegistry, sanitizer: DomSanitizer) {
 export function providePuzzleLib(config: PuzzleLibConfig = {}): EnvironmentProviders {
   return makeEnvironmentProviders([
     importProvidersFrom(ThyTooltipModule, ThyIconModule),
+    config.animations === 'noop' ? provideNoopAnimations() : provideAnimations(),
     {
       provide: THY_TOOLTIP_DEFAULT_CONFIG_TOKEN,
       useValue: {

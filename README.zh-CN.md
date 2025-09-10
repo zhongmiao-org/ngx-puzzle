@@ -43,6 +43,21 @@ npm install @zhongmiao/ngx-puzzle
 # 依赖环境：Angular 18+、RxJS 7.8+、ngx-tethys 18.x、echarts 6.x
 ```
 
+#### ng add 将添加的依赖版本
+使用 `ng add @zhongmiao/ngx-puzzle` 时，原理图会向 package.json 添加（或确保存在）以下依赖及版本：
+
+```json
+{
+  "@angular/cdk": "^18.2.14",
+  "@tethys/icons": "1.4.50",
+  "@webdatarocks/webdatarocks": "1.4.19",
+  "@zhongmiao/ngx-puzzle": "^18.4.13",
+  "echarts": "6.0.0",
+  "lodash": "4.17.21",
+  "ngx-tethys": "^18.2.17"
+}
+```
+
 ## 兼容性
 
 - Angular：18+
@@ -250,22 +265,24 @@ npm start
 # 打开 http://localhost:4200 查看示例
 ```
 
-## 静态资源（angular.json）
+## 全局样式与静态资源
 
-示例应用在 angular.json 中配置了静态资源，确保图标与库内置资源在运行时可用。请在 example 项目的 build options 下添加如下 assets 配置：
+在应用的 src/styles.scss 中加入以下全局样式：
+
+```scss
+@import "@zhongmiao/ngx-puzzle/styles/index.scss";
+@import "ngx-tethys/styles/index.scss";
+```
+
+在 angular.json 中配置静态资源，确保图标与库资源可被访问：
 
 ```json
 {
   "assets": [
     {
       "glob": "**/*",
-      "input": "./node_modules/@tethys/icons/assets",
-      "output": "/assets/icons"
-    },
-    {
-      "glob": "**/*",
-      "input": "./node_modules/ngx-puzzle/assets",
-      "output": "/assets/puzzle"
+      "input": "./node_modules/@zhongmiao/ngx-puzzle/assets",
+      "output": "/assets"
     }
   ]
 }

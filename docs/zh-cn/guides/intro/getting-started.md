@@ -45,6 +45,21 @@ pnpm add @zhongmiao/ngx-puzzle
 yarn add @zhongmiao/ngx-puzzle
 ```
 
+#### ng add 将添加的依赖版本
+执行 `ng add @zhongmiao/ngx-puzzle` 时，原理图会添加/确保以下依赖与版本：
+
+```json
+{
+  "@angular/cdk": "^18.2.14",
+  "@tethys/icons": "1.4.50",
+  "@webdatarocks/webdatarocks": "1.4.19",
+  "@zhongmiao/ngx-puzzle": "^18.4.13",
+  "echarts": "6.0.0",
+  "lodash": "4.17.21",
+  "ngx-tethys": "^18.2.17"
+}
+```
+
 ### 手动配置静态资源（当 ng add 未自动追加时）
 将以下条目添加到你的应用项目在 angular.json 中的 assets 列表（注意是你的应用项目，而非本仓库 example 项目）：
 
@@ -58,7 +73,7 @@ yarn add @zhongmiao/ngx-puzzle
   {
     "glob": "**/*",
     "input": "./node_modules/ngx-puzzle/assets",
-    "output": "/assets/puzzle"
+    "output": "/assets"
   }
 ]
 ```
