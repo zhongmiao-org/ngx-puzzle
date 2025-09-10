@@ -21,7 +21,7 @@ import { FormsModule } from '@angular/forms';
 import { ThySelectModule } from 'ngx-tethys/select';
 import { ThyDatePickerModule } from 'ngx-tethys/date-picker';
 import { ThyInputModule } from 'ngx-tethys/input';
-import { ThyTooltipModule } from 'ngx-tethys/tooltip';
+import { ThyTooltipDirective, ThyTooltipModule } from 'ngx-tethys/tooltip';
 import { PuzzleDatetimeComponent } from '../../../primitives/puzzle-datetime/puzzle-datetime.component';
 
 @Component({
@@ -31,13 +31,13 @@ import { PuzzleDatetimeComponent } from '../../../primitives/puzzle-datetime/puz
     NgxPuzzleDragWrapperComponent,
     NgStyle,
     StylesFormatPipe,
-    ThyTooltipModule,
     FormsModule,
     ThyDatePickerModule,
     NgTemplateOutlet,
     ThySelectModule,
     ThyInputModule,
-    PuzzleDatetimeComponent
+    PuzzleDatetimeComponent,
+    ThyTooltipDirective
   ],
   templateUrl: './ngx-puzzle-control.component.html',
   styleUrls: ['./ngx-puzzle-control.component.scss'],
