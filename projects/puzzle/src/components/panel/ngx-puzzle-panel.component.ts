@@ -15,13 +15,13 @@ import {
   generateUUID
 } from '../../core';
 import { CdkDrag, CdkDragEnd, CdkDropList } from '@angular/cdk/drag-drop';
-import { ThyTooltipDirective } from 'ngx-tethys/tooltip';
+import { ThyTooltipModule } from 'ngx-tethys/tooltip';
 import { ThyIcon } from 'ngx-tethys/icon';
 
 @Component({
   selector: 'ngx-puzzle-panel, puzzle-panel',
   standalone: true,
-  imports: [CdkDropList, CdkDrag, ThyTooltipDirective, ThyIcon],
+  imports: [CdkDropList, CdkDrag, ThyTooltipModule, ThyIcon],
   templateUrl: './ngx-puzzle-panel.component.html',
   styleUrl: './ngx-puzzle-panel.component.scss',
   host: {
