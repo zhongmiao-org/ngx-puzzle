@@ -36,7 +36,11 @@ import { NgxPuzzleComponent } from '@zhongmiao/ngx-puzzle';
 })
 class AppComponent {}
 
-bootstrapApplication(AppComponent);
+import { providePuzzleLib } from '@zhongmiao/ngx-puzzle';
+
+bootstrapApplication(AppComponent, {
+  providers: [providePuzzleLib()]
+});
 ```
 
 Alternatively, you can use parts individually:
