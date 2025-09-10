@@ -8,7 +8,7 @@ import { ThyLayoutModule } from 'ngx-tethys/layout';
 import { CONTROL_BIND_FIELDS, SafeAny, updateFieldChildrenStream, REFRESH_CONFIG, RefreshConfig } from '../../../../core';
 
 import { EditorBaseComponent } from '../base/editor-base.component';
-import { PuzzleFormRendererComponent } from '../../../primitives/puzzle-form-renderer/puzzle-form-renderer.component';
+import { PuzzleFormRendererComponent } from '../../../primitives';
 
 @Component({
   selector: 'ngx-puzzle-refresh-editor, puzzle-refresh-editor',
