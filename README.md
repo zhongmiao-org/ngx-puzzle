@@ -31,9 +31,38 @@ Prefer ng add. Manual install is also supported.
 ### Option 1: ng add (recommended)
 
 ```bash
-npx @angular/cli@18 new my-angular18-app
+ng new test-app --routing=true --style=scss
+# or
+# npx @angular/cli@18 new my-angular18-app
 cd my-angular18-app
 ng add @zhongmiao/ngx-puzzle
+```
+
+```bash
+✔ Determining Package Manager
+  › Using package manager: npm
+✔ Loading package information from registry
+✔ Confirming installation
+✔ Installing package
+    Added @angular/cdk@^18.2.14 to dependencies
+    Added @webdatarocks/webdatarocks@1.4.19 to dependencies
+    Added echarts@^6.0.0 to dependencies
+    Added lodash@4.17.21 to dependencies
+    Added ngx-tethys@^18.2.17 to dependencies
+    Added asset mapping: ./node_modules/@zhongmiao/ngx-puzzle/assets -> /assets
+    Prepended style import to src/styles.scss: @import "@zhongmiao/ngx-puzzle/styles/index.scss";
+    Prepended style import to src/styles.scss: @import 'ngx-tethys/styles/index.scss';
+    Added import for provideHttpClient in src/app/app.config.ts
+    Added import for providePuzzleLib in src/app/app.config.ts
+    Updated assets configuration to include library assets.
+    ✅ Configuration updated successfully!
+    📦 New dependencies have been added to package.json
+    🚀 Please run the following command to install dependencies:
+       npm install
+UPDATE package.json (1246 bytes)
+UPDATE src/styles.scss (171 bytes)
+UPDATE src/app/app.config.ts (493 bytes)
+UPDATE angular.json (3049 bytes)
 ```
 
 - If your CLI is older or auto-append fails, use the manual assets configuration below.
@@ -46,16 +75,54 @@ npm install @zhongmiao/ngx-puzzle
 # Angular 18+, RxJS 7.8+, ngx-tethys 18.x, echarts 6.x
 ```
 
+#### Global styles and static assets
+
+Add global style imports in your app's src/styles.scss:
+
+```scss
+@import "@zhongmiao/ngx-puzzle/styles/index.scss";
+@import "ngx-tethys/styles/index.scss";
+```
+
+As a standalone-first library, ngx-puzzle provides a ready-made provider. Add provideHttpClient() and providePuzzleLib({ animations: 'browser' }) in src/app/app.config.ts:
+
+```ts
+import { providePuzzleLib } from '@zhongmiao/ngx-puzzle';
+import { provideHttpClient } from '@angular/common/http';
+import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { provideRouter } from '@angular/router';
+
+import { routes } from './app.routes';
+
+export const appConfig: ApplicationConfig = {
+  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes),  provideHttpClient(), providePuzzleLib({ animations: 'browser' })]
+};
+```
+
+Configure static assets in angular.json so library assets are served:
+
+```json
+{
+  "assets": [
+    {
+      "glob": "**/*",
+      "input": "./node_modules/@zhongmiao/ngx-puzzle/assets",
+      "output": "/assets"
+    }
+  ]
+}
+```
+
+If you consume @zhongmiao/ngx-puzzle in your own application and need these resources (icons or library assets), add a similar assets entry to your app project's assets list in angular.json.
+
 #### Dependencies added by ng add
 If you use `ng add @zhongmiao/ngx-puzzle`, the schematic will add the following dependencies to your package.json (or ensure they exist) with these versions:
 
 ```json
 {
   "@angular/cdk": "^18.2.14",
-  "@tethys/icons": "1.4.50",
   "@webdatarocks/webdatarocks": "1.4.19",
-  "@zhongmiao/ngx-puzzle": "^18.4.13",
-  "echarts": "6.0.0",
+  "echarts": "^6.0.0",
   "lodash": "4.17.21",
   "ngx-tethys": "^18.2.17"
 }
@@ -64,9 +131,10 @@ If you use `ng add @zhongmiao/ngx-puzzle`, the schematic will add the following 
 ## Compatibility
 
 - Angular: 18+
-- RxJS: 7.8+
-- ngx-tethys: 18.x (UI dialogs, layout in examples)
+- Angular cdk: 18+ (used for drag-and-drop)
+- ngx-tethys: 18.x (layout)
 - ECharts: 6.x (used by chart components)
+- @webdatarocks/webdatarocks (used by data table component)
 
 See package.json for exact versions.
 
@@ -269,37 +337,6 @@ npm start
 # open http://localhost:4200 and navigate to the example page
 ```
 
-## Global styles and static assets
-
-Add global style imports in your app's src/styles.scss:
-
-```scss
-@import "@zhongmiao/ngx-puzzle/styles/index.scss";
-@import "ngx-tethys/styles/index.scss";
-```
-
-Configure static assets in angular.json to ensure icons and library assets are served:
-
-```json
-{
-  "assets": [
-    {
-      "glob": "**/*",
-      "input": "./node_modules/@zhongmiao/ngx-puzzle/assets",
-      "output": "/assets"
-    }
-  ]
-}
-```
-
-What each entry does:
-- example/src/favicon.ico: favicon for the example app.
-- example/src/assets: your own static assets used by the example pages.
-- node_modules/@tethys/icons -> /assets/icons: exposes Tethys icon assets so UI components can load them.
-- projects/puzzle/src/assets -> /assets: exposes library-provided assets (e.g., editor backgrounds) to the example app.
-
-If you consume @zhongmiao/ngx-puzzle in your own application and need these assets (icons or library assets), add similar entries to your app project's assets list in angular.json.
-
 ## Contributing
 
 See CONTRIBUTING.md (and CONTRIBUTING.zh-CN.md for Chinese).
@@ -308,6 +345,7 @@ See CONTRIBUTING.md (and CONTRIBUTING.zh-CN.md for Chinese).
 
 - ngx-tethys (UI components, dialogs, layout used in examples): https://github.com/atinc/ngx-tethys
 - Apache ECharts (chart rendering for built-in chart components): https://echarts.apache.org/ and https://github.com/apache/echarts
+- @webdatarocks/webdatarocks (pivoting, grouping, aggregation for the data table component): https://github.com/WebDataRocks/web-pivot-table
 
 ## License
 
