@@ -1,3 +1,8 @@
+## 18.5.4 (2025-09-11)
+
+* docs: update docs ([a78cfd4](https://github.com/zhongmiao-org/ngx-puzzle/commit/a78cfd4))
+
+
 ## 18.5.3 (2025-09-11)
 
 * docs: update docs ([d038bec](https://github.com/zhongmiao-org/ngx-puzzle/commit/d038bec))
