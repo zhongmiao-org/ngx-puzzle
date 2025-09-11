@@ -1,3 +1,8 @@
+## 18.5.1 (2025-09-11)
+
+* feat: update libs & script ([813b883](https://github.com/zhongmiao-org/ngx-puzzle/commit/813b883))
+
+
 ## 18.5.0 (2025-09-11)
 
 * docs: update docs ([f0271b3](https://github.com/zhongmiao-org/ngx-puzzle/commit/f0271b3))
