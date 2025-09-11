@@ -1,3 +1,8 @@
+## 18.5.0 (2025-09-11)
+
+* docs: update docs ([f0271b3](https://github.com/zhongmiao-org/ngx-puzzle/commit/f0271b3))
+
+
 ## 18.4.15 (2025-09-10)
 
 * fix: remove text ([716079d](https://github.com/zhongmiao-org/ngx-puzzle/commit/716079d))
