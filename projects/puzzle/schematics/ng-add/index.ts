@@ -1,5 +1,4 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
-import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 
 interface AngularJson {
   projects?: { [key: string]: any };
@@ -65,10 +64,8 @@ function addDependenciesToPackageJson(tree: Tree, context: SchematicContext): vo
   // 定义需要安装的依赖项
   const dependenciesToAdd = {
     "@angular/cdk": "^18.2.14",
-    "@tethys/icons": "1.4.50",
     "@webdatarocks/webdatarocks": "1.4.19",
-    "@zhongmiao/ngx-puzzle": "^18.4.13",
-    "echarts": "6.0.0",
+    "echarts": "^6.0.0",
     "lodash": "4.17.21",
     "ngx-tethys": "^18.2.17",
   };
