@@ -132,6 +132,81 @@ function appendStylesImports(tree: Tree, context: SchematicContext, project: any
   return modified;
 }
 
+function updateAppConfig(tree: Tree, context: SchematicContext, project: any): boolean {
+  const sourceRoot: string | undefined = project?.sourceRoot || (project?.root && `${project.root}/src`);
+  const appConfigPath = `${sourceRoot ?? 'src'}/app/app.config.ts`;
+  if (!tree.exists(appConfigPath)) {
+    context.logger.warn(`Could not find ${appConfigPath}. Skipping app.config.ts updates.`);
+    return false;
+  }
+  const buf = tree.read(appConfigPath);
+  if (!buf) return false;
+  let content = buf.toString('utf-8');
+  let modified = false;
+
+  // Ensure import for provideHttpClient
+  if (!content.match(/from\s+'@angular\/common\/http';?/)) {
+    content = `import { provideHttpClient } from '@angular/common/http';\n` + content;
+    modified = true;
+    context.logger.info(`Added import for provideHttpClient in ${appConfigPath}`);
+  } else if (!content.match(/import\s+\{[^}]*provideHttpClient/)) {
+    // Append to existing import from @angular/common/http
+    content = content.replace(/import\s+\{([^}]*)\}\s+from\s+'@angular\/common\/http';?/, (m, g1) => {
+      if (g1.includes('provideHttpClient')) return m;
+      return `import { ${g1.trim().replace(/\s+$/, '')}${g1.trim() ? ', ' : ''}provideHttpClient } from '@angular/common/http';`;
+    });
+    modified = true;
+  }
+
+  // Ensure import for providePuzzleLib
+  if (!content.match(/from\s+'@zhongmiao\/ngx-puzzle';?/)) {
+    content = `import { providePuzzleLib } from '@zhongmiao/ngx-puzzle';\n` + content;
+    modified = true;
+    context.logger.info(`Added import for providePuzzleLib in ${appConfigPath}`);
+  } else if (!content.match(/import\s+\{[^}]*providePuzzleLib/)) {
+    content = content.replace(/import\s+\{([^}]*)\}\s+from\s+'@zhongmiao\/ngx-puzzle';?/, (m, g1) => {
+      if (g1.includes('providePuzzleLib')) return m;
+      return `import { ${g1.trim().replace(/\s+$/, '')}${g1.trim() ? ', ' : ''}providePuzzleLib } from '@zhongmiao/ngx-puzzle';`;
+    });
+    modified = true;
+  }
+
+  // Append providers if missing
+  const hasHttpProvider = /provideHttpClient\s*\(/.test(content);
+  const hasPuzzleProvider = /providePuzzleLib\s*\(/.test(content);
+
+  if (content.includes('providers:')) {
+    content = content.replace(/providers:\s*\[([\s\S]*?)\]/, (m, inner) => {
+      let items = inner.trim();
+      // Ensure trailing comma if needed when appending
+      const needsComma = items.length > 0 && !items.trim().endsWith(',');
+      const additions: string[] = [];
+      if (!hasHttpProvider) additions.push('provideHttpClient()');
+      if (!hasPuzzleProvider) additions.push(`providePuzzleLib({ animations: 'browser' })`);
+      if (additions.length === 0) return m;
+      const prefix = needsComma ? items + ', ' : items;
+      const newInner = (prefix + (prefix ? ' ' : '') + additions.join(', ')).trim();
+      return `providers: [${newInner}]`;
+    });
+    if (!hasHttpProvider || !hasPuzzleProvider) modified = true;
+  } else {
+    // Fallback: try to append providers array inside appConfig object
+    content = content.replace(/export\s+const\s+appConfig\s*:\s*ApplicationConfig\s*=\s*\{([\s\S]*?)\}/, (m, inner) => {
+      const insertion = `providers: [provideHttpClient(), providePuzzleLib({ animations: 'browser' })]`;
+      if (inner.includes('providers')) return m; // already handled above theoretically
+      const trimmed = inner.trim();
+      const newInner = trimmed ? `${trimmed}${trimmed.endsWith(',') ? '' : ','} ${insertion}` : insertion;
+      modified = true;
+      return m.replace(inner, ` ${newInner} `);
+    });
+  }
+
+  if (modified) {
+    tree.overwrite(appConfigPath, content);
+  }
+  return modified;
+}
+
 function ngAdd(): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const path = '/angular.json';
@@ -163,6 +238,7 @@ function ngAdd(): Rule {
     if (defaultProject) {
       modified = updateProjectAssets(projects[defaultProject], context) || modified;
       modified = appendStylesImports(tree, context, projects[defaultProject]) || modified;
+      modified = updateAppConfig(tree, context, projects[defaultProject]) || modified;
     }
 
     // Also try to update all application projects to be safe
@@ -170,6 +246,7 @@ function ngAdd(): Rule {
       if (project?.projectType === 'application') {
         modified = updateProjectAssets(project, context) || modified;
         modified = appendStylesImports(tree, context, project) || modified;
+        modified = updateAppConfig(tree, context, project) || modified;
       }
     }
 
