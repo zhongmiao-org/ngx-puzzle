@@ -1,204 +1,356 @@
-# @zhongmiao/ngx-puzzle
+# ngx-puzzle
 
-A drag-and-drop dashboard builder library for Angular. It provides a canvas, a component panel, and a property editor to compose BI-style dashboards with charts, tables, text and controls. Built with Angular 18 standalone components, signals, and OnPush change detection.
+English | [中文文档](../../README.zh-CN.md)
+
+[![ngx-puzzle](https://img.shields.io/npm/v/@zhongmiao/ngx-puzzle?style=flat&label=ngx-puzzle&color=blue)](https://www.npmjs.com/package/@zhongmiao/ngx-puzzle)
+[![npm](https://img.shields.io/npm/dm/%40zhongmiao/ngx-puzzle)](https://www.npmjs.com/package/@zhongmiao/ngx-puzzle)
+![](https://img.shields.io/badge/Made%20with%20Angular-red?logo=angular)
+[![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](../../LICENSE)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
+
+👉 Example repository (Demo): https://github.com/zhongmiao-org/ngx-puzzle-example
+
+![Drag-and-drop](../../docs/images/doc1.gif)
+
+Drag-and-drop dashboard builder for Angular applications. Think of it like a puzzle: compose charts, tables, text, and controls on a canvas to quickly assemble responsive data dashboards. Built with Angular standalone components and signals.
+
+Suitable for rapid prototyping, internal BI dashboards, and data visualization portals.
 
 ## Features
 
-- Drag-and-drop to place components onto a canvas
-- Built-in primitives: Charts (ECharts), Tables, Text, Controls
-- Property editor with tabs (Basic, Style, Data, Refresh)
-- Rulers and snapping helpers on the canvas
-- Component registry and mediator services to manage state
-- Standalone Angular components; signal-based state updates
+- Drag-and-drop editor with snapping layout
+- Rich built-in components: chart, table, text, control
+- Architecture-first Angular library (standalone, signals, OnPush)
+- External data-binding contract to connect real APIs or mock data
+- Preview/save via external service hooks
 
 ## Installation
 
+Prefer ng add. Manual install is also supported.
+
+### Option 1: ng add (recommended)
+
 ```bash
-npm install @zhongmiao/ngx-puzzle echarts ngx-tethys lodash 
+ng new test-app --routing=true --style=scss
+# or
+# npx @angular/cli@18 new my-angular18-app
+cd my-angular18-app
+ng add @zhongmiao/ngx-puzzle
 ```
 
+```bash
+✔ Determining Package Manager
+  › Using package manager: npm
+✔ Loading package information from registry
+✔ Confirming installation
+✔ Installing package
+    Added @angular/cdk@^18.2.14 to dependencies
+    Added @webdatarocks/webdatarocks@1.4.19 to dependencies
+    Added echarts@^6.0.0 to dependencies
+    Added lodash@4.17.21 to dependencies
+    Added ngx-tethys@^18.2.17 to dependencies
+    Added asset mapping: ./node_modules/@zhongmiao/ngx-puzzle/assets -> /assets
+    Prepended style import to src/styles.scss: @import "@zhongmiao/ngx-puzzle/styles/index.scss";
+    Prepended style import to src/styles.scss: @import 'ngx-tethys/styles/index.scss';
+    Added import for provideHttpClient in src/app/app.config.ts
+    Added import for providePuzzleLib in src/app/app.config.ts
+    Updated assets configuration to include library assets.
+    ✅ Configuration updated successfully!
+    📦 New dependencies have been added to package.json
+    🚀 Please run the following command to install dependencies:
+       npm install
+UPDATE package.json (1246 bytes)
+UPDATE src/styles.scss (171 bytes)
+UPDATE src/app/app.config.ts (493 bytes)
+UPDATE angular.json (3049 bytes)
+```
+
+- If your CLI is older or auto-append fails, use the manual assets configuration below.
+
+### Option 2: Install via package manager
+
+```bash
+npm install @zhongmiao/ngx-puzzle
+# peer deps
+# Angular 18+, RxJS 7.8+, ngx-tethys 18.x, echarts 6.x
+```
+
+#### Global styles and static assets
+
+Add global style imports in your app's src/styles.scss:
+
+```scss
+@import "@zhongmiao/ngx-puzzle/styles/index.scss";
+@import "ngx-tethys/styles/index.scss";
+```
+
+As a standalone-first library, ngx-puzzle provides a ready-made provider. Add provideHttpClient() and providePuzzleLib({ animations: 'browser' }) in src/app/app.config.ts:
+
+```ts
+import { providePuzzleLib } from '@zhongmiao/ngx-puzzle';
+import { provideHttpClient } from '@angular/common/http';
+import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { provideRouter } from '@angular/router';
+
+import { routes } from './app.routes';
+
+export const appConfig: ApplicationConfig = {
+  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes),  provideHttpClient(), providePuzzleLib({ animations: 'browser' })]
+};
+```
+
+Configure static assets in angular.json so library assets are served:
+
+```json
+{
+  "assets": [
+    {
+      "glob": "**/*",
+      "input": "./node_modules/@zhongmiao/ngx-puzzle/assets",
+      "output": "/assets"
+    }
+  ]
+}
+```
+
+If you consume @zhongmiao/ngx-puzzle in your own application and need these resources (icons or library assets), add a similar assets entry to your app project's assets list in angular.json.
+
 #### Dependencies added by ng add
-If you integrate via `ng add @zhongmiao/ngx-puzzle`, the schematic will add/ensure these deps:
+If you use `ng add @zhongmiao/ngx-puzzle`, the schematic will add the following dependencies to your package.json (or ensure they exist) with these versions:
 
 ```json
 {
   "@angular/cdk": "^18.2.14",
-  "@tethys/icons": "1.4.50",
   "@webdatarocks/webdatarocks": "1.4.19",
-  "@zhongmiao/ngx-puzzle": "^18.4.13",
-  "echarts": "6.0.0",
+  "echarts": "^6.0.0",
   "lodash": "4.17.21",
   "ngx-tethys": "^18.2.17"
 }
 ```
 
-Peer Angular v18+ is required. See package.json for exact peer versions used in this repo.
+## Compatibility
 
-## Quick Start
+- Angular: 18+
+- Angular cdk: 18+ (used for drag-and-drop)
+- ngx-tethys: 18.x (layout)
+- ECharts: 6.x (used by chart components)
+- @webdatarocks/webdatarocks (used by data table component)
 
-Below is a minimal example to render the full puzzle workspace (panel + canvas + editor). All components are standalone, so you can import them directly.
+See package.json for exact versions.
 
-```ts
-import { bootstrapApplication } from '@angular/platform-browser';
-import { Component } from '@angular/core';
-import { NgxPuzzleComponent } from '@zhongmiao/ngx-puzzle';
+## Quick Start (standalone)
 
-@Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [NgxPuzzleComponent],
-  template: `<ngx-puzzle style="display:block; height: 100vh;"></ngx-puzzle>`
-})
-class AppComponent {}
-
-import { providePuzzleLib } from '@zhongmiao/ngx-puzzle';
-
-bootstrapApplication(AppComponent, {
-  providers: [
-    // Animations are provided by default (BrowserAnimations). To disable, use { animations: 'noop' }.
-    providePuzzleLib({ animations: 'browser' })
-  ]
-});
-```
-
-Alternatively, you can use parts individually:
-
-- Panel: ngx-puzzle/components/panel/ngx-puzzle-panel.component
-- Canvas: ngx-puzzle/components/canvas/ngx-puzzle-canvas.component
-- Editor: ngx-puzzle/components/editor/ngx-puzzle-editor.component
-
-Example:
+Use the editor component directly in a standalone host component. Below is a minimal yet practical example adapted from the example app.
 
 ```ts
-import { Component } from '@angular/core';
-import { NgxPuzzlePanelComponent } from '@zhongmiao/ngx-puzzle/components/panel/ngx-puzzle-panel.component';
-import { NgxPuzzleCanvasComponent } from '@zhongmiao/ngx-puzzle/components/canvas/ngx-puzzle-canvas.component';
-import { NgxPuzzleEditorComponent } from '@zhongmiao/ngx-puzzle/components/editor/ngx-puzzle-editor.component';
+import { Component, inject, OnInit, OnDestroy } from '@angular/core';
+import { ThyContent, ThyLayout } from 'ngx-tethys/layout';
+import { NgxPuzzleEditorComponent } from 'ngx-puzzle';
+import {
+  NgxPuzzleControlChangeNotification,
+  NgxPuzzleDataBindingRequest,
+  NgxPuzzleDataBindingService,
+  NgxPuzzleExternalService
+} from 'ngx-puzzle/core';
+import { Subject, takeUntil } from 'rxjs';
+import { ThyDialog } from 'ngx-tethys/dialog';
+import { ExampleDataSourceDialogComponent } from './data-source-dialog.component';
 
 @Component({
-  selector: 'app-workbench',
+  selector: 'example-puzzle',
   standalone: true,
-  imports: [NgxPuzzlePanelComponent, NgxPuzzleCanvasComponent, NgxPuzzleEditorComponent],
   template: `
-    <div class="workbench">
-      <puzzle-panel />
-      <ngx-puzzle-canvas />
-      <ngx-puzzle-editor />
-    </div>
+    <thy-layout>
+      <thy-content>
+        <ngx-puzzle-editor></ngx-puzzle-editor>
+      </thy-content>
+    </thy-layout>
   `,
-  styles: [
-    `
-      .workbench {
-        display: grid;
-        grid-template-columns: 280px 1fr 360px;
-        height: 100vh;
-      }
-    `
-  ]
+  imports: [ThyLayout, ThyContent, NgxPuzzleEditorComponent]
 })
-export class WorkbenchComponent {}
+export class AppPuzzleComponent implements OnInit, OnDestroy {
+  private puzzleService = inject(NgxPuzzleExternalService);
+  private dataBindingService = inject(NgxPuzzleDataBindingService);
+  private destroy$ = new Subject<void>();
+  private dialog = inject(ThyDialog);
+
+  ngOnInit() {
+    this.dataBindingService.bindingRequest$.pipe(takeUntil(this.destroy$)).subscribe((request) => this.handleDataBindingRequest(request));
+
+    this.dataBindingService.controlChange$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((notification) => this.handleControlChange(notification));
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  private handleDataBindingRequest(request: NgxPuzzleDataBindingRequest) {
+    const initialData: any = {};
+    if (request.apiSource) {
+      initialData.type = request.apiSource.method as 'GET' | 'POST';
+      initialData.url = request.apiSource.url;
+      if (request.apiSource.method === 'POST' && request.apiSource.params) {
+        try {
+          initialData.body = JSON.stringify(request.apiSource.params, null, 2);
+        } catch {
+          initialData.body = '';
+        }
+      }
+    }
+
+    const ref = this.dialog.open(ExampleDataSourceDialogComponent, {
+      initialState: {
+        inputType: initialData.type,
+        inputUrl: initialData.url,
+        inputBody: initialData.body
+      }
+    });
+
+    ref
+      .afterClosed()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((result: any) => {
+        if (!result) return;
+        const apiSource = this.createApiSourceFromDialog(result);
+        const existed = this.dataBindingService.getComponentDataRequest(request.componentId) || { apiSources: [] };
+        const streams = existed.apiSources ? [...existed.apiSources] : [];
+        if (apiSource) streams[request.seriesIndex] = apiSource;
+
+        this.dataBindingService.responseBinding({
+          componentId: request.componentId,
+          dataRequest: { ...existed, apiSources: streams }
+        });
+      });
+  }
+
+  private handleControlChange(notification: NgxPuzzleControlChangeNotification) {
+    const newSources = [
+      { url: '/api/chart-data-1', method: 'POST', params: this.buildParamsFromFilters(notification.controlFilters) },
+      { url: '/api/chart-data-2', method: 'POST', params: this.buildParamsFromFilters(notification.controlFilters) }
+    ];
+
+    this.dataBindingService.responseBinding({
+      componentId: notification.componentId,
+      dataRequest: { apiSources: newSources }
+    });
+  }
+
+  private createApiSourceFromDialog(result: {
+    type: 'GET' | 'POST';
+    url: string;
+    body?: string;
+  }): { url: string; method: string; params?: Record<string, unknown> } | undefined {
+    if (result?.url && result.url.trim()) {
+      const url = result.url.trim();
+      if (result.type === 'POST') {
+        let payload: unknown;
+        try {
+          payload = result.body ? JSON.parse(result.body) : {};
+        } catch {
+          payload = {};
+        }
+        return { url, method: 'POST', params: payload as Record<string, unknown> };
+      }
+      return { url, method: 'GET' };
+    }
+    return undefined; // fallback to component mock
+  }
+
+  private buildParamsFromFilters(filters: unknown) {
+    return { filters };
+  }
+
+  save() {
+    this.puzzleService.getAllConfigs();
+  }
+  preview() {
+    this.puzzleService.generatePreviewId();
+  }
+}
 ```
 
-## Core Concepts
-
-- Component Panel: drag items (chart/table/text/control) into the canvas. The panel uses lists like CHART_SERIES_TYPE_OPTIONS, TABLE_TYPE_OPTIONS, etc.
-- Canvas: hosts dynamic components, tracks position/size, shows rulers, and mediates selection and snapping. See NgxPuzzleCanvasComponent.
-- Editor: edits selected component via tabs (Basic, Style, Data, Refresh). See NgxPuzzleEditorComponent.
-- Services: PuzzleCanvasMediatorService mediates add/select/update; ComponentRegistryService manages component instances.
-
-## Basic APIs
-
-The following are commonly used types and services exposed by the library (simplified):
-
-- Interfaces (ngx-puzzle/core/interfaces): ComponentConfig, Position, Size, ComponentBaseProps, RefreshConfig, etc.
-- Enums (ngx-puzzle/core/enums): ChartTypesEnum, TableTypesEnum, TextTypesEnum, ControlTypesEnum.
-- Services (ngx-puzzle/core): ComponentRegistryService, ComponentInjectorService, PuzzleCanvasMediatorService.
-- Utilities: generateUUID from ngx-puzzle/utils.
-
-Panel drag-end creates a ComponentConfig with id, type/subType, position and default INIT_SETTINGS_CONFIG. The mediator service addComponent(config) injects it into the canvas.
-
-## Styling
-
-- Import base styles in your app's global stylesheet (e.g., src/styles.scss):
-  
-  ```scss
-  @import "@zhongmiao/ngx-puzzle/styles/index.scss";
-  @import "ngx-tethys/styles/index.scss";
-  ```
-- The library ships SCSS for internal components. You can override styles by adding more specific selectors in your app.
-- Layout is CSS-based; ensure the host container provides an explicit height for the canvas area.
-
-## Accessibility
-
-- Keyboard navigation will depend on your application container. Provide focus outlines and skip links as needed.
-- Use semantic headings and ARIA where composing custom layouts.
-
-## Internationalization
-
-- The editor and panel labels can be localized by replacing text resources in your app (future enhancement). Current default is Chinese for some UI strings.
-
-## Development
-
-- Repo root provides scripts to build and publish the library. For local development:
-  - Run example docs site: `npm run start:docs` (see example/ and docs/)
-  - Build library: `npm run build` (equivalent to ng build puzzle + assets copy)
-  - Run tests: `npm test`
-
-## Animations and icons in consumer apps
-
-- Animations: ngx-puzzle uses animated components (e.g., collapse). Starting from this version, providePuzzleLib includes BrowserAnimations by default. If your app prefers NoopAnimations, call `providePuzzleLib({ animations: 'noop' })`.
-- Icons: The library expects Tethys icons under `/assets/icons`. Either copy them via your app's angular.json assets entries or configure custom paths when bootstrapping (see README earlier versions).
-
-## Build
-
-Run `ng build puzzle` to build the library. Artifacts will be in `dist/puzzle`.
-
-## Publish
-
-After building, publish from dist folder:
-
-```bash
-cd dist/puzzle
-npm publish
-```
-
-## Links
-
-- Root README: see /README.md and /README.zh-CN.md
-- Changelog: /CHANGELOG.md
-- Example and docs: /example and /docs
-
----
-
-# 简介（中文）
-
-@zhongmiao/ngx-puzzle 是一个用于构建拖拽式 BI 看板的 Angular 组件库，内置画布、组件面板与属性编辑器，支持图表（ECharts）、表格、文本与控件。
-
-## 特性
-
-- 拖拽放置组件到画布
-- 属性面板分为 基础/样式/数据/刷新 四个标签页
-- 画布标尺与辅助线
-- 全部为 Standalone 组件，基于 Signals 管理状态
-
-## 安装
-
-```bash
-npm i @zhongmiao/ngx-puzzle echarts ngx-tethys lodash 
-```
-
-## 快速开始
+### Data source dialog used above
 
 ```ts
-import { NgxPuzzleComponent } from '@zhongmiao/ngx-puzzle';
-// 模板：<ngx-puzzle style="display:block;height:100vh;"></ngx-puzzle>
+import { Component, inject, input, OnInit, signal } from '@angular/core';
+import { ThyDialog, ThyDialogBody, ThyDialogFooter, ThyDialogHeader } from 'ngx-tethys/dialog';
+import { ThySelect } from 'ngx-tethys/select';
+import { ThyOption } from 'ngx-tethys/shared';
+import { FormsModule } from '@angular/forms';
+import { ThyInputDirective } from 'ngx-tethys/input';
+import { ThyButton } from 'ngx-tethys/button';
+import { NgIf } from '@angular/common';
+
+@Component({
+  selector: 'example-data-source-dialog',
+  standalone: true,
+  imports: [ThyDialogHeader, ThyDialogBody, ThyDialogFooter, ThySelect, ThyOption, FormsModule, ThyInputDirective, ThyButton, NgIf],
+  template: `...` // see example app for full template
+})
+export class ExampleDataSourceDialogComponent implements OnInit {
+  private dialog = inject(ThyDialog);
+  inputType = input<'GET' | 'POST'>('GET');
+  inputUrl = input<string>('');
+  inputBody = input<string>('');
+  type = signal<'GET' | 'POST'>('GET');
+  url = signal<string>('');
+  body = signal<string>('');
+  ngOnInit() {
+    this.type.set(this.inputType() ?? 'GET');
+    this.url.set(this.inputUrl() ?? '');
+    this.body.set(this.inputBody() ?? '');
+  }
+  confirm() {
+    this.dialog.close({ type: this.type(), url: this.url(), body: this.body() });
+  }
+  close() {
+    this.dialog.close();
+  }
+}
 ```
 
-也可分别使用 Panel / Canvas / Editor 三个组件按需搭建工作台。
+## Architecture Overview
 
-## 构建与发布
+- Standalone components only (no NgModules). Use Angular signals for local state and computed() for derived state.
+- OnPush change detection for performance.
+- External data binding via NgxPuzzleDataBindingService:
+  - bindingRequest$: component requests data (includes componentId, seriesIndex, and optional apiSource)
+  - responseBinding(...): host responds with dataRequest containing apiSources array
+  - controlChange$: control components notify filter changes; host can update apiSources
+- NgxPuzzleExternalService: retrieve/save editor configs and generate preview id.
 
-- 构建：`ng build puzzle`
-- 发布：`cd dist/puzzle && npm publish`
+## Usage Notes and Best Practices
 
-如需更多使用示例，请参考仓库根目录的 README 与 example/ 目录。
+- Prefer signals over mutable state; use set/update, avoid mutate.
+- Keep templates simple; use Angular built-in control flow (@if/@for).
+- Use host bindings in the decorator's host field, not HostBinding/HostListener decorators.
+- Use NgOptimizedImage for static images.
+
+## Run the example
+
+```bash
+npm install
+npm start
+# open http://localhost:4200 and navigate to the example page
+```
+
+## Contributing
+
+See CONTRIBUTING.md (and CONTRIBUTING.zh-CN.md for Chinese).
+
+## Acknowledgements
+
+- ngx-tethys (UI components, dialogs, layout used in examples): https://github.com/atinc/ngx-tethys
+- Apache ECharts (chart rendering for built-in chart components): https://echarts.apache.org/ and https://github.com/apache/echarts
+- @webdatarocks/webdatarocks (pivoting, grouping, aggregation for the data table component): https://github.com/WebDataRocks/web-pivot-table
+
+## License
+
+MIT. See LICENSE.
+
+## Contributors
+
+- ark65 (liuwufangzhou@gmail.com, liuwufangzhou@qq.vip.com)

@@ -31,9 +31,38 @@
 ### 方式一：ng add（推荐）
 
 ```bash
-npx @angular/cli@18 new my-angular18-app
+ng new test-app --routing=true --style=scss
+# 或
+# npx @angular/cli@18 new my-angular18-app
 cd my-angular18-app
 ng add @zhongmiao/ngx-puzzle
+```
+#### 输出结果:
+```bash
+✔ Determining Package Manager
+  › Using package manager: npm
+✔ Loading package information from registry
+✔ Confirming installation
+✔ Installing package
+    Added @angular/cdk@^18.2.14 to dependencies
+    Added @webdatarocks/webdatarocks@1.4.19 to dependencies
+    Added echarts@^6.0.0 to dependencies
+    Added lodash@4.17.21 to dependencies
+    Added ngx-tethys@^18.2.17 to dependencies
+    Added asset mapping: ./node_modules/@zhongmiao/ngx-puzzle/assets -> /assets
+    Prepended style import to src/styles.scss: @import "@zhongmiao/ngx-puzzle/styles/index.scss";
+    Prepended style import to src/styles.scss: @import 'ngx-tethys/styles/index.scss';
+    Added import for provideHttpClient in src/app/app.config.ts
+    Added import for providePuzzleLib in src/app/app.config.ts
+    Updated assets configuration to include library assets.
+    ✅ Configuration updated successfully!
+    📦 New dependencies have been added to package.json
+    🚀 Please run the following command to install dependencies:
+       npm install
+UPDATE package.json (1246 bytes)
+UPDATE src/styles.scss (171 bytes)
+UPDATE src/app/app.config.ts (493 bytes)
+UPDATE angular.json (3049 bytes)
 ```
 
 - 若 CLI 版本较低或自动追加失败，请参考下述“手动配置静态资源”。
@@ -42,8 +71,48 @@ ng add @zhongmiao/ngx-puzzle
 
 ```bash
 npm install @zhongmiao/ngx-puzzle
-# 依赖环境：Angular 18+、RxJS 7.8+、ngx-tethys 18.x、echarts 6.x
+# 依赖环境：Angular 18+、Angular cdk 18+、ngx-tethys 18.x、echarts 6.x
 ```
+
+#### 全局样式与静态资源
+
+在应用的 src/styles.scss 中加入以下全局样式：
+
+```scss
+@import "@zhongmiao/ngx-puzzle/styles/index.scss";
+@import "ngx-tethys/styles/index.scss";
+```
+
+全程为独立组件, ngx-puzzle 提供了预制 provider, 在应用的 `src/app/app.config.ts` 中追加 `provideHttpClient()` 与 `providePuzzleLib({ animations: 'browser' })`
+
+```ts
+import { providePuzzleLib } from '@zhongmiao/ngx-puzzle';
+import { provideHttpClient } from '@angular/common/http';
+import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { provideRouter } from '@angular/router';
+
+import { routes } from './app.routes';
+
+export const appConfig: ApplicationConfig = {
+  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes),  provideHttpClient(), providePuzzleLib({ animations: 'browser' })]
+};
+
+```
+
+在 angular.json 中配置静态资源，确保图标与库资源可被访问：
+
+```json
+{
+  "assets": [
+    {
+      "glob": "**/*",
+      "input": "./node_modules/@zhongmiao/ngx-puzzle/assets",
+      "output": "/assets"
+    }
+  ]
+}
+```
+如果你在自己的应用中使用 @zhongmiao/ngx-puzzle，并且需要这些资源（图标或库资源），可在应用的 angular.json 中为对应项目添加类似的 assets 配置。
 
 #### ng add 将添加的依赖版本
 使用 `ng add @zhongmiao/ngx-puzzle` 时，原理图会向 package.json 添加（或确保存在）以下依赖及版本：
@@ -51,21 +120,20 @@ npm install @zhongmiao/ngx-puzzle
 ```json
 {
   "@angular/cdk": "^18.2.14",
-  "@tethys/icons": "1.4.50",
   "@webdatarocks/webdatarocks": "1.4.19",
-  "@zhongmiao/ngx-puzzle": "^18.4.13",
-  "echarts": "6.0.0",
+  "echarts": "^6.0.0",
   "lodash": "4.17.21",
-  "ngx-tethys": "^18.2.17"
+  "ngx-tethys": "^18.2.17",
 }
 ```
 
 ## 兼容性
 
 - Angular：18+
-- RxJS：7.8+
-- ngx-tethys：18.x（示例中用于对话框与布局）
+- Angular cdk 18+ (被拖拽使用)
+- ngx-tethys：18.x（布局使用）
 - ECharts：6.x（被图表组件使用）
+- @webdatarocks/webdatarocks (被数据表格组件使用)
 
 具体版本参见 package.json。
 
@@ -267,37 +335,6 @@ npm start
 # 打开 http://localhost:4200 查看示例
 ```
 
-## 全局样式与静态资源
-
-在应用的 src/styles.scss 中加入以下全局样式：
-
-```scss
-@import "@zhongmiao/ngx-puzzle/styles/index.scss";
-@import "ngx-tethys/styles/index.scss";
-```
-
-在 angular.json 中配置静态资源，确保图标与库资源可被访问：
-
-```json
-{
-  "assets": [
-    {
-      "glob": "**/*",
-      "input": "./node_modules/@zhongmiao/ngx-puzzle/assets",
-      "output": "/assets"
-    }
-  ]
-}
-```
-
-各项含义：
-- example/src/favicon.ico：示例应用的站点图标。
-- example/src/assets：示例页面用到的自有静态资源目录。
-- node_modules/@tethys/icons -> /assets/icons：暴露 Tethys 图标资源，供 UI 组件按需加载。
-- projects/puzzle/src/assets -> /assets：暴露库内置资源（如编辑器背景等）给示例应用使用。
-
-如果你在自己的应用中使用 @zhongmiao/ngx-puzzle，并且需要这些资源（图标或库资源），可在应用的 angular.json 中为对应项目添加类似的 assets 配置。
-
 ## 贡献
 
 请阅读 CONTRIBUTING.md（中文参见 CONTRIBUTING.zh-CN.md）。
@@ -306,6 +343,7 @@ npm start
 
 - ngx-tethys（示例中的 UI 组件、对话框与布局）：https://github.com/atinc/ngx-tethys
 - Apache ECharts（内置图表组件的渲染引擎）：https://echarts.apache.org/ 及 https://github.com/apache/echarts
+- @webdatarocks/webdatarocks (数据表格计算透视,分组,聚合): https://github.com/WebDataRocks/web-pivot-table
 
 ## 许可证
 
