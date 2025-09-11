@@ -1,3 +1,8 @@
+## 18.5.2 (2025-09-11)
+
+* feat: append provider when ng add in angular v18 + ([f930b9c](https://github.com/zhongmiao-org/ngx-puzzle/commit/f930b9c))
+
+
 ## 18.5.1 (2025-09-11)
 
 * feat: update libs & script ([813b883](https://github.com/zhongmiao-org/ngx-puzzle/commit/813b883))
