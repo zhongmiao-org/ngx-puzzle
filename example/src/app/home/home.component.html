@@ -1,0 +1,197 @@
+<div class="home-container">
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1 class="hero-title">NGX-PUZZLE</h1>
+      <p class="hero-subtitle">拖拽式仪表盘构建器</p>
+      <p class="hero-description">
+        基于 Angular 的可视化拖拽组件库，像拼图一样快速构建响应式数据仪表盘。
+        支持图表、表格、文本和控件的自由组合。
+      </p>
+      <div class="hero-actions">
+        <button class="btn btn-primary" routerLink="/components">开始体验</button>
+        <button class="btn btn-secondary" (click)="scrollToFeatures()">了解更多</button>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="puzzle-demo">
+        <div class="puzzle-piece chart-piece">📊</div>
+        <div class="puzzle-piece table-piece">📋</div>
+        <div class="puzzle-piece text-piece">📝</div>
+        <div class="puzzle-piece control-piece">🎛️</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features" #featuresSection>
+    <div class="container">
+      <h2 class="section-title">核心特性</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🎯</div>
+          <h3>拖拽编辑器</h3>
+          <p>直观的拖拽界面，支持网格吸附布局，轻松创建专业仪表盘</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🧩</div>
+          <h3>丰富组件</h3>
+          <p>内置图表、表格、文本、控件等多种组件，满足各种数据展示需求</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <h3>现代架构</h3>
+          <p>基于 Angular Standalone + Signals，OnPush 优化性能</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔗</div>
+          <h3>外部数据</h3>
+          <p>灵活的数据绑定契约，轻松连接真实 API 或模拟数据</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">👀</div>
+          <h3>预览保存</h3>
+          <p>通过外部服务钩子实现预览和保存功能</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📱</div>
+          <h3>响应式</h3>
+          <p>完全响应式设计，适配各种屏幕尺寸</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Components Preview Section -->
+  <section class="components-preview">
+    <div class="container">
+      <h2 class="section-title">组件预览</h2>
+      <div class="components-grid">
+        <div class="component-card" (click)="navigateToComponent('chart')">
+          <div class="component-icon">📊</div>
+          <h3>图表组件</h3>
+          <p>基于 ECharts，支持柱状图、折线图、饼图等多种图表类型</p>
+        </div>
+        <div class="component-card" (click)="navigateToComponent('table')">
+          <div class="component-icon">📋</div>
+          <h3>表格组件</h3>
+          <p>支持数据透视、分组聚合的高级表格组件</p>
+        </div>
+        <div class="component-card" (click)="navigateToComponent('text')">
+          <div class="component-icon">📝</div>
+          <h3>文本组件</h3>
+          <p>支持富文本编辑，标题、段落等多种文本样式</p>
+        </div>
+        <div class="component-card" (click)="navigateToComponent('control')">
+          <div class="component-icon">🎛️</div>
+          <h3>控件组件</h3>
+          <p>日期选择器、下拉框等交互控件，支持联动筛选</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tech Stack Section -->
+  <section class="tech-stack">
+    <div class="container">
+      <h2 class="section-title">技术栈</h2>
+      <div class="tech-grid">
+        <div class="tech-item">
+          <div class="tech-logo">🅰️</div>
+          <span>Angular 18+</span>
+        </div>
+        <div class="tech-item">
+          <div class="tech-logo">📊</div>
+          <span>ECharts 6.x</span>
+        </div>
+        <div class="tech-item">
+          <div class="tech-logo">🎨</div>
+          <span>ngx-tethys</span>
+        </div>
+        <div class="tech-item">
+          <div class="tech-logo">📱</div>
+          <span>Angular CDK</span>
+        </div>
+        <div class="tech-item">
+          <div class="tech-logo">📊</div>
+          <span>WebDataRocks</span>
+        </div>
+        <div class="tech-item">
+          <div class="tech-logo">⚡</div>
+          <span>Signals</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Getting Started Section -->
+  <section class="getting-started">
+    <div class="container">
+      <h2 class="section-title">快速开始</h2>
+      <div class="install-steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <h3>安装依赖</h3>
+            <div class="code-block">
+              <code>ng add &#64;zhongmiao/ngx-puzzle</code>
+            </div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <h3>导入组件</h3>
+            <div class="code-block">
+              <code>import &#123; NgxPuzzleEditorComponent &#125; from '&#64;zhongmiao/ngx-puzzle';</code>
+            </div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <h3>使用编辑器</h3>
+            <div class="code-block">
+              <code>&lt;ngx-puzzle-editor&gt;&lt;/ngx-puzzle-editor&gt;</code>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="cta">
+        <button class="btn btn-primary btn-large" routerLink="/components">立即体验</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h4>NGX-PUZZLE</h4>
+          <p>Angular 拖拽式仪表盘构建器</p>
+        </div>
+        <div class="footer-section">
+          <h4>链接</h4>
+          <ul>
+            <li><a href="https://github.com/zhongmiao-org/ngx-puzzle" target="_blank">GitHub</a></li>
+            <li><a href="https://www.npmjs.com/package/@zhongmiao/ngx-puzzle" target="_blank">NPM</a></li>
+            <li><a href="https://github.com/zhongmiao-org/ngx-puzzle-example" target="_blank">示例仓库</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>文档</h4>
+          <ul>
+            <li><a routerLink="/components">组件演示</a></li>
+            <li><a href="https://github.com/zhongmiao-org/ngx-puzzle/blob/main/README.md" target="_blank">API 文档</a></li>
+            <li><a href="https://github.com/zhongmiao-org/ngx-puzzle/blob/main/CONTRIBUTING.md" target="_blank">贡献指南</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 NGX-PUZZLE. MIT License.</p>
+        <p><a href="https://beian.miit.gov.cn/" target="_blank">鲁ICP备2025184990号</a></p>
+      </div>
+    </div>
+  </footer>
+</div>

@@ -14,11 +14,11 @@ import { ExampleDataSourceDialogComponent } from './data-source-dialog.component
 @Component({
   selector: 'example-puzzle',
   standalone: true,
-  templateUrl: './puzzle.component.html',
+  templateUrl: './basic-puzzle.component.html',
   imports: [ThyLayout, ThyContent, NgxPuzzleEditorComponent, ThyDialogModule],
-  styleUrl: './puzzle.component.scss'
+  styleUrl: './basic-puzzle.component.scss'
 })
-export class AppPuzzleComponent implements OnInit, OnDestroy {
+export class BasicPuzzleComponent implements OnInit, OnDestroy {
   private puzzleService = inject(NgxPuzzleExternalService);
   private dataBindingService = inject(NgxPuzzleDataBindingService);
   private destroy$ = new Subject<void>();
