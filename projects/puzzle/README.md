@@ -151,7 +151,7 @@ import {
   NgxPuzzleDataBindingRequest,
   NgxPuzzleDataBindingService,
   NgxPuzzleExternalService
-} from 'ngx-puzzle/core';
+} from '@zhongmiao/ngx-puzzle';
 import { Subject, takeUntil } from 'rxjs';
 import { ThyDialog } from 'ngx-tethys/dialog';
 import { ExampleDataSourceDialogComponent } from './data-source-dialog.component';
