@@ -115,21 +115,21 @@ prepare_deployment() {
     mkdir -p "$DEPLOY_DIR"
 
     # 复制必要文件
-    cp -r "$LOCAL_DIST" "$DEPLOY_DIR/"
-    cp docker-compose.yaml "$DEPLOY_DIR/"
-    cp nginx.conf "$DEPLOY_DIR/"
-    cp Dockerfile "$DEPLOY_DIR/"
-    cp .dockerignore "$DEPLOY_DIR/"
-
-    # 复制 SSL 证书
-    if [ -d "zhongmiaoorg.cn_nginx" ]; then
-        mkdir -p "$DEPLOY_DIR/ssl"
-        cp zhongmiaoorg.cn_nginx/zhongmiaoorg.cn_bundle.crt "$DEPLOY_DIR/ssl/"
-        cp zhongmiaoorg.cn_nginx/zhongmiaoorg.cn.key "$DEPLOY_DIR/ssl/"
-        log_info "SSL 证书已复制"
-    else
-        log_warning "未找到 SSL 证书目录，将使用 HTTP"
-    fi
+#    cp -r "$LOCAL_DIST" "$DEPLOY_DIR/"
+#    cp docker-compose.yaml "$DEPLOY_DIR/"
+#    cp nginx.conf "$DEPLOY_DIR/"
+#    cp Dockerfile "$DEPLOY_DIR/"
+#    cp .dockerignore "$DEPLOY_DIR/"
+#
+#    # 复制 SSL 证书
+#    if [ -d "zhongmiaoorg.cn_nginx" ]; then
+#        mkdir -p "$DEPLOY_DIR/ssl"
+#        cp zhongmiaoorg.cn_nginx/zhongmiaoorg.cn_bundle.crt "$DEPLOY_DIR/ssl/"
+#        cp zhongmiaoorg.cn_nginx/zhongmiaoorg.cn.key "$DEPLOY_DIR/ssl/"
+#        log_info "SSL 证书已复制"
+#    else
+#        log_warning "未找到 SSL 证书目录，将使用 HTTP"
+#    fi
 
     # 更新 nginx 配置中的域名
     sed -i.bak "s/puzzle\.zhongmiaoorg\.cn/${DOMAIN}/g" "$DEPLOY_DIR/nginx.conf"
