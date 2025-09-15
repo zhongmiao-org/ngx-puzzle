@@ -1,11 +1,10 @@
 <div class="control-editor">
   <puzzle-form-renderer
     [sections]="sections"
-    [formData]="formData"
+    [formData]="formData()"
     (fieldChange)="onFieldChange($event)"
     (dateChange)="onDateChange($event)"
     (optionAdd)="onOptionAdd($event)"
     (optionRemove)="onOptionRemove($event)"
-
   />
 </div>

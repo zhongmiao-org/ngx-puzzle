@@ -18,7 +18,7 @@
     "experimentalDecorators": true,
     "moduleResolution": "bundler",
     "paths": {
-      "@zhongmiao/ngx-puzzle": ["dist/puzzle"],
+      "@zhongmiao/ngx-puzzle": ["projects/puzzle/src/public-api"],
     },
     "importHelpers": true,
     "target": "ES2022",

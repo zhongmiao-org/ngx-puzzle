@@ -5,7 +5,7 @@ import { ThyCardModule } from 'ngx-tethys/card';
 import { ThyButtonModule } from 'ngx-tethys/button';
 import { FormsModule } from '@angular/forms';
 import { EditorBaseComponent } from '../base/editor-base.component';
-import { PuzzleFormRendererComponent } from '../../../primitives/puzzle-form-renderer/puzzle-form-renderer.component';
+import { PuzzleFormRendererComponent } from '../../../primitives';
 
 @Component({
   selector: 'ngx-puzzle-chart-editor',
@@ -51,9 +51,8 @@ export class NgxPuzzleChartEditorComponent extends EditorBaseComponent<SafeAny, 
   }
 
   addArrayItem(key: string, schema: any[]) {
-    if (!this.formData[key]) {
-      this.formData[key] = [];
-    }
+    const currentData = this.formData();
+    const fieldArray = currentData[key] || [];
 
     const defaultType = schema[0]?.options?.[0].val as string;
     const item: any = {};
@@ -62,8 +61,8 @@ export class NgxPuzzleChartEditorComponent extends EditorBaseComponent<SafeAny, 
     }
     item['type'] = defaultType;
 
-    this.formData[key].push(item);
-    this.onFormFieldChange(key, this.formData[key]);
+    fieldArray.push(item);
+    this.onFormFieldChange(key, fieldArray);
   }
 
   // removeArrayItem(key: string, index: number) {

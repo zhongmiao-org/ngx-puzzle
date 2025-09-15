@@ -1,4 +1,4 @@
-import { Component, effect, input, output, model, OnDestroy, inject } from '@angular/core';
+import { Component, effect, input, output, model, OnDestroy, inject, signal } from '@angular/core';
 import { Subject } from 'rxjs';
 import {
   DataRequestConfig,
@@ -45,9 +45,7 @@ export abstract class EditorBaseComponent<
   public sections: TSection[] = [];
 
   // 通用公共属性
-  public formData: Record<string, SafeAny> = {};
-  public visible: boolean = false;
-  public bufferIndex: number = 0;
+  public formData = signal<Record<string, SafeAny>>({});
 
   // 生命周期管理
   protected destroy$ = new Subject<void>();
@@ -72,7 +70,7 @@ export abstract class EditorBaseComponent<
       this.updateFormData(opts);
 
       this.afterConfigUpdate(opts, this.requestOptions());
-    });
+    }, { allowSignalWrites: true });
   }
 
   /**
@@ -93,7 +91,8 @@ export abstract class EditorBaseComponent<
     const newFormData = convertOptionsToFormData(config, this.sections);
     console.log(`updateFormData`, newFormData);
     if (!isEqual(this.formData, newFormData)) {
-      this.formData = newFormData;
+      this.formData.set(newFormData);
+      console.log(`updateFormData`, this.formData);
     }
   }
 
@@ -108,9 +107,9 @@ export abstract class EditorBaseComponent<
    * 表单字段变更处理 - 子类可重写
    */
   onFormFieldChange(key: string, value: SafeAny, parentKey?: string, index?: number): void {
-    this.formData = updateFormData(this.formData, key, value, parentKey, index);
-    console.log(`onFormFieldChange`, this.formData);
-    const updated = convertFormDataToOptions(this.formData, structuredClone(this.options()), this.sections)!;
+    this.formData.set(updateFormData(this.formData, key, value, parentKey, index));
+    console.log(`onFormFieldChange`, this.formData());
+    const updated = convertFormDataToOptions(this.formData(), structuredClone(this.options()), this.sections)!;
     this.onChange.emit(updated);
   }
 
@@ -118,8 +117,8 @@ export abstract class EditorBaseComponent<
    * 删除数组项 - 支持数据绑定同步
    */
   protected removeArrayItem(key: string, index: number): void {
-    this.formData[key].splice(index, 1);
-    this.options.set(convertFormDataToOptions(this.formData, this.options(), this.sections));
+    this.formData.set(this.formData()[key].splice(index, 1));
+    this.options.set(convertFormDataToOptions(this.formData(), this.options(), this.sections));
     console.log(`removeArrayItem`, this.options());
     this.onChange.emit(this.options()!);
 

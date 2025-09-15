@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnDestroy } from '@angular/core';
 import {
   ComponentBaseProps,
   ComponentConfig,
@@ -28,6 +28,7 @@ export abstract class NgxPuzzleCanvasBaseComponent<TConfigProps extends Componen
 
   protected controlsService = inject(ControlsService);
   protected dataBindingService = inject(NgxPuzzleDataBindingService);
+  protected cdr = inject(ChangeDetectorRef);
 
   protected abstract get dataKey(): mainTypes;
 
@@ -62,8 +63,9 @@ export abstract class NgxPuzzleCanvasBaseComponent<TConfigProps extends Componen
 
   updateProps(props: TConfigProps): void {
     if (this.destroy$.closed) return;
-
+    console.log(props.styles)
     this._config.props = props;
+    this.cdr.markForCheck();
     this.afterUpdateConfig();
   }
 
