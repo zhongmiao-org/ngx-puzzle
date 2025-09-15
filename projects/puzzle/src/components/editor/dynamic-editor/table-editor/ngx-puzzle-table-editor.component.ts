@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { EditorBaseComponent } from '../base/editor-base.component';
-import { EditorTableField,TableTypesEnum,TABLE_FIELDS_MAP,SafeAny,convertFormDataToOptions } from '../../../../core';
+import { EditorTableField, TableTypesEnum, TABLE_FIELDS_MAP, SafeAny, convertFormDataToOptions } from '../../../../core';
 import { Report } from '@webdatarocks/webdatarocks';
-import { PuzzleFormRendererComponent } from '../../../primitives/puzzle-form-renderer/puzzle-form-renderer.component';
+import { PuzzleFormRendererComponent } from '../../../primitives';
 
 @Component({
   selector: 'ngx-puzzle-table-editor, puzzle-table-editor',
@@ -29,8 +29,8 @@ export class NgxPuzzleTableEditorComponent extends EditorBaseComponent<Report, T
    * 添加数组项
    */
   addArrayItem(fieldKey: string, fieldChildren: any[]): void {
-    if (!this.formData[fieldKey]) {
-      this.formData[fieldKey] = [];
+    if (!this.formData()[fieldKey]) {
+      this.formData.set({ ...this.formData(), [fieldKey]: null });
     }
 
     // 创建新项的默认值
@@ -45,7 +45,7 @@ export class NgxPuzzleTableEditorComponent extends EditorBaseComponent<Report, T
       }
     }
 
-    this.formData[fieldKey].push(newItem);
+    this.formData.set(this.formData()[fieldKey].push(newItem));
     const updated = convertFormDataToOptions(this.formData, structuredClone(this.options()), this.sections)!;
     this.onChange.emit(updated);
   }

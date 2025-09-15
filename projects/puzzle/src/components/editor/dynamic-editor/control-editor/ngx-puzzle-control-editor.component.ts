@@ -9,10 +9,8 @@ import { ThyGridModule } from 'ngx-tethys/grid';
 import { ThyLayoutModule } from 'ngx-tethys/layout';
 
 import { EditorBaseComponent } from '../base/editor-base.component';
-import { CONTROL_COMPONENT_FIELDS,ControlConfig,ControlTypesEnum,SafeAny,convertDateToString } from '../../../../core';
-import {
-  PuzzleFormRendererComponent
-} from '../../../primitives/puzzle-form-renderer/puzzle-form-renderer.component';
+import { CONTROL_COMPONENT_FIELDS, ControlConfig, ControlTypesEnum, SafeAny, convertDateToString } from '../../../../core';
+import { PuzzleFormRendererComponent } from '../../../primitives';
 
 @Component({
   selector: 'ngx-puzzle-control-editor, puzzle-control-editor',
@@ -85,18 +83,22 @@ export class NgxPuzzleControlEditorComponent extends EditorBaseComponent<Control
   }
 
   addOption(fieldKey: string) {
-    this.formData[fieldKey] = this.formData[fieldKey] || [];
-    this.formData[fieldKey].push({ label: '', value: '' });
-    this.onFormFieldChange(fieldKey, structuredClone(this.formData[fieldKey]));
+    const currentData = this.formData();
+    const fieldArray = currentData[fieldKey] || [];
+    fieldArray.push({ label: '', value: '' });
+    this.onFormFieldChange(fieldKey, structuredClone(fieldArray));
   }
 
   removeOption(fieldKey: string, index: number) {
-    this.formData[fieldKey].splice(index, 1);
-    this.onFormFieldChange(fieldKey, this.formData[fieldKey]);
+    const currentData = this.formData();
+    const fieldArray = [...(currentData[fieldKey] || [])];
+    fieldArray.splice(index, 1);
+    this.onFormFieldChange(fieldKey, fieldArray);
   }
 
   tableEditComplete(fieldKey: string) {
-    const newValue = structuredClone(this.formData[fieldKey]);
+    const currentData = this.formData();
+    const newValue = structuredClone(currentData[fieldKey]);
     this.onFormFieldChange(fieldKey, newValue);
   }
 }

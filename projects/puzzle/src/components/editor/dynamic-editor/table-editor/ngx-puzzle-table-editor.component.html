@@ -2,7 +2,7 @@
 <div class="table-editor">
   <puzzle-form-renderer
     [sections]="sections"
-    [formData]="formData"
+    [formData]="formData()"
     (fieldChange)="onFieldChange($event)"
     (arrayItemAdd)="onArrayItemAdd($event)"
     (arrayItemRemove)="onArrayItemRemove($event)"
