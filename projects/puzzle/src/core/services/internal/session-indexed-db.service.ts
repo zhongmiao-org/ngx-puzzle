@@ -77,7 +77,7 @@ export class SessionIndexedDbService {
   // 获取数据（自动过滤过期数据）
   public async getItem(key: string): Promise<any> {
     if (!this.db) await this.initDatabase();
-
+    console.log(`getItem: ${key}`);
     const transaction = this.db!.transaction('sessionData', 'readonly');
     const store = transaction.objectStore('sessionData');
     const request = store.get(key);

@@ -10,6 +10,7 @@ import {
 import { Subject, takeUntil } from 'rxjs';
 import { ThyDialog, ThyDialogModule } from 'ngx-tethys/dialog';
 import { ExampleDataSourceDialogComponent } from './data-source-dialog.component';
+import { ExamplePreviewDialogComponent } from './preview-dialog.component';
 
 @Component({
   selector: 'example-puzzle',
@@ -182,8 +183,16 @@ export class BasicPuzzleComponent implements OnInit, OnDestroy {
     console.log('保存所有配置:', configs);
   }
 
-  preview() {
-    const previewId = this.puzzleService.generatePreviewId();
-    console.log('生成预览ID:', previewId);
+
+  async openPreviewDialog() {
+    const previewId = await this.puzzleService.generatePreviewId();
+
+    this.dialog.open(ExamplePreviewDialogComponent, {
+      height: '90%',
+      width: '90%',
+      initialState: {
+        previewId: previewId
+      }
+    });
   }
 }
