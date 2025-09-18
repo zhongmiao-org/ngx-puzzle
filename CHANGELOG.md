@@ -1,3 +1,14 @@
+## 18.5.5 (2025-09-18)
+
+* feat(ci): remove console when build ([ff0667d](https://github.com/zhongmiao-org/ngx-puzzle/commit/ff0667d))
+* feat(preview): add preview example (#115) ([25e50fc](https://github.com/zhongmiao-org/ngx-puzzle/commit/25e50fc))
+* feat(components): control editor rendering ([dbc7098](https://github.com/zhongmiao-org/ngx-puzzle/commit/dbc7098))
+* feat: remove default table ([a3de1ac](https://github.com/zhongmiao-org/ngx-puzzle/commit/a3de1ac))
+* ci: add deploy script & docker ([d15c3be](https://github.com/zhongmiao-org/ngx-puzzle/commit/d15c3be))
+* docs: update docs ([a8cc08c](https://github.com/zhongmiao-org/ngx-puzzle/commit/a8cc08c))
+* docs: update home ([c7437a1](https://github.com/zhongmiao-org/ngx-puzzle/commit/c7437a1))
+
+
 ## 18.5.4 (2025-09-11)
 
 * docs: update docs ([a78cfd4](https://github.com/zhongmiao-org/ngx-puzzle/commit/a78cfd4))
