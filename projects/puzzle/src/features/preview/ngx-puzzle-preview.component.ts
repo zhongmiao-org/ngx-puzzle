@@ -84,6 +84,8 @@ export class NgxPuzzlePreviewComponent implements AfterViewInit, OnDestroy {
   private componentsLoaded = false;
   private containerRefReady = false; // 标记容器是否已准备好
   private fullscreenActive = false;
+  private originalContainerRef: ViewContainerRef | null = null; // 保存原始容器引用
+  private previewComponentRefs = new Map<string, any>(); // 追踪预览组件引用
 
   constructor(
     private zoom: ZoomScaleService,
@@ -137,14 +139,35 @@ export class NgxPuzzlePreviewComponent implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    // 设置容器引用
+    // 保存原始容器引用
+    this.originalContainerRef = (this.injector as any).containerRef;
+
+    // 设置预览容器引用
     this.injector.setContainerRef(this.canvasContent);
     this.containerRefReady = true;
   }
 
   ngOnDestroy() {
-    // 组件销毁时的清理工作
-    this.injector.clearAll();
+    // 清理预览组件但不影响主编辑器
+    this.clearPreviewComponents();
+
+    // 恢复原始容器引用
+    if (this.originalContainerRef) {
+      this.injector.setContainerRef(this.originalContainerRef);
+    }
+  }
+
+  /**
+   * 清理预览组件而不影响主编辑器
+   */
+  private clearPreviewComponents(): void {
+    // 清空预览容器内容
+    if (this.canvasContent) {
+      this.canvasContent.clear();
+    }
+
+    // 清理预览组件引用
+    this.previewComponentRefs.clear();
   }
 
   @HostListener('document:fullscreenchange')
@@ -174,7 +197,7 @@ export class NgxPuzzlePreviewComponent implements AfterViewInit, OnDestroy {
   private async loadConfigsFromSession(previewId: string) {
     try {
       const response = await this.sessionService.getItem(previewId);
-
+      console.log(`loadConfigsFromSession`, response)
       if (response && response.length > 0) {
         this.allConfigs.set(response);
       } else {
@@ -284,12 +307,18 @@ export class NgxPuzzlePreviewComponent implements AfterViewInit, OnDestroy {
       return;
     }
 
-    // 获取浏览器可视区域尺寸并计算缩放比例
-    const windowWidth = window.innerWidth;
-    const availableWidth = windowWidth - 20; // 预留20px用于滚动条和边距
+    // 获取父容器尺寸并计算缩放比例
+    const parentElement = this.ele.nativeElement.parentElement;
+    if (!parentElement) {
+      return;
+    }
+
+    const parentWidth = parentElement.clientWidth;
+    const availableWidth = parentWidth - 20; // 预留20px用于滚动条和边距
+
     const scaleX = availableWidth / this.canvasWidth;
 
-    // 缩放比例不超过1（即不放大）
+    // 缩放比例不超过1（即不放大），取较小的缩放比例以确保内容完全适应容器
     this.scaleRatio = Math.min(scaleX, 1);
     this.zoom.setScale(this.scaleRatio);
 
