@@ -73,7 +73,9 @@
   "dependencies": {
     "tslib": "^2.3.0"
   },
-  "sideEffects": false,
+  "sideEffects": [
+    "./src/console-override.ts"
+  ],
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
