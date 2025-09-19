@@ -60,11 +60,20 @@
         [(ngModel)]="controlValue"
         [thyPlaceHolder]="control.props['placeholder']"
         [thyDisabled]="control.props['disabled']"
+        [thyMaxTagCount]="control.props['thyMaxTagCount'] || 1"
+        [thyAllowClear]="control.props['thyAllowClear']"
+        [thyBorderless]="control.props['thyBorderless']"
+        [thySize]="control.props['thySize']"
+        [thyServerSearch]="control.props['thyServerSearch']"
         [thyMode]="'multiple'"
         (ngModelChange)="controlValueChange()"
       >
         @for (opt of control.props['options']; track opt) {
-          <thy-option [thyValue]="opt[control.props['optionValue']]" [thyLabelText]="opt[control.props['optionLabel']]"></thy-option>
+          <thy-option
+            [thyValue]="opt[control.props['optionValue']]"
+            [thyLabelText]="opt[control.props['optionLabel']]"
+            [thyDisabled]="opt[control.props['optionDisabled']]"
+          ></thy-option>
         }
       </thy-select>
     }

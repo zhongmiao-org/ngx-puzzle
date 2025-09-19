@@ -26,6 +26,32 @@
     .control-input-container {
       flex: 1;
       min-width: 0;
+
+      // 多选控件样式 - 防止标签换行
+      ::ng-deep thy-select[ng-reflect-thy-mode="multiple"] {
+        .select-control-rendered {
+          max-height: 20px;
+          overflow: hidden;
+
+          div[thyflex] {
+            gap: 0 !important;
+            flex-wrap: nowrap !important;
+
+            div[thyflexitem] {
+              flex-shrink: 0 !important;
+
+              &.thy-tag.choice-item {
+                white-space: nowrap !important;
+              }
+
+              &.select-control-search {
+                min-width: 40px !important;
+                flex-shrink: 1 !important;
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
