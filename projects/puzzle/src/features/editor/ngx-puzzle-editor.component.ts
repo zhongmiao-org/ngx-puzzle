@@ -19,7 +19,7 @@ import { NgxPuzzlePanelComponent,NgxPuzzlePropsEditorComponent,NgxPuzzleCanvasCo
   standalone: true,
 })
 export class NgxPuzzleEditorComponent {
-  @HostBinding() className = 'ngx-puzzle-component';
+  @HostBinding() className = 'ngx-puzzle-editor-component';
 
   protected readonly MIN_WIDTH = 100;
   protected readonly MIN_HEIGHT = 100;

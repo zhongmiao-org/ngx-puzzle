@@ -120,9 +120,22 @@
       background-color: #f8f9fa;
       border-radius: 4px;
       border: 1px solid #dee2e6;
+      gap: 8px;
 
       input {
         flex: 1;
+        min-width: 0;
+      }
+
+      thy-button {
+        flex-shrink: 0;
+        min-width: 28px;
+        width: 28px;
+        height: 28px;
+
+        ::ng-deep thy-icon {
+          vertical-align: middle;
+        }
       }
     }
   }
