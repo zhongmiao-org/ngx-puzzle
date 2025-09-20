@@ -6,7 +6,7 @@ $offset-panel: 127px;
   .ngx-puzzle-wrapper {
     display: flex;
     width: 100%;
-    height: calc(100vh - $header-height);
+    height: 100%;
     .drawer {
       width: 350px;
       transition: width 0.3s ease;
