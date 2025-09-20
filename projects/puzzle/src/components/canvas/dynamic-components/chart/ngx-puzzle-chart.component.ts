@@ -17,7 +17,7 @@ import { takeUntil } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { NgxPuzzleDragWrapperComponent } from '../drag-wrapper/ngx-puzzle-drag-wrapper.component';
 import { NgxPuzzleCanvasBaseComponent } from '../base/ngx-puzzle-canvas-base.component';
-import { PuzzleChartsComponent } from '../../../primitives/puzzle-charts/puzzle-charts.component';
+import { PuzzleChartsComponent } from '../../../primitives';
 
 @Component({
   selector: 'puzzle-chart',
