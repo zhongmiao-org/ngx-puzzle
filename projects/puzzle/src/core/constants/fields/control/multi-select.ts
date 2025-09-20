@@ -1,6 +1,6 @@
-// MultiSelect 组件属性配置
+// MultiSelect 组件属性配置 - 基于 ngx-tethys thy-select multiple mode
 import { EditorBaseField } from '../../../interfaces';
-import { ENABLE_OPTIONS } from '../../select-options.const';
+import { CONTROL_SIZE_OPTIONS, ENABLE_OPTIONS } from '../../select-options.const';
 
 export const CONTROL_MULTISELECT_FIELDS: EditorBaseField = {
   label: '控件属性',
@@ -13,51 +13,8 @@ export const CONTROL_MULTISELECT_FIELDS: EditorBaseField = {
       key: 'placeholder',
       path: 'props.placeholder',
       schemaType: 'text',
-      defaultValue: '请选择'
-    },
-    {
-      label: '显示清除按钮',
-      key: 'showClear',
-      path: 'props.showClear',
-      schemaType: 'select',
-      defaultValue: false,
-      options: ENABLE_OPTIONS
-    },
-    {
-      label: '可过滤',
-      key: 'filter',
-      path: 'props.filter',
-      schemaType: 'select',
-      defaultValue: false,
-      options: ENABLE_OPTIONS
-    },
-    {
-      label: '过滤占位符',
-      key: 'filterPlaceholder',
-      path: 'props.filterPlaceholder',
-      schemaType: 'text',
-      defaultValue: '搜索选项'
-    },
-    {
-      label: '显示方式',
-      key: 'display',
-      path: 'props.display',
-      schemaType: 'select',
-      defaultValue: 'comma',
-      options: [
-        { label: '逗号分隔', val: 'comma' },
-        { label: '标签显示', val: 'chip' }
-      ]
-    },
-    {
-      label: '最大显示标签数',
-      key: 'maxSelectedLabels',
-      path: 'props.maxSelectedLabels',
-      schemaType: 'number',
-      min: 1,
-      max: 10,
-      step: 1,
-      defaultValue: 3
+      defaultValue: '请选择',
+      description: '未选择时显示的提示文字'
     },
     {
       label: '禁用状态',
@@ -65,36 +22,63 @@ export const CONTROL_MULTISELECT_FIELDS: EditorBaseField = {
       path: 'props.disabled',
       schemaType: 'select',
       defaultValue: false,
-      options: ENABLE_OPTIONS
+      options: ENABLE_OPTIONS,
+      description: '是否禁用多选控件'
     },
     {
-      label: '选项标签字段',
-      key: 'optionLabel',
-      path: 'props.optionLabel',
-      schemaType: 'text',
-      defaultValue: 'label'
+      label: '最大标签显示数量',
+      key: 'thyMaxTagCount',
+      path: 'props.thyMaxTagCount',
+      schemaType: 'number',
+      min: 0,
+      max: 20,
+      step: 1,
+      defaultValue: 1,
+      description: '最多显示的标签数量，0表示不限制'
     },
     {
-      label: '选项值字段',
-      key: 'optionValue',
-      path: 'props.optionValue',
-      schemaType: 'text',
-      defaultValue: 'value'
-    },
-    {
-      label: '关闭图标',
-      key: 'showToggleAll',
-      path: 'props.showToggleAll',
+      label: '允许清空',
+      key: 'thyAllowClear',
+      path: 'props.thyAllowClear',
       schemaType: 'select',
       defaultValue: true,
-      options: ENABLE_OPTIONS
+      options: ENABLE_OPTIONS,
+      description: '是否显示清空按钮'
     },
     {
-      label: '选项',
-      key: 'propsOptions',
-      path: 'props.options',
-      schemaType: 'options-editor',
-      defaultValue: []
+      label: '无边框模式',
+      key: 'thyBorderless',
+      path: 'props.thyBorderless',
+      schemaType: 'select',
+      defaultValue: false,
+      options: ENABLE_OPTIONS,
+      description: '是否为无边框样式'
+    },
+    {
+      label: '尺寸',
+      key: 'thySize',
+      path: 'props.thySize',
+      schemaType: 'select',
+      defaultValue: 'default',
+      options: CONTROL_SIZE_OPTIONS,
+      description: '控件尺寸'
+    },
+    {
+      label: '服务端搜索',
+      key: 'thyServerSearch',
+      path: 'props.thyServerSearch',
+      schemaType: 'select',
+      defaultValue: false,
+      options: ENABLE_OPTIONS,
+      description: '是否为服务端搜索模式'
+    },
+    {
+      label: '选项分组字段',
+      key: 'optionGroupBy',
+      path: 'props.optionGroupBy',
+      schemaType: 'text',
+      defaultValue: 'group',
+      description: '选项分组的字段名'
     }
   ]
 };
