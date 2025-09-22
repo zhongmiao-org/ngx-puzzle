@@ -45,8 +45,15 @@ export class NgxPuzzleTableEditorComponent extends EditorBaseComponent<Report, T
       }
     }
 
-    this.formData.set(this.formData()[fieldKey].push(newItem));
-    const updated = convertFormDataToOptions(this.formData, structuredClone(this.options()), this.sections)!;
+    console.log(`newItem`, newItem)
+
+    this.formData.update(form => ({
+      ...form,
+      [fieldKey]: [...form[fieldKey], newItem]
+    }));
+    console.log(this.formData())
+    const updated = convertFormDataToOptions(this.formData(), structuredClone(this.options()), this.sections)!;
+    console.log(structuredClone(this.options()), updated);
     this.onChange.emit(updated);
   }
 

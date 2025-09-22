@@ -90,9 +90,9 @@ export abstract class EditorBaseComponent<
     // 先转换新的 formData
     const newFormData = convertOptionsToFormData(config, this.sections);
     console.log(`updateFormData`, newFormData);
-    if (!isEqual(this.formData, newFormData)) {
+    if (!isEqual(this.formData(), newFormData)) {
       this.formData.set(newFormData);
-      console.log(`updateFormData`, this.formData);
+      console.log(`updateFormData`, this.formData());
     }
   }
 
@@ -107,7 +107,7 @@ export abstract class EditorBaseComponent<
    * 表单字段变更处理 - 子类可重写
    */
   onFormFieldChange(key: string, value: SafeAny, parentKey?: string, index?: number): void {
-    this.formData.set(updateFormData(this.formData, key, value, parentKey, index));
+    this.formData.set(updateFormData(this.formData(), key, value, parentKey, index));
     console.log(`onFormFieldChange`, this.formData());
     const updated = convertFormDataToOptions(this.formData(), structuredClone(this.options()), this.sections)!;
     this.onChange.emit(updated);

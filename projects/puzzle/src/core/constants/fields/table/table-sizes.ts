@@ -15,7 +15,7 @@ export const TABLE_SIZES: EditorTableField = {
         // 列宽配置
         {
           label: '列宽设置',
-          key: 'columns',
+          key: 'tableSizesColumns',
           path: 'columns',
           schemaType: 'array',
           description: '为特定列设置自定义宽度',
@@ -188,7 +188,7 @@ export const TABLE_SIZES: EditorTableField = {
         // 行高配置
         {
           label: '行高设置',
-          key: 'rows',
+          key: 'tableSizesRows',
           path: 'rows',
           schemaType: 'array',
           description: '为特定行设置自定义高度',
