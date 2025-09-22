@@ -10,6 +10,8 @@
 
 👉 示例仓库（Demo）：https://github.com/zhongmiao-org/ngx-puzzle-example
 
+🚀 **在线体验**: https://www.zhongmiaoorg.cn/
+
 ![拖拽](./docs/images/doc1.gif)
 
 用于 Angular 的拖拽式看板构建器。像拼图一样在画布上自由组合图表、表格、文本和控件，快速搭建响应式数据大屏。采用 Angular 独立组件（standalone）与 signals 架构。
@@ -31,7 +33,7 @@
 ### 方式一：ng add（推荐）
 
 ```bash
-ng new test-app --routing=true --style=scss
+ng new my-angular18-app --routing=true --style=scss
 # 或
 # npx @angular/cli@18 new my-angular18-app
 cd my-angular18-app
