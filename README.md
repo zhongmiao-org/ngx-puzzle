@@ -10,6 +10,8 @@ English | [中文文档](README.zh-CN.md)
 
 👉 Example repository (Demo): https://github.com/zhongmiao-org/ngx-puzzle-example
 
+🚀 **Live Demo**: https://www.zhongmiaoorg.cn/
+
 ![Drag-and-drop](./docs/images/doc1.gif)
 
 Drag-and-drop dashboard builder for Angular applications. Think of it like a puzzle: compose charts, tables, text, and controls on a canvas to quickly assemble responsive data dashboards. Built with Angular standalone components and signals.
@@ -31,7 +33,7 @@ Prefer ng add. Manual install is also supported.
 ### Option 1: ng add (recommended)
 
 ```bash
-ng new test-app --routing=true --style=scss
+ng new my-angular18-app --routing=true --style=scss
 # or
 # npx @angular/cli@18 new my-angular18-app
 cd my-angular18-app
