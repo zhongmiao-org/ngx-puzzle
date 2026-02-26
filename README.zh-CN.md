@@ -45,7 +45,7 @@ ng add @zhongmiao/ngx-puzzle
 ✔ Confirming installation
 ✔ Installing package
     Added @angular/cdk@^18.2.14 to dependencies
-    Added @webdatarocks/webdatarocks@1.4.19 to dependencies
+    Added ag-grid-community@^35 和 ag-grid-angular@^35 到依赖
     Added echarts@^6.0.0 to dependencies
     Added lodash@4.17.21 to dependencies
     Added ngx-tethys@^18.2.17 to dependencies
@@ -120,7 +120,8 @@ export const appConfig: ApplicationConfig = {
 ```json
 {
   "@angular/cdk": "^18.2.14",
-  "@webdatarocks/webdatarocks": "1.4.19",
+  "ag-grid-community": "^35.0.0",
+  "ag-grid-angular": "^35.0.0",
   "echarts": "^6.0.0",
   "lodash": "4.17.21",
   "ngx-tethys": "^18.2.17",
@@ -133,7 +134,7 @@ export const appConfig: ApplicationConfig = {
 - Angular cdk 18+ (被拖拽使用)
 - ngx-tethys：18.x（布局使用）
 - ECharts：6.x（被图表组件使用）
-- @webdatarocks/webdatarocks (被数据表格组件使用)
+- ag-grid-community / ag-grid-angular（表格组件使用）
 
 具体版本参见 package.json。
 
@@ -343,7 +344,7 @@ npm start
 
 - ngx-tethys（示例中的 UI 组件、对话框与布局）：https://github.com/atinc/ngx-tethys
 - Apache ECharts（内置图表组件的渲染引擎）：https://echarts.apache.org/ 及 https://github.com/apache/echarts
-- @webdatarocks/webdatarocks (数据表格计算透视,分组,聚合): https://github.com/WebDataRocks/web-pivot-table
+- ag-grid-community / ag-grid-angular（表格透视和渲染）: https://www.ag-grid.com/
 
 ## 许可证
 

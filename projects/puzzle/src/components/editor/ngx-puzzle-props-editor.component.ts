@@ -41,7 +41,6 @@ import {
   NgxPuzzleControlEditorComponent
 } from './dynamic-editor/';
 import { PuzzleFormRendererComponent } from '../primitives';
-import { Report } from '@webdatarocks/webdatarocks';
 
 @Component({
   selector: 'ngx-puzzle-props-editor, puzzle-props-editor',
@@ -221,7 +220,7 @@ export class NgxPuzzlePropsEditorComponent implements AfterViewInit, OnDestroy {
   }
 
   // 更新 props
-  updateOptions(options: SafeAny | Report | TextConfig | ControlConfig, type: mainTypes): void {
+  updateOptions(options: SafeAny | TextConfig | ControlConfig, type: mainTypes): void {
     const optionsCopy = cloneDeep(options);
 
     switch (type) {

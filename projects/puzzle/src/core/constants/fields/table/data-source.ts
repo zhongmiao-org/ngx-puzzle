@@ -35,7 +35,7 @@ export const TABLE_DATA_SOURCE: EditorTableField = {
           schemaType: 'text',
           visibleWhen: (values: any) => ['csv', 'json', 'excel'].includes(values.dataSourceType),
           description: '输入数据文件的完整 URL 或相对路径',
-          defaultValue: 'https://cdn.webdatarocks.com/data/data.json'
+          defaultValue: 'https://www.ag-grid.com/example-assets/olympic-winners.json'
         },
 
         {

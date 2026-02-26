@@ -1,10 +1,10 @@
 import { fieldComponentTypes } from '../types';
 import { ComponentBaseProps } from './component-config.interface';
 import { BaseSelectOption, EditorBaseField } from './editor.interface';
-import { Report } from '@webdatarocks/webdatarocks';
+import { PivotReportConfig } from '../../components/primitives/puzzle-pivot-table/puzzle-pivot-table.component';
 
 export interface ComponentTableProps extends ComponentBaseProps {
-  table: Report;
+  table: PivotReportConfig;
 }
 
 // 列配置（对齐 thy-table 常见列属性）

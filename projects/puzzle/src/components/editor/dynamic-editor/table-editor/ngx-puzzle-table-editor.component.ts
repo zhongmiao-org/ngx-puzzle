@@ -3,7 +3,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { EditorBaseComponent } from '../base/editor-base.component';
 import { EditorTableField, TableTypesEnum, TABLE_FIELDS_MAP, SafeAny, convertFormDataToOptions } from '../../../../core';
-import { Report } from '@webdatarocks/webdatarocks';
+import { PivotReportConfig } from '../../../primitives/puzzle-pivot-table/puzzle-pivot-table.component';
 import { PuzzleFormRendererComponent } from '../../../primitives';
 
 @Component({
@@ -13,7 +13,7 @@ import { PuzzleFormRendererComponent } from '../../../primitives';
   templateUrl: './ngx-puzzle-table-editor.component.html',
   styleUrl: './ngx-puzzle-table-editor.component.scss'
 })
-export class NgxPuzzleTableEditorComponent extends EditorBaseComponent<Report, TableTypesEnum, EditorTableField> {
+export class NgxPuzzleTableEditorComponent extends EditorBaseComponent<PivotReportConfig, TableTypesEnum, EditorTableField> {
   protected setFields(type?: TableTypesEnum): void {
     if (!type) return;
     this.sections = TABLE_FIELDS_MAP[type];
@@ -23,7 +23,7 @@ export class NgxPuzzleTableEditorComponent extends EditorBaseComponent<Report, T
     return 'table';
   }
 
-  protected override afterConfigUpdate(tableConfig?: Report): void {}
+  protected override afterConfigUpdate(_tableConfig?: PivotReportConfig): void {}
 
   /**
    * 添加数组项

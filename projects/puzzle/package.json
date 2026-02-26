@@ -44,10 +44,11 @@
     "@angular/forms": "^18.0.0",
     "rxjs": "~7.8.0",
     "@tethys/icons": "1.4.50",
-    "@webdatarocks/webdatarocks": "1.4.19",
     "echarts": "6.0.0",
     "lodash": "4.17.21",
-    "ngx-tethys": "^18.2.17"
+    "ngx-tethys": "^18.2.17",
+    "ag-grid-community": "^35.0.0",
+    "ag-grid-angular": "^35.0.0"
   },
   "exports": {
     ".": {

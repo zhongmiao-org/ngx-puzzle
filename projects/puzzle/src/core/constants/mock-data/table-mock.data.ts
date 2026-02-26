@@ -23,80 +23,15 @@ export const TABLE_DATA_OPTIONS: Partial<{ [key in TableTypesEnum]: object }> = 
   [TableTypesEnum.pivotTable]: {
     dataSource: {
       dataSourceType: 'json',
-      filename: 'https://cdn.webdatarocks.com/data/data.json'
+      filename: 'https://www.ag-grid.com/example-assets/olympic-winners.json'
     },
-    slice: {
-      rows: [
-        {
-          uniqueName: 'Country',
-          caption: '国家'
-        }
-      ],
-      columns: [
-        {
-          uniqueName: 'Color'
-        },
-        {
-          uniqueName: 'Measures'
-        }
-      ],
-      measures: [
-        {
-          uniqueName: 'Price',
-          aggregation: 'sum',
-          format: 'currency'
-        },
-        {
-          uniqueName: 'Discount',
-          aggregation: 'sum',
-          format: 'currency'
-        }
-      ]
-    },
-    options: {
-      grid: {
-        showGrandTotals: 'off'
-      }
-    },
-    conditions: [
-      {
-        formula: '#value > 350000',
-        format: {
-          backgroundColor: '#0598df',
-          color: '#FFFFFF'
-        }
-      },
-      {
-        formula: 'AND(#value > 1000, #value < 3000)',
-        format: {
-          backgroundColor: '#f45328',
-          color: '#FFFFFF'
-        }
-      }
-    ],
-    formats: [
-      {
-        name: 'currency',
-        thousandsSeparator: ',',
-        decimalPlaces: 2,
-        currencySymbol: '$',
-        currencySymbolAlign: 'left'
-      }
-    ],
-    tableSizes: {
-      columns: [
-        {
-          tuple: ['Color.blue'],
-          measure: 'Price',
-          width: 200
-        }
-      ],
-      rows: [
-        {
-          idx: 4,
-          height: 80
-        }
-      ]
+    theme: {
+      accentColor: '#0b6efd',
+      backgroundColor: '#ffffff',
+      foregroundColor: '#2b2f36',
+      headerBackgroundColor: '#f8f9fa',
+      headerTextColor: '#2b2f36',
+      oddRowBackgroundColor: '#fcfcfc'
     }
   }
   // [TableTypesEnum.pivoting]: {

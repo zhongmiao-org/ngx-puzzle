@@ -64,7 +64,8 @@ function addDependenciesToPackageJson(tree: Tree, context: SchematicContext): vo
   // 定义需要安装的依赖项
   const dependenciesToAdd = {
     "@angular/cdk": "^18.2.14",
-    "@webdatarocks/webdatarocks": "1.4.19",
+    "ag-grid-community": "^35.0.0",
+    "ag-grid-angular": "^35.0.0",
     "echarts": "^6.0.0",
     "lodash": "4.17.21",
     "ngx-tethys": "^18.2.17",
@@ -222,7 +223,7 @@ function ngAdd(): Rule {
     let json: AngularJson;
     try {
       json = JSON.parse(content);
-    } catch (e) {
+    } catch (_e) {
       context.logger.error('Failed to parse angular.json');
       return tree;
     }
@@ -242,7 +243,7 @@ function ngAdd(): Rule {
     }
 
     // Also try to update all application projects to be safe
-    for (const [name, project] of Object.entries(projects)) {
+    for (const [, project] of Object.entries(projects)) {
       if (project?.projectType === 'application') {
         modified = updateProjectAssets(project, context) || modified;
         modified = appendStylesImports(tree, context, project) || modified;

@@ -1,10 +1,9 @@
 import { TableTypesEnum } from '../../enums';
 import { SafeAny } from '../../types';
-import { TABLE_CONDITIONS, TABLE_DATA_SOURCE, TABLE_FORMATS, TABLE_OPTIONS, TABLE_SIZES, TABLE_SLICE } from '../fields';
+import { TABLE_DATA_SOURCE } from '../fields';
 
 export const TABLE_FIELDS_MAP: Partial<Record<TableTypesEnum, SafeAny>> = {
   [TableTypesEnum.default]: [],
-  [TableTypesEnum.pivotTable]: [TABLE_SLICE, TABLE_CONDITIONS,TABLE_FORMATS,TABLE_DATA_SOURCE,TABLE_OPTIONS,TABLE_SIZES
-    //
-  ]
+  // 社区版配置：数据源 + 样式（主题）
+  [TableTypesEnum.pivotTable]: [TABLE_DATA_SOURCE]
 };

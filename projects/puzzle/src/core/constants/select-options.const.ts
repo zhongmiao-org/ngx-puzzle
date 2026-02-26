@@ -1,6 +1,47 @@
 import { BaseSelectOption } from '../interfaces';
 import { datePickSelectionType } from '../types';
 import { Is, RefreshIntervalUnitEnum } from '../enums';
+
+// ag-grid 相关
+export const ROW_GROUP_PANEL_OPTIONS: BaseSelectOption<string>[] = [
+  { label: '总是', val: 'always' },
+  { label: '仅分组时', val: 'onlyWhenGrouping' },
+  { label: '从不', val: 'never' }
+];
+
+export const PIVOTING_PANEL_OPTIONS: BaseSelectOption<string>[] = [
+  { label: '总是', val: 'always' },
+  { label: '仅数据透视时', val: 'onlyWhenPivoting' },
+  { label: '从不', val: 'never' }
+];
+
+export const AGG_FUNC_OPTIONS: BaseSelectOption<string>[] = [
+  { label: '求和', val: 'sum' },
+  { label: '第一个', val: 'first' },
+  { label: '最后一个', val: 'last' },
+  { label: '最小值', val: 'min' },
+  { label: '最大值', val: 'max' },
+  { label: '计数', val: 'count' },
+  { label: '平均值', val: 'avg' }
+];
+
+export const GROUP_DISPLAY_TYPE_OPTIONS: BaseSelectOption<string>[] = [
+  { label: '单列分组', val: 'singleColumn' },
+  { label: '多列分组', val: 'multipleColumns' },
+  { label: '分组行', val: 'groupRows' }
+];
+
+export const TABLE_SIDE_BAR_OPTIONS: BaseSelectOption<any>[] = [
+  { label: '关闭', val: false },
+  { label: '过滤器', val: 'filters' },
+  { label: '列工具', val: 'columns' }
+];
+
+export const TABLE_GRAND_TOTAL_ROW_OPTIONS: BaseSelectOption<any>[] = [
+  { label: '顶部', val: 'top' },
+  { label: '底部', val: 'bottom' },
+  { label: '隐藏', val: undefined }
+];
 import { SelectControlSize } from 'ngx-tethys/shared';
 
 /**

@@ -29,8 +29,16 @@ export default [
     rules: {
       ...angular.configs.recommended.rules,
       ...tsPlugin.configs['recommended-type-checked'].rules,
-      '@angular-eslint/directive-selector': ['warning', { type: 'attribute', prefix: 'puzzle', style: 'camelCase' }],
-      '@angular-eslint/component-selector': ['warning', { type: 'element', prefix: 'puzzle', style: 'kebab-case' }]
+      '@angular-eslint/directive-selector': ['warn', { type: 'attribute', prefix: 'puzzle', style: 'camelCase' }],
+      '@angular-eslint/component-selector': ['warn', { type: 'element', prefix: 'puzzle', style: 'kebab-case' }],
+      // Relax noisy type-safety rules to surface关键引用/模块问题即可
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-unsafe-assignment': 'off',
+      '@typescript-eslint/no-unsafe-member-access': 'off',
+      '@typescript-eslint/no-unsafe-call': 'off',
+      '@typescript-eslint/no-unsafe-return': 'off',
+      '@typescript-eslint/no-unsafe-argument': 'off',
+      '@typescript-eslint/no-unsafe-enum-comparison': 'off'
     }
   },
   {
