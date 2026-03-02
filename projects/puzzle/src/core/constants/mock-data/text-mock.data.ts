@@ -29,5 +29,20 @@ export const TEXT_DATA_OPTIONS: Partial<{ [key in TextTypesEnum]: TextConfig }> 
       textDecoration: 'none',
       whiteSpace: 'normal'
     }
+  },
+  [TextTypesEnum.num]: {
+    content: '数字',
+    styles: {
+      color: '#333333',
+      fontSize: 14,
+      fontWeight: '400',
+      fontStyle: 'normal',
+      textAlign: 'left',
+      lineHeight: 18,
+      letterSpacing: 0,
+      textDecoration: 'none',
+      whiteSpace: 'normal',
+      fontFamily: 'monospace'
+    }
   }
 };
