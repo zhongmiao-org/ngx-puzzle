@@ -183,7 +183,7 @@ export class NgxPuzzlePreviewComponent implements AfterViewInit, OnDestroy {
     this.cdr.detectChanges();
   }
 
-  @HostListener('window:resize', ['$event'])
+  @HostListener('window:resize')
   @Debounce(500)
   onWindowResize() {
     if (this.componentsLoaded) {

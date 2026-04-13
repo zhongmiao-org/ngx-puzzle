@@ -39,11 +39,11 @@ export class StylesFormatPipe implements PipeTransform {
 
     if (this.cache.size > 50) {
       const firstKey = this.cache.keys().next().value;
-      this.cache.delete(firstKey);
+      if (typeof firstKey === 'string') {
+        this.cache.delete(firstKey);
+      }
     }
     this.cache.set(cacheKey, newStyles);
-
-    console.log(`StylesFormatPipe 转换结果:`, newStyles);
     return newStyles;
   }
 }
