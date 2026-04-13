@@ -1,1 +1,13 @@
-<div #pivotContainer class="wbr-ng-wrapper"></div>
+<ag-grid-angular
+  class="puzzle-pivot-grid ag-theme-quartz"
+  [style.width]="normalizedWidth()"
+  [style.height]="normalizedHeight()"
+  [rowData]="gridRowData()"
+  [columnDefs]="gridColumnDefs()"
+  [defaultColDef]="defaultColDef"
+  [theme]="baseTheme"
+  [gridOptions]="gridOptions()"
+  (gridReady)="onGridReady($event)"
+  (cellClicked)="onCellClicked($event)"
+  (cellDoubleClicked)="onCellDoubleClicked($event)"
+></ag-grid-angular>

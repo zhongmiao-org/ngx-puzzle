@@ -52,7 +52,8 @@ yarn add @zhongmiao/ngx-puzzle
 {
   "@angular/cdk": "^18.2.14",
   "@tethys/icons": "1.4.50",
-  "@webdatarocks/webdatarocks": "1.4.19",
+  "ag-grid-community": "^35.0.0",
+  "ag-grid-angular": "^35.0.0",
   "@zhongmiao/ngx-puzzle": "^18.4.13",
   "echarts": "6.0.0",
   "lodash": "4.17.21",

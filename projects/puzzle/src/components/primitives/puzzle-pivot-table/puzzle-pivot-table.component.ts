@@ -1,137 +1,139 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, computed, effect, inject, input, output } from '@angular/core';
-import WebDataRocks, { CellBuilder, CellData, Params, Pivot, Report } from '@webdatarocks/webdatarocks';
+import { AfterViewInit, Component, OnDestroy, computed, effect, input, output, signal } from '@angular/core';
+import { AgGridAngular } from 'ag-grid-angular';
+import { CellClickedEvent, CellDoubleClickedEvent, ColDef, GridApi, GridOptions, GridReadyEvent, themeQuartz } from 'ag-grid-community';
+
+interface PivotDataSource {
+  data?: any[];
+  filename?: string;
+  [key: string]: any;
+}
+
+export interface PivotReportConfig {
+  dataSource?: PivotDataSource;
+  columnDefs?: ColDef[];
+  gridOptions?: GridOptions;
+  theme?: Parameters<typeof themeQuartz.withParams>[0];
+  [key: string]: any;
+}
 
 @Component({
   selector: 'ngx-puzzle-pivot-table, puzzle-pivot-table',
   standalone: true,
-  imports: [],
+  imports: [AgGridAngular],
   templateUrl: './puzzle-pivot-table.component.html',
   styleUrl: './puzzle-pivot-table.component.scss'
 })
 export class PuzzlePivotTableComponent implements AfterViewInit, OnDestroy {
-  private readonly el = inject(ElementRef<HTMLElement>);
-
-  private localization = 'https://cdn.webdatarocks.com/loc/zh.json';
-
-  toolbar = input<boolean>(false);
   width = input<string | number>('100%');
   height = input<string | number>('100%');
-  report = input<Report>();
-  global = input<Report | undefined>({
-    localization: this.localization
-  });
-  customizeCell = input<((cell: CellBuilder, data: CellData) => void) | undefined>(undefined);
+  report = input<PivotReportConfig>();
+  rowData = input<any[] | undefined>(undefined);
+  columnDefsInput = input<ColDef[] | undefined>(undefined);
+  gridOptions = input<GridOptions | undefined>(undefined);
 
-  readonly cellClick = output<CellData>();
-  readonly cellDoubleClick = output<CellData>();
+  readonly cellClick = output<any>();
+  readonly cellDoubleClick = output<any>();
   readonly dataError = output<object>();
-  readonly dataFileCancelled = output<void>();
   readonly dataLoaded = output<void>();
-  readonly dataChanged = output<object>();
-  readonly fieldsListClose = output<void>();
-  readonly fieldsListOpen = output<void>();
-  readonly filterOpen = output<void>();
-  readonly fullScreen = output<void>();
-  readonly loadingData = output<void>();
-  readonly loadingLocalization = output<void>();
-  readonly loadingReportFile = output<void>();
-  readonly localizationError = output<void>();
-  readonly localizationLoaded = output<void>();
-  readonly openingReportFile = output<void>();
-  readonly queryComplete = output<void>();
-  readonly queryError = output<void>();
-  readonly ready = output<Pivot>();
-  readonly reportChange = output<void>();
-  readonly reportComplete = output<void>();
-  readonly reportFileCancelled = output<void>();
-  readonly reportFileError = output<void>();
-  readonly reportFileLoaded = output<void>();
-  readonly runningQuery = output<void>();
-  readonly update = output<void>();
-  readonly beforeToolbarCreated = output<object>();
-  readonly afterGridDraw = output<object>();
-  readonly beforeGridDraw = output<object>();
-  readonly exportComplete = output<void>();
-  readonly exportStart = output<void>();
-  readonly filterClose = output<void>();
-  readonly loadingOlapStructure = output<void>();
-  readonly printComplete = output<void>();
-  readonly printStart = output<void>();
+  readonly ready = output<GridApi>();
 
-  private instance: Pivot | null = null;
+  gridRowData = signal<any[]>([]);
+  gridColumnDefs = signal<ColDef[]>([]);
 
-  private containerEl = computed<HTMLElement | null>(() => {
-    const root = this.el.nativeElement;
-    return root.querySelector('.wbr-ng-wrapper');
-  });
+  readonly defaultColDef: ColDef = {
+    resizable: true,
+    sortable: true,
+    filter: true,
+    floatingFilter: false
+  };
+
+  baseTheme = themeQuartz;
+
+  normalizedWidth = computed(() => (typeof this.width() === 'number' ? `${this.width()}px` : this.width() || '100%'));
+  normalizedHeight = computed(() => (typeof this.height() === 'number' ? `${this.height()}px` : this.height() || '100%'));
+
+  private gridApi: GridApi | null = null;
+  private destroyed = false;
 
   constructor() {
     effect(() => {
+      const manualColumns = this.columnDefsInput();
+      if (manualColumns?.length) {
+        this.gridColumnDefs.set(manualColumns);
+      }
+    });
+
+    effect(() => {
+      const manualRows = this.rowData();
+      if (manualRows) {
+        this.applyData(manualRows);
+      }
+    });
+
+    effect(() => {
       const rpt = this.report();
-      if (this.instance && rpt) {
-        try {
-          this.instance.setReport?.(rpt as Report);
-        } catch {
-          // ignore if not supported
+      if (rpt) {
+        void this.loadFromReport(rpt);
+        if (rpt.theme) {
+          this.baseTheme = themeQuartz.withParams(rpt.theme);
         }
       }
     });
   }
 
   ngAfterViewInit(): void {
-    this.instance = new WebDataRocks({
-      container: this.containerEl(),
-      width: this.width(),
-      height: this.height(),
-      toolbar: this.toolbar(),
-      report: this.report(),
-      global: this.global(),
-      customizeCell: this.customizeCell(),
-      cellclick: (cell: CellData) => this.cellClick.emit(cell),
-      celldoubleclick: (cell: CellData) => this.cellDoubleClick.emit(cell),
-      dataerror: (event: object) => this.dataError.emit(event),
-      datafilecancelled: () => this.dataFileCancelled.emit(),
-      dataloaded: () => this.dataLoaded.emit(),
-      datachanged: (event: object) => this.dataChanged.emit(event),
-      fieldslistclose: () => this.fieldsListClose.emit(),
-      fieldslistopen: () => this.fieldsListOpen.emit(),
-      filteropen: () => this.filterOpen.emit(),
-      loadingdata: () => this.loadingData.emit(),
-      loadinglocalization: () => this.loadingLocalization.emit(),
-      loadingreportfile: () => this.loadingReportFile.emit(),
-      localizationerror: () => this.localizationError.emit(),
-      localizationloaded: () => this.localizationLoaded.emit(),
-      openingreportfile: () => this.openingReportFile.emit(),
-      querycomplete: () => this.queryComplete.emit(),
-      queryerror: () => this.queryError.emit(),
-      ready: () => this.ready.emit(this.instance!),
-      reportchange: () => this.reportChange.emit(),
-      reportcomplete: () => this.reportComplete.emit(),
-      reportfilecancelled: () => this.reportFileCancelled.emit(),
-      reportfileerror: () => this.reportFileError.emit(),
-      reportfileloaded: () => this.reportFileLoaded.emit(),
-      runningquery: () => this.runningQuery.emit(),
-      update: () => this.update.emit(),
-      beforetoolbarcreated: (toolbar: object) => this.beforeToolbarCreated.emit(toolbar),
-      aftergriddraw: (event: object) => this.afterGridDraw.emit(event),
-      beforegriddraw: (event: object) => this.beforeGridDraw.emit(event),
-      exportcomplete: () => this.exportComplete.emit(),
-      exportstart: () => this.exportStart.emit(),
-      filterclose: () => this.filterClose.emit(),
-      loadingolapstructure: () => this.loadingOlapStructure.emit(),
-      printcomplete: () => this.printComplete.emit(),
-      printstart: () => this.printStart.emit()
-    } as Params);
+    if (!this.gridRowData().length && this.report()) {
+      void this.loadFromReport(this.report()!);
+    }
   }
 
   ngOnDestroy(): void {
-    if (this.instance) {
-      try {
-        this.instance.dispose?.();
-      } catch {
-        // ignore
-      }
-      this.instance = null;
+    this.destroyed = true;
+    this.gridApi = null;
+  }
+
+  private applyData(data: any[]) {
+    if (!Array.isArray(data)) return;
+    this.gridRowData.set(data);
+    if (!this.gridColumnDefs().length && data.length) {
+      const firstRow = data[0];
+      const columns = Object.keys(firstRow).map((field) => ({ field }));
+      this.gridColumnDefs.set(columns);
     }
+  }
+
+  private async loadFromReport(rpt: PivotReportConfig) {
+    if (!rpt) return;
+    try {
+      let data: any[] | undefined = rpt.dataSource?.data;
+
+      if (!data && rpt.dataSource?.filename) {
+        const response = await fetch(rpt.dataSource.filename);
+        data = await response.json();
+      }
+
+      if (Array.isArray(data)) {
+        this.applyData(data);
+        if (rpt.columnDefs?.length) {
+          this.gridColumnDefs.set(rpt.columnDefs);
+        }
+        this.dataLoaded.emit();
+      }
+    } catch (err) {
+      this.dataError.emit(err as object);
+    }
+  }
+
+  onGridReady(event: GridReadyEvent<any>) {
+    this.gridApi = event.api;
+    this.ready.emit(event.api);
+  }
+
+  onCellClicked(event: CellClickedEvent<any>) {
+    this.cellClick.emit(event.data);
+  }
+
+  onCellDoubleClicked(event: CellDoubleClickedEvent<any>) {
+    this.cellDoubleClick.emit(event.data);
   }
 }

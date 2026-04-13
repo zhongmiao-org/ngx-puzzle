@@ -47,7 +47,7 @@ ng add @zhongmiao/ngx-puzzle
 ✔ Confirming installation
 ✔ Installing package
     Added @angular/cdk@^18.2.14 to dependencies
-    Added @webdatarocks/webdatarocks@1.4.19 to dependencies
+    Added ag-grid-community@^35 and ag-grid-angular@^35 to dependencies
     Added echarts@^6.0.0 to dependencies
     Added lodash@4.17.21 to dependencies
     Added ngx-tethys@^18.2.17 to dependencies
@@ -123,7 +123,8 @@ If you use `ng add @zhongmiao/ngx-puzzle`, the schematic will add the following 
 ```json
 {
   "@angular/cdk": "^18.2.14",
-  "@webdatarocks/webdatarocks": "1.4.19",
+  "ag-grid-community": "^35.0.0",
+  "ag-grid-angular": "^35.0.0",
   "echarts": "^6.0.0",
   "lodash": "4.17.21",
   "ngx-tethys": "^18.2.17"
@@ -136,7 +137,7 @@ If you use `ng add @zhongmiao/ngx-puzzle`, the schematic will add the following 
 - Angular cdk: 18+ (used for drag-and-drop)
 - ngx-tethys: 18.x (layout)
 - ECharts: 6.x (used by chart components)
-- @webdatarocks/webdatarocks (used by data table component)
+- ag-grid-community / ag-grid-angular (used by data table component)
 
 See package.json for exact versions.
 
@@ -347,7 +348,7 @@ See CONTRIBUTING.md (and CONTRIBUTING.zh-CN.md for Chinese).
 
 - ngx-tethys (UI components, dialogs, layout used in examples): https://github.com/atinc/ngx-tethys
 - Apache ECharts (chart rendering for built-in chart components): https://echarts.apache.org/ and https://github.com/apache/echarts
-- @webdatarocks/webdatarocks (pivoting, grouping, aggregation for the data table component): https://github.com/WebDataRocks/web-pivot-table
+- ag-grid-community / ag-grid-angular (data table rendering): https://www.ag-grid.com/
 
 ## License
 
