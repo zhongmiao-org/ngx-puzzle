@@ -1,3 +1,6 @@
+
+English | [中文文档](CHANGELOG.zh-CN.md)
+
 ## [Unreleased]
 
 ## 21.0.0 (2026-04-14)
@@ -18,7 +21,6 @@
 * Fixed form-renderer style issues. ([c66d6dc](https://github.com/zhongmiao-org/ngx-puzzle/commit/c66d6dc))
 * Fixed `build:docs` CI warning path. ([f94ed53](https://github.com/zhongmiao-org/ngx-puzzle/commit/f94ed53))
 
-English | [中文文档](CHANGELOG.zh-CN.md)
 
 ## 18.5.5 (2025-09-18)
 

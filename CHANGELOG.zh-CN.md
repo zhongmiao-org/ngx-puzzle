@@ -1,22 +1,29 @@
+
+[English](CHANGELOG.md) | 中文文档
+
 ## [Unreleased]
 
 ## 21.0.0 (2026-04-14)
 
-### ✨ Added
-* Table runtime is now adapter-oriented, making table behaviors and data binding easier to extend by feature modules and downstream integrations. ([fa46b91](https://github.com/zhongmiao-org/ngx-puzzle/commit/fa46b91))
-* Added number capability in the text category to support numeric display/editing scenarios in dashboard composition. ([fe8d445](https://github.com/zhongmiao-org/ngx-puzzle/commit/fe8d445), [01dc8a9](https://github.com/zhongmiao-org/ngx-puzzle/commit/01dc8a9))
-* Added live demo entry in project docs for faster evaluation and onboarding. ([0ed2d70](https://github.com/zhongmiao-org/ngx-puzzle/commit/0ed2d70))
-* Added a main-only GitHub release pipeline: PR quality gate, release-draft sync from `main` version, release-triggered npm publish, and automated changelog finalization PR. ([bca01d6](https://github.com/zhongmiao-org/ngx-puzzle/commit/bca01d6))
-### 🔄 Changed
-* Angular 21 alignment completed across provider wiring, demo bootstrap flow, and documentation guidance to match current framework conventions. ([9e40e48](https://github.com/zhongmiao-org/ngx-puzzle/commit/9e40e48))
-* Build baseline upgraded to Angular 21 and newer lodash, ensuring dependency consistency with the current release line. ([f35da10](https://github.com/zhongmiao-org/ngx-puzzle/commit/f35da10))
-* Release documentation and root docs are now bilingual-complete, with explicit main-only release rules and prerelease/stable versioning policy.
-* Changelog governance is now stricter: code-impacting PRs must update both English and Chinese `Unreleased` sections.
-### 🐛 Fixed
-* Fixed `addArrayItem` behavior in chart editor operations. ([8cbaa8a](https://github.com/zhongmiao-org/ngx-puzzle/commit/8cbaa8a))
-* Fixed control component style/props inconsistencies. ([2985509](https://github.com/zhongmiao-org/ngx-puzzle/commit/2985509))
-* Fixed form-renderer style issues. ([c66d6dc](https://github.com/zhongmiao-org/ngx-puzzle/commit/c66d6dc))
-* Fixed `build:docs` CI warning path. ([f94ed53](https://github.com/zhongmiao-org/ngx-puzzle/commit/f94ed53))
+### ✨ 新增
 
-[English](CHANGELOG.md) | 中文文档
+* 表格运行时重构为适配器导向模型，便于按功能模块扩展表格能力与数据绑定流程。([fa46b91](https://github.com/zhongmiao-org/ngx-puzzle/commit/fa46b91))
+* 文本类别新增数字能力，支持看板中的数值展示与编辑场景。([fe8d445](https://github.com/zhongmiao-org/ngx-puzzle/commit/fe8d445), [01dc8a9](https://github.com/zhongmiao-org/ngx-puzzle/commit/01dc8a9))
+* 文档新增在线演示入口，降低试用与接入成本。([0ed2d70](https://github.com/zhongmiao-org/ngx-puzzle/commit/0ed2d70))
+* 新增仅 `main` 分支发布链路：PR 质量门禁、基于 `main` 版本的 release draft 同步、release 事件触发 npm 发布、发布后 changelog 自动归档并回写 PR。([bca01d6](https://github.com/zhongmiao-org/ngx-puzzle/commit/bca01d6))
+
+### 🔄 变更
+
+* 完成 Angular 21 对齐：providers 接入方式、demo 启动流程与文档说明保持一致。([9e40e48](https://github.com/zhongmiao-org/ngx-puzzle/commit/9e40e48))
+* 构建基础升级到 Angular 21 与新版本 lodash，依赖基线与当前版本线保持一致。([f35da10](https://github.com/zhongmiao-org/ngx-puzzle/commit/f35da10))
+* 发布规范与根目录文档已补齐双语，并明确 main-only、预发布/正式版版本规则。
+* changelog 规则升级：代码相关 PR 必须同时更新中英文 `Unreleased`。
+
+### 🐛 修复
+
+* 修复图表编辑器 `addArrayItem` 行为问题。([8cbaa8a](https://github.com/zhongmiao-org/ngx-puzzle/commit/8cbaa8a))
+* 修复 control 组件样式与属性问题。([2985509](https://github.com/zhongmiao-org/ngx-puzzle/commit/2985509))
+* 修复 form-renderer 样式问题。([c66d6dc](https://github.com/zhongmiao-org/ngx-puzzle/commit/c66d6dc))
+* 修复 `build:docs` 的 CI warning。([f94ed53](https://github.com/zhongmiao-org/ngx-puzzle/commit/f94ed53))
+
 
