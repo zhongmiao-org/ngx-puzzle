@@ -33,8 +33,8 @@ Prefer ng add. Manual install is also supported.
 ```bash
 ng new test-app --routing=true --style=scss
 # or
-# npx @angular/cli@18 new my-angular18-app
-cd my-angular18-app
+# npx @angular/cli@21 new my-angular21-app
+cd my-angular21-app
 ng add @zhongmiao/ngx-puzzle
 ```
 
@@ -44,14 +44,14 @@ ng add @zhongmiao/ngx-puzzle
 ✔ Loading package information from registry
 ✔ Confirming installation
 ✔ Installing package
-    Added @angular/cdk@^18.2.14 to dependencies
+    Added @angular/cdk@^21.2.6 to dependencies
     Added ag-grid-community@^35 and ag-grid-angular@^35 to dependencies
     Added echarts@^6.0.0 to dependencies
     Added lodash@4.17.21 to dependencies
-    Added ngx-tethys@^18.2.17 to dependencies
+    Added ngx-tethys@^21.0.0 to dependencies
     Added asset mapping: ./node_modules/@zhongmiao/ngx-puzzle/assets -> /assets
-    Prepended style import to src/styles.scss: @import "@zhongmiao/ngx-puzzle/styles/index.scss";
-    Prepended style import to src/styles.scss: @import 'ngx-tethys/styles/index.scss';
+    Prepended style import to src/styles.scss: @use "@zhongmiao/ngx-puzzle/styles/index.scss";
+    Prepended style import to src/styles.scss: @use 'ngx-tethys/styles/index.scss';
     Added import for provideHttpClient in src/app/app.config.ts
     Added import for providePuzzleLib in src/app/app.config.ts
     Updated assets configuration to include library assets.
@@ -72,7 +72,7 @@ UPDATE angular.json (3049 bytes)
 ```bash
 npm install @zhongmiao/ngx-puzzle
 # peer deps
-# Angular 18+, RxJS 7.8+, ngx-tethys 18.x, echarts 6.x
+# Angular 21+, RxJS 7.8+, ngx-tethys 21.x, echarts 6.x
 ```
 
 #### Global styles and static assets
@@ -80,11 +80,11 @@ npm install @zhongmiao/ngx-puzzle
 Add global style imports in your app's src/styles.scss:
 
 ```scss
-@import "@zhongmiao/ngx-puzzle/styles/index.scss";
-@import "ngx-tethys/styles/index.scss";
+@use "@zhongmiao/ngx-puzzle/styles/index.scss";
+@use "ngx-tethys/styles/index.scss";
 ```
 
-As a standalone-first library, ngx-puzzle provides a ready-made provider. Add provideHttpClient() and providePuzzleLib({ animations: 'browser' }) in src/app/app.config.ts:
+As a standalone-first library, ngx-puzzle provides a ready-made provider. Add provideHttpClient() and providePuzzleLib() in src/app/app.config.ts:
 
 ```ts
 import { providePuzzleLib } from '@zhongmiao/ngx-puzzle';
@@ -95,7 +95,7 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes),  provideHttpClient(), providePuzzleLib({ animations: 'browser' })]
+  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes), provideHttpClient(), providePuzzleLib()]
 };
 ```
 
@@ -120,20 +120,20 @@ If you use `ng add @zhongmiao/ngx-puzzle`, the schematic will add the following 
 
 ```json
 {
-  "@angular/cdk": "^18.2.14",
+  "@angular/cdk": "^21.2.6",
   "ag-grid-community": "^35.0.0",
   "ag-grid-angular": "^35.0.0",
   "echarts": "^6.0.0",
   "lodash": "4.17.21",
-  "ngx-tethys": "^18.2.17"
+  "ngx-tethys": "^21.0.0"
 }
 ```
 
 ## Compatibility
 
-- Angular: 18+
-- Angular cdk: 18+ (used for drag-and-drop)
-- ngx-tethys: 18.x (layout)
+- Angular: 21+
+- Angular cdk: 21+ (used for drag-and-drop)
+- ngx-tethys: 21.x (layout)
 - ECharts: 6.x (used by chart components)
 - ag-grid-community / ag-grid-angular (used by data table component)
 

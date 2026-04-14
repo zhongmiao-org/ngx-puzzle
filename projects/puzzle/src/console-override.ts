@@ -8,7 +8,7 @@ declare const ngDevMode: boolean | undefined;
 
 export function disableConsoleInProduction(): void {
   // 检查是否为生产环境
-  // Angular 18+ 中，ngDevMode 在生产环境下为 false 或 undefined
+  // Angular 21+ 中，ngDevMode 在生产环境下为 false 或 undefined
   const isProduction = !ngDevMode;
 
   if (isProduction) {

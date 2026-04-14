@@ -33,10 +33,10 @@
 ### 方式一：ng add（推荐）
 
 ```bash
-ng new my-angular18-app --routing=true --style=scss
+ng new my-angular21-app --routing=true --style=scss
 # 或
-# npx @angular/cli@18 new my-angular18-app
-cd my-angular18-app
+# npx @angular/cli@21 new my-angular21-app
+cd my-angular21-app
 ng add @zhongmiao/ngx-puzzle
 ```
 #### 输出结果:
@@ -46,14 +46,14 @@ ng add @zhongmiao/ngx-puzzle
 ✔ Loading package information from registry
 ✔ Confirming installation
 ✔ Installing package
-    Added @angular/cdk@^18.2.14 to dependencies
+    Added @angular/cdk@^21.2.6 to dependencies
     Added ag-grid-community@^35 和 ag-grid-angular@^35 到依赖
     Added echarts@^6.0.0 to dependencies
     Added lodash@4.17.21 to dependencies
-    Added ngx-tethys@^18.2.17 to dependencies
+    Added ngx-tethys@^21.0.0 to dependencies
     Added asset mapping: ./node_modules/@zhongmiao/ngx-puzzle/assets -> /assets
-    Prepended style import to src/styles.scss: @import "@zhongmiao/ngx-puzzle/styles/index.scss";
-    Prepended style import to src/styles.scss: @import 'ngx-tethys/styles/index.scss';
+    Prepended style import to src/styles.scss: @use "@zhongmiao/ngx-puzzle/styles/index.scss";
+    Prepended style import to src/styles.scss: @use 'ngx-tethys/styles/index.scss';
     Added import for provideHttpClient in src/app/app.config.ts
     Added import for providePuzzleLib in src/app/app.config.ts
     Updated assets configuration to include library assets.
@@ -73,7 +73,7 @@ UPDATE angular.json (3049 bytes)
 
 ```bash
 npm install @zhongmiao/ngx-puzzle
-# 依赖环境：Angular 18+、Angular cdk 18+、ngx-tethys 18.x、echarts 6.x
+# 依赖环境：Angular 21+、Angular cdk 21+、ngx-tethys 21.x、echarts 6.x
 ```
 
 #### 全局样式与静态资源
@@ -81,11 +81,11 @@ npm install @zhongmiao/ngx-puzzle
 在应用的 src/styles.scss 中加入以下全局样式：
 
 ```scss
-@import "@zhongmiao/ngx-puzzle/styles/index.scss";
-@import "ngx-tethys/styles/index.scss";
+@use "@zhongmiao/ngx-puzzle/styles/index.scss";
+@use "ngx-tethys/styles/index.scss";
 ```
 
-全程为独立组件, ngx-puzzle 提供了预制 provider, 在应用的 `src/app/app.config.ts` 中追加 `provideHttpClient()` 与 `providePuzzleLib({ animations: 'browser' })`
+全程为独立组件, ngx-puzzle 提供了预制 provider, 在应用的 `src/app/app.config.ts` 中追加 `provideHttpClient()` 与 `providePuzzleLib()`
 
 ```ts
 import { providePuzzleLib } from '@zhongmiao/ngx-puzzle';
@@ -96,7 +96,7 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes),  provideHttpClient(), providePuzzleLib({ animations: 'browser' })]
+  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes), provideHttpClient(), providePuzzleLib()]
 };
 
 ```
@@ -121,20 +121,20 @@ export const appConfig: ApplicationConfig = {
 
 ```json
 {
-  "@angular/cdk": "^18.2.14",
+  "@angular/cdk": "^21.2.6",
   "ag-grid-community": "^35.0.0",
   "ag-grid-angular": "^35.0.0",
   "echarts": "^6.0.0",
   "lodash": "4.17.21",
-  "ngx-tethys": "^18.2.17",
+  "ngx-tethys": "^21.0.0"
 }
 ```
 
 ## 兼容性
 
-- Angular：18+
-- Angular cdk 18+ (被拖拽使用)
-- ngx-tethys：18.x（布局使用）
+- Angular：21+
+- Angular cdk 21+ (被拖拽使用)
+- ngx-tethys：21.x（布局使用）
 - ECharts：6.x（被图表组件使用）
 - ag-grid-community / ag-grid-angular（表格组件使用）
 

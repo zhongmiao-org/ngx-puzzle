@@ -1,4 +1,4 @@
-@import '../styles';
+@use '../styles' as *;
 
 .ngx-puzzle-editor-component {
   .p-tabpanels {
