@@ -1,6 +1,9 @@
+
 [English](CHANGELOG.md) | 中文文档
 
 ## [Unreleased]
+
+## 21.0.0 (2026-04-14)
 
 ### ✨ 新增
 
@@ -22,3 +25,5 @@
 * 修复 control 组件样式与属性问题。([2985509](https://github.com/zhongmiao-org/ngx-puzzle/commit/2985509))
 * 修复 form-renderer 样式问题。([c66d6dc](https://github.com/zhongmiao-org/ngx-puzzle/commit/c66d6dc))
 * 修复 `build:docs` 的 CI warning。([f94ed53](https://github.com/zhongmiao-org/ngx-puzzle/commit/f94ed53))
+
+
