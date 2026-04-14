@@ -11,7 +11,7 @@ ng-puzzle 是一个基于 Angular 的拖拽式可视化拼图库，提供编辑�
 
 # 环境要求
 
-- Angular 17+（支持 Angular 原生信号与独立组件）
+- Angular 21+（支持 Angular 原生信号与独立组件）
 - Node.js 18+ / npm 9+（或 pnpm / yarn）
 
 # 安装
@@ -21,9 +21,9 @@ ng-puzzle 是一个基于 Angular 的拖拽式可视化拼图库，提供编辑�
 ## 方式一：使用 ng add（推荐）
 
 ```bash
-# 创建 Angular 18 项目
-npx @angular/cli@18 new my-angular18-app
-cd my-angular18-app
+# 创建 Angular 21 项目
+npx @angular/cli@21 new my-angular21-app
+cd my-angular21-app
 
 # 一键接入（会尝试自动追加 assets 配置）
 ng add @zhongmiao/ngx-puzzle
@@ -50,16 +50,16 @@ yarn add @zhongmiao/ngx-puzzle
 
 ```json
 {
-  "@angular/cdk": "^18.2.14",
-  "@tethys/icons": "1.4.50",
+  "@angular/cdk": "^21.2.6",
   "ag-grid-community": "^35.0.0",
   "ag-grid-angular": "^35.0.0",
-  "@zhongmiao/ngx-puzzle": "^18.4.13",
   "echarts": "6.0.0",
   "lodash": "4.17.21",
-  "ngx-tethys": "^18.2.17"
+  "ngx-tethys": "^21.0.0"
 }
 ```
+
+其中 `ag-grid-community` 与 `ag-grid-angular` 仅用于高级表格组件，普通表格默认使用 `ngx-tethys` 渲染。
 
 ### 手动配置静态资源（当 ng add 未自动追加时）
 将以下条目添加到你的应用项目在 angular.json 中的 assets 列表（注意是你的应用项目，而非本仓库 example 项目）：
@@ -68,19 +68,13 @@ yarn add @zhongmiao/ngx-puzzle
 [
   {
     "glob": "**/*",
-    "input": "./node_modules/@tethys/icons/assets",
-    "output": "/assets/icons"
-  },
-  {
-    "glob": "**/*",
-    "input": "./node_modules/ngx-puzzle/assets",
+    "input": "./node_modules/@zhongmiao/ngx-puzzle/assets",
     "output": "/assets"
   }
 ]
 ```
 
-- @tethys/icons -> /assets/icons：用于 Tethys 组件库的图标资源。
-- projects/puzzle/src/assets -> /assets：用于暴露本库内置的静态资源（如编辑器背景等）。
+- @zhongmiao/ngx-puzzle/assets -> /assets：用于暴露本库内置静态资源（如编辑器背景和组件资源）。
 
 # 基本使用
 
@@ -186,6 +180,23 @@ export class LivePreviewComponent {
 - previewId: 在 edit 模式下用于加载会话中的临时配置
 - passedConfig: 在 normal 模式下传入的组件配置数组
 
+# 自定义数据适配器
+
+当你需要宿主侧的数据绑定弹窗、SQL 能力、业务查询模型或自定义请求编排时，推荐注入自定义 `PuzzleDataAdapter`：
+
+```ts
+import { ApplicationConfig } from '@angular/core';
+import { provideHttpClient } from '@angular/common/http';
+import { providePuzzleLib } from '@zhongmiao/ngx-puzzle';
+import { ExamplePuzzleDataAdapter } from './example-puzzle-data-adapter.service';
+
+export const appConfig: ApplicationConfig = {
+  providers: [provideHttpClient(), providePuzzleLib({ dataAdapter: ExamplePuzzleDataAdapter })]
+};
+```
+
+组件库仍只负责画布、控件和运行时调度；SQL、数据模型、筛选解释和请求执行由宿主 adapter 自行实现。
+
 # 提示与最佳实践
 
 - 组件为独立组件（standalone），无需 NgModule，直接在 imports 中引入即可。
@@ -196,4 +207,4 @@ export class LivePreviewComponent {
 
 - 阅读「介绍」了解核心能力：/zh-cn/guides/intro
 - 查看 API 参数说明（示例站点 example/ 中的参数页面）
-- 结合 NgxPuzzleDataBindingService 对接数据源，实现实时数据看板
+- 结合自定义 `PuzzleDataAdapter` 对接数据源，实现实时数据看板

@@ -17,6 +17,7 @@ import { NgStyle } from '@angular/common';
 import {
   ComponentConfig,
   ComponentInjectorService,
+  ControlsService,
   ComponentRegistryService,
   Debounce,
   previewType,
@@ -93,7 +94,8 @@ export class NgxPuzzlePreviewComponent implements AfterViewInit, OnDestroy {
     private injector: ComponentInjectorService,
     private registry: ComponentRegistryService,
     private sessionService: SessionIndexedDbService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private controlsService: ControlsService
   )
   {
     // 监听配置变化，并在容器准备好后生成画布
@@ -168,6 +170,7 @@ export class NgxPuzzlePreviewComponent implements AfterViewInit, OnDestroy {
 
     // 清理预览组件引用
     this.previewComponentRefs.clear();
+    this.controlsService.clearAll();
   }
 
   @HostListener('document:fullscreenchange')
@@ -223,10 +226,13 @@ export class NgxPuzzlePreviewComponent implements AfterViewInit, OnDestroy {
    * 生成画布并创建组件
    */
   generateCanvas() {
+    this.controlsService.beginBuffering();
+
     // 使用当前的配置数据
     const configs = this.allConfigs();
     if (!configs || configs.length === 0) {
       console.warn('[预览组件] 没有配置数据可用于生成画布');
+      this.controlsService.flushBuffered();
       return;
     }
 
@@ -258,6 +264,7 @@ export class NgxPuzzlePreviewComponent implements AfterViewInit, OnDestroy {
       // 等待下一个事件循环，确保所有组件都已渲染到DOM
       setTimeout(() => {
         this.updateZoomState(this.enableZoom());
+        this.controlsService.flushBuffered();
       }, 300);
     };
 

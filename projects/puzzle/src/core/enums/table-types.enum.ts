@@ -1,7 +1,7 @@
 export enum TableTypesEnum {
-  // 默认
+  // 普通表格（ngx-tethys）
   default = 'table',
 
-  // pivot-table
-  pivotTable = 'pivot-table',
+  // 高级表格（AG Grid Community）
+  advancedTable = 'advanced-table',
 }

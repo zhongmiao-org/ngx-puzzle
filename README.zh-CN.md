@@ -21,7 +21,7 @@
 ## 特性
 
 - 拖拽编辑器，吸附布局
-- 内置组件：图表、表格、文本、控件
+- 内置组件：图表、普通表格、高级表格、文本、控件
 - 以架构为先：standalone、signals、OnPush
 - 外置数据绑定协议：可接真实 API 或使用内置 Mock
 - 通过外部服务提供预览/保存等能力
@@ -136,27 +136,18 @@ export const appConfig: ApplicationConfig = {
 - Angular cdk 21+ (被拖拽使用)
 - ngx-tethys：21.x（布局使用）
 - ECharts：6.x（被图表组件使用）
-- ag-grid-community / ag-grid-angular（表格组件使用）
+- ag-grid-community / ag-grid-angular（高级表格组件使用）
 
 具体版本参见 package.json。
 
 ## 快速开始（standalone）
 
-在独立组件中直接使用编辑器组件。以下示例取自示例应用并做了精简：
+在独立组件中直接使用编辑器组件。若要接入业务数据能力，推荐通过 `providePuzzleLib({ dataAdapter })` 注入自定义 `PuzzleDataAdapter`，而不是把 SQL 或业务模型逻辑写进组件库内部。
 
 ```ts
-import { Component, inject, OnInit, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 import { ThyContent, ThyLayout } from 'ngx-tethys/layout';
 import { NgxPuzzleEditorComponent } from 'ngx-puzzle';
-import {
-  NgxPuzzleControlChangeNotification,
-  NgxPuzzleDataBindingRequest,
-  NgxPuzzleDataBindingService,
-  NgxPuzzleExternalService
-} from '@zhongmiao/ngx-puzzle';
-import { Subject, takeUntil } from 'rxjs';
-import { ThyDialog } from 'ngx-tethys/dialog';
-import { ExampleDataSourceDialogComponent } from './data-source-dialog.component';
 
 @Component({
   selector: 'example-puzzle',
@@ -170,157 +161,37 @@ import { ExampleDataSourceDialogComponent } from './data-source-dialog.component
   `,
   imports: [ThyLayout, ThyContent, NgxPuzzleEditorComponent]
 })
-export class AppPuzzleComponent implements OnInit, OnDestroy {
-  private puzzleService = inject(NgxPuzzleExternalService);
-  private dataBindingService = inject(NgxPuzzleDataBindingService);
-  private destroy$ = new Subject<void>();
-  private dialog = inject(ThyDialog);
-
-  ngOnInit() {
-    this.dataBindingService.bindingRequest$.pipe(takeUntil(this.destroy$)).subscribe((request) => this.handleDataBindingRequest(request));
-
-    this.dataBindingService.controlChange$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((notification) => this.handleControlChange(notification));
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-
-  private handleDataBindingRequest(request: NgxPuzzleDataBindingRequest) {
-    const initialData: any = {};
-    if (request.apiSource) {
-      initialData.type = request.apiSource.method as 'GET' | 'POST';
-      initialData.url = request.apiSource.url;
-      if (request.apiSource.method === 'POST' && request.apiSource.params) {
-        try {
-          initialData.body = JSON.stringify(request.apiSource.params, null, 2);
-        } catch {
-          initialData.body = '';
-        }
-      }
-    }
-
-    const ref = this.dialog.open(ExampleDataSourceDialogComponent, {
-      initialState: {
-        inputType: initialData.type,
-        inputUrl: initialData.url,
-        inputBody: initialData.body
-      }
-    });
-
-    ref
-      .afterClosed()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((result: any) => {
-        if (!result) return;
-        const apiSource = this.createApiSourceFromDialog(result);
-        const existed = this.dataBindingService.getComponentDataRequest(request.componentId) || { apiSources: [] };
-        const streams = existed.apiSources ? [...existed.apiSources] : [];
-        if (apiSource) streams[request.seriesIndex] = apiSource;
-
-        this.dataBindingService.responseBinding({
-          componentId: request.componentId,
-          dataRequest: { ...existed, apiSources: streams }
-        });
-      });
-  }
-
-  private handleControlChange(notification: NgxPuzzleControlChangeNotification) {
-    const newSources = [
-      { url: '/api/chart-data-1', method: 'POST', params: this.buildParamsFromFilters(notification.controlFilters) },
-      { url: '/api/chart-data-2', method: 'POST', params: this.buildParamsFromFilters(notification.controlFilters) }
-    ];
-
-    this.dataBindingService.responseBinding({
-      componentId: notification.componentId,
-      dataRequest: { apiSources: newSources }
-    });
-  }
-
-  private createApiSourceFromDialog(result: {
-    type: 'GET' | 'POST';
-    url: string;
-    body?: string;
-  }): { url: string; method: string; params?: Record<string, unknown> } | undefined {
-    if (result?.url && result.url.trim()) {
-      const url = result.url.trim();
-      if (result.type === 'POST') {
-        let payload: unknown;
-        try {
-          payload = result.body ? JSON.parse(result.body) : {};
-        } catch {
-          payload = {};
-        }
-        return { url, method: 'POST', params: payload as Record<string, unknown> };
-      }
-      return { url, method: 'GET' };
-    }
-    return undefined; // 走组件内部的 Mock
-  }
-
-  private buildParamsFromFilters(filters: unknown) {
-    return { filters };
-  }
-  save() {
-    this.puzzleService.getAllConfigs();
-  }
-  preview() {
-    this.puzzleService.generatePreviewId();
-  }
-}
+export class AppPuzzleComponent {}
 ```
 
-### 上例中的数据源配置对话框
+如需接入宿主侧的数据配置弹窗、SQL 执行或模型查询，可以在应用边界注册自定义 adapter：
 
 ```ts
-import { Component, inject, input, OnInit, signal } from '@angular/core';
-import { ThyDialog, ThyDialogBody, ThyDialogFooter, ThyDialogHeader } from 'ngx-tethys/dialog';
-import { ThySelect } from 'ngx-tethys/select';
-import { ThyOption } from 'ngx-tethys/shared';
-import { FormsModule } from '@angular/forms';
-import { ThyInputDirective } from 'ngx-tethys/input';
-import { ThyButton } from 'ngx-tethys/button';
-import { NgIf } from '@angular/common';
+import { ApplicationConfig } from '@angular/core';
+import { provideHttpClient } from '@angular/common/http';
+import { providePuzzleLib } from '@zhongmiao/ngx-puzzle';
+import { ExamplePuzzleDataAdapter } from './example-puzzle-data-adapter.service';
 
-@Component({
-  selector: 'example-data-source-dialog',
-  standalone: true,
-  imports: [ThyDialogHeader, ThyDialogBody, ThyDialogFooter, ThySelect, ThyOption, FormsModule, ThyInputDirective, ThyButton, NgIf],
-  template: `...` // 详见示例项目中的完整模板
-})
-export class ExampleDataSourceDialogComponent implements OnInit {
-  private dialog = inject(ThyDialog);
-  inputType = input<'GET' | 'POST'>('GET');
-  inputUrl = input<string>('');
-  inputBody = input<string>('');
-  type = signal<'GET' | 'POST'>('GET');
-  url = signal<string>('');
-  body = signal<string>('');
-  ngOnInit() {
-    this.type.set(this.inputType() ?? 'GET');
-    this.url.set(this.inputUrl() ?? '');
-    this.body.set(this.inputBody() ?? '');
-  }
-  confirm() {
-    this.dialog.close({ type: this.type(), url: this.url(), body: this.body() });
-  }
-  close() {
-    this.dialog.close();
-  }
-}
+export const appConfig: ApplicationConfig = {
+  providers: [provideHttpClient(), providePuzzleLib({ dataAdapter: ExamplePuzzleDataAdapter })]
+};
 ```
+
+这套结构下：
+
+- 组件库只负责画布、编辑器、联动和运行时骨架
+- 普通表格使用 `ngx-tethys`
+- 高级表格使用 `ag-grid-community`
+- SQL、查询模型和数据编排由宿主 adapter 自行实现
 
 ## 架构与数据绑定
 
 - 仅使用独立组件（standalone）；局部状态用 signals，派生状态用 computed。
 - OnPush 变更检测。
-- 通过 NgxPuzzleDataBindingService 实现外部数据绑定：
-  - bindingRequest$：组件发起数据请求（包含 componentId、seriesIndex、apiSource 等）
-  - responseBinding(...)：外部响应并传入 dataRequest，其中 apiSources 为数组
-  - controlChange$：控件类组件变化时通知外部，外部可据此更新 apiSources
+- 外部数据绑定改为 adapter 驱动：
+  - `PuzzleDataAdapter.openBinding(...)`：宿主打开自定义绑定面板，或执行默认绑定流程
+  - `PuzzleDataAdapter.onControlChange(...)`：宿主解释控件筛选上下文并更新请求配置
+  - `PuzzleDataAdapter.executeSource(...)`：宿主执行真实数据请求，包括自定义 SQL / 模型扩展
 - NgxPuzzleExternalService：用于获取/保存编辑器配置、生成预览 ID。
 
 ## 使用建议
@@ -346,7 +217,7 @@ npm start
 
 - ngx-tethys（示例中的 UI 组件、对话框与布局）：https://github.com/atinc/ngx-tethys
 - Apache ECharts（内置图表组件的渲染引擎）：https://echarts.apache.org/ 及 https://github.com/apache/echarts
-- ag-grid-community / ag-grid-angular（表格透视和渲染）: https://www.ag-grid.com/
+- ag-grid-community / ag-grid-angular（高级表格渲染）: https://www.ag-grid.com/
 
 ## 许可证
 

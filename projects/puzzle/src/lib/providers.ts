@@ -1,11 +1,13 @@
-import { EnvironmentProviders, importProvidersFrom, inject, makeEnvironmentProviders, provideAppInitializer } from '@angular/core';
+import { EnvironmentProviders, importProvidersFrom, inject, makeEnvironmentProviders, provideAppInitializer, Type } from '@angular/core';
 import { ThyTooltipModule, THY_TOOLTIP_DEFAULT_CONFIG_TOKEN, thyTooltipDefaultConfig } from 'ngx-tethys/tooltip';
 import { ThyIconModule, ThyIconRegistry } from 'ngx-tethys/icon';
 import { DomSanitizer } from '@angular/platform-browser';
-import { ChartTypesEnum, ControlTypesEnum, TableTypesEnum, TextTypesEnum, TabTypesEnum } from '../core';
+import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
+import { ChartTypesEnum, ControlTypesEnum, PuzzleDataAdapter, PUZZLE_DATA_ADAPTER, TableTypesEnum, TextTypesEnum, TabTypesEnum } from '../core';
 
 export interface PuzzleLibConfig {
   tooltip?: Partial<typeof thyTooltipDefaultConfig>;
+  dataAdapter?: Type<PuzzleDataAdapter>;
 }
 
 function registerIcons(iconRegistry: ThyIconRegistry, sanitizer: DomSanitizer) {
@@ -45,7 +47,17 @@ export function providePuzzleLib(config: PuzzleLibConfig = {}): EnvironmentProvi
         ...config.tooltip
       }
     },
+    ...(config.dataAdapter
+      ? [
+          config.dataAdapter,
+          {
+            provide: PUZZLE_DATA_ADAPTER,
+            useExisting: config.dataAdapter
+          }
+        ]
+      : []),
     provideAppInitializer(() => {
+      ModuleRegistry.registerModules([AllCommunityModule]);
       registerIcons(inject(ThyIconRegistry), inject(DomSanitizer));
     })
   ]);

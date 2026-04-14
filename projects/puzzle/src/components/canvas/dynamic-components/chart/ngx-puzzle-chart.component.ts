@@ -1,23 +1,24 @@
 import { Component, inject, OnDestroy } from '@angular/core';
 import {
-  NgxPuzzleHttpService,
   mainTypes,
   ComponentChartProps,
   ComponentConfig,
   DataRequestConfig,
-  ApiSource,
   MockService,
   PuzzleCanvasMediatorService,
   CHART_DATA_OPTIONS,
   CHART_DEFAULT_MOCKS_MAP,
-  ChartTypesEnum
+  ChartTypesEnum,
+  adapterResultToObservable,
+  getDataRequestSources,
+  PuzzleDataSource
 } from '../../../../core';
 import { SafeAny } from 'ngx-tethys/types';
 import { takeUntil } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { NgxPuzzleDragWrapperComponent } from '../drag-wrapper/ngx-puzzle-drag-wrapper.component';
 import { NgxPuzzleCanvasBaseComponent } from '../base/ngx-puzzle-canvas-base.component';
-import { PuzzleChartsComponent } from '../../../primitives/puzzle-charts/puzzle-charts.component';
+import { PuzzleChartsComponent } from '../../../primitives';
 
 @Component({
   selector: 'puzzle-chart',
@@ -38,7 +39,7 @@ export class NgxPuzzleChartComponent extends NgxPuzzleCanvasBaseComponent<Compon
   private dataStreamSubscriptions: Map<number, Subscription> = new Map();
 
   // 上一次的 API 源快照，用于计算增量变化（编辑模式）
-  private lastApiSources: ApiSource[] = [];
+  private lastApiSources: PuzzleDataSource[] = [];
 
   set config(config: ComponentConfig<ComponentChartProps, ChartTypesEnum>) {
     this.initConfig(config);
@@ -47,8 +48,6 @@ export class NgxPuzzleChartComponent extends NgxPuzzleCanvasBaseComponent<Compon
   get config(): ComponentConfig<ComponentChartProps, ChartTypesEnum> {
     return this._config;
   }
-
-  private httpService = inject(NgxPuzzleHttpService);
 
   constructor(mediator: PuzzleCanvasMediatorService<ComponentChartProps, ChartTypesEnum>) {
     super(mediator);
@@ -61,7 +60,7 @@ export class NgxPuzzleChartComponent extends NgxPuzzleCanvasBaseComponent<Compon
 
   // 实现抽象方法：更新数据
   updateData(requestData: DataRequestConfig): void {
-    const { apiSources } = requestData;
+    const apiSources = getDataRequestSources(requestData);
 
     if (this.isEdit) {
       // 编辑模式：使用上一份快照与新的 apiSources 计算差异
@@ -92,7 +91,7 @@ export class NgxPuzzleChartComponent extends NgxPuzzleCanvasBaseComponent<Compon
    */
   private handleSeriesChanges(): void {
     const series = this.normalizeSeries();
-    const { apiSources } = this.config.dataRequest || {};
+    const apiSources = getDataRequestSources(this.config.dataRequest);
 
     // 找出需要补全数据的系列信息（包含索引和名称）
     const seriesToUpdate: Array<{ index: number; name?: string }> = [];
@@ -118,13 +117,13 @@ export class NgxPuzzleChartComponent extends NgxPuzzleCanvasBaseComponent<Compon
   /**
    * 为指定的系列更新数据（支持系列名称智能匹配）
    */
-  private updateDataForSeriesWithNames(seriesToUpdate: Array<{ index: number; name?: string }>, dataStreams?: ApiSource[]): void {
+  private updateDataForSeriesWithNames(seriesToUpdate: Array<{ index: number; name?: string }>, dataStreams?: PuzzleDataSource[]): void {
     seriesToUpdate.forEach(({ index, name }) => {
       this.processDataForIndex(index, dataStreams, name);
     });
   }
 
-  private updateDataIncrementallyByApi(prevStreams: ApiSource[], newStreamsInput?: ApiSource[]): void {
+  private updateDataIncrementallyByApi(prevStreams: PuzzleDataSource[], newStreamsInput?: PuzzleDataSource[]): void {
     const newDataStreams = newStreamsInput || [];
 
     // 检测变化并同步缓存（基于上一次与本次）
@@ -145,7 +144,7 @@ export class NgxPuzzleChartComponent extends NgxPuzzleCanvasBaseComponent<Compon
     this.updateDataByIndexes(dataStreamChanges, newDataStreams);
   }
 
-  private updateDataCompletelyByApi(dataStreams?: ApiSource[]): void {
+  private updateDataCompletelyByApi(dataStreams?: PuzzleDataSource[]): void {
     let allIndexes: number[];
 
     if (!dataStreams || dataStreams.length === 0) {
@@ -162,7 +161,7 @@ export class NgxPuzzleChartComponent extends NgxPuzzleCanvasBaseComponent<Compon
   /**
    * 同步数据缓存与数据流变化
    */
-  private syncDataCacheWithStreams(currentStreams: ApiSource[], newStreams: ApiSource[]): void {
+  private syncDataCacheWithStreams(currentStreams: PuzzleDataSource[], newStreams: PuzzleDataSource[]): void {
     console.log(`[图表缓存] 同步缓存`, {
       currentLength: currentStreams.length,
       newLength: newStreams.length,
@@ -205,7 +204,7 @@ export class NgxPuzzleChartComponent extends NgxPuzzleCanvasBaseComponent<Compon
   /**
    * 检测数据流变化，返回变化的索引
    */
-  private getDataStreamChanges(current: ApiSource[], updated: ApiSource[]): number[] {
+  private getDataStreamChanges(current: PuzzleDataSource[], updated: PuzzleDataSource[]): number[] {
     const changes: number[] = [];
     const maxLength = Math.max(current.length, updated.length);
 
@@ -220,7 +219,7 @@ export class NgxPuzzleChartComponent extends NgxPuzzleCanvasBaseComponent<Compon
       }
 
       // 对比数据源是否有变化（url/method/params）
-      const serialize = (s: ApiSource) => `${s?.method || ''}|${s?.url || ''}|${JSON.stringify(s?.params || {})}`;
+      const serialize = (s: PuzzleDataSource) => JSON.stringify(s || {});
       if (serialize(currentStream) !== serialize(updatedStream)) {
         changes.push(i);
       }
@@ -232,7 +231,7 @@ export class NgxPuzzleChartComponent extends NgxPuzzleCanvasBaseComponent<Compon
   /**
    * 根据索引数组更新数据
    */
-  private updateDataByIndexes(indexes: number[], dataStreams?: ApiSource[]): void {
+  private updateDataByIndexes(indexes: number[], dataStreams?: PuzzleDataSource[]): void {
     const series = this.normalizeSeries();
 
     indexes.forEach((index) => {
@@ -244,7 +243,7 @@ export class NgxPuzzleChartComponent extends NgxPuzzleCanvasBaseComponent<Compon
   /**
    * 处理指定索引的数据
    */
-  private processDataForIndex(index: number, dataStreams?: ApiSource[], seriesName?: string): void {
+  private processDataForIndex(index: number, dataStreams?: PuzzleDataSource[], seriesName?: string): void {
     console.log(`processDataForIndex`, { index, subType: this.config.subType, seriesName, hasDataStreams: !!dataStreams });
 
     // 获取对应索引的数据源
@@ -261,13 +260,28 @@ export class NgxPuzzleChartComponent extends NgxPuzzleCanvasBaseComponent<Compon
       this.cleanupSubscription(index);
 
       // 基于数据源发起请求
-      const request$ = this.httpService.request(apiSource);
-
-      const subscription = request$.pipe(takeUntil(this.destroy$)).subscribe((data) => {
-        console.log(`processDataForIndex: API 返回数据`, { index, data });
-        this.setCachedData(index, data);
-        this.updateChartData(data, index);
+      const result = this.dataAdapter.executeSource({
+        source: apiSource,
+        componentConfig: this.config,
+        dataRequest: this.config.dataRequest,
+        seriesIndex: index,
+        isEdit: this.isEdit
       });
+
+      const subscription = adapterResultToObservable(result)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((data) => {
+          if (data == null) {
+            const mockData = this.mockService.getMockData(this.config.subType, index, seriesName);
+            this.setCachedData(index, mockData);
+            this.updateChartData(mockData, index);
+            return;
+          }
+
+          console.log(`processDataForIndex: API 返回数据`, { index, data });
+          this.setCachedData(index, data);
+          this.updateChartData(data, index);
+        });
 
       // 保存订阅引用
       this.dataStreamSubscriptions.set(index, subscription);

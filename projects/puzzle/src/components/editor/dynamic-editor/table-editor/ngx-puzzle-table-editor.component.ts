@@ -3,7 +3,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { EditorBaseComponent } from '../base/editor-base.component';
 import { EditorTableField, TableTypesEnum, TABLE_FIELDS_MAP, SafeAny, convertFormDataToOptions } from '../../../../core';
-import { PivotReportConfig } from '../../../primitives/puzzle-pivot-table/puzzle-pivot-table.component';
+import { AdvancedTableConfig } from '../../../primitives';
 import { PuzzleFormRendererComponent } from '../../../primitives';
 
 @Component({
@@ -13,7 +13,7 @@ import { PuzzleFormRendererComponent } from '../../../primitives';
   templateUrl: './ngx-puzzle-table-editor.component.html',
   styleUrl: './ngx-puzzle-table-editor.component.scss'
 })
-export class NgxPuzzleTableEditorComponent extends EditorBaseComponent<PivotReportConfig, TableTypesEnum, EditorTableField> {
+export class NgxPuzzleTableEditorComponent extends EditorBaseComponent<AdvancedTableConfig, TableTypesEnum, EditorTableField> {
   protected setFields(type?: TableTypesEnum): void {
     if (!type) return;
     this.sections = TABLE_FIELDS_MAP[type];
@@ -23,7 +23,7 @@ export class NgxPuzzleTableEditorComponent extends EditorBaseComponent<PivotRepo
     return 'table';
   }
 
-  protected override afterConfigUpdate(_tableConfig?: PivotReportConfig): void {}
+  protected override afterConfigUpdate(_tableConfig?: AdvancedTableConfig): void {}
 
   /**
    * 添加数组项

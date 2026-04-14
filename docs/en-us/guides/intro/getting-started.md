@@ -11,7 +11,7 @@ ng-puzzle is an Angular-based drag-and-drop visualization library. It provides a
 
 # Requirements
 
-- Angular 17+ (with native Signals and standalone components)
+- Angular 21+ (with native Signals and standalone components)
 - Node.js 18+ / npm 9+ (or pnpm / yarn)
 
 # Installation
@@ -21,8 +21,8 @@ Prefer ng add. Manual install is also supported.
 ## Option 1: ng add (recommended)
 
 ```bash
-# Create an Angular 18 app
-npx @angular/cli@18 new my-angular18-app
+# Create an Angular 21 app
+npx @angular/cli@21 new my-angular21-app
 cd my-angular18-app
 
 # One-step integration
@@ -50,16 +50,16 @@ The schematic will add/ensure the following deps and versions:
 
 ```json
 {
-  "@angular/cdk": "^18.2.14",
-  "@tethys/icons": "1.4.50",
+  "@angular/cdk": "^21.2.6",
   "ag-grid-community": "^35.0.0",
   "ag-grid-angular": "^35.0.0",
-  "@zhongmiao/ngx-puzzle": "^18.4.13",
   "echarts": "6.0.0",
   "lodash": "4.17.21",
-  "ngx-tethys": "^18.2.17"
+  "ngx-tethys": "^21.0.0"
 }
 ```
+
+`ag-grid-community` and `ag-grid-angular` are used only by the advanced table component. Standard tables render with `ngx-tethys`.
 
 ### Manual static assets (when ng add didn’t auto-append)
 Add the following entries to your application project’s assets list in angular.json (note: your app project, not this repo’s example app):
@@ -68,19 +68,13 @@ Add the following entries to your application project’s assets list in angular
 [
   {
     "glob": "**/*",
-    "input": "./node_modules/@tethys/icons/assets",
-    "output": "/assets/icons"
-  },
-  {
-    "glob": "**/*",
-    "input": "./node_modules/ngx-puzzle/assets",
+    "input": "./node_modules/@zhongmiao/ngx-puzzle/assets",
     "output": "/assets"
   }
 ]
 ```
 
-- @tethys/icons -> /assets/icons: exposes icon assets used by Tethys UI components.
-- projects/puzzle/src/assets -> /assets: exposes library-provided assets (e.g., editor backgrounds).
+- @zhongmiao/ngx-puzzle/assets -> /assets: exposes library-provided assets (e.g., editor backgrounds and built-in resources).
 
 # Basic usage
 
@@ -186,6 +180,23 @@ export class LivePreviewComponent {
 - previewId: used in edit mode to load temporary configs from session
 - passedConfig: configs array for normal mode
 
+# Custom data adapters
+
+Prefer a custom `PuzzleDataAdapter` when you need host-specific binding dialogs, SQL support, domain query models, or custom request orchestration:
+
+```ts
+import { ApplicationConfig } from '@angular/core';
+import { provideHttpClient } from '@angular/common/http';
+import { providePuzzleLib } from '@zhongmiao/ngx-puzzle';
+import { ExamplePuzzleDataAdapter } from './example-puzzle-data-adapter.service';
+
+export const appConfig: ApplicationConfig = {
+  providers: [provideHttpClient(), providePuzzleLib({ dataAdapter: ExamplePuzzleDataAdapter })]
+};
+```
+
+The library stays responsible for the canvas, controls, and runtime orchestration. Your app adapter owns SQL, model definitions, filter interpretation, and request execution.
+
 # Tips & best practices
 
 - Components are standalone; no NgModule needed. Import directly in imports.
@@ -196,4 +207,4 @@ export class LivePreviewComponent {
 
 - Read Introduction to learn core capabilities: /en-us/guides/intro
 - Check the API Parameters page in the example site (example/ directory)
-- Integrate data sources with NgxPuzzleDataBindingService to build live dashboards
+- Integrate a custom `PuzzleDataAdapter` to build live dashboards
