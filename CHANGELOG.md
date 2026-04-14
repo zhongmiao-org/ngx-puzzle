@@ -1,3 +1,7 @@
+English | [中文文档](CHANGELOG.zh-CN.md)
+
+## [Unreleased]
+
 ## 18.5.5 (2025-09-18)
 
 * feat(ci): remove console when build ([ff0667d](https://github.com/zhongmiao-org/ngx-puzzle/commit/ff0667d))

@@ -1,0 +1,122 @@
+name: Release Publish
+
+on:
+  release:
+    types:
+      - published
+      - prereleased
+
+concurrency:
+  group: release-publish-${{ github.event.release.tag_name }}
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: Publish to npm
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout release tag
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.release.tag_name }}
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+          cache: npm
+
+      - name: Validate tag and version
+        id: version
+        run: |
+          TAG_NAME="${{ github.event.release.tag_name }}"
+          git fetch origin main
+          TAG_COMMIT="$(git rev-list -n 1 "${TAG_NAME}")"
+
+          if ! git merge-base --is-ancestor "${TAG_COMMIT}" "origin/main"; then
+            echo "Release tag ${TAG_NAME} does not point to a commit on main."
+            exit 1
+          fi
+
+          PKG_VERSION="$(node -p "require('./package.json').version")"
+          EXPECTED_TAG="v${PKG_VERSION}"
+
+          if [[ "${TAG_NAME}" != "${EXPECTED_TAG}" ]]; then
+            echo "Tag/version mismatch: tag=${TAG_NAME}, package.json=${PKG_VERSION}"
+            exit 1
+          fi
+
+          if [[ "${PKG_VERSION}" =~ -(beta|rc)\.[0-9]+$ ]]; then
+            DIST_TAG="next"
+          else
+            DIST_TAG="latest"
+          fi
+
+          echo "pkg_version=${PKG_VERSION}" >> "$GITHUB_OUTPUT"
+          echo "dist_tag=${DIST_TAG}" >> "$GITHUB_OUTPUT"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build package
+        run: npm run build
+
+      - name: Publish to npm
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          if [[ -z "${NODE_AUTH_TOKEN}" ]]; then
+            echo "NPM_TOKEN is not configured."
+            exit 1
+          fi
+
+          npm publish --tag "${{ steps.version.outputs.dist_tag }}" --access public ./dist/puzzle
+
+      - name: Checkout main for changelog finalize
+        run: |
+          git switch -C main origin/main
+
+      - name: Finalize changelog (archive Unreleased)
+        id: changelog
+        env:
+          RELEASE_BODY: ${{ github.event.release.body }}
+        run: |
+          BRANCH="chore/changelog-${{ steps.version.outputs.pkg_version }}-${GITHUB_RUN_ID}"
+          BODY_FILE=".release_body.txt"
+          printf '%s\n' "${RELEASE_BODY}" > "${BODY_FILE}"
+
+          bash .github/scripts/finalize_changelog.sh "${{ steps.version.outputs.pkg_version }}" "${BODY_FILE}" CHANGELOG.md
+          if [[ -f "CHANGELOG.zh-CN.md" ]]; then
+            bash .github/scripts/finalize_changelog.sh "${{ steps.version.outputs.pkg_version }}" "${BODY_FILE}" CHANGELOG.zh-CN.md
+          fi
+
+          if git diff --quiet -- CHANGELOG.md CHANGELOG.zh-CN.md; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c "${BRANCH}"
+          git add CHANGELOG.md CHANGELOG.zh-CN.md
+          git commit -m "chore(changelog): finalize v${{ steps.version.outputs.pkg_version }}"
+          git push --set-upstream origin "${BRANCH}"
+
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+          echo "branch=${BRANCH}" >> "$GITHUB_OUTPUT"
+
+      - name: Create changelog PR
+        if: ${{ steps.changelog.outputs.changed == 'true' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr create \
+            --title "chore(changelog): finalize v${{ steps.version.outputs.pkg_version }}" \
+            --body "Automated changelog finalize after publishing \`${{ github.event.release.tag_name }}\`." \
+            --base main \
+            --head "${{ steps.changelog.outputs.branch }}"

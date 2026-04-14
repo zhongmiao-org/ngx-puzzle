@@ -1,0 +1,98 @@
+name: Release Draft
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: release-draft-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  sync-release-draft:
+    name: Create or update release draft
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Resolve release metadata from main
+        id: meta
+        run: |
+          VERSION="$(node -p "require('./package.json').version")"
+          TAG="v${VERSION}"
+          if [[ "${VERSION}" =~ -(beta|rc)\.[0-9]+$ ]]; then
+            PRERELEASE="true"
+          else
+            PRERELEASE="false"
+          fi
+
+          bash .github/scripts/extract_unreleased.sh CHANGELOG.md .release_notes.txt
+
+          {
+            echo "version=${VERSION}"
+            echo "tag=${TAG}"
+            echo "prerelease=${PRERELEASE}"
+            echo "body<<EOF"
+            cat .release_notes.txt
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Upsert GitHub release draft
+        uses: actions/github-script@v7
+        env:
+          RELEASE_TAG: ${{ steps.meta.outputs.tag }}
+          RELEASE_VERSION: ${{ steps.meta.outputs.version }}
+          RELEASE_PRERELEASE: ${{ steps.meta.outputs.prerelease }}
+          RELEASE_BODY: ${{ steps.meta.outputs.body }}
+        with:
+          script: |
+            const tag = process.env.RELEASE_TAG;
+            const version = process.env.RELEASE_VERSION;
+            const body = process.env.RELEASE_BODY || '';
+            const prerelease = process.env.RELEASE_PRERELEASE === 'true';
+
+            const releases = await github.paginate(github.rest.repos.listReleases, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              per_page: 100,
+            });
+
+            const existing = releases.find((r) => r.tag_name === tag);
+            if (existing) {
+              await github.rest.repos.updateRelease({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                release_id: existing.id,
+                tag_name: tag,
+                target_commitish: 'main',
+                name: tag,
+                body,
+                draft: true,
+                prerelease,
+              });
+              core.info(`Updated draft release for ${tag} (version ${version}).`);
+            } else {
+              await github.rest.repos.createRelease({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                tag_name: tag,
+                target_commitish: 'main',
+                name: tag,
+                body,
+                draft: true,
+                prerelease,
+              });
+              core.info(`Created draft release for ${tag} (version ${version}).`);
+            }

@@ -91,35 +91,32 @@ We hope this contribution guide helps you get started and make meaningful contri
 
 ### 9. Changelog
 
-- We maintain a CHANGELOG.md generated from Conventional Commits.
-- On each release (`npm run release`), the changelog is automatically updated by the `postrelease` script.
-- Before releasing, we validate the library builds successfully via `prerelease` (runs `npm run build`). If build fails, the release is aborted.
-- The CHANGELOG.md, README.md and LICENSE are copied into the published package during build, so users on npm can read them.
-- To update locally without releasing:
-  - Latest changes since last tag: `npm run changelog`
-  - Regenerate from entire history: `npm run changelog:all`
-- Commit message used by automation: `docs(changelog): update changelog` (validated by Commitlint).
+- `CHANGELOG.md` and `CHANGELOG.zh-CN.md` must keep `## [Unreleased]` at the top.
+- If a PR changes code-impacting files, CI requires both changelog files to be updated under `Unreleased`.
+- If a PR only changes docs/CI, changelog update is optional.
+- Release drafts are generated from the current `Unreleased` section after merge to `main`.
 
-### 10. Release helper (interactive)
+### 10. Main-only release policy
 
-Use the interactive release helper to cut a release end-to-end (branch → validate → bump → changelog → overwrite dist → publish):
+- Only `main` is used for both prereleases and stable releases.
+- Release version source is `package.json.version` on `main`.
+- Do not publish from `release/*` branches.
+- Use valid SemVer:
+  - stable: `1.2.2`
+  - prerelease: `1.2.2-beta.1` or `1.2.2-rc.1`
+  - invalid format example: `1.2.2.rc`
 
-- Run: `npm run release:select`
-- Choose bump type (SemVer):
-  - major: breaking changes; typically aligns with Angular major updates
-  - minor: new features, backward-compatible
-  - patch: bug fixes and optimizations, no breaking changes
-- The script performs:
-  1. Creates a branch `release: <nextVersion>`
-  2. Validates environment and runs a pre-bump build (`npm run build`)
-  3. Updates version in root and library package.json to `<nextVersion>`
-  4. Generates/updates CHANGELOG.md using Conventional Commits
-  5. Overwrites `dist/puzzle/package.json` version and copies `CHANGELOG.md` into `dist/puzzle`
-  6. Commits changes and pushes the release branch
-  7. Publishes the package from `dist/puzzle` to npm
+### 11. Release workflow
 
-Flags:
+GitHub Actions now handles release end-to-end:
 
-- `--type <major|minor|patch>` non-interactive
-- `--yes` skip confirmation
-- `--dry-run` show actions without changing anything
+1. Open a PR that updates `package.json.version` and `CHANGELOG.md` `Unreleased`.
+2. Merge PR into `main`.
+3. `Release Draft` workflow creates/updates draft release `v<version>` from `Unreleased`.
+4. Click **Publish release** on GitHub.
+5. `Release Publish` workflow publishes to npm:
+   - `-beta.x` / `-rc.x` -> `next`
+   - stable `x.y.z` -> `latest`
+6. Workflow finalizes changelog by archiving `Unreleased` into the released version and opens a PR back to `main`.
+
+See [RELEASING.md](RELEASING.md) for the full operational guide (Chinese version: [RELEASING.zh-CN.md](RELEASING.zh-CN.md)).
