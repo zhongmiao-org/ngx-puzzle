@@ -1,6 +1,6 @@
 {
   "name": "@zhongmiao/ngx-puzzle",
-  "version": "18.5.5",
+  "version": "21.0.0",
   "private": false,
   "packageManager": "npm@11.4.2",
   "engines": {

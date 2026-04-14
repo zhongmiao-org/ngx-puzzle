@@ -1,4 +1,4 @@
-中文文档 | [English](CONTRIBUTING.md)
+[English](CONTRIBUTING.md) | 中文文档
 
 ## 贡献指南
 
@@ -91,35 +91,32 @@ chore: 更新依赖
 
 ### 9. 更新日志（Changelog）
 
-- 我们维护 `CHANGELOG.md`，由符合 Conventional Commits 规范的提交信息自动生成与归类。
-- 每次发布版本（`npm run release`）后，会通过 `postrelease` 脚本自动更新 `CHANGELOG.md`。
-- 发布前会通过 `prerelease` 钩子验证库是否能成功构建（执行 `npm run build`），如果构建失败将中止发版。
-- 在构建过程中会把 `CHANGELOG.md`、`README.md` 和 `LICENSE` 复制到发布包中，确保 npm 用户能直接查看。
-- 本地手动更新：
-  - 从最近一个 tag 开始汇总：`npm run changelog`
-  - 基于完整历史重新生成：`npm run changelog:all`
-- 自动化提交信息为：`docs(changelog): update changelog`（将通过 Commitlint 校验）。
+- `CHANGELOG.md` 与 `CHANGELOG.zh-CN.md` 顶部都必须保留 `## [Unreleased]`。
+- 当 PR 修改代码相关文件时，CI 会强制要求两份 changelog 的 `Unreleased` 同步更新。
+- 仅文档/CI 变更时，可不更新 changelog。
+- 合并到 `main` 后，Release Draft 会从当前 `Unreleased` 自动生成。
 
-### 10. 交互式发版助手
+### 10. 仅 main 分支发版策略
 
-使用交互式脚本一键发版（创建分支 → 校验构建 → 修改版本 → 更新日志 → 覆盖打包输出 → 发布）：
+- 预发布与正式版都只从 `main` 发版。
+- 版本唯一来源是 `main` 上的 `package.json.version`。
+- 禁止从 `release/*` 分支发版。
+- 版本号必须符合 SemVer：
+  - 正式版：`1.2.2`
+  - 预发布：`1.2.2-beta.1` 或 `1.2.2-rc.1`
+  - 错误示例：`1.2.2.rc`
 
-- 运行：`npm run release:select`
-- 选择版本类型（SemVer 权威命名）：
-  - major：破坏性变更；通常与 Angular 大版本同步
-  - minor：新增功能，向后兼容
-  - patch：修复和优化，不引入破坏性变更
-- 脚本执行的步骤：
-  1. 创建分支 `release: <nextVersion>`
-  2. 校验环境并执行发版前构建（`npm run build`）
-  3. 将根目录与库的 package.json 版本更新为 `<nextVersion>`
-  4. 基于 Conventional Commits 生成/更新 CHANGELOG.md
-  5. 覆盖 `dist/puzzle/package.json` 的 version，并将 `CHANGELOG.md` 拷贝到 `dist/puzzle`
-  6. 提交变更并推送 release 分支
-  7. 从 `dist/puzzle` 发布到 npm
+### 11. 发版工作流
 
-可选参数：
+GitHub Actions 自动完成发版流程：
 
-- `--type <major|minor|patch>` 非交互模式
-- `--yes` 跳过确认
-- `--dry-run` 仅展示行为，不实际执行
+1. 提交 PR，同时更新 `package.json.version` 和 `CHANGELOG.md` 的 `Unreleased`。
+2. 合并到 `main`。
+3. `Release Draft` 工作流自动创建/更新 `v<version>` 草稿。
+4. 在 GitHub 点击 **Publish release**。
+5. `Release Publish` 自动发布到 npm：
+   - `-beta.x` / `-rc.x` 发布到 `next`
+   - 正式版 `x.y.z` 发布到 `latest`
+6. 发布后自动将 `Unreleased` 归档到对应版本，并创建 PR 回写 `main`。
+
+完整操作细则见 [RELEASING.zh-CN.md](RELEASING.zh-CN.md)。
