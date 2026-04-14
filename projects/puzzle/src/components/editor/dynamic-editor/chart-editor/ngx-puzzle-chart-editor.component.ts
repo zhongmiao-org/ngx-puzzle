@@ -8,7 +8,7 @@ import { EditorBaseComponent } from '../base/editor-base.component';
 import { PuzzleFormRendererComponent } from '../../../primitives';
 
 @Component({
-  selector: 'ngx-puzzle-chart-editor',
+  selector: 'puzzle-chart-editor',
   standalone: true,
   imports: [ThyCollapseModule, ThyCardModule, ThyButtonModule, FormsModule, PuzzleFormRendererComponent],
   templateUrl: './ngx-puzzle-chart-editor.component.html',

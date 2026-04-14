@@ -1,9 +1,24 @@
-/* You can add global styles to this file, and also import other style files */
+@use '../../projects/puzzle/src/styles/reset';
+@use 'ngx-tethys/styles/index.scss' as tethys;
+@use '@docgeni/template/styles/index.scss' as docgeni;
 
-// docgeni
+@import url("ag-grid-community/styles/ag-grid.css");
+@import url("ag-grid-community/styles/ag-theme-quartz.css");
 
-$primary: #6698ff;
+.panel-icon {
+  font-size: 50px !important;
+  text-align: center;
+  cursor: pointer;
+}
 
-@use '../../projects/puzzle/src/styles/index.scss';
-@import 'ngx-tethys/styles/index.scss';
-@import '@docgeni/template/styles/index.scss';
+.font-weight-normal {
+  font-weight: normal;
+}
+
+.font-weight-bold {
+  font-weight: bold;
+}
+
+.cdk-drag {
+  transition: transform 0ms cubic-bezier(0, 0, 0.2, 1) !important;
+}

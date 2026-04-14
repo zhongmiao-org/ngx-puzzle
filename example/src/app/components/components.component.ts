@@ -1,12 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { DocItem } from '@docgeni/template';
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { DocItem, DocgeniTemplateModule } from '@docgeni/template';
 
 @Component({
   selector: 'app-example-components',
   templateUrl: './components.component.html',
-  standalone: false
+  standalone: true,
+  imports: [RouterOutlet, DocgeniTemplateModule]
 })
-export class AppExampleComponentsComponent implements OnInit {
+export class AppExampleComponentsComponent {
   menus: DocItem[] = [
     {
       id: 'basic',
@@ -39,8 +41,4 @@ export class AppExampleComponentsComponent implements OnInit {
     //     path: 'advanced'
     // }
   ];
-
-  constructor() {}
-
-  ngOnInit() {}
 }

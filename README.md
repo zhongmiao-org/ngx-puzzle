@@ -33,10 +33,10 @@ Prefer ng add. Manual install is also supported.
 ### Option 1: ng add (recommended)
 
 ```bash
-ng new my-angular18-app --routing=true --style=scss
+ng new my-angular21-app --routing=true --style=scss
 # or
-# npx @angular/cli@18 new my-angular18-app
-cd my-angular18-app
+# npx @angular/cli@21 new my-angular21-app
+cd my-angular21-app
 ng add @zhongmiao/ngx-puzzle
 ```
 
@@ -52,8 +52,8 @@ ng add @zhongmiao/ngx-puzzle
     Added lodash@4.17.21 to dependencies
     Added ngx-tethys@^21.0.0 to dependencies
     Added asset mapping: ./node_modules/@zhongmiao/ngx-puzzle/assets -> /assets
-    Prepended style import to src/styles.scss: @import "@zhongmiao/ngx-puzzle/styles/index.scss";
-    Prepended style import to src/styles.scss: @import 'ngx-tethys/styles/index.scss';
+    Prepended style import to src/styles.scss: @use "@zhongmiao/ngx-puzzle/styles/index.scss";
+    Prepended style import to src/styles.scss: @use 'ngx-tethys/styles/index.scss';
     Added import for provideHttpClient in src/app/app.config.ts
     Added import for providePuzzleLib in src/app/app.config.ts
     Updated assets configuration to include library assets.
@@ -82,11 +82,11 @@ npm install @zhongmiao/ngx-puzzle
 Add global style imports in your app's src/styles.scss:
 
 ```scss
-@import "@zhongmiao/ngx-puzzle/styles/index.scss";
-@import "ngx-tethys/styles/index.scss";
+@use "@zhongmiao/ngx-puzzle/styles/index.scss";
+@use "ngx-tethys/styles/index.scss";
 ```
 
-As a standalone-first library, ngx-puzzle provides a ready-made provider. Add provideHttpClient() and providePuzzleLib({ animations: 'browser' }) in src/app/app.config.ts:
+As a standalone-first library, ngx-puzzle provides a ready-made provider. Add provideHttpClient() and providePuzzleLib() in src/app/app.config.ts:
 
 ```ts
 import { providePuzzleLib } from '@zhongmiao/ngx-puzzle';
@@ -97,7 +97,7 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes),  provideHttpClient(), providePuzzleLib({ animations: 'browser' })]
+  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes), provideHttpClient(), providePuzzleLib()]
 };
 ```
 

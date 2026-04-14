@@ -63,12 +63,12 @@ function addDependenciesToPackageJson(tree: Tree, context: SchematicContext): vo
 
   // 定义需要安装的依赖项
   const dependenciesToAdd = {
-    "@angular/cdk": "^18.2.14",
+    "@angular/cdk": "^21.2.6",
     "ag-grid-community": "^35.0.0",
     "ag-grid-angular": "^35.0.0",
     "echarts": "^6.0.0",
     "lodash": "4.17.21",
-    "ngx-tethys": "^18.2.17",
+    "ngx-tethys": "^21.0.0",
   };
 
   // 确保 dependencies 对象存在
@@ -102,8 +102,8 @@ function appendStylesImports(tree: Tree, context: SchematicContext, project: any
     `${sourceRoot ?? 'src'}/styles.css`
   ];
   const importLinesScss = [
-    `@import "@zhongmiao/ngx-puzzle/styles/index.scss";`,
-    `@import 'ngx-tethys/styles/index.scss';`
+    `@use "@zhongmiao/ngx-puzzle/styles/index.scss";`,
+    `@use 'ngx-tethys/styles/index.scss';`
   ];
   let modified = false;
   for (const p of stylesPaths) {
@@ -128,7 +128,7 @@ function appendStylesImports(tree: Tree, context: SchematicContext, project: any
     }
   }
   if (!modified) {
-    context.logger.warn('Did not find styles.scss/sass to update. Please add the following to your global styles:\n  @import "@zhongmiao/ngx-puzzle/styles/index.scss";\n  @import "ngx-tethys/styles/index.scss";');
+    context.logger.warn('Did not find styles.scss/sass to update. Please add the following to your global styles:\n  @use "@zhongmiao/ngx-puzzle/styles/index.scss";\n  @use "ngx-tethys/styles/index.scss";');
   }
   return modified;
 }
@@ -183,7 +183,7 @@ function updateAppConfig(tree: Tree, context: SchematicContext, project: any): b
       const needsComma = items.length > 0 && !items.trim().endsWith(',');
       const additions: string[] = [];
       if (!hasHttpProvider) additions.push('provideHttpClient()');
-      if (!hasPuzzleProvider) additions.push(`providePuzzleLib({ animations: 'browser' })`);
+      if (!hasPuzzleProvider) additions.push('providePuzzleLib()');
       if (additions.length === 0) return m;
       const prefix = needsComma ? items + ', ' : items;
       const newInner = (prefix + (prefix ? ' ' : '') + additions.join(', ')).trim();
@@ -193,7 +193,7 @@ function updateAppConfig(tree: Tree, context: SchematicContext, project: any): b
   } else {
     // Fallback: try to append providers array inside appConfig object
     content = content.replace(/export\s+const\s+appConfig\s*:\s*ApplicationConfig\s*=\s*\{([\s\S]*?)\}/, (m, inner) => {
-      const insertion = `providers: [provideHttpClient(), providePuzzleLib({ animations: 'browser' })]`;
+      const insertion = `providers: [provideHttpClient(), providePuzzleLib()]`;
       if (inner.includes('providers')) return m; // already handled above theoretically
       const trimmed = inner.trim();
       const newInner = trimmed ? `${trimmed}${trimmed.endsWith(',') ? '' : ','} ${insertion}` : insertion;

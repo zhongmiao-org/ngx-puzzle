@@ -1,4 +1,4 @@
-@import '../styles.scss';
+@use '../styles.scss' as *;
 .control-wrapper {
   .control-field {
     display: flex;

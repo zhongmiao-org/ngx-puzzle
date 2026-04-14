@@ -1,13 +1,11 @@
-import { APP_INITIALIZER, EnvironmentProviders, importProvidersFrom, makeEnvironmentProviders } from '@angular/core';
+import { EnvironmentProviders, importProvidersFrom, inject, makeEnvironmentProviders, provideAppInitializer } from '@angular/core';
 import { ThyTooltipModule, THY_TOOLTIP_DEFAULT_CONFIG_TOKEN, thyTooltipDefaultConfig } from 'ngx-tethys/tooltip';
 import { ThyIconModule, ThyIconRegistry } from 'ngx-tethys/icon';
 import { DomSanitizer } from '@angular/platform-browser';
-import { provideAnimations, provideNoopAnimations } from '@angular/platform-browser/animations';
 import { ChartTypesEnum, ControlTypesEnum, TableTypesEnum, TextTypesEnum, TabTypesEnum } from '../core';
 
 export interface PuzzleLibConfig {
   tooltip?: Partial<typeof thyTooltipDefaultConfig>;
-  animations?: 'browser' | 'noop';
 }
 
 function registerIcons(iconRegistry: ThyIconRegistry, sanitizer: DomSanitizer) {
@@ -40,7 +38,6 @@ function registerIcons(iconRegistry: ThyIconRegistry, sanitizer: DomSanitizer) {
 export function providePuzzleLib(config: PuzzleLibConfig = {}): EnvironmentProviders {
   return makeEnvironmentProviders([
     importProvidersFrom(ThyTooltipModule, ThyIconModule),
-    config.animations === 'noop' ? provideNoopAnimations() : provideAnimations(),
     {
       provide: THY_TOOLTIP_DEFAULT_CONFIG_TOKEN,
       useValue: {
@@ -48,13 +45,8 @@ export function providePuzzleLib(config: PuzzleLibConfig = {}): EnvironmentProvi
         ...config.tooltip
       }
     },
-    {
-      provide: APP_INITIALIZER,
-      multi: true,
-      useFactory: (iconRegistry: ThyIconRegistry, sanitizer: DomSanitizer) => () => {
-        registerIcons(iconRegistry, sanitizer);
-      },
-      deps: [ThyIconRegistry, DomSanitizer]
-    }
+    provideAppInitializer(() => {
+      registerIcons(inject(ThyIconRegistry), inject(DomSanitizer));
+    })
   ]);
 }
