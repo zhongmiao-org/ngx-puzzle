@@ -39,24 +39,41 @@ if [[ -z "${BODY_CONTENT}" ]]; then
 fi
 
 TMP_REST="$(mktemp)"
+TMP_PREAMBLE="$(mktemp)"
 TMP_NEW="$(mktemp)"
 RELEASE_DATE="$(date -u +%Y-%m-%d)"
 
-# Remove the current Unreleased section from the original changelog.
+# Split original changelog into:
+# 1) preamble before "## [Unreleased]" (for language switch links/title)
+# 2) remaining content after current Unreleased block
 awk '
-  BEGIN { in_unreleased = 0; removed = 0 }
-  !removed && /^## \[Unreleased\][[:space:]]*$/ { in_unreleased = 1; removed = 1; next }
-  in_unreleased {
+  BEGIN { state = 0 }
+  state == 0 && /^## \[Unreleased\][[:space:]]*$/ {
+    state = 1
+    next
+  }
+  state == 0 {
+    print >> preamble
+    next
+  }
+  state == 1 {
     if (/^## /) {
-      in_unreleased = 0
-      print
+      state = 2
+      print >> rest
     }
     next
   }
-  { print }
-' "${CHANGELOG_FILE}" > "${TMP_REST}"
+  state == 2 {
+    print >> rest
+    next
+  }
+' preamble="${TMP_PREAMBLE}" rest="${TMP_REST}" "${CHANGELOG_FILE}"
 
 {
+  cat "${TMP_PREAMBLE}"
+  if [[ -s "${TMP_PREAMBLE}" ]]; then
+    printf '\n'
+  fi
   printf '## [Unreleased]\n\n'
   printf '## %s (%s)\n\n' "${VERSION}" "${RELEASE_DATE}"
   printf '%s\n\n' "${BODY_CONTENT}"
@@ -64,6 +81,6 @@ awk '
 } > "${TMP_NEW}"
 
 mv "${TMP_NEW}" "${CHANGELOG_FILE}"
-rm -f "${TMP_REST}"
+rm -f "${TMP_REST}" "${TMP_PREAMBLE}"
 
 echo "Changelog finalized for version ${VERSION}."
