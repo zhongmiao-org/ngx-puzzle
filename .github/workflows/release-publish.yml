@@ -89,13 +89,17 @@ jobs:
           BRANCH="chore/changelog-${{ steps.version.outputs.pkg_version }}-${GITHUB_RUN_ID}"
           BODY_FILE=".release_body.txt"
           printf '%s\n' "${RELEASE_BODY}" > "${BODY_FILE}"
+          CHANGELOG_FILES="CHANGELOG.md"
 
+          # English changelog uses the published release body.
           bash .github/scripts/finalize_changelog.sh "${{ steps.version.outputs.pkg_version }}" "${BODY_FILE}" CHANGELOG.md
+          # Chinese changelog must use its own Unreleased content, not English release body.
           if [[ -f "CHANGELOG.zh-CN.md" ]]; then
-            bash .github/scripts/finalize_changelog.sh "${{ steps.version.outputs.pkg_version }}" "${BODY_FILE}" CHANGELOG.zh-CN.md
+            bash .github/scripts/finalize_changelog.sh "${{ steps.version.outputs.pkg_version }}" "" CHANGELOG.zh-CN.md
+            CHANGELOG_FILES="${CHANGELOG_FILES} CHANGELOG.zh-CN.md"
           fi
 
-          if git diff --quiet -- CHANGELOG.md CHANGELOG.zh-CN.md; then
+          if git diff --quiet -- ${CHANGELOG_FILES}; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
@@ -103,7 +107,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git switch -c "${BRANCH}"
-          git add CHANGELOG.md CHANGELOG.zh-CN.md
+          git add ${CHANGELOG_FILES}
           git commit -m "chore(changelog): finalize v${{ steps.version.outputs.pkg_version }}"
           git push --set-upstream origin "${BRANCH}"
 
