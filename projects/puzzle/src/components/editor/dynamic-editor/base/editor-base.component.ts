@@ -7,6 +7,7 @@ import {
   NgxPuzzleDataBindingRequest,
   convertFormDataToOptions,
   convertOptionsToFormData,
+  getDataRequestSources,
   updateFormData,
   ControlsService,
   NgxPuzzleDataBindingService
@@ -35,7 +36,7 @@ export abstract class EditorBaseComponent<
   componentId = input<string>();
   options = model<TConfig>();
   subType = input<string>();
-  requestOptions = input<DataRequestConfig>({ apiSources: [] });
+  requestOptions = input<DataRequestConfig>({ sources: [], apiSources: [] });
 
   // 通用输出事件
   readonly onChange = output<TConfig>();
@@ -136,7 +137,9 @@ export abstract class EditorBaseComponent<
       componentId: this.componentId() || '',
       componentType: this.getComponentType(),
       seriesIndex: i,
-      apiSource: this.requestOptions()?.apiSources?.[i]
+      dataRequest: this.requestOptions(),
+      source: getDataRequestSources(this.requestOptions())[i],
+      apiSource: getDataRequestSources(this.requestOptions())[i] as any
     };
 
     // 发起数据绑定请求

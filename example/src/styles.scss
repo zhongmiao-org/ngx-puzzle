@@ -2,9 +2,6 @@
 @use 'ngx-tethys/styles/index.scss' as tethys;
 @use '@docgeni/template/styles/index.scss' as docgeni;
 
-@import url("ag-grid-community/styles/ag-grid.css");
-@import url("ag-grid-community/styles/ag-theme-quartz.css");
-
 .panel-icon {
   font-size: 50px !important;
   text-align: center;

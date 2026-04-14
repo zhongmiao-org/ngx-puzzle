@@ -9,22 +9,6 @@ export const ROW_GROUP_PANEL_OPTIONS: BaseSelectOption<string>[] = [
   { label: '从不', val: 'never' }
 ];
 
-export const PIVOTING_PANEL_OPTIONS: BaseSelectOption<string>[] = [
-  { label: '总是', val: 'always' },
-  { label: '仅数据透视时', val: 'onlyWhenPivoting' },
-  { label: '从不', val: 'never' }
-];
-
-export const AGG_FUNC_OPTIONS: BaseSelectOption<string>[] = [
-  { label: '求和', val: 'sum' },
-  { label: '第一个', val: 'first' },
-  { label: '最后一个', val: 'last' },
-  { label: '最小值', val: 'min' },
-  { label: '最大值', val: 'max' },
-  { label: '计数', val: 'count' },
-  { label: '平均值', val: 'avg' }
-];
-
 export const GROUP_DISPLAY_TYPE_OPTIONS: BaseSelectOption<string>[] = [
   { label: '单列分组', val: 'singleColumn' },
   { label: '多列分组', val: 'multipleColumns' },

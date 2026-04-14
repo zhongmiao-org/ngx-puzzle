@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BaseSelectOption, ControlConfig, ControlFilterCondition } from '../../interfaces';
-import { BehaviorSubject, Observable, shareReplay, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, auditTime, shareReplay } from 'rxjs';
 import { SafeAny } from '../../types';
 import { map } from 'rxjs/operators';
 import { convertControlsToFilters } from '../../utils';
@@ -10,12 +10,25 @@ import { convertControlsToFilters } from '../../utils';
 })
 export class ControlsService {
   private _controlMap = new Map<string, ControlConfig>();
+  private pendingControlValues = new Map<string, SafeAny>();
+  private buffering = false;
+  private lastChangedControlId: string | null = null;
 
   private controlsSubject = new BehaviorSubject<ControlConfig[]>([]);
   public controls$ = this.controlsSubject.asObservable();
 
-  private controlValueChangeSubject = new Subject<{ controlId: string; controlFilters: { [controlId: string]: ControlFilterCondition } }>();
-  public controlValueChange$ = this.controlValueChangeSubject.asObservable();
+  public fullscreenChanged = new BehaviorSubject<boolean>(false);
+  public fullscreen$ = this.fullscreenChanged.asObservable();
+
+  private controlChangeTrigger = new Subject<void>();
+  public controlValueChange$ = this.controlChangeTrigger.pipe(
+    auditTime(0),
+    map(() => ({
+      controlId: this.lastChangedControlId || '',
+      controlFilters: convertControlsToFilters(Array.from(this._controlMap.values()))
+    })),
+    shareReplay(1)
+  );
 
   public availableControlOptions$: Observable<BaseSelectOption[]> = this.controls$.pipe(
     map((controls) => {
@@ -50,14 +63,37 @@ export class ControlsService {
       const updatedControl = { ...control, defaultValue: value };
       this._controlMap.set(control.controlId, updatedControl);
 
-      // 多播控件值变化 - 传递全量的过滤条件对象
-      this.controlValueChangeSubject.next({
-        controlId,
-        controlFilters: convertControlsToFilters(Array.from(this._controlMap.values()))
-      });
+      if (this.buffering) {
+        this.pendingControlValues.set(controlId, value);
+      } else {
+        this.lastChangedControlId = controlId;
+        this.controlChangeTrigger.next();
+      }
+
       // 更新响应式流
       this.emitControlsUpdate();
     }
+  }
+
+  beginBuffering(): void {
+    this.buffering = true;
+  }
+
+  flushBuffered(): void {
+    if (!this.buffering) return;
+
+    this.buffering = false;
+
+    this.pendingControlValues.forEach((value, controlId) => {
+      const control = this._controlMap.get(controlId);
+      if (control) {
+        this._controlMap.set(controlId, { ...control, defaultValue: value });
+      }
+    });
+
+    this.lastChangedControlId = Array.from(this.pendingControlValues.keys()).pop() || null;
+    this.controlChangeTrigger.next();
+    this.pendingControlValues.clear();
   }
 
   /**
@@ -95,6 +131,8 @@ export class ControlsService {
    */
   clearAll(): void {
     this._controlMap.clear();
+    this.pendingControlValues.clear();
+    this.lastChangedControlId = null;
     this.emitControlsUpdate();
   }
 

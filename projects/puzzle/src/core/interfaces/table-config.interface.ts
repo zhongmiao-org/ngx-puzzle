@@ -1,10 +1,10 @@
 import { fieldComponentTypes } from '../types';
 import { ComponentBaseProps } from './component-config.interface';
 import { BaseSelectOption, EditorBaseField } from './editor.interface';
-import { PivotReportConfig } from '../../components/primitives/puzzle-pivot-table/puzzle-pivot-table.component';
+import { AdvancedTableConfig } from '../../components';
 
 export interface ComponentTableProps extends ComponentBaseProps {
-  table: PivotReportConfig;
+  table: AdvancedTableConfig;
 }
 
 // 列配置（对齐 thy-table 常见列属性）

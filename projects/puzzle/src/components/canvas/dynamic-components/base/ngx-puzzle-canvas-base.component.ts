@@ -11,6 +11,10 @@ import {
   PuzzleCanvasMediatorService,
   RefreshIntervalUnitEnum,
   NgxPuzzleDataBindingService,
+  PUZZLE_DATA_ADAPTER,
+  getDataRequestSources,
+  normalizeDataRequest,
+  serializeDataSource,
   SafeAny
 } from '../../../../core';
 import { Subject } from 'rxjs';
@@ -28,6 +32,7 @@ export abstract class NgxPuzzleCanvasBaseComponent<TConfigProps extends Componen
 
   protected controlsService = inject(ControlsService);
   protected dataBindingService = inject(NgxPuzzleDataBindingService);
+  protected dataAdapter = inject(PUZZLE_DATA_ADAPTER);
   protected cdr = inject(ChangeDetectorRef);
 
   protected abstract get dataKey(): mainTypes;
@@ -94,8 +99,8 @@ export abstract class NgxPuzzleCanvasBaseComponent<TConfigProps extends Componen
     // 监听数据请求更新
     this.mediator.dataRequest$.pipe(takeUntil(this.destroy$)).subscribe(({ id, dataRequest }) => {
       if (id === this._config.id) {
-        this._config.dataRequest = dataRequest;
-        this.updateDataWithStreamCheck(dataRequest);
+        this._config.dataRequest = normalizeDataRequest(dataRequest);
+        this.updateDataWithStreamCheck(this._config.dataRequest);
       }
     });
 
@@ -152,32 +157,30 @@ export abstract class NgxPuzzleCanvasBaseComponent<TConfigProps extends Componen
    * 带流检查的数据更新
    */
   private updateDataWithStreamCheck(dataRequest: DataRequestConfig): void {
-    const { apiSources } = dataRequest;
+    const sources = getDataRequestSources(dataRequest);
 
     if (this.isEdit) {
       // 编辑模式：仅对比 URL/方法/参数是否变化
-      const hasChanged = this.hasApiSourcesChanged(apiSources || []);
+      const hasChanged = this.hasApiSourcesChanged(sources || []);
       if (hasChanged) {
         console.log(`[组件-${this._config.id}] 数据源已变化，执行更新`);
         this.updateData(dataRequest);
-        this.updateApiSourcesHash(apiSources || []);
+        this.updateApiSourcesHash(sources || []);
       } else {
         console.log(`[组件-${this._config.id}] 数据源未变化，跳过更新`);
       }
     } else {
       // 预览模式：直接更新
       this.updateData(dataRequest);
-      this.updateApiSourcesHash(apiSources || []);
+      this.updateApiSourcesHash(sources || []);
     }
   }
 
   /**
    * 检查数据源是否变化（仅比较 url/method/params 的 JSON 序列化结果）
    */
-  private hasApiSourcesChanged(dataStreams: { url: string; method: string; params?: Record<string, SafeAny> }[]): boolean {
-    const serialize = (s: { url: string; method: string; params?: Record<string, SafeAny> }) =>
-      `${s?.method || ''}|${s?.url || ''}|${JSON.stringify(s?.params || {})}`;
-    const newHashes = dataStreams.map(serialize);
+  private hasApiSourcesChanged(dataStreams: SafeAny[]): boolean {
+    const newHashes = dataStreams.map(serializeDataSource);
 
     if (this.currentDataStreamsHash.length !== newHashes.length) {
       return true;
@@ -189,10 +192,8 @@ export abstract class NgxPuzzleCanvasBaseComponent<TConfigProps extends Componen
   /**
    * 更新数据源 hash
    */
-  private updateApiSourcesHash(dataStreams: { url: string; method: string; params?: Record<string, SafeAny> }[]): void {
-    const serialize = (s: { url: string; method: string; params?: Record<string, SafeAny> }) =>
-      `${s?.method || ''}|${s?.url || ''}|${JSON.stringify(s?.params || {})}`;
-    this.currentDataStreamsHash = dataStreams.map(serialize);
+  private updateApiSourcesHash(dataStreams: SafeAny[]): void {
+    this.currentDataStreamsHash = dataStreams.map(serializeDataSource);
   }
 
   /**

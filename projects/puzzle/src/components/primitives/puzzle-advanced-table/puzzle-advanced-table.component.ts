@@ -1,32 +1,32 @@
-import { AfterViewInit, Component, OnDestroy, computed, effect, input, output, signal } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, ViewEncapsulation, computed, effect, input, output, signal } from '@angular/core';
 import { AgGridAngular } from 'ag-grid-angular';
 import { CellClickedEvent, CellDoubleClickedEvent, ColDef, GridApi, GridOptions, GridReadyEvent, themeQuartz } from 'ag-grid-community';
 
-interface PivotDataSource {
+interface AdvancedTableDataSource {
   data?: any[];
   filename?: string;
   [key: string]: any;
 }
 
-export interface PivotReportConfig {
-  dataSource?: PivotDataSource;
+export interface AdvancedTableConfig {
+  dataSource?: AdvancedTableDataSource;
   columnDefs?: ColDef[];
   gridOptions?: GridOptions;
-  theme?: Parameters<typeof themeQuartz.withParams>[0];
   [key: string]: any;
 }
 
 @Component({
-  selector: 'ngx-puzzle-pivot-table, puzzle-pivot-table',
+  selector: 'ngx-puzzle-advanced-table, puzzle-advanced-table',
   standalone: true,
   imports: [AgGridAngular],
-  templateUrl: './puzzle-pivot-table.component.html',
-  styleUrl: './puzzle-pivot-table.component.scss'
+  templateUrl: './puzzle-advanced-table.component.html',
+  styleUrl: './puzzle-advanced-table.component.scss',
+  encapsulation: ViewEncapsulation.None
 })
-export class PuzzlePivotTableComponent implements AfterViewInit, OnDestroy {
+export class PuzzleAdvancedTableComponent implements AfterViewInit, OnDestroy {
   width = input<string | number>('100%');
   height = input<string | number>('100%');
-  report = input<PivotReportConfig>();
+  report = input<AdvancedTableConfig>();
   rowData = input<any[] | undefined>(undefined);
   columnDefsInput = input<ColDef[] | undefined>(undefined);
   gridOptions = input<GridOptions | undefined>(undefined);
@@ -46,8 +46,7 @@ export class PuzzlePivotTableComponent implements AfterViewInit, OnDestroy {
     filter: true,
     floatingFilter: false
   };
-
-  baseTheme = themeQuartz;
+  readonly theme = themeQuartz;
 
   normalizedWidth = computed(() => (typeof this.width() === 'number' ? `${this.width()}px` : this.width() || '100%'));
   normalizedHeight = computed(() => (typeof this.height() === 'number' ? `${this.height()}px` : this.height() || '100%'));
@@ -74,9 +73,6 @@ export class PuzzlePivotTableComponent implements AfterViewInit, OnDestroy {
       const rpt = this.report();
       if (rpt) {
         void this.loadFromReport(rpt);
-        if (rpt.theme) {
-          this.baseTheme = themeQuartz.withParams(rpt.theme);
-        }
       }
     });
   }
@@ -102,7 +98,7 @@ export class PuzzlePivotTableComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  private async loadFromReport(rpt: PivotReportConfig) {
+  private async loadFromReport(rpt: AdvancedTableConfig) {
     if (!rpt) return;
     try {
       let data: any[] | undefined = rpt.dataSource?.data;

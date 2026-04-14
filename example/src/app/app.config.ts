@@ -8,6 +8,7 @@ import {
 import { DomSanitizer } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
+import { ThyDialogModule } from 'ngx-tethys/dialog';
 import { ThyIconRegistry } from 'ngx-tethys/icon';
 import {
   ChartTypesEnum,
@@ -20,6 +21,7 @@ import {
 } from '@zhongmiao/ngx-puzzle';
 import { DOCGENI_SITE_PROVIDERS } from './content';
 import { routes } from './app.routes';
+import { ExamplePuzzleDataAdapter } from './components/basic/example-puzzle-data-adapter.service';
 
 function registerIcons(iconRegistry: ThyIconRegistry, sanitizer: DomSanitizer) {
   const iconSvgUrl = 'assets/icons/defs/svg/sprite.defs.svg';
@@ -49,8 +51,10 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    importProvidersFrom(BrowserAnimationsModule),
-    providePuzzleLib(),
+    importProvidersFrom(BrowserAnimationsModule, ThyDialogModule),
+    providePuzzleLib({
+      dataAdapter: ExamplePuzzleDataAdapter
+    }),
     ...DOCGENI_SITE_PROVIDERS,
     provideAppInitializer(() => {
       registerIcons(inject(ThyIconRegistry), inject(DomSanitizer));

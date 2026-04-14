@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { NgxPuzzleCanvasBaseComponent } from '../base/ngx-puzzle-canvas-base.component';
 import {
   ComponentConfig,
@@ -9,20 +9,21 @@ import {
   TableTypesEnum,
   PuzzleCanvasMediatorService,
   TABLE_DATA_OPTIONS,
-  ApiSource,
-  NgxPuzzleHttpService,
-  tableMockRows
+  tableMockRows,
+  adapterResultToObservable,
+  getDataRequestSources,
+  PuzzleDataSource
 } from '../../../../core';
 import { CommonModule } from '@angular/common';
 import { Observable, takeUntil } from 'rxjs';
 import { ThyTableModule } from 'ngx-tethys/table';
 import { NgxPuzzleDragWrapperComponent } from '../drag-wrapper/ngx-puzzle-drag-wrapper.component';
-import { PuzzlePivotTableComponent } from '../../../primitives/puzzle-pivot-table/puzzle-pivot-table.component';
+import { PuzzleAdvancedTableComponent } from '../../../primitives';
 
 @Component({
   selector: 'puzzle-table',
   standalone: true,
-  imports: [CommonModule, NgxPuzzleDragWrapperComponent, ThyTableModule, PuzzlePivotTableComponent],
+  imports: [CommonModule, NgxPuzzleDragWrapperComponent, ThyTableModule, PuzzleAdvancedTableComponent],
   templateUrl: './ngx-puzzle-table.component.html',
   styleUrls: ['./ngx-puzzle-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -30,12 +31,11 @@ import { PuzzlePivotTableComponent } from '../../../primitives/puzzle-pivot-tabl
 export class NgxPuzzleTableComponent extends NgxPuzzleCanvasBaseComponent<ComponentTableProps, TableTypesEnum> implements OnDestroy {
   dataKey: mainTypes = 'table';
 
-  private httpService = inject(NgxPuzzleHttpService);
   private _tableData$!: Observable<SafeAny>;
   private isInit = false;
 
-  public columnDefs!: { field: string }[];
-  public rowData!: SafeAny[];
+  public columnDefs: { field: string; header?: string }[] = [];
+  public rowData: SafeAny[] = [];
 
   set config(config: ComponentConfig<ComponentTableProps, TableTypesEnum>) {
     this.initConfig(config);
@@ -67,7 +67,7 @@ export class NgxPuzzleTableComponent extends NgxPuzzleCanvasBaseComponent<Compon
 
     if (columns) {
       // map TableColumnDef[] to local light-weight columnDefs used by template rendering
-      this.columnDefs = (columns as any[]).map((col: any) => ({ field: col.field }));
+      this.columnDefs = (columns as any[]).map((col: any) => ({ field: col.field, header: col.header || col.headerName || col.field }));
     }
 
     this.restartRefreshTimer();
@@ -76,7 +76,7 @@ export class NgxPuzzleTableComponent extends NgxPuzzleCanvasBaseComponent<Compon
   private setColumnDefs(data: SafeAny[]): void {
     if (!data?.length) return;
     const firstRow = data[0];
-    const columnDefs = Object.keys(firstRow).map((field) => ({ field }));
+    const columnDefs = Object.keys(firstRow).map((field) => ({ field, header: field }));
     this.columnDefs = columnDefs;
     // Persist to config as TableColumnDef[] using new 'columns' key
     (this.config.props.table as any).columns = columnDefs.map((col) => ({ field: col.field, header: col.field })) as SafeAny;
@@ -102,15 +102,15 @@ export class NgxPuzzleTableComponent extends NgxPuzzleCanvasBaseComponent<Compon
       this.rowData = [];
       return;
     }
-    if (this.isEdit && !this.columnDefs?.length) {
+    if (!this.columnDefs?.length) {
       this.setColumnDefs(data);
     }
     this.rowData = data;
   }
 
   public updateData(requestData: DataRequestConfig) {
-    const { apiSources } = requestData || ({} as DataRequestConfig);
-    const apiSource: ApiSource | undefined = apiSources?.[0];
+    const dataSources = getDataRequestSources(requestData || ({} as DataRequestConfig));
+    const apiSource: PuzzleDataSource | undefined = dataSources?.[0];
 
     if (!apiSource) {
       // fallback to table mock data when no api source is configured
@@ -118,8 +118,16 @@ export class NgxPuzzleTableComponent extends NgxPuzzleCanvasBaseComponent<Compon
       return;
     }
 
-    const request$ = this.httpService.request(apiSource);
-    this._tableData$ = request$ as unknown as Observable<SafeAny>;
+    const request$ = adapterResultToObservable(
+      this.dataAdapter.executeSource({
+        source: apiSource,
+        componentConfig: this.config,
+        dataRequest: this.config.dataRequest,
+        seriesIndex: 0,
+        isEdit: this.isEdit
+      })
+    );
+    this._tableData$ = request$ as Observable<SafeAny>;
     this.loadData();
   }
 

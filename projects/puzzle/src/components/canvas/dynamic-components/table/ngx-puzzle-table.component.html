@@ -6,6 +6,22 @@
   [styles]="config.props.styles"
 >
   @if (!!this.config.props) {
-    <puzzle-pivot-table [report]="config.props.table"></puzzle-pivot-table>
+    @if (config.subType === 'table') {
+      <thy-table
+        thyTheme="boxed"
+        thySize="sm"
+        [thyModel]="rowData"
+        thyMinWidth="100%"
+        [thyLoadingDone]="true">
+        @for (col of columnDefs; track col.field) {
+          <thy-table-column
+            [thyModelKey]="col.field"
+            [thyTitle]="col.header || col.field">
+          </thy-table-column>
+        }
+      </thy-table>
+    } @else {
+      <puzzle-advanced-table [report]="config.props.table"></puzzle-advanced-table>
+    }
   }
 </puzzle-drag-wrapper>

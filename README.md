@@ -21,7 +21,7 @@ Suitable for rapid prototyping, internal BI dashboards, and data visualization p
 ## Features
 
 - Drag-and-drop editor with snapping layout
-- Rich built-in components: chart, table, text, control
+- Rich built-in components: chart, standard table, advanced table, text, control
 - Architecture-first Angular library (standalone, signals, OnPush)
 - External data-binding contract to connect real APIs or mock data
 - Preview/save via external service hooks
@@ -137,27 +137,18 @@ If you use `ng add @zhongmiao/ngx-puzzle`, the schematic will add the following 
 - Angular cdk: 21+ (used for drag-and-drop)
 - ngx-tethys: 21.x (layout)
 - ECharts: 6.x (used by chart components)
-- ag-grid-community / ag-grid-angular (used by data table component)
+- ag-grid-community / ag-grid-angular (used by the advanced table component)
 
 See package.json for exact versions.
 
 ## Quick Start (standalone)
 
-Use the editor component directly in a standalone host component. Below is a minimal yet practical example adapted from the example app.
+Use the editor component directly in a standalone host component. For custom data binding, prefer injecting a `PuzzleDataAdapter` through `providePuzzleLib({ dataAdapter })` instead of embedding business-specific SQL or model logic inside library components.
 
 ```ts
-import { Component, inject, OnInit, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 import { ThyContent, ThyLayout } from 'ngx-tethys/layout';
 import { NgxPuzzleEditorComponent } from 'ngx-puzzle';
-import {
-  NgxPuzzleControlChangeNotification,
-  NgxPuzzleDataBindingRequest,
-  NgxPuzzleDataBindingService,
-  NgxPuzzleExternalService
-} from '@zhongmiao/ngx-puzzle';
-import { Subject, takeUntil } from 'rxjs';
-import { ThyDialog } from 'ngx-tethys/dialog';
-import { ExampleDataSourceDialogComponent } from './data-source-dialog.component';
 
 @Component({
   selector: 'example-puzzle',
@@ -171,158 +162,37 @@ import { ExampleDataSourceDialogComponent } from './data-source-dialog.component
   `,
   imports: [ThyLayout, ThyContent, NgxPuzzleEditorComponent]
 })
-export class AppPuzzleComponent implements OnInit, OnDestroy {
-  private puzzleService = inject(NgxPuzzleExternalService);
-  private dataBindingService = inject(NgxPuzzleDataBindingService);
-  private destroy$ = new Subject<void>();
-  private dialog = inject(ThyDialog);
-
-  ngOnInit() {
-    this.dataBindingService.bindingRequest$.pipe(takeUntil(this.destroy$)).subscribe((request) => this.handleDataBindingRequest(request));
-
-    this.dataBindingService.controlChange$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((notification) => this.handleControlChange(notification));
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-
-  private handleDataBindingRequest(request: NgxPuzzleDataBindingRequest) {
-    const initialData: any = {};
-    if (request.apiSource) {
-      initialData.type = request.apiSource.method as 'GET' | 'POST';
-      initialData.url = request.apiSource.url;
-      if (request.apiSource.method === 'POST' && request.apiSource.params) {
-        try {
-          initialData.body = JSON.stringify(request.apiSource.params, null, 2);
-        } catch {
-          initialData.body = '';
-        }
-      }
-    }
-
-    const ref = this.dialog.open(ExampleDataSourceDialogComponent, {
-      initialState: {
-        inputType: initialData.type,
-        inputUrl: initialData.url,
-        inputBody: initialData.body
-      }
-    });
-
-    ref
-      .afterClosed()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((result: any) => {
-        if (!result) return;
-        const apiSource = this.createApiSourceFromDialog(result);
-        const existed = this.dataBindingService.getComponentDataRequest(request.componentId) || { apiSources: [] };
-        const streams = existed.apiSources ? [...existed.apiSources] : [];
-        if (apiSource) streams[request.seriesIndex] = apiSource;
-
-        this.dataBindingService.responseBinding({
-          componentId: request.componentId,
-          dataRequest: { ...existed, apiSources: streams }
-        });
-      });
-  }
-
-  private handleControlChange(notification: NgxPuzzleControlChangeNotification) {
-    const newSources = [
-      { url: '/api/chart-data-1', method: 'POST', params: this.buildParamsFromFilters(notification.controlFilters) },
-      { url: '/api/chart-data-2', method: 'POST', params: this.buildParamsFromFilters(notification.controlFilters) }
-    ];
-
-    this.dataBindingService.responseBinding({
-      componentId: notification.componentId,
-      dataRequest: { apiSources: newSources }
-    });
-  }
-
-  private createApiSourceFromDialog(result: {
-    type: 'GET' | 'POST';
-    url: string;
-    body?: string;
-  }): { url: string; method: string; params?: Record<string, unknown> } | undefined {
-    if (result?.url && result.url.trim()) {
-      const url = result.url.trim();
-      if (result.type === 'POST') {
-        let payload: unknown;
-        try {
-          payload = result.body ? JSON.parse(result.body) : {};
-        } catch {
-          payload = {};
-        }
-        return { url, method: 'POST', params: payload as Record<string, unknown> };
-      }
-      return { url, method: 'GET' };
-    }
-    return undefined; // fallback to component mock
-  }
-
-  private buildParamsFromFilters(filters: unknown) {
-    return { filters };
-  }
-
-  save() {
-    this.puzzleService.getAllConfigs();
-  }
-  preview() {
-    this.puzzleService.generatePreviewId();
-  }
-}
+export class AppPuzzleComponent {}
 ```
 
-### Data source dialog used above
+Register a custom data adapter at the app boundary when you need host-specific binding UIs, SQL execution, or model-based querying:
 
 ```ts
-import { Component, inject, input, OnInit, signal } from '@angular/core';
-import { ThyDialog, ThyDialogBody, ThyDialogFooter, ThyDialogHeader } from 'ngx-tethys/dialog';
-import { ThySelect } from 'ngx-tethys/select';
-import { ThyOption } from 'ngx-tethys/shared';
-import { FormsModule } from '@angular/forms';
-import { ThyInputDirective } from 'ngx-tethys/input';
-import { ThyButton } from 'ngx-tethys/button';
-import { NgIf } from '@angular/common';
+import { ApplicationConfig } from '@angular/core';
+import { provideHttpClient } from '@angular/common/http';
+import { providePuzzleLib } from '@zhongmiao/ngx-puzzle';
+import { ExamplePuzzleDataAdapter } from './example-puzzle-data-adapter.service';
 
-@Component({
-  selector: 'example-data-source-dialog',
-  standalone: true,
-  imports: [ThyDialogHeader, ThyDialogBody, ThyDialogFooter, ThySelect, ThyOption, FormsModule, ThyInputDirective, ThyButton, NgIf],
-  template: `...` // see example app for full template
-})
-export class ExampleDataSourceDialogComponent implements OnInit {
-  private dialog = inject(ThyDialog);
-  inputType = input<'GET' | 'POST'>('GET');
-  inputUrl = input<string>('');
-  inputBody = input<string>('');
-  type = signal<'GET' | 'POST'>('GET');
-  url = signal<string>('');
-  body = signal<string>('');
-  ngOnInit() {
-    this.type.set(this.inputType() ?? 'GET');
-    this.url.set(this.inputUrl() ?? '');
-    this.body.set(this.inputBody() ?? '');
-  }
-  confirm() {
-    this.dialog.close({ type: this.type(), url: this.url(), body: this.body() });
-  }
-  close() {
-    this.dialog.close();
-  }
-}
+export const appConfig: ApplicationConfig = {
+  providers: [provideHttpClient(), providePuzzleLib({ dataAdapter: ExamplePuzzleDataAdapter })]
+};
 ```
+
+In this setup:
+
+- The library remains a base canvas/editor runtime.
+- Standard tables render with `ngx-tethys`.
+- Advanced tables render with `ag-grid-community`.
+- SQL, query models, and data orchestration stay in the host app's adapter.
 
 ## Architecture Overview
 
 - Standalone components only (no NgModules). Use Angular signals for local state and computed() for derived state.
 - OnPush change detection for performance.
-- External data binding via NgxPuzzleDataBindingService:
-  - bindingRequest$: component requests data (includes componentId, seriesIndex, and optional apiSource)
-  - responseBinding(...): host responds with dataRequest containing apiSources array
-  - controlChange$: control components notify filter changes; host can update apiSources
+- External data binding is adapter-driven:
+  - `PuzzleDataAdapter.openBinding(...)`: host opens its own binding UI or applies a default binding flow
+  - `PuzzleDataAdapter.onControlChange(...)`: host interprets control filters and updates request payloads
+  - `PuzzleDataAdapter.executeSource(...)`: host executes data sources, including custom SQL/model adapters if needed
 - NgxPuzzleExternalService: retrieve/save editor configs and generate preview id.
 
 ## Usage Notes and Best Practices
@@ -348,7 +218,7 @@ See CONTRIBUTING.md (and CONTRIBUTING.zh-CN.md for Chinese).
 
 - ngx-tethys (UI components, dialogs, layout used in examples): https://github.com/atinc/ngx-tethys
 - Apache ECharts (chart rendering for built-in chart components): https://echarts.apache.org/ and https://github.com/apache/echarts
-- ag-grid-community / ag-grid-angular (data table rendering): https://www.ag-grid.com/
+- ag-grid-community / ag-grid-angular (advanced table rendering): https://www.ag-grid.com/
 
 ## License
 
