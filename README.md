@@ -214,6 +214,12 @@ npm start
 
 See CONTRIBUTING.md (and CONTRIBUTING.zh-CN.md for Chinese).
 
+### PR Policy for This Repository
+
+- use short-lived branches (`feat/*`, `fix/*`, `chore/*`, `docs/*`)
+- open PR for every stage-sized change set
+- this repository requires manual strict review before merge (no AI auto-merge)
+
 ## Acknowledgements
 
 - ngx-tethys (UI components, dialogs, layout used in examples): https://github.com/atinc/ngx-tethys
