@@ -20,7 +20,10 @@ UNRELEASED_CONTENT="$(
 
 if [[ -z "${UNRELEASED_CONTENT}" ]]; then
   echo "No content found under ## [Unreleased] in ${CHANGELOG_FILE}."
-  exit 1
+  if [[ -n "${OUTPUT_FILE}" ]]; then
+    : > "${OUTPUT_FILE}"
+  fi
+  exit 2
 fi
 
 if [[ -n "${OUTPUT_FILE}" ]]; then

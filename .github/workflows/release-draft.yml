@@ -38,18 +38,40 @@ jobs:
             PRERELEASE="false"
           fi
 
+          set +e
           bash .github/scripts/extract_unreleased.sh CHANGELOG.md .release_notes.txt
+          EXTRACT_EXIT_CODE="$?"
+          set -e
+
+          if [[ "${EXTRACT_EXIT_CODE}" -eq 2 ]]; then
+            echo "Unreleased section is empty, skipping draft upsert."
+            {
+              echo "version=${VERSION}"
+              echo "tag=${TAG}"
+              echo "prerelease=${PRERELEASE}"
+              echo "skipped=true"
+              echo "body="
+            } >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          if [[ "${EXTRACT_EXIT_CODE}" -ne 0 ]]; then
+            echo "Failed to extract Unreleased notes."
+            exit "${EXTRACT_EXIT_CODE}"
+          fi
 
           {
             echo "version=${VERSION}"
             echo "tag=${TAG}"
             echo "prerelease=${PRERELEASE}"
+            echo "skipped=false"
             echo "body<<EOF"
             cat .release_notes.txt
             echo "EOF"
           } >> "$GITHUB_OUTPUT"
 
       - name: Upsert GitHub release draft
+        if: ${{ steps.meta.outputs.skipped != 'true' }}
         uses: actions/github-script@v7
         env:
           RELEASE_TAG: ${{ steps.meta.outputs.tag }}
