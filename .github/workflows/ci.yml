@@ -50,7 +50,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Validate Unreleased update for code changes
+      - name: Validate Unreleased update for code-impacting changes
         run: |
           bash .github/scripts/check_unreleased_update.sh \
             "${{ github.event.pull_request.base.sha }}" \
