@@ -36,6 +36,8 @@ while IFS= read -r file; do
   [[ -z "${file}" ]] && continue
   if [[ "${file}" =~ ^projects/ ]] \
     || [[ "${file}" =~ ^scripts/ ]] \
+    || [[ "${file}" =~ ^\.github/workflows/ ]] \
+    || [[ "${file}" =~ ^\.github/scripts/ ]] \
     || [[ "${file}" == "package.json" ]] \
     || [[ "${file}" == "package-lock.json" ]] \
     || [[ "${file}" == "angular.json" ]] \

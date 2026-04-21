@@ -3,6 +3,8 @@ English | [中文文档](CHANGELOG.zh-CN.md)
 
 ## [Unreleased]
 
+- chore(ci): treat GitHub workflow and CI script changes as code-impacting PRs for the changelog gate.
+
 ## 21.0.0 (2026-04-14)
 
 ### ✨ Added
