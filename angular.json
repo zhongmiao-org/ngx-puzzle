@@ -10,7 +10,7 @@
       "prefix": "lib",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "builder": "@angular/build:ng-packagr",
           "options": {
             "tsConfig": "projects/puzzle/tsconfig.lib.json",
             "project": "projects/puzzle/ng-package.json"
@@ -22,12 +22,12 @@
           }
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
-            "main": "projects/puzzle/src/test.ts",
+            "buildTarget": "puzzle:build",
             "tsConfig": "projects/puzzle/tsconfig.spec.json",
-            "codeCoverage": true,
-            "karmaConfig": "projects/puzzle/karma.conf.js"
+            "coverage": true,
+            "coverageReporters": ["html", "text-summary"]
           }
         },
         "lint": {

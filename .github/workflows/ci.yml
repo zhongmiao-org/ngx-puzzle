@@ -26,6 +26,9 @@ jobs:
           node-version: 22
           cache: npm
 
+      - name: Setup npm
+        run: npm install -g npm@11.11.0
+
       - name: Install dependencies
         run: npm ci
 
@@ -33,7 +36,7 @@ jobs:
         run: npm run lint
 
       - name: Test
-        run: npm run test -- --watch=false --browsers=ChromeHeadless
+        run: npm run test -- --watch=false
 
       - name: Build
         run: npm run build

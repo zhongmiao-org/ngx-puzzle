@@ -97,6 +97,7 @@
   "schematics": "projects/puzzle/schematics/collection.json",
   "devDependencies": {
     "@angular-builders/custom-webpack": "21.0.3",
+    "@angular/build": "21.2.7",
     "@angular-devkit/build-angular": "21.2.7",
     "@angular-eslint/builder": "21.0.0",
     "@angular-eslint/eslint-plugin": "21.0.0",
@@ -108,25 +109,21 @@
     "@commitlint/config-conventional": "^19.5.0",
     "@docgeni/cli": "2.7.0",
     "@docgeni/template": "2.7.0",
-    "@types/jasmine": "~5.1.0",
     "@types/lodash": "4.17.24",
     "@typescript-eslint/eslint-plugin": "^8.8.1",
     "@typescript-eslint/parser": "^8.8.1",
+    "@vitest/coverage-v8": "^4.0.8",
     "conventional-changelog-cli": "^5.0.0",
     "cpx": "^1.5.0",
     "eslint": "^9.9.0",
     "eslint-config-prettier": "^9.1.0",
     "husky": "^7.0.4",
-    "jasmine-core": "~5.2.0",
-    "karma": "~6.4.0",
-    "karma-chrome-launcher": "~3.2.0",
-    "karma-coverage": "~2.2.0",
-    "karma-jasmine": "~5.1.0",
-    "karma-jasmine-html-reporter": "~2.1.0",
+    "jsdom": "^27.0.0",
     "ng-packagr": "21.2.2",
     "prettier": "^3.6.2",
     "rollup-plugin-strip-code": "0.2.8",
     "terser-webpack-plugin": "5.3.14",
-    "typescript": "5.9.3"
+    "typescript": "5.9.3",
+    "vitest": "^4.0.8"
   }
 }

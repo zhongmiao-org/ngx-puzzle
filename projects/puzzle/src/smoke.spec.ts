@@ -1,5 +1,5 @@
 describe('puzzle library smoke test', () => {
   it('loads the test runner', () => {
-    expect(true).toBeTrue();
+    expect(true).toBe(true);
   });
 });
