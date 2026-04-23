@@ -3,6 +3,7 @@
 
 ## [Unreleased]
 
+- test(puzzle): 将库测试目标从 Karma/Jasmine 迁移到 Angular 21 的 Vitest unit-test builder。
 - chore(ci): 将 GitHub workflow 与 CI 脚本变更纳入 changelog 门禁的代码影响范围。
 
 ## 21.0.0 (2026-04-14)
@@ -27,4 +28,3 @@
 * 修复 control 组件样式与属性问题。([2985509](https://github.com/zhongmiao-org/ngx-puzzle/commit/2985509))
 * 修复 form-renderer 样式问题。([c66d6dc](https://github.com/zhongmiao-org/ngx-puzzle/commit/c66d6dc))
 * 修复 `build:docs` 的 CI warning。([f94ed53](https://github.com/zhongmiao-org/ngx-puzzle/commit/f94ed53))
-
